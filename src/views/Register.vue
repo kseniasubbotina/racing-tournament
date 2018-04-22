@@ -33,6 +33,7 @@
     ></v-checkbox>
 
     <v-btn
+      color="success"
       @click="submit"
       :disabled="!valid"
     >
