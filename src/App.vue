@@ -28,9 +28,9 @@
       :clipped-left="$vuetify.breakpoint.lgAndUp"
       fixed
     >
-      <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
+      <v-toolbar-title style="width: auto" class="ml-0 mr-2 pl-3">
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <span class="hidden-sm-and-down">Google Contacts</span>
+        <span class="hidden-sm-and-down">Racing Tournaments</span>
       </v-toolbar-title>
       <v-text-field
         flat
@@ -46,6 +46,8 @@
       <v-btn icon>
         <v-icon>notifications</v-icon>
       </v-btn>
+      <v-btn to="register" flat>Register</v-btn>
+      <v-btn flat>Login</v-btn>
       <v-btn icon large>
         <v-avatar size="32px" tile>
           <img
