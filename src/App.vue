@@ -219,7 +219,7 @@
             { text: 'Other contacts' }
           ]
         },
-        { icon: 'settings', text: 'Settings' },
+        { icon: 'settings', text: 'Settings123' },
         { icon: 'chat_bubble', text: 'Send feedback' },
         { icon: 'help', text: 'Help' },
         { icon: 'phonelink', text: 'App downloads' },
