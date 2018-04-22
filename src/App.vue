@@ -7,19 +7,7 @@
       app
       v-model="drawer"
     >
-      <v-list>
-        <v-list-tile 
-          v-for="(link, idx) in links"
-          :key="idx"
-          @click="onMenuItemClick(link)">
-          <v-list-tile-action>
-            <v-icon>{{link.icon}}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{link.label}}</v-list-tile-title>
-          </v-list-tile-content>
-          </v-list-tile>
-      </v-list> 
+      <navigationMenu/>
     </v-navigation-drawer>
     <v-toolbar
       color="blue darken-3"
@@ -143,33 +131,19 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      source: String
-    },
-    data: () => ({
-      dialog: false,
-      drawer: null,
-      links: [
-        {
-          label: 'Championships',
-          icon: 'star',
-          route: 'championships'
-        },
-        {
-          label: 'Test Page',
-          icon: 'home',
-          route: 'test'
-        }
-      ]
-    }),
-    methods: {
-      onMenuItemClick: function (_link) {
-        console.log(_link)
-        this.$router.push(_link.route)
-      }
-    }
+import NavigationMenu from '@/components/NavigationMenu.vue'
+export default {
+  props: {
+    source: String
+  },
+  data: () => ({
+    dialog: false,
+    drawer: null
+  }),
+  components: {
+    NavigationMenu
   }
+}
 </script>
 
 <style lang="stylus">
