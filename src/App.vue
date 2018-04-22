@@ -56,7 +56,7 @@
             	<router-link to="championships">Championships</router-link>
             </v-list-title>
           </v-list-group>
-          <v-list-tile v-else @click="" :key="item.text">
+          <v-list-tile v-else :key="item.text">
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
@@ -76,9 +76,9 @@
       :clipped-left="$vuetify.breakpoint.lgAndUp"
       fixed
     >
-      <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
+      <v-toolbar-title style="width: auto" class="ml-0 mr-2 pl-3">
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <span class="hidden-sm-and-down">Google Contacts</span>
+        <span class="hidden-sm-and-down">Racing Tournaments</span>
       </v-toolbar-title>
       <v-text-field
         flat
@@ -94,6 +94,8 @@
       <v-btn icon>
         <v-icon>notifications</v-icon>
       </v-btn>
+      <v-btn to="register" flat>Register</v-btn>
+      <v-btn flat>Login</v-btn>
       <v-btn icon large>
         <v-avatar size="32px" tile>
           <img
