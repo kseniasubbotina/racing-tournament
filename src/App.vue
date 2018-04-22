@@ -7,67 +7,19 @@
       app
       v-model="drawer"
     >
-      <v-list dense>
-        <template v-for="item in items">
-          <v-layout
-            row
-            v-if="item.heading"
-            align-center
-            :key="item.heading"
-          >
-            <v-flex xs6>
-              <v-subheader v-if="item.heading">
-                {{ item.heading }}
-              </v-subheader>
-            </v-flex>
-            <v-flex xs6 class="text-xs-center">
-              <a href="#!" class="body-2 black--text">EDIT</a>
-            </v-flex>
-          </v-layout>
-          <v-list-group
-            v-else-if="item.children"
-            v-model="item.model"
-            :key="item.text"
-            :prepend-icon="item.model ? item.icon : item['icon-alt']"
-            append-icon=""
-          >
-            <v-list-tile slot="activator">
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ item.text }}
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile
-              v-for="(child, i) in item.children"
-              :key="i"
-              @click=""
-            >
-              <v-list-tile-action v-if="child.icon">
-                <v-icon>{{ child.icon }}</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ child.text }}
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-title>
-            	<router-link to="championships">Championships</router-link>
-            </v-list-title>
-          </v-list-group>
-          <v-list-tile v-else @click="" :key="item.text">
-            <v-list-tile-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>
-                {{ item.text }}
-              </v-list-tile-title>
-            </v-list-tile-content>
+      <v-list>
+        <v-list-tile 
+          v-for="(link, idx) in links"
+          :key="idx"
+          @click="onMenuItemClick(link)">
+          <v-list-tile-action>
+            <v-icon>{{link.icon}}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>{{link.label}}</v-list-tile-title>
+          </v-list-tile-content>
           </v-list-tile>
-        </template>
-      </v-list>
+      </v-list> 
     </v-navigation-drawer>
     <v-toolbar
       color="blue darken-3"
@@ -190,44 +142,30 @@
 
 <script>
   export default {
+    props: {
+      source: String
+    },
     data: () => ({
       dialog: false,
       drawer: null,
-      items: [
-        { icon: 'contacts', text: 'Championships' },
-        { icon: 'history', text: 'Frequently contacted' },
-        { icon: 'content_copy', text: 'Duplicates' },
+      links: [
         {
-          icon: 'keyboard_arrow_up',
-          'icon-alt': 'keyboard_arrow_down',
-          text: 'Labels',
-          model: true,
-          children: [
-            { icon: 'add', text: 'Create label' }
-          ]
+          label: 'Championships',
+          icon: 'star',
+          route: 'championships'
         },
         {
-          icon: 'keyboard_arrow_up',
-          'icon-alt': 'keyboard_arrow_down',
-          text: 'More',
-          model: false,
-          children: [
-            { text: 'Import' },
-            { text: 'Export' },
-            { text: 'Print' },
-            { text: 'Undo changes' },
-            { text: 'Other contacts' }
-          ]
-        },
-        { icon: 'settings', text: 'Settings123' },
-        { icon: 'chat_bubble', text: 'Send feedback' },
-        { icon: 'help', text: 'Help' },
-        { icon: 'phonelink', text: 'App downloads' },
-        { icon: 'keyboard', text: 'Go to the old version' }
+          label: 'Test Page',
+          icon: 'home',
+          route: 'test'
+        }
       ]
     }),
-    props: {
-      source: String
+    methods: {
+      onMenuItemClick: function (_link) {
+        console.log(_link)
+        this.$router.push(_link.route)
+      }
     }
   }
 </script>
