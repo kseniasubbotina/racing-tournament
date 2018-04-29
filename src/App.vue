@@ -35,13 +35,11 @@
         <v-icon>notifications</v-icon>
       </v-btn>
       <v-btn to="register" flat>Register</v-btn>
-      <v-btn flat>Login</v-btn>
+      <v-btn to="login" flat>Login</v-btn>
       <v-btn icon large>
         <v-avatar size="32px" tile>
           <img
-            src="https://vuetifyjs.com/static/doc-images/logo.svg"
-            alt="Vuetify"
-          >
+            src="https://vuetifyjs.com/static/doc-images/logo.svg">
         </v-avatar>
       </v-btn>
     </v-toolbar>
@@ -140,6 +138,9 @@ export default {
     dialog: false,
     drawer: null
   }),
+  mounted () {
+      this.$validator.localize('en', this.dictionary)
+  },
   components: {
     NavigationMenu
   }

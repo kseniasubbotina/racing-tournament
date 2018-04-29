@@ -1,5 +1,6 @@
 <template>
   <v-select
+  v-validate="'required'" type="text" name="name" :error-messages="errors.collect('name')"
     :items="countries"
     label="Country"
     autocomplete
