@@ -30,6 +30,15 @@ export default {
         label: 'Championships',
         icon: 'star',
         route: 'championships'
+      },
+      {
+        label: 'Teams',
+        icon: 'directions_car',
+        route: 'teams'
+      },
+      {
+        label: 'Profile',
+        icon: 'account_circle'
       }
     ]
   }),
