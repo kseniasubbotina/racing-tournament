@@ -44,7 +44,7 @@
             <v-btn to="login" color="primary" flat>Login</v-btn>
           </v-flex>
         </v-card>
-    </v-card>  
+    </v-card>
   </v-flex>
 </template>
 <script>
