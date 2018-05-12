@@ -27,7 +27,7 @@
               <v-text-field
                 v-model="gameDescription"
                 label="Game description"
-                textarea
+                multi-line
               ></v-text-field>
             </v-flex>
           </v-layout>
