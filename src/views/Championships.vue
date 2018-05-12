@@ -129,7 +129,71 @@
               </v-menu>
             </v-flex>
             <v-flex xs12 sm2>
-              <v-btn>Add</v-btn>
+              <v-btn color="success">Add</v-btn>
+            </v-flex>
+          </v-layout>
+          <v-layout>
+            <v-flex xs12>
+              <v-switch
+                color="primary"
+                :label="'Allow consructors and teams selection'"
+                v-model="ConstrTeamsSwitch"
+              ></v-switch>
+            </v-flex>
+          </v-layout>
+          <h3 class="subheading text-xs-left">Select from pre-defined teams</h3>
+          <v-layout>
+            <v-flex xs12 sm8>
+              <v-select
+                :items="preDefinedTeamsArray"
+                v-model="preDefinedTeam"
+                label="Team"
+                single-line
+              ></v-select>
+            </v-flex>
+            <v-flex xs12 sm2>
+              <v-text-field
+                label="Number of places"
+                v-model="preDefinedPlaces"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12 sm2>
+              <v-btn color="success">Add</v-btn>
+            </v-flex>
+          </v-layout>
+          <h3 class="subheading text-xs-left">Select from custom teams</h3>
+          <v-layout>
+            <v-flex xs12 sm8>
+              <v-select
+                :items="customTeamsArray"
+                v-model="customTeam"
+                label="Team"
+                single-line
+              ></v-select>
+            </v-flex>
+            <v-flex xs12 sm2>
+              <v-text-field
+                label="Number of places"
+                v-model="customPlaces"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12 sm2>
+              <v-btn color="success">Add</v-btn>
+            </v-flex>
+          </v-layout>
+          <v-layout>
+            <v-flex>
+              <v-btn color="success">
+                Add new team
+              </v-btn>
+            </v-flex>
+          </v-layout>
+          <v-layout class="mt-4">
+            <v-flex sx12>
+              <v-btn
+                large
+                color="success"
+                @click="submit">Submit</v-btn>
             </v-flex>
           </v-layout>
         </v-form>
@@ -156,7 +220,15 @@ export default {
     dateFormatted: null,
     dateMenu1: false,
     time: null,
-    timeMenu1: false
+    timeMenu1: false,
+    ConstrTeamsSwitch: true,
+    preDefinedTeamsArray: ['Team1', 'Team2', 'Team3'],
+    preDefinedTeam: null,
+    preDefinedPlaces: null,
+    customTeamsArray: ['Team1', 'Team2', 'Team3'],
+    customTeam: null,
+    customPlaces: null
+
   }),
   computed: {
     computedDateFormatted () {
@@ -184,6 +256,9 @@ export default {
       if (this.image) {
         // axios
       }
+    },
+    submit: function () {
+      //
     },
     formatDate (date) {
       if (!date) return null
