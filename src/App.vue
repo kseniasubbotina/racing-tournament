@@ -46,7 +46,7 @@
     <v-content>
       <v-container fluid fill-height>
         <v-layout justify-center align-center>
-					<router-view/>
+          <router-view/>
         </v-layout>
       </v-container>
     </v-content>
@@ -139,7 +139,7 @@ export default {
     drawer: null
   }),
   mounted () {
-      this.$validator.localize('en', this.dictionary)
+    this.$validator.localize('en', this.dictionary)
   },
   components: {
     NavigationMenu
