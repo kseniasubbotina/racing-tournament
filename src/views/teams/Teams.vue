@@ -31,8 +31,20 @@
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field label="Password" v-model="password" v-validate="'required'" type="password" name="password" :error-messages="errors.collect('password')">
-                  </v-text-field>
+                  <p>Picture</p>
+                  <picture-input
+                  ref="pictureInput"
+                  width="200"
+                  height="200"
+                  margin="16"
+                  accept="image/jpeg,image/png"
+                  size="10"
+                  :removable="true"
+                  :customStrings="{
+                    upload: '<h1>This image has been loaded</h1>',
+                    drag: 'Drag an image here'
+                  }">
+                  </picture-input>
                 </v-flex>
               </v-layout>
             </form>
@@ -48,13 +60,37 @@
 </template>
 
 <script>
+import PictureInput from '../vue-picture-input'
+
 export default {
   name: 'Teams',
   data () {
     return {
       name: '',
-      createTeamDialog: false
+      createTeamDialog: false,
+      image: ''
     }
+  },
+  methods: {
+    onChanged: function () {
+      console.log('New picture loaded')
+      if (this.$refs.pictureInput.file) {
+        this.image = this.$refs.pictureInput.file
+      } else {
+        console.log('Old browser. No support for Filereader API')
+      }
+    },
+    onRemoved: function () {
+      this.image = ''
+    },
+    attemptUpload: function () {
+      if (this.image) {
+        // axios
+      }
+    }
+  },
+  components: {
+    PictureInput
   }
 }
 </script>
