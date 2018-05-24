@@ -68,7 +68,7 @@
                   class="question-btn">
                   <span>?</span>
                 </v-btn>
-                <span>This field will affect on </span>
+                <span>This field will affect on points sistem and available tracks</span>
               </v-tooltip>
             </v-flex>
           </v-layout>
