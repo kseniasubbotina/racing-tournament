@@ -1,5 +1,5 @@
 <template>
-  <v-flex>
+  <v-flex sm8 xs12>
     <v-card>
       <v-card-title class="grey lighten-4 py-4 title">
         Create a championship
@@ -26,7 +26,7 @@
             <v-flex xs12>
               <v-text-field
                 v-model="gameDescription"
-                label="Game description"
+                label="Championship description"
                 multi-line
               ></v-text-field>
             </v-flex>
@@ -55,7 +55,7 @@
               <v-select
                 :items="racingSeriesArray"
                 v-model="racingSerie"
-                label="Racing series"
+                label="Racing seria"
                 single-line
               ></v-select>
             </v-flex>
@@ -68,7 +68,7 @@
                   class="question-btn">
                   <span>?</span>
                 </v-btn>
-                <span>Some information goes here</span>
+                <span>This field will affect on </span>
               </v-tooltip>
             </v-flex>
           </v-layout>
