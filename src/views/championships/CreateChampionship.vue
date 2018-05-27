@@ -19,6 +19,7 @@
                 v-model="gameType"
                 label="Game types"
                 single-line
+                autocomplete
               ></v-select>
             </v-flex>
           </v-layout>
@@ -57,6 +58,7 @@
                 v-model="racingSerie"
                 label="Racing seria"
                 single-line
+                autocomplete
               ></v-select>
             </v-flex>
             <v-flex>
@@ -80,6 +82,7 @@
                 v-model="track"
                 label="Track"
                 single-line
+                autocomplete
               ></v-select>
             </v-flex>
             <v-flex xs12 sm3>
@@ -149,6 +152,7 @@
                 v-model="preDefinedTeam"
                 label="Team"
                 single-line
+                autocomplete
               ></v-select>
             </v-flex>
             <v-flex xs12 sm2>
@@ -169,6 +173,7 @@
                 v-model="customTeam"
                 label="Team"
                 single-line
+                autocomplete
               ></v-select>
             </v-flex>
             <v-flex xs12 sm2>
@@ -206,7 +211,7 @@
 import PictureInput from 'vue-picture-input'
 
 export default {
-  name: 'Championships',
+  name: 'CreateChampionship',
   data: () => ({
     title: null,
     gameTypesArray: ['Game1', 'Game2', 'Game3'],

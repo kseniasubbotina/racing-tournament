@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import Championships from './views/Championships.vue'
+import Championships from './views/championships/Championships.vue'
+import CreateChampionship from './views/championships/CreateChampionship.vue'
 import Register from './views/Register.vue'
 import Login from './views/Login.vue'
 import Teams from './views/teams/Teams.vue'
@@ -18,7 +19,19 @@ export default new Router({
     {
       path: '/championships',
       name: 'championships',
-      component: Championships
+      component: Championships,
+      children: [
+        // {
+        //   path: 'create',
+        //   name: 'createChampionship',
+        //   component: CreateChampionship
+        // }
+      ]
+    },
+    {
+      path: 'create',
+      name: 'createChampionship',
+      component: CreateChampionship
     },
     {
       path: '/register',
