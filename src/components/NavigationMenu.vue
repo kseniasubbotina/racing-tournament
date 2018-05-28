@@ -38,7 +38,8 @@ export default {
       },
       {
         label: 'Profile',
-        icon: 'account_circle'
+        icon: 'account_circle',
+        route: 'user'
       }
     ]
   }),

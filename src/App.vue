@@ -36,7 +36,7 @@
       </v-btn>
       <v-btn to="register" flat>Register</v-btn>
       <v-btn to="login" flat>Login</v-btn>
-      <v-btn icon large>
+      <v-btn to="user" icon large>
         <v-avatar size="32px" tile>
           <img
             src="https://vuetifyjs.com/static/doc-images/logo.svg">

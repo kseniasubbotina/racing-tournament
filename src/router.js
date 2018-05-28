@@ -6,6 +6,7 @@ import CreateChampionship from './views/championships/CreateChampionship.vue'
 import Register from './views/Register.vue'
 import Login from './views/Login.vue'
 import Teams from './views/teams/Teams.vue'
+import User from './views/user/User.vue'
 
 Vue.use(Router)
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/teams',
       name: 'teams',
       component: Teams
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component: User
     }
   ]
 })
