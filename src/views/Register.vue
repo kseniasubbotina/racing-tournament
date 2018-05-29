@@ -53,7 +53,7 @@
 
 <style>
 .progress-linear {
-  margin: 0;
+  margin: 0 !important;
 }
 </style>
 
