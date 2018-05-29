@@ -1,5 +1,5 @@
 <template>
-  <v-flex sm8 xs12>
+  <v-flex sm11 xs12>
     <v-card>
       <v-card-title class="grey lighten-4 py-4 title">
         Create a championship

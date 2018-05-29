@@ -38,6 +38,9 @@
         <v-spacer></v-spacer>
         <v-btn color="success" @click="submit">submit</v-btn>
       </v-card-actions>
+      <v-flex v-if="loading">
+        <v-progress-linear ma-0 :indeterminate="true"></v-progress-linear>
+      </v-flex>
         <v-card color="grey lighten-4" flat>
           <v-flex pa-3>
             Already have an account?
@@ -47,8 +50,17 @@
     </v-card>
   </v-flex>
 </template>
+
+<style>
+.progress-linear {
+  margin: 0;
+}
+</style>
+
+
 <script>
 import CountrySelect from '@/components/CountrySelect.vue'
+import axios from 'axios'
 
 export default {
   name: 'register',
@@ -59,7 +71,8 @@ export default {
     password: '',
     confirmPassword: '',
     name: '',
-    country: ''
+    country: '',
+    loading: true
   }),
   methods: {
     onChangeCountry (val) {
@@ -67,7 +80,17 @@ export default {
     },
     submit () {
       if (this.$validator.validateAll()) {
-        console.log('Validated')
+        axios({
+          method: 'post',
+          url: '/user/12345',
+          data: {
+            firstName: 'Fred',
+            lastName: 'Flintstone'
+          }
+        })
+        .then(function(response){
+          console.log(response)
+        })
       }
     },
     clear () {
