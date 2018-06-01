@@ -4,21 +4,59 @@
       <v-card>
         <v-card-title justify-end class="grey lighten-4 py-2 title">
           All teams
-          <v-spacer></v-spacer>
           <v-btn color="success" @click.stop="createTeamDialog = true">Add new</v-btn>
+            <v-spacer></v-spacer>
+            <v-text-field
+              v-model="search"
+              append-icon="search"
+              label="Search"
+              single-line
+              hide-details
+            ></v-text-field>
         </v-card-title>
         <v-layout column>
           <v-data-table
-    :headers="headers"
-    :items="teams"
-    hide-actions
-    class="elevation-1"
-  >
-    <template slot="items" slot-scope="props">
-      <td class="text-xs-left">{{ props.item.name }}</td>
-      <td class="text-xs-right">{{ props.item.seria }}</td>
-    </template>
-  </v-data-table>
+            :headers="headers"
+            :items="teams"
+            hide-actions
+            :loading="loading"
+            :search="search"
+            class="elevation-1"
+            item-key="name"
+          >
+          <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+            <template slot="items" slot-scope="props">
+              <tr @click="props.expanded = !props.expanded">
+                <td class="text-xs-left">
+                  {{ props.item.name }}
+                </td>
+                <td class="text-xs-right">{{ props.item.seria }}
+                </td>
+              </tr>
+            </template>
+            <template slot="expand" slot-scope="props">
+              <v-card flat>
+                <v-layout>
+                  <v-flex>
+                    <v-card-text class="text-xs-left">{{ props.item.name }} <br> Another details</v-card-text>
+                  </v-flex>
+                  <v-flex>
+                    <v-card-text class="text-xs-right">
+                      <v-btn color="primary" flat @click.stop="createTeamDialog = true">
+                        <v-icon>edit</v-icon> Edit
+                      </v-btn>
+                      <v-btn color="red" flat>
+                        <v-icon>delete</v-icon> Delete
+                      </v-btn>
+                    </v-card-text>
+                  </v-flex>
+                </v-layout>
+              </v-card>
+            </template>
+            <v-alert slot="no-results" :value="true" color="error" icon="warning">
+              Your search for "{{ search }}" found no results.
+            </v-alert>
+          </v-data-table>
         </v-layout>
       </v-card>
     </v-flex>
@@ -37,7 +75,6 @@
                 </v-flex>
                 <v-flex xs12>
                   <p>Picture</p>
-                  
                 </v-flex>
               </v-layout>
             </form>
@@ -63,6 +100,8 @@ export default {
       seria: '',
       createTeamDialog: false,
       image: '',
+      search: '',
+      loading: false,
       headers: [
         {
           text: 'Name',
@@ -70,7 +109,11 @@ export default {
           sortable: true,
           value: 'name'
         },
-        { text: 'Seria', value: 'seria', align: 'right' }
+        { 
+          text: 'Seria', 
+          value: 'seria', 
+          align: 'right' 
+        }
       ],
       teams: [
         {
@@ -82,7 +125,12 @@ export default {
         {
           value: false,
           name: 'Renault',
-          calories: 'Formula 2'
+          seria: 'Formula 1'
+        },
+        {
+          value: false,
+          name: 'Citroen Racing',
+          seria: 'Rally'
         }
       ]
     }
