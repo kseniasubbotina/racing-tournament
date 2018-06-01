@@ -40,6 +40,11 @@ export default {
         label: 'Profile',
         icon: 'account_circle',
         route: 'user'
+      },
+      {
+        label: 'Users',
+        icon: 'people',
+        route: 'users'
       }
     ]
   }),

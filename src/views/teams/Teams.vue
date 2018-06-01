@@ -4,21 +4,23 @@
       <v-card>
         <v-card-title justify-end class="grey lighten-4 py-2 title">
           All teams
-          <v-btn color="success" @click.stop="createTeamDialog = true">Add new</v-btn>
-            <v-spacer></v-spacer>
-            <v-text-field
+          <v-btn color="success" flat @click.stop="createTeamDialog = true"><i class="material-icons">
+            add
+            </i>Add new
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-text-field
               v-model="search"
               append-icon="search"
               label="Search"
               single-line
               hide-details
-            ></v-text-field>
+          ></v-text-field>
         </v-card-title>
         <v-layout column>
           <v-data-table
             :headers="headers"
             :items="teams"
-            hide-actions
             :loading="loading"
             :search="search"
             class="elevation-1"
@@ -45,7 +47,7 @@
                       <v-btn color="primary" flat @click.stop="createTeamDialog = true">
                         <v-icon>edit</v-icon> Edit
                       </v-btn>
-                      <v-btn color="red" flat>
+                      <v-btn color="red" flat @click.stop="confirmDialog = true">
                         <v-icon>delete</v-icon> Delete
                       </v-btn>
                     </v-card-text>
@@ -86,6 +88,26 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog v-model="confirmDialog" max-width="500px">
+        <v-card>
+          <v-card-title class="grey lighten-4 py-4 title">
+            Please confirm
+          </v-card-title>
+          <v-container grid-list-sm class="pa-4">
+              <v-layout row wrap>
+                <v-flex xs12 justify-space-between>
+                  Delete ItemName? 
+                </v-flex>
+              </v-layout>
+          </v-container>
+          <v-card-actions>
+            <v-layout justify-center>
+              <v-btn color="primary" flat @click.stop="confirmDialog=false">Close</v-btn>
+              <v-btn dark color="red"><v-icon>delete</v-icon> Delete</v-btn>
+            </v-layout>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
   </v-layout>
 </template>
 
@@ -99,6 +121,7 @@ export default {
       name: '',
       seria: '',
       createTeamDialog: false,
+      confirmDialog: false,
       image: '',
       search: '',
       loading: false,
