@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import Championships from './views/championships/Championships.vue'
-import CreateChampionship from './views/championships/CreateChampionship.vue'
+import Championships from './views/championship/Championships.vue'
+import CreateChampionship from './views/championship/CreateChampionship.vue'
 import Register from './views/Register.vue'
 import Login from './views/Login.vue'
-import Teams from './views/teams/Teams.vue'
-import User from './views/user/User.vue'
+import Teams from './views/team/Teams.vue'
+import UserProfile from './views/user/UserProfile.vue'
+import Users from './views/user/Users.vue'
 
 Vue.use(Router)
 
@@ -51,8 +52,13 @@ export default new Router({
     },
     {
       path: '/user',
-      name: 'user',
-      component: User
+      name: 'UserProfile',
+      component: UserProfile
+    },
+    {
+      path: '/users',
+      name: 'Users',
+      component: Users
     }
   ]
 })

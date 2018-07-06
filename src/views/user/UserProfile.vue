@@ -53,7 +53,7 @@
 
 <script>
 export default {
-  name: 'user',
+  name: 'UserProfile',
   data () {
       return {
         tab: null,

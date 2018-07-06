@@ -3,10 +3,10 @@
     <v-flex>
       <v-card>
         <v-card-title justify-end class="grey lighten-4 py-2 title">
-          All teams
+          Users
           <v-btn color="success" flat @click.stop="createTeamDialog = true"><i class="material-icons">
             add
-            </i>Add new
+            </i>Add new user
           </v-btn>
           <v-spacer></v-spacer>
           <v-text-field
@@ -20,7 +20,7 @@
         <v-layout column>
           <v-data-table
             :headers="headers"
-            :items="teams"
+            :items="users"
             :loading="loading"
             :search="search"
             class="elevation-1"
@@ -32,7 +32,11 @@
                 <td class="text-xs-left">
                   {{ props.item.name }}
                 </td>
-                <td class="text-xs-right">{{ props.item.seria }}
+                <td class="text-xs-right">
+                    {{ props.item.email }}
+                </td>
+                <td class="text-xs-right">
+                    {{ props.item.role }}
                 </td>
               </tr>
             </template>
@@ -62,64 +66,17 @@
         </v-layout>
       </v-card>
     </v-flex>
-    <v-dialog v-model="createTeamDialog" max-width="500px">
-        <v-card>
-          <v-card-title class="grey lighten-4 py-4 title">
-            Create a new team
-          </v-card-title>
-          <v-container grid-list-sm class="pa-4">
-            <form>
-              <v-layout row wrap>
-                <v-flex xs12 justify-space-between>
-                  <v-text-field label="Name" v-model="name" v-validate="'required|min:5'" type="text" name="name" :error-messages="errors.collect('name')"
-                  ></v-text-field>
-                  <SeriaSelect @changeSeria="onChangeSeria"/>
-                </v-flex>
-                <v-flex xs12>
-                  <p>Picture</p>
-                </v-flex>
-              </v-layout>
-            </form>
-          </v-container>
-          <v-card-actions>
-            <v-btn color="primary" flat @click.stop="createTeamDialog=false">Close</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn color="success">Add</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      <v-dialog v-model="confirmDialog" max-width="500px">
-        <v-card>
-          <v-card-title class="grey lighten-4 py-4 title">
-            Please confirm
-          </v-card-title>
-          <v-container grid-list-sm class="pa-4">
-              <v-layout row wrap>
-                <v-flex xs12 justify-space-between>
-                  Delete ItemName? 
-                </v-flex>
-              </v-layout>
-          </v-container>
-          <v-card-actions>
-            <v-layout justify-center>
-              <v-btn color="primary" flat @click.stop="confirmDialog=false">Close</v-btn>
-              <v-btn dark color="red"><v-icon>delete</v-icon> Delete</v-btn>
-            </v-layout>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
   </v-layout>
 </template>
 
 <script>
-import SeriaSelect from '@/components/SeriaSelect.vue'
+import CountrySelect from '@/components/CountrySelect.vue'
 
 export default {
-  name: 'Teams',
+  name: 'Users',
   data () {
     return {
       name: '',
-      seria: '',
       createTeamDialog: false,
       confirmDialog: false,
       image: '',
@@ -133,38 +90,53 @@ export default {
           value: 'name'
         },
         { 
-          text: 'Seria', 
-          value: 'seria', 
-          align: 'right' 
+          text: 'E-mail', 
+          align: 'right',
+          sortable: true,
+          value: 'email' 
+        },
+        { 
+          text: 'Role', 
+          align: 'right',
+          value: 'role' 
         }
       ],
-      teams: [
+      users: [
         {
-          value: false,
-          name: 'Ferrari',
-          seria: 'Formula 1',
-          align: 'left'
+          value: true,
+          name: 'SUVORKIN',
+          role: 'Administrator',
+          email: 'example@ex.com'
         },
         {
-          value: false,
-          name: 'Renault',
-          seria: 'Formula 1'
+          value: true,
+          name: 'Shomacher',
+          role: 'Driver',
+          email: 'example@ex.com'
         },
         {
-          value: false,
-          name: 'Citroen Racing',
-          seria: 'Rally'
+          value: true,
+          name: 'Alonso777',
+          role: 'Driver',
+          email: 'example@ex.com'
+        },
+        {
+          value: true,
+          name: 'Ivanov',
+          role: 'Driver',
+          email: 'example@ex.com'
+        },
+        {
+          value: true,
+          name: 'MadMAX',
+          role: 'Driver',
+          email: 'example@ex.com'
         }
       ]
     }
   },
-  methods: {
-    onChangeSeria (val) {
-      this.seria = val
-    }
-  },
   components: {
-    SeriaSelect
+    CountrySelect
   }
 }
 </script>
