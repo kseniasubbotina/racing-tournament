@@ -1,3 +1,3 @@
 #!/bin/bash
-cd Documents/Racing\ League/Racing-tournament/
+cd Documents/GitHub/racing-tournament/
 npm run serve
