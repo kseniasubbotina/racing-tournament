@@ -36,7 +36,15 @@
     <v-layout>
       <v-flex sx12>
         <v-btn
-        color="success" :to="{name: 'createChampionship'}">Add championship</v-btn>
+        :to="{name: 'createChampionship'}"
+        color="green"
+        dark
+        fixed
+        bottom
+        right
+        fab>
+        <v-icon>add</v-icon>
+        </v-btn>
       </v-flex>
     </v-layout>
 
