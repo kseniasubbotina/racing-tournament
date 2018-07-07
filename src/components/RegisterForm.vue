@@ -36,7 +36,7 @@
       <v-card-actions>
         <v-btn flat color="error" @click="clear">clear</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="red accent-2" @click="submit">submit</v-btn>
+        <v-btn color="primary" dark @click="submit">submit</v-btn>
       </v-card-actions>
       <v-flex v-if="loading">
         <v-progress-linear ma-0 :indeterminate="true"></v-progress-linear>
@@ -44,7 +44,7 @@
         <v-card color="" flat>
           <v-flex pa-3>
             Already have an account?
-            <v-btn to="login" color="blue lighten-3" flat>Login</v-btn>
+            <v-btn to="login" color="blue" flat>Login</v-btn>
           </v-flex>
         </v-card>
     </v-card>

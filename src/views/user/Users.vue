@@ -4,7 +4,7 @@
       <v-card>
         <v-card-title justify-end class="py-2 title">
           Users
-          <v-btn color="red accent-2" flat @click.stop="createTeamDialog = true"><i class="material-icons">
+          <v-btn color="primary" dark  flat @click.stop="createTeamDialog = true"><i class="material-icons">
             add
             </i>Add new user
           </v-btn>
@@ -48,7 +48,7 @@
                   </v-flex>
                   <v-flex>
                     <v-card-text class="text-xs-right">
-                      <v-btn color="blue lighten-3" flat @click.stop="createTeamDialog = true">
+                      <v-btn color="primary"  flat @click.stop="createTeamDialog = true">
                         <v-icon>edit</v-icon> Edit
                       </v-btn>
                       <v-btn color="red" flat @click.stop="confirmDialog = true">

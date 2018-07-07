@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-app id="inspire" dark>
+    <v-app id="inspire">
     <v-navigation-drawer
       fixed
       :clipped="$vuetify.breakpoint.lgAndUp"
@@ -10,7 +10,7 @@
       <navigationMenu/>
     </v-navigation-drawer>
     <v-toolbar
-      color="grey darken-3"
+      color="primary"
       dark
       app
       :clipped-left="$vuetify.breakpoint.lgAndUp"
@@ -37,9 +37,9 @@
       <v-btn to="register" flat>Register</v-btn>
       <v-btn to="login" flat>Login</v-btn>
       <v-btn to="user" icon large>
-        <v-avatar size="32px" tile>
+        <v-avatar size="32px">
           <img
-            src="https://vuetifyjs.com/static/doc-images/logo.svg">
+            src="http://pol.audio/media/user-avatar.png">
         </v-avatar>
       </v-btn>
     </v-toolbar>
