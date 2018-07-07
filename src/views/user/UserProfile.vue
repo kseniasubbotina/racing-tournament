@@ -7,7 +7,7 @@
           <v-layout d-block pa-1>
           <v-flex>
             <v-avatar size="100">
-              <img src="https://cdn-5.motorsport.com/images/amp/Y9oMo9q0/s6/f1-hungarian-gp-2017-fernando-alonso-mclaren.jpg" alt="">
+              <img src="http://pol.audio/media/user-avatar.png" alt="">
             </v-avatar>
           </v-flex>
           <v-flex>
