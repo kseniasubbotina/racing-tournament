@@ -132,13 +132,13 @@
               </v-menu>
             </v-flex>
             <v-flex xs12 sm2>
-              <v-btn color="red accent-2">Add</v-btn>
+              <v-btn color="primary" dark >Add</v-btn>
             </v-flex>
           </v-layout>
           <v-layout>
             <v-flex xs12>
               <v-switch
-                color="blue lighten-3"
+                color="primary" 
                 :label="'Allow consructors and teams selection'"
                 v-model="ConstrTeamsSwitch"
               ></v-switch>
@@ -162,7 +162,7 @@
               ></v-text-field>
             </v-flex>
             <v-flex xs12 sm2>
-              <v-btn color="red accent-2">Add</v-btn>
+              <v-btn color="primary" dark >Add</v-btn>
             </v-flex>
           </v-layout>
           <h3 class="subheading text-xs-left">Select from custom teams</h3>
@@ -183,12 +183,12 @@
               ></v-text-field>
             </v-flex>
             <v-flex xs12 sm2>
-              <v-btn color="red accent-2">Add</v-btn>
+              <v-btn color="primary" dark >Add</v-btn>
             </v-flex>
           </v-layout>
           <v-layout>
             <v-flex>
-              <v-btn color="red accent-2">
+              <v-btn color="primary" dark >
                 Add new team
               </v-btn>
             </v-flex>
@@ -197,7 +197,7 @@
             <v-flex sx12>
               <v-btn
                 large
-                color="red accent-2"
+                color="primary" dark 
                 @click="submit">Submit</v-btn>
             </v-flex>
           </v-layout>
