@@ -2,9 +2,9 @@
   <v-layout>
     <v-flex>
       <v-card>
-        <v-card-title justify-end class="grey lighten-4 py-2 title">
+        <v-card-title justify-end class=" py-2 title">
           All teams
-          <v-btn color="success" flat @click.stop="createTeamDialog = true"><i class="material-icons">
+          <v-btn color="red accent-21" flat @click.stop="createTeamDialog = true"><i class="material-icons">
             add
             </i>Add new
           </v-btn>
@@ -44,7 +44,7 @@
                   </v-flex>
                   <v-flex>
                     <v-card-text class="text-xs-right">
-                      <v-btn color="primary" flat @click.stop="createTeamDialog = true">
+                      <v-btn color="blue lighten-3" flat @click.stop="createTeamDialog = true">
                         <v-icon>edit</v-icon> Edit
                       </v-btn>
                       <v-btn color="red" flat @click.stop="confirmDialog = true">
@@ -64,7 +64,7 @@
     </v-flex>
     <v-dialog v-model="createTeamDialog" max-width="500px">
         <v-card>
-          <v-card-title class="grey lighten-4 py-4 title">
+          <v-card-title class="py-4 title">
             Create a new team
           </v-card-title>
           <v-container grid-list-sm class="pa-4">
@@ -82,15 +82,15 @@
             </form>
           </v-container>
           <v-card-actions>
-            <v-btn color="primary" flat @click.stop="createTeamDialog=false">Close</v-btn>
+            <v-btn color="blue lighten-3" flat @click.stop="createTeamDialog=false">Close</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="success">Add</v-btn>
+            <v-btn color="red accent-2">Add</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
       <v-dialog v-model="confirmDialog" max-width="500px">
         <v-card>
-          <v-card-title class="grey lighten-4 py-4 title">
+          <v-card-title class="py-4 title">
             Please confirm
           </v-card-title>
           <v-container grid-list-sm class="pa-4">
@@ -102,7 +102,7 @@
           </v-container>
           <v-card-actions>
             <v-layout justify-center>
-              <v-btn color="primary" flat @click.stop="confirmDialog=false">Close</v-btn>
+              <v-btn color="blue lighten-3" flat @click.stop="confirmDialog=false">Close</v-btn>
               <v-btn dark color="red"><v-icon>delete</v-icon> Delete</v-btn>
             </v-layout>
           </v-card-actions>

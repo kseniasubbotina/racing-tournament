@@ -1,7 +1,7 @@
 <template>
     <v-flex xs8>
     <v-card>
-      <v-card-title class="grey lighten-4 py-4 title">
+      <v-card-title class="py-4 title">
         Create your account
       </v-card-title>
       <v-container grid-list-sm class="pa-4">
@@ -36,15 +36,15 @@
       <v-card-actions>
         <v-btn flat color="error" @click="clear">clear</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="success" @click="submit">submit</v-btn>
+        <v-btn color="red accent-2" @click="submit">submit</v-btn>
       </v-card-actions>
       <v-flex v-if="loading">
         <v-progress-linear ma-0 :indeterminate="true"></v-progress-linear>
       </v-flex>
-        <v-card color="grey lighten-4" flat>
+        <v-card color="" flat>
           <v-flex pa-3>
             Already have an account?
-            <v-btn to="login" color="primary" flat>Login</v-btn>
+            <v-btn to="login" color="blue lighten-3" flat>Login</v-btn>
           </v-flex>
         </v-card>
     </v-card>

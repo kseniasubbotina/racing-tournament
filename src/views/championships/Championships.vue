@@ -1,7 +1,7 @@
 <template>
   <v-layout wrap>
     <v-flex xs4 pa-1>
-      <v-card color="white" class="black--text">
+      <v-card dark>
         <v-card-title primary-title>
           <div class="headline">Championship #1</div>
           <div>F1 2017 championship - no assists</div>
@@ -12,7 +12,7 @@
       </v-card>
     </v-flex>
     <v-flex xs4 pa-1>
-      <v-card color="white" class="black--text">
+      <v-card dark>
         <v-card-title primary-title>
           <div class="headline">Championship #2</div>
           <div>F1 2017 championship - no assists</div>
@@ -23,7 +23,7 @@
       </v-card>
     </v-flex>
     <v-flex xs4 pa-1>
-      <v-card color="white" class="black--text">
+      <v-card dark>
         <v-card-title primary-title>
           <div class="headline">Championship #3</div>
           <div>Project Cars championship - no assists</div>
@@ -37,7 +37,7 @@
       <v-flex sx12>
         <v-btn
         @click.stop="showCreateForm = true"
-        color="green"
+        color="red accent-2"
         dark
         fixed
         bottom
