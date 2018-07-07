@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-card-title class="grey lighten-4 py-4 title">
+        <v-card-title class="py-4 title">
             Create a championship
         </v-card-title>
         <v-container grid-list-sm class="pa-4">
@@ -63,11 +63,12 @@
                 <v-flex>
                 <v-tooltip left>
                     <v-btn slot="activator"
+                    dark
                     outline
                     small fab
-                    color="primary"
+                    color="blue lighten-3"
                     class="question-btn">
-                    <span>?</span>
+                    <span class="text-white">?</span>
                     </v-btn>
                     <span>This field will affect on points sistem and available tracks</span>
                 </v-tooltip>
@@ -131,13 +132,13 @@
                 </v-menu>
                 </v-flex>
                 <v-flex xs12 sm2>
-                <v-btn color="success">Add</v-btn>
+                <v-btn color="red accent-2">Add</v-btn>
                 </v-flex>
             </v-layout>
             <v-layout>
                 <v-flex xs12>
                 <v-switch
-                    color="primary"
+                    color="blue lighten-3"
                     :label="'Allow consructors and teams selection'"
                     v-model="ConstrTeamsSwitch"
                 ></v-switch>
@@ -161,7 +162,7 @@
                 ></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm2>
-                <v-btn color="success">Add</v-btn>
+                <v-btn color="red accent-2">Add</v-btn>
                 </v-flex>
             </v-layout>
             <h3 class="subheading text-xs-left">Select from custom teams</h3>
@@ -182,12 +183,12 @@
                 ></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm2>
-                <v-btn color="success">Add</v-btn>
+                <v-btn color="red accent-2">Add</v-btn>
                 </v-flex>
             </v-layout>
             <v-layout>
                 <v-flex>
-                <v-btn color="success">
+                <v-btn color="red accent-2">
                     Add new team
                 </v-btn>
                 </v-flex>
@@ -196,7 +197,7 @@
                 <v-flex sx12>
                 <v-btn
                     large
-                    color="success"
+                    color="red accent-2"
                     @click="submit">Submit</v-btn>
                 </v-flex>
             </v-layout>
