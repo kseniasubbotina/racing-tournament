@@ -59,7 +59,7 @@
 
 <script>
 import CountrySelect from '@/components/CountrySelect.vue'
-import axios from 'axios'
+import Authentification from '@/services/Authentification.js'
 export default {
     name: 'RegisterForm',
     data: () => ({
@@ -76,19 +76,13 @@ export default {
     onChangeCountry (val) {
       this.country = val
     },
-    submit () {
+    async submit () {
       if (this.$validator.validateAll()) {
-        axios({
-          method: 'post',
-          url: '/user/12345',
-          data: {
-            firstName: 'Fred',
-            lastName: 'Flintstone'
-          }
+        const response = await Authentification.register({
+          email: this.email,
+          password: this.password
         })
-        .then(function(response){
-          console.log(response)
-        })
+        console.log(response.data)
       }
     },
     clear () {
