@@ -262,7 +262,7 @@ export default {
         // axios
       }
     },
-    submit: function () {
+    submit () {
       //
     },
     formatDate (date) {
