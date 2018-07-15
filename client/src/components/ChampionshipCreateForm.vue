@@ -246,7 +246,7 @@ export default {
     }
   },
   methods: {
-    onChanged: function () {
+    onChanged () {
       console.log('New picture loaded')
       if (this.$refs.pictureInput.file) {
         this.image = this.$refs.pictureInput.file
@@ -262,7 +262,7 @@ export default {
         // axios
       }
     },
-    submit: function () {
+    submit () {
       //
     },
     formatDate (date) {
