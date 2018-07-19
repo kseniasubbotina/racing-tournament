@@ -77,13 +77,18 @@ export default {
       this.country = val
     },
     async submit () {
-      if (this.$validator.validateAll()) {
-        const response = await Authentification.register({
-          email: this.email,
-          password: this.password
-        })
+      this.$validator.validate().then(result => {
+        if (result) {
+          console.log('Validated')
+          const response = Authentification.register({
+            email: this.email,
+            password: this.password
+          })
         console.log(response.data)
-      }
+        } else {
+        console.log('Not validated')
+        }
+      }); 
     },
     clear () {
       this.name = ''
