@@ -3,4 +3,7 @@ const AuthentificationController = require('./controllers/AuthentificationContro
 module.exports = (app) => {
   app.post('/register',
     AuthentificationController.register)
+  app.get('/login', function (req, res) {
+    res.send('Hi')
+  })
 }
