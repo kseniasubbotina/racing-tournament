@@ -60,6 +60,7 @@
 <script>
 import CountrySelect from '@/components/CountrySelect.vue'
 import Authentification from '@/services/Authentification.js'
+import axios from 'axios'
 export default {
     name: 'RegisterForm',
     data: () => ({
@@ -76,19 +77,29 @@ export default {
     onChangeCountry (val) {
       this.country = val
     },
-    async submit () {
-      this.$validator.validate().then(result => {
-        if (result) {
-          console.log('Validated')
-          const response = Authentification.register({
-            email: this.email,
-            password: this.password
-          })
-        console.log(response.data)
-        } else {
-        console.log('Not validated')
+    submit () {
+      axios.create({
+        baseURL: 'http://localhost:4000/',
+        crossDomain: true,
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
         }
-      }); 
+      })
+      // Make a request for a user with a given ID
+      axios.get('http://localhost:4000/races')
+        .then(function (response) {
+          // handle success
+          console.log(response);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+        .then(function () {
+          // always executed
+        })
     },
     clear () {
       this.name = ''
