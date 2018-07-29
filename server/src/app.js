@@ -4,6 +4,9 @@ const config = require('./config/config')
 
 // set up express app
 const app = express()
+const cors = require('cors')
+
+app.use(cors())
 
 // initialize routes
 app.use('/', require('./routes'))
@@ -20,17 +23,12 @@ app.listen(config.port || 4000, function () {
 //
 // const express = require('express')
 // const bodyParser = require('body-parser')
-// const cors = require('cors')
 // const morgan = require('morgan')
 // const {sequelize} = require('./models')
 // const config = require('./config/config')
 
 // const app = express()
 // app.use(morgan('combined'))
-// app.use(bodyParser.json())
-// app.use(cors())
-
-// require('./routes')(app)
 
 // sequelize.sync()
 //   .then(() => {
