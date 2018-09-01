@@ -7,10 +7,10 @@
       <v-container grid-list-sm class="pa-4">
         <form>
           <v-layout row wrap>
-            <v-flex xs12 sm6 justify-space-between>
+            <!-- <v-flex xs12 sm6 justify-space-between>
               <v-text-field label="Username" v-model="username" v-validate="'required|min:5'" type="text" name="username" :error-messages="errors.collect('username')"
               ></v-text-field>
-            </v-flex>
+            </v-flex> -->
             <v-flex xs12 sm6>
               <v-text-field label="E-mail" v-model="email" v-validate="'required|email'" type="email" name="email" :error-messages="errors.collect('email')"
               ></v-text-field>
@@ -19,17 +19,17 @@
               <v-text-field label="Password" v-model="password" v-validate="{ is: confirmPassword, required: true, min: 6 }" type="password" name="password" :error-messages="errors.collect('password')">
               </v-text-field>
             </v-flex>
-            <v-flex xs12 sm6>
+            <!-- <v-flex xs12 sm6>
               <v-text-field label="Confirm password" v-model="confirmPassword" v-validate="'required|min:6'" type="password" name="password_confirmation" :error-messages="errors.collect('password_confirmation')">
               </v-text-field>
-            </v-flex>
-            <v-flex xs12 sm6>
+            </v-flex> -->
+            <!-- <v-flex xs12 sm6>
               <v-text-field label="Name" v-model="name" v-validate="'required|min:3|alpha'" type="text" name="name" :error-messages="errors.collect('name')">
               </v-text-field>
             </v-flex>
             <v-flex xs12 sm6>
               <CountrySelect @changeCountry="onChangeCountry"/>
-            </v-flex>
+            </v-flex> -->
           </v-layout>
         </form>
       </v-container>
@@ -59,8 +59,7 @@
 
 <script>
 import CountrySelect from '@/components/CountrySelect.vue'
-import Authentification from '@/services/Authentification.js'
-import axios from 'axios'
+import firebase from 'firebase'
 export default {
     name: 'RegisterForm',
     data: () => ({
@@ -71,35 +70,24 @@ export default {
     confirmPassword: '',
     name: '',
     country: '',
-    loading: true
+    loading: false
   }),
   methods: {
     onChangeCountry (val) {
       this.country = val
     },
     submit () {
-      axios.create({
-        baseURL: 'http://localhost:4000/',
-        crossDomain: true,
-        headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-        }
+      firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
+        function(user) {
+          alert('User has been created')
+        },
+        function(error) {
+          // Handle Errors here.
+          var errorCode = error.code
+          var errorMessage = error.message
+          alert(errorCode)
+        // ...
       })
-      // Make a request for a user with a given ID
-      axios.get('http://localhost:4000/races')
-        .then(function (response) {
-          // handle success
-          console.log(response);
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        })
-        .then(function () {
-          // always executed
-        })
     },
     clear () {
       this.name = ''
