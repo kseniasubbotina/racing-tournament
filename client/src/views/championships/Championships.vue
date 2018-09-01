@@ -1,5 +1,6 @@
 <template>
   <v-layout wrap>
+    <div v-if="loggedIn">You are logged in</div>
     <v-flex xs4 pa-1>
       <v-card light>
         <v-card-title primary-title>
@@ -37,8 +38,7 @@
       <v-flex sx12>
         <v-btn
         @click.stop="showCreateForm = true"
-        color="primary" dark 
-        dark
+        color="primary" dark
         fixed
         bottom
         right
@@ -55,11 +55,14 @@
 
 <script>
 import ChampionshipCreateForm from '@/components/ChampionshipCreateForm'
+import firebase from 'firebase'
+
 export default {
   name: 'Championships',
   data () {
     return {
-      showCreateForm: false
+      showCreateForm: false,
+      loggedIn: false
     }
   },
   components: {

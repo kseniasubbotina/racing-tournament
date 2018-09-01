@@ -1,5 +1,5 @@
 {
-  "name": "Racing-tournament",
+  "name": "racing-tournament",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "firebase": "^5.4.2",
     "material-design-icons-iconfont": "^3.0.3",
     "vee-validate": "^2.0.9",
     "vue": "^2.5.13",
