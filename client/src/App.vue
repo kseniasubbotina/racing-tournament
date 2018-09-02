@@ -34,9 +34,11 @@
       <v-btn icon>
         <v-icon>notifications</v-icon>
       </v-btn>
-      <v-btn to="register" flat>Register</v-btn>
-      <v-btn to="login" flat>Login</v-btn>
-      <v-btn to="user" icon large>
+      <template v-if="!isLoggedIn">
+        <v-btn to="register" flat>Register</v-btn>
+        <v-btn to="login" flat>Login</v-btn>
+      </template>
+      <v-btn v-if="isLoggedIn" to="user" icon large>
         <v-avatar size="32px">
           <img
             src="http://pol.audio/media/user-avatar.png">
@@ -71,6 +73,12 @@ export default {
     dialog: false,
     drawer: null
   }),
+  computed: {
+    isLoggedIn () {
+      var isLoggedIn = this.$store.getters.user ? true : false
+      return isLoggedIn
+    }
+  },
   mounted () {
     this.$validator.localize('en', this.dictionary)
   },
