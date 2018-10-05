@@ -50,6 +50,9 @@
                       <v-text-field label="First name" v-model="name" v-validate="{required: true, min: 2 }" type="text" name="name" :error-messages="errors.collect('name')">
                       </v-text-field>
                     </v-flex>
+                    <v-flex>
+                      <input type="file" @change="onFileSelected">
+                    </v-flex>
                   </v-layout>
                   <v-card-actions>
                     <v-btn @click="update">
@@ -72,20 +75,28 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-
+import fb from '@/firebase/config.js'
 export default {
   name: 'UserProfile',
   data () {
       return {
         country: '',
         name: '',
+        selectedFile: null,
+        imageURL: '',
+        loadingProgress: '',
         tab: null,
         items: [
           'Overview', 'Statistic', 'Activity', 'Settings'
         ],
         tabContent: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
       }
+  },
+  watch: {
+    $route () {
+      debugger
+      this.$store.dispatch('getUserInfo')
+    }
   },
   computed: {
     authenticatedUserId () {
@@ -106,17 +117,25 @@ export default {
       this.$router.push('/')
     },
     update () {
-      var ref = firebase.database().ref('users/' + this.authenticatedUserId)
-      ref.set({
-        first_name: this.name
-      }, function(error) {
-        if (error) {
-          alert(error)
-        } else {
-          console.log('success')
-          // Data saved successfully!
-        }
+      if (this.selectedFile) {
+        var uploadTask = fb.storageRef.child('users_avatars/' + this.authenticatedUserId + this.selectedFile.name)
+        uploadTask.put(this.selectedFile).then(function(snapshot) {
+          console.log('Uploaded a blob or file!');
+        })
+        uploadTask.put(this.selectedFile).on('state_changed', function(snapshot){
+          this.loadingProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          console.log(this.loadingProgress)
+        })
+      }
+      this.$store.dispatch('updateProfile', {
+        country: this.country, 
+        name: this.name, 
+        imageURL: this.imageURL
       })
+    },
+    onFileSelected (event) {
+      this.selectedFile = event.target.files[0]
+      console.log(this.selectedFile)
     }
   }
 }

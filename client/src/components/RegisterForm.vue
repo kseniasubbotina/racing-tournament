@@ -26,10 +26,10 @@
             <!-- <v-flex xs12 sm6>
               <v-text-field label="Name" v-model="name" v-validate="'required|min:3|alpha'" type="text" name="name" :error-messages="errors.collect('name')">
               </v-text-field>
-            </v-flex>
+            </v-flex> -->
             <v-flex xs12 sm6>
               <CountrySelect @changeCountry="onChangeCountry"/>
-            </v-flex> -->
+            </v-flex>
           </v-layout>
         </form>
       </v-container>
@@ -96,7 +96,8 @@ export default {
           let credentials = {
             email: this.email,
             password: this.password,
-            username: this.username
+            username: this.username,
+            country: this.country
           }
         this.$store.dispatch('signUp', credentials) 
         }
