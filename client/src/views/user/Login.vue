@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs6>
+  <v-flex xs12 sm6>
     <v-card>
       <v-card-title class="py-4 title">
         Login
@@ -8,7 +8,7 @@
         <form>
           <v-layout row wrap>
             <v-flex xs12 justify-space-between>
-              <v-text-field label="Username" v-model="email" v-validate="'required|email'" type="text" name="username" :error-messages="errors.collect('username')"
+              <v-text-field label="Email" v-model="email" v-validate="'required|email'" type="text" name="email" :error-messages="errors.collect('email')"
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
@@ -19,7 +19,7 @@
         </form>
       </v-container>
       <v-card-actions>
-        <v-btn to="register" color="primary"  flat>Create account</v-btn>
+        <v-btn to="register" color="primary" flat>Create account</v-btn>
         <v-spacer></v-spacer>
         <v-btn color="primary" dark  @click="submit">submit</v-btn>
       </v-card-actions>
@@ -52,22 +52,21 @@ export default {
   methods: {
     submit: function (){
       let router = this.$router
-      let valid = this.$validator.validate().then(function(result) {
-          return result
-      })
-      if (valid) {
-        let credentials = {
+      this.$validator.validate().then(result => {
+        if(result) {
+          let credentials = {
           "email": this.email,
           "password": this.password
+          }
+          this.$store.dispatch('signIn', credentials)
         }
-        this.$store.dispatch('signIn', credentials)
-      }    
+      })
     }
   },
   watch: {
     user (newVal, oldVal) {
       if (newVal && newVal !== undefined) {
-        this.$router.push('/user')
+        this.$router.push('/user_' + this.user.id)
       }
     }
   }
