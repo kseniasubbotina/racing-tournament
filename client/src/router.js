@@ -12,6 +12,7 @@ import Users from './views/user/Users.vue'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -51,7 +52,7 @@ export default new Router({
       component: Teams
     },
     {
-      path: '/user',
+      path: '/user_:id',
       name: 'UserProfile',
       component: UserProfile
     },

@@ -1,5 +1,5 @@
 <template>
-    <v-flex xs8>
+    <v-flex xs12 sm8>
     <v-card>
       <v-card-title class="py-4 title">
         Create your account
@@ -7,16 +7,16 @@
       <v-container grid-list-sm class="pa-4">
         <form>
           <v-layout row wrap>
-            <!-- <v-flex xs12 sm6 justify-space-between>
+            <v-flex xs12 sm6 justify-space-between>
               <v-text-field label="Username" v-model="username" v-validate="'required|min:5'" type="text" name="username" :error-messages="errors.collect('username')"
               ></v-text-field>
-            </v-flex> -->
+            </v-flex>
             <v-flex xs12 sm6>
               <v-text-field label="E-mail" v-model="email" v-validate="'required|email'" type="email" name="email" :error-messages="errors.collect('email')"
               ></v-text-field>
             </v-flex>
             <v-flex xs12 sm6>
-              <v-text-field label="Password" v-model="password" v-validate="{ is: confirmPassword, required: true, min: 6 }" type="password" name="password" :error-messages="errors.collect('password')">
+              <v-text-field label="Password" v-model="password" v-validate="{ required: true, min: 6 }" type="password" name="password" :error-messages="errors.collect('password')">
               </v-text-field>
             </v-flex>
             <!-- <v-flex xs12 sm6>
@@ -70,23 +70,36 @@ export default {
     confirmPassword: '',
     name: '',
     country: '',
-    loading: false
   }),
+  computed: {
+    user () {
+      return this.$store.getters.user
+    },
+    loading () {
+      return this.$store.getters.loading
+    }
+  },
+  watch: {
+    user (newVal, oldVal) {
+      if (newVal && newVal !== undefined) {
+        this.$router.push('/user_' + this.user.id)
+      }
+    }
+  },
   methods: {
     onChangeCountry (val) {
       this.country = val
     },
     submit () {
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-        function(user) {
-          alert('User has been created')
-        },
-        function(error) {
-          // Handle Errors here.
-          var errorCode = error.code
-          var errorMessage = error.message
-          alert(errorCode)
-        // ...
+      this.$validator.validate().then(result => {
+        if(result) {
+          let credentials = {
+            email: this.email,
+            password: this.password,
+            username: this.username
+          }
+        this.$store.dispatch('signUp', credentials) 
+        }
       })
     },
     clear () {
