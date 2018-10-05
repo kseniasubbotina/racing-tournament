@@ -32,21 +32,21 @@
                 </v-flex>
             </v-layout>
             <v-layout>
-                <v-flex xs12>
+                <v-flex>
                 <p>Championship image</p>
-                <picture-input
+                <picture-input 
                     ref="pictureInput"
-                    @change="onChanged"
-                    width="200"
-                    height="200"
-                    margin="16"
-                    accept="image/jpeg,image/png"
-                    size="10"
-                    :removable="true"
-                    :customStrings="{
-                    upload: '<h1>This image has been loaded</h1>',
-                    drag: 'Drag an image here'
-                    }">
+                    width="300" 
+                    height="300" 
+                    margin="16" 
+                    accept="image/jpeg,image/png" 
+                    size="10" 
+                    button-class="btn"
+                    :custom-strings="{
+                    upload: '<h1>Bummer!</h1>',
+                    drag: 'Drag a 😺 GIF or GTFO'
+                    }"
+                >
                 </picture-input>
                 </v-flex>
             </v-layout>

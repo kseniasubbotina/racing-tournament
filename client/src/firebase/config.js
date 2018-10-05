@@ -21,10 +21,12 @@ const settings = {
 }
 db.settings(settings)
 const usersCollection = db.collection('users')
+const storageRef = firebase.storage().ref()
 
 export default {
   db,
   auth,
   currentUser,
-  usersCollection
+  usersCollection,
+  storageRef
 }

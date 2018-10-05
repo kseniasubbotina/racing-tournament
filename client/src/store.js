@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import firebase from 'firebase'
-const fb = require('./firebase/config.js')
+import fb from './firebase/config.js'
 
 Vue.use(Vuex)
 
@@ -22,23 +21,21 @@ export default new Vuex.Store({
   actions: {
     signUp ({commit}, credentials) {
       commit('set', {type: 'loading', val: true})
-      firebase.auth().createUserWithEmailAndPassword(credentials.email, credentials.password).then(
+      fb.auth.createUserWithEmailAndPassword(credentials.email, credentials.password).then(
         function (response) {
           if (response) {
-            firebase.auth().currentUser.updateProfile({
-              displayName: credentials.username
-            }).then(function () {
-              const newUser = {
-                'id': response.user.uid,
-                'email': response.user.email,
-                'name': response.user.displayName
-              }
-              commit('set', {type: 'user', val: newUser})
-              commit('set', {type: 'loading', val: false})
-            }).catch(function (error) {
-              commit('set', {type: 'error', val: error})
-              commit('set', {type: 'loading', val: false})
-            })
+            fb.usersCollection.doc(response.user.uid).set({
+              username: credentials.username,
+              country: credentials.country
+            }).then(
+              console.log('User note created!')
+            )
+            const newUser = {
+              'id': response.user.uid,
+              'email': response.user.email,
+              'name': response.user.displayName
+            }
+            commit('set', {type: 'user', val: newUser})
           }
         },
         function (error) {
@@ -46,10 +43,11 @@ export default new Vuex.Store({
           commit('set', {type: 'error', val: error})
         // ...
         })
+      commit('set', {type: 'loading', val: false})
     },
     signIn ({commit}, credentials) {
       commit('set', {type: 'loading', val: true})
-      firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password).then(
+      fb.auth.signInWithEmailAndPassword(credentials.email, credentials.password).then(
         function (response) {
           const newUser = {
             'id': response.user.uid,
@@ -64,7 +62,7 @@ export default new Vuex.Store({
           commit('set', {type: 'error', val: errorMessage})
           commit('set', {type: 'loading', val: false})
         })
-      firebase.auth().onAuthStateChanged(function (user) {
+      fb.auth.onAuthStateChanged(function (user) {
         if (user) {
           // User is signed in.
           var displayName = user.displayName
@@ -83,9 +81,21 @@ export default new Vuex.Store({
       commit('set', {type: 'loading', val: false})
     },
     signOut ({commit}) {
-      firebase.auth().signOut().then(function () {
+      fb.auth.signOut().then(function () {
         // Sign-out successful.
         commit('set', {type: 'user', val: null})
+      }).catch(function (error) {
+        // An error happened.
+        commit('set', {type: 'error', val: error})
+      })
+    },
+    updateProfile ({commit}, newDetails) {
+      fb.usersCollection.doc(this.state.user.id).update({
+        country: newDetails.country,
+        name: newDetails.name,
+        iamgeName: newDetails.imageURL
+      }).then(function () {
+        console.log('Document successfully updated!')
       }).catch(function (error) {
         // An error happened.
         commit('set', {type: 'error', val: error})
