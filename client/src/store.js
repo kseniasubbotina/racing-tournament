@@ -115,6 +115,9 @@ export default new Vuex.Store({
     user (state) {
       return state.user
     },
+    userData (state) {
+      return state.userData
+    },
     loading (state) {
       return state.loading
     },

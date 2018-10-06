@@ -39,8 +39,8 @@
         </template>
         <v-btn v-if="isLoggedIn" :to="toCurrentUserProfile" icon large>
           <v-avatar size="32px">
-            <img
-              src="http://pol.audio/media/user-avatar.png">
+              <img
+              :src="userData.avatarURL">
           </v-avatar>
         </v-btn>
       </v-toolbar>
@@ -79,6 +79,9 @@ export default {
     isLoggedIn () {
       var isLoggedIn = this.$store.getters.user ? true : false
       return isLoggedIn
+    },
+    userData () {
+      return this.$store.getters.userData
     },
     toCurrentUserProfile () {
       let id = this.$store.getters.user.id
