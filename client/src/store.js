@@ -7,10 +7,10 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     currentUser: null,
-    userProfile: {},
     //
     user: null,
     error: null,
+    message: '',
     loading: false
   },
   mutations: {
@@ -24,26 +24,25 @@ export default new Vuex.Store({
       fb.auth.createUserWithEmailAndPassword(credentials.email, credentials.password).then(
         function (response) {
           if (response) {
+            commit('set', {type: 'error', val: null})
             fb.usersCollection.doc(response.user.uid).set({
               username: credentials.username,
-              country: credentials.country
+              country: credentials.country,
+              avatarURL: ''
             }).then(
               console.log('User note created!')
             )
             const newUser = {
               'id': response.user.uid,
-              'email': response.user.email,
-              'name': response.user.displayName
+              'email': response.user.email
             }
             commit('set', {type: 'user', val: newUser})
+            commit('set', {type: 'loading', val: false})
           }
         },
         function (error) {
-          // Handle Errors here.
           commit('set', {type: 'error', val: error})
-        // ...
         })
-      commit('set', {type: 'loading', val: false})
     },
     signIn ({commit}, credentials) {
       commit('set', {type: 'loading', val: true})
@@ -51,8 +50,7 @@ export default new Vuex.Store({
         function (response) {
           const newUser = {
             'id': response.user.uid,
-            'email': response.user.email,
-            'name': response.user.displayName
+            'email': response.user.email
           }
           commit('set', {type: 'user', val: newUser})
           commit('set', {type: 'loading', val: false})
@@ -62,20 +60,12 @@ export default new Vuex.Store({
           commit('set', {type: 'error', val: errorMessage})
           commit('set', {type: 'loading', val: false})
         })
-      fb.auth.onAuthStateChanged(function (user) {
-        if (user) {
-          // User is signed in.
-          var displayName = user.displayName
-          commit('set', {type: 'userInfo', val: displayName})
-        }
-      })
     },
     autoSignIn ({commit}, credentials) {
       commit('set', {type: 'loading', val: true})
       const newUser = {
         'id': credentials.uid,
-        'email': credentials.email,
-        'name': credentials.displayName
+        'email': credentials.email
       }
       commit('set', {type: 'user', val: newUser})
       commit('set', {type: 'loading', val: false})
@@ -92,14 +82,21 @@ export default new Vuex.Store({
     updateProfile ({commit}, newDetails) {
       fb.usersCollection.doc(this.state.user.id).update({
         country: newDetails.country,
-        name: newDetails.name,
-        iamgeName: newDetails.imageURL
+        username: newDetails.username,
+        avatarURL: newDetails.avatarURL
       }).then(function () {
         console.log('Document successfully updated!')
+        commit('set', {type: 'message', val: 'Information successfully updated!'})
       }).catch(function (error) {
         // An error happened.
         commit('set', {type: 'error', val: error})
       })
+    },
+    clearData ({commit}) {
+      commit('set', {type: 'error', val: null})
+      commit('set', {type: 'message', val: null})
+      commit('set', {type: 'user', val: null})
+      commit('set', {type: 'error', val: false})
     }
   },
   getters: {
@@ -108,6 +105,12 @@ export default new Vuex.Store({
     },
     loading (state) {
       return state.loading
+    },
+    message (state) {
+      return state.message
+    },
+    error (state) {
+      return state.error
     }
   }
 })

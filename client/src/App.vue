@@ -88,6 +88,9 @@ export default {
   mounted () {
     this.$validator.localize('en', this.dictionary)
   },
+  beforeDestroy () {
+    this.$store.dispatch('clearData')
+  },
   components: {
     NavigationMenu
   }

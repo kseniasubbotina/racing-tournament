@@ -3,15 +3,19 @@
     <v-flex>
       <v-card flat>
         <v-layout>
-        <v-flex sm5 xs12 ma-2>
+        <v-flex md5 sm12 ma-2>
           <v-layout d-block pa-1>
           <v-flex>
             <v-avatar size="100">
-              <img src="http://pol.audio/media/user-avatar.png" alt="">
+              <img v-if="avatarURL" :src="avatarURL" alt="">
+              <img v-else src="http://pol.audio/media/user-avatar.png" alt="">
             </v-avatar>
           </v-flex>
           <v-flex>
-            <h2>Name</h2>
+            <h2>{{username}}</h2>
+          </v-flex>
+          <v-flex>
+            Country: {{country}}
           </v-flex>
           <v-flex>
             Guest: {{isGuest}}
@@ -24,7 +28,7 @@
           </v-flex>
           </v-layout>
         </v-flex>
-        <v-flex ma-2 xs12>
+        <v-flex ma-2 sm12>
           <v-flex>
             <v-tabs
                 slot="extension"
@@ -47,7 +51,7 @@
                       ></v-text-field>
                     </v-flex>
                     <v-flex xs12>
-                      <v-text-field label="First name" v-model="name" v-validate="{required: true, min: 2 }" type="text" name="name" :error-messages="errors.collect('name')">
+                      <v-text-field label="First name" v-model="username" v-validate="{required: true, min: 2 }" type="text" name="name" :error-messages="errors.collect('name')">
                       </v-text-field>
                     </v-flex>
                     <v-flex>
@@ -58,6 +62,7 @@
                     <v-btn @click="update">
                       Update
                     </v-btn>
+                    {{message}}
                   </v-card-actions>
               </form>
               <!-- <v-tab-item v-for="item in items" :key="item">
@@ -81,9 +86,9 @@ export default {
   data () {
       return {
         country: '',
-        name: '',
+        username: '',
         selectedFile: null,
-        imageURL: '',
+        avatarURL: '',
         loadingProgress: '',
         tab: null,
         items: [
@@ -91,12 +96,6 @@ export default {
         ],
         tabContent: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
       }
-  },
-  watch: {
-    $route () {
-      debugger
-      this.$store.dispatch('getUserInfo')
-    }
   },
   computed: {
     authenticatedUserId () {
@@ -109,33 +108,62 @@ export default {
     },
     isGuest () {
       return this.authenticatedUserId !== this.visitedUserId
+    },
+    message () {
+      return this.$store.getters.message
     }
+  },
+  created () {
+    this.getUserData ()
+  },
+  beforeDestroy () {
+    this.$store.commit('set', {type: 'message', val: null})
   },
   methods: {
     logOut () {
       this.$store.dispatch('signOut')
       this.$router.push('/')
+      this.$store.dispatch('clearData')
     },
     update () {
       if (this.selectedFile) {
         var uploadTask = fb.storageRef.child('users_avatars/' + this.authenticatedUserId + this.selectedFile.name)
-        uploadTask.put(this.selectedFile).then(function(snapshot) {
-          console.log('Uploaded a blob or file!');
+        uploadTask.put(this.selectedFile).snapshot.ref.getDownloadURL().then(downloadURL => {
+          this.avatarURL = downloadURL
         })
-        uploadTask.put(this.selectedFile).on('state_changed', function(snapshot){
-          this.loadingProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          console.log(this.loadingProgress)
+        uploadTask.put(this.selectedFile).then(snapshot => {
+          console.log('Uploaded a file!')
+          this.$store.dispatch('updateProfile', {
+            country: this.country, 
+            username: this.username, 
+            avatarURL: this.avatarURL
+          })
+        })
+      } else {
+        this.$store.dispatch('updateProfile', {
+          country: this.country, 
+          username: this.username, 
+          avatarURL: this.avatarURL
         })
       }
-      this.$store.dispatch('updateProfile', {
-        country: this.country, 
-        name: this.name, 
-        imageURL: this.imageURL
-      })
+
     },
     onFileSelected (event) {
       this.selectedFile = event.target.files[0]
       console.log(this.selectedFile)
+    },
+    getUserData () {
+      fb.usersCollection.doc(this.visitedUserId).onSnapshot(doc => {
+        if(doc.exists) {
+          var userData = doc.data()
+          this.username = userData.username
+          this.country = userData.country,
+          this.avatarURL = userData.avatarURL
+        } else {
+          this.$router.push('/')
+          console.log('No user found')
+        } 
+      })
     }
   }
 }
