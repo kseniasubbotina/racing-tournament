@@ -9,6 +9,7 @@ export default new Vuex.Store({
     currentUser: null,
     //
     user: null,
+    userData: {},
     error: null,
     message: '',
     loading: false
@@ -79,6 +80,13 @@ export default new Vuex.Store({
         commit('set', {type: 'error', val: error})
       })
     },
+    fetchUserData ({commit}) {
+      fb.usersCollection.doc(this.state.user.id).get().then(res => {
+        commit('set', {type: 'userData', val: res.data()})
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     updateProfile ({commit}, newDetails) {
       fb.usersCollection.doc(this.state.user.id).update({
         country: newDetails.country,
@@ -90,6 +98,10 @@ export default new Vuex.Store({
       }).catch(function (error) {
         // An error happened.
         commit('set', {type: 'error', val: error})
+      })
+      fb.usersCollection.doc(this.state.user.id).onSnapshot(doc => {
+        console.log(doc.data())
+        commit('set', {type: 'userData', val: doc.data()})
       })
     },
     clearData ({commit}) {
