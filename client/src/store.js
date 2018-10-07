@@ -6,11 +6,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    currentUser: null,
-    //
     user: null,
     userData: {},
-    error: null,
     message: '',
     loading: false
   },
@@ -23,7 +20,7 @@ export default new Vuex.Store({
     signUp ({commit}, credentials) {
       commit('set', {type: 'loading', val: true})
       fb.auth.createUserWithEmailAndPassword(credentials.email, credentials.password).then(
-        function (response) {
+        response => {
           if (response) {
             commit('set', {type: 'error', val: null})
             fb.usersCollection.doc(response.user.uid).set({
@@ -39,26 +36,30 @@ export default new Vuex.Store({
             }
             commit('set', {type: 'user', val: newUser})
             commit('set', {type: 'loading', val: false})
+            commit('set', {type: 'message', val: null})
+            this.dispatch('fetchUserData')
           }
         },
         function (error) {
-          commit('set', {type: 'error', val: error})
+          commit('set', {type: 'loading', val: false})
+          commit('set', {type: 'message', val: error.message})
         })
     },
     signIn ({commit}, credentials) {
       commit('set', {type: 'loading', val: true})
       fb.auth.signInWithEmailAndPassword(credentials.email, credentials.password).then(
-        function (response) {
+        response => {
           const newUser = {
             'id': response.user.uid,
             'email': response.user.email
           }
           commit('set', {type: 'user', val: newUser})
           commit('set', {type: 'loading', val: false})
+          commit('set', {type: 'message', val: null})
+          this.dispatch('fetchUserData')
         },
         function (error) {
-          var errorMessage = error.message
-          commit('set', {type: 'error', val: errorMessage})
+          commit('set', {type: 'message', val: error.message})
           commit('set', {type: 'loading', val: false})
         })
     },
@@ -77,7 +78,7 @@ export default new Vuex.Store({
         commit('set', {type: 'user', val: null})
       }).catch(function (error) {
         // An error happened.
-        commit('set', {type: 'error', val: error})
+        commit('set', {type: 'message', val: error})
       })
     },
     fetchUserData ({commit}) {
@@ -96,19 +97,17 @@ export default new Vuex.Store({
         console.log('Document successfully updated!')
         commit('set', {type: 'message', val: 'Information successfully updated!'})
       }).catch(function (error) {
-        // An error happened.
-        commit('set', {type: 'error', val: error})
+        commit('set', {type: 'message', val: error})
       })
       fb.usersCollection.doc(this.state.user.id).onSnapshot(doc => {
-        console.log(doc.data())
-        commit('set', {type: 'userData', val: doc.data()})
+        this.dispatch('fetchUserData')
       })
     },
     clearData ({commit}) {
-      commit('set', {type: 'error', val: null})
+      commit('set', {type: 'message', val: null})
       commit('set', {type: 'message', val: null})
       commit('set', {type: 'user', val: null})
-      commit('set', {type: 'error', val: false})
+      commit('set', {type: 'loading', val: false})
     }
   },
   getters: {

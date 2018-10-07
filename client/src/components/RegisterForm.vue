@@ -16,8 +16,17 @@
               ></v-text-field>
             </v-flex>
             <v-flex xs12 sm6>
-              <v-text-field label="Password" v-model="password" v-validate="{ required: true, min: 6 }" type="password" name="password" :error-messages="errors.collect('password')">
-              </v-text-field>
+            <v-text-field
+              v-model="password"
+              :append-icon="show ? 'visibility_off' : 'visibility'"
+              v-validate="{required: true, min: 6, max: 25 }"
+              :type="show ? 'text' : 'password'"
+              label="Password"
+              name="password" 
+              :error-messages="errors.collect('password')"
+              counter
+              @click:append="show = !show"
+            ></v-text-field>
             </v-flex>
             <!-- <v-flex xs12 sm6>
               <v-text-field label="Confirm password" v-model="confirmPassword" v-validate="'required|min:6'" type="password" name="password_confirmation" :error-messages="errors.collect('password_confirmation')">
@@ -33,6 +42,7 @@
           </v-layout>
         </form>
       </v-container>
+      <message />
       <v-card-actions>
         <v-btn flat color="error" @click="clear">clear</v-btn>
         <v-spacer></v-spacer>
@@ -59,6 +69,7 @@
 
 <script>
 import CountrySelect from '@/components/CountrySelect.vue'
+import message from '@/components/Message.vue'
 import firebase from 'firebase'
 export default {
     name: 'RegisterForm',
@@ -67,6 +78,7 @@ export default {
     username: '',
     email: '',
     password: '',
+    show: false,
     confirmPassword: '',
     name: '',
     country: '',
@@ -114,7 +126,8 @@ export default {
     }
   },
   components: {
-    CountrySelect
+    CountrySelect,
+    message
   }
 }
 </script>

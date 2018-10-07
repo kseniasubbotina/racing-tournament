@@ -59,7 +59,8 @@
                     </v-flex>
                   </v-layout>
                   <v-card-actions>
-                    <v-btn @click="update">
+                    <v-btn @click="update"
+                      :Loading="loading">
                       Update
                     </v-btn>
                     {{message}}
@@ -89,7 +90,6 @@ export default {
         username: '',
         selectedFile: null,
         avatarURL: '',
-        loadingProgress: '',
         tab: null,
         items: [
           'Overview', 'Statistic', 'Activity', 'Settings'
@@ -111,6 +111,9 @@ export default {
     },
     message () {
       return this.$store.getters.message
+    },
+    loading () {
+      this.$store.getters.loading
     }
   },
   created () {
@@ -126,17 +129,18 @@ export default {
       this.$store.dispatch('clearData')
     },
     update () {
+      this.$store.commit('set', {type: 'loading', val: true})
       if (this.selectedFile) {
         var uploadTask = fb.storageRef.child('users_avatars/' + this.authenticatedUserId + this.selectedFile.name)
-        uploadTask.put(this.selectedFile).snapshot.ref.getDownloadURL().then(downloadURL => {
-          this.avatarURL = downloadURL
-        })
         uploadTask.put(this.selectedFile).then(snapshot => {
           console.log('Uploaded a file!')
-          this.$store.dispatch('updateProfile', {
+          uploadTask.put(this.selectedFile).snapshot.ref.getDownloadURL().then(downloadURL => {
+            this.$store.dispatch('updateProfile', {
             country: this.country, 
             username: this.username, 
-            avatarURL: this.avatarURL
+            avatarURL: downloadURL
+            })
+            this.$store.commit('set', {type: 'loading', val: false})
           })
         })
       } else {
@@ -145,6 +149,7 @@ export default {
           username: this.username, 
           avatarURL: this.avatarURL
         })
+        this.$store.commit('set', {type: 'loading', val: false})
       }
 
     },
