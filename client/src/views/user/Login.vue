@@ -5,19 +5,29 @@
         Login
       </v-card-title>
       <v-container grid-list-sm class="pa-4">
-        <form>
+        <v-form>
           <v-layout row wrap>
             <v-flex xs12 justify-space-between>
               <v-text-field label="Email" v-model="email" v-validate="'required|email'" type="text" name="email" :error-messages="errors.collect('email')"
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-text-field label="Password" v-model="password" v-validate="{required: true, min: 6 }" type="password" name="password" :error-messages="errors.collect('password')">
-              </v-text-field>
+              <v-text-field
+              v-model="password"
+              :append-icon="show ? 'visibility_off' : 'visibility'"
+              v-validate="{required: true, min: 6, max: 25 }"
+              :type="show ? 'text' : 'password'"
+              label="Password"
+              name="password" 
+              :error-messages="errors.collect('password')"
+              counter
+              @click:append="show = !show"
+            ></v-text-field>
             </v-flex>
           </v-layout>
-        </form>
+        </v-form>
       </v-container>
+      <message />
       <v-card-actions>
         <v-btn to="register" color="primary" flat>Create account</v-btn>
         <v-spacer></v-spacer>
@@ -32,6 +42,7 @@
 
 <script>
 import firebase from 'firebase'
+import message from '@/components/Message.vue'
 
 export default {
   name: 'Login',
@@ -39,6 +50,7 @@ export default {
     return {
       email: '',
       password: '',
+      show: true
     }
   },
   computed: {
@@ -69,6 +81,9 @@ export default {
         this.$router.push('/user_' + this.user.id)
       }
     }
+  },
+  components: {
+    message
   }
 }
 </script>

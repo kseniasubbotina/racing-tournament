@@ -39,8 +39,10 @@
         </template>
         <v-btn v-if="isLoggedIn" :to="toCurrentUserProfile" icon large>
           <v-avatar size="32px">
-              <img
+              <img v-if="userData.avatarURL"
               :src="userData.avatarURL">
+              <img v-else
+              src="http://pol.audio/media/user-avatar.png">
           </v-avatar>
         </v-btn>
       </v-toolbar>
