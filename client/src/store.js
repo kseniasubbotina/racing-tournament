@@ -74,10 +74,8 @@ export default new Vuex.Store({
     },
     signOut ({commit}) {
       fb.auth.signOut().then(function () {
-        // Sign-out successful.
         commit('set', {type: 'user', val: null})
       }).catch(function (error) {
-        // An error happened.
         commit('set', {type: 'message', val: error})
       })
     },
@@ -86,9 +84,11 @@ export default new Vuex.Store({
         commit('set', {type: 'userData', val: res.data()})
       }).catch(err => {
         console.log(err)
+        commit('set', {type: 'message', val: err.message})
       })
     },
     updateProfile ({commit}, newDetails) {
+      commit('set', {type: 'loading', val: true})
       fb.usersCollection.doc(this.state.user.id).update({
         country: newDetails.country,
         username: newDetails.username,
@@ -96,8 +96,10 @@ export default new Vuex.Store({
       }).then(function () {
         console.log('Document successfully updated!')
         commit('set', {type: 'message', val: 'Information successfully updated!'})
+        commit('set', {type: 'loading', val: false})
       }).catch(function (error) {
         commit('set', {type: 'message', val: error})
+        commit('set', {type: 'loading', val: false})
       })
       fb.usersCollection.doc(this.state.user.id).onSnapshot(doc => {
         this.dispatch('fetchUserData')
