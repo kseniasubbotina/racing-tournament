@@ -50,7 +50,7 @@ export default {
     return {
       email: '',
       password: '',
-      show: true
+      show: false
     }
   },
   computed: {
