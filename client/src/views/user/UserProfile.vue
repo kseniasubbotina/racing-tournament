@@ -29,7 +29,7 @@
           </v-layout>
         </v-flex>
         <v-flex ma-2 sm12>
-          <v-flex>
+          <!-- <v-flex>
             <v-tabs
                 slot="extension"
                 v-model="tab"
@@ -41,9 +41,10 @@
                 {{ item }}
               </v-tab>
             </v-tabs>
-              </v-flex>
+              </v-flex> -->
               <v-flex>
               <v-tabs-items v-model="tab">
+                Edit info
                 <form>
                   <v-layout row wrap>
                     <v-flex xs12 justify-space-between>
