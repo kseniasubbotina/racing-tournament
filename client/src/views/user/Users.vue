@@ -4,10 +4,6 @@
       <v-card>
         <v-card-title justify-end class="py-2 title">
           Users
-          <v-btn color="primary" dark  flat @click.stop="createTeamDialog = true"><i class="material-icons">
-            add
-            </i>Add new user
-          </v-btn>
           <v-spacer></v-spacer>
           <v-text-field
               v-model="search"
@@ -24,19 +20,16 @@
             :loading="loading"
             :search="search"
             class="elevation-1"
-            item-key="name"
+            item-key="username"
           >
           <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
             <template slot="items" slot-scope="props">
               <tr @click="props.expanded = !props.expanded">
                 <td class="text-xs-left">
-                  {{ props.item.name }}
+                  {{ props.item.username }}
                 </td>
                 <td class="text-xs-right">
-                    {{ props.item.email }}
-                </td>
-                <td class="text-xs-right">
-                    {{ props.item.role }}
+                    {{ props.item.country }}
                 </td>
               </tr>
             </template>
@@ -71,68 +64,54 @@
 
 <script>
 import CountrySelect from '@/components/CountrySelect.vue'
+import fb from '@/firebase/config.js'
 
 export default {
   name: 'Users',
   data () {
     return {
+      users: [],
       name: '',
       createTeamDialog: false,
       confirmDialog: false,
       image: '',
       search: '',
-      loading: false,
       headers: [
         {
-          text: 'Name',
+          text: 'Username',
           align: 'left',
           sortable: true,
-          value: 'name'
+          value: 'username'
         },
         { 
-          text: 'E-mail', 
+          text: 'Country', 
           align: 'right',
           sortable: true,
-          value: 'email' 
-        },
-        { 
-          text: 'Role', 
-          align: 'right',
-          value: 'role' 
-        }
-      ],
-      users: [
-        {
-          value: true,
-          name: 'SUVORKIN',
-          role: 'Administrator',
-          email: 'example@ex.com'
-        },
-        {
-          value: true,
-          name: 'Shomacher',
-          role: 'Driver',
-          email: 'example@ex.com'
-        },
-        {
-          value: true,
-          name: 'Alonso777',
-          role: 'Driver',
-          email: 'example@ex.com'
-        },
-        {
-          value: true,
-          name: 'Ivanov',
-          role: 'Driver',
-          email: 'example@ex.com'
-        },
-        {
-          value: true,
-          name: 'MadMAX',
-          role: 'Driver',
-          email: 'example@ex.com'
+          value: 'country' 
         }
       ]
+    }
+  },
+  created () {
+    this.getUsers()
+  },
+  computed: {
+    loading () {
+      return this.$store.getters.loading
+    }
+  },
+  methods: {
+    getUsers () {
+      this.$store.commit('set', {type: 'loading', val: true})
+      var usersArr = []
+      fb.usersCollection.get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+        // doc.data() is never undefined for query doc snapshots
+        usersArr.push(doc.data())
+        })
+        this.users = usersArr
+        this.$store.commit('set', {type: 'loading', val: false})
+      })
     }
   },
   components: {
