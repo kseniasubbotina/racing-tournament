@@ -8,6 +8,9 @@ import Login from './views/user/Login.vue'
 import Teams from './views/team/Teams.vue'
 import UserProfile from './views/user/UserProfile.vue'
 import Users from './views/user/Users.vue'
+import NotFound from './views/common/NotFound.vue'
+import UserSettings from './components/user/UserSettings'
+import UserOverview from './components/user/UserOverview'
 
 Vue.use(Router)
 
@@ -54,12 +57,27 @@ export default new Router({
     {
       path: '/user_:id',
       name: 'UserProfile',
-      component: UserProfile
+      component: UserProfile,
+      children: [
+        {
+          path: 'settings',
+          component: UserSettings
+        },
+        {
+          path: 'overview',
+          component: UserOverview
+        }
+      ]
     },
     {
       path: '/users',
       name: 'Users',
       component: Users
+    },
+    {
+      path: '/*',
+      name: 'not-found',
+      component: NotFound
     }
   ]
 })
