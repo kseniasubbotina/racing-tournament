@@ -87,7 +87,7 @@ export default {
     },
     toCurrentUserProfile () {
       let id = this.$store.getters.user.id
-      return 'user_' + id
+      return '/user_' + id
     }
   },
   mounted () {
