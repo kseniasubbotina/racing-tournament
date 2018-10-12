@@ -55,12 +55,20 @@ export default {
       loadingProgress: null
     }
   },
+  watch: {
+    storeUserData() {
+      this.fetchuserData()
+    }
+  },
   created () {
     this.fetchuserData()
   },
   computed: {
     loading () {
-      this.$store.getters.loading
+      return this.$store.getters.loading
+    },
+    storeUserData () {
+      return this.$store.getters.userData
     },
     message () {
       return this.$store.getters.message
