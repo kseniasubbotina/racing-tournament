@@ -29,22 +29,26 @@
           </v-layout>
         </v-flex>
         <v-flex ma-2 sm12>
-          <v-layout>
-            <v-flex> 
-              <v-btn @click="redirect('overview')" flat>
-                Overview
-              </v-btn>
-              <v-btn @click="redirect('settings')" flat>
-                Settings
-              </v-btn>
-            </v-flex>
-          </v-layout>
-            <v-flex>
-              <v-card flat>
-                  <router-view>
-                  </router-view>
-              </v-card>
-          </v-flex>
+          <v-tabs
+            color="white"
+            show-arrows>
+              <v-tabs-slider color="blue"></v-tabs-slider>
+              <v-tab
+                v-for="item in tabs" :key="item.name"
+                :href="'#' + item.name">
+                {{ item.name }}
+              </v-tab>
+              <v-tabs-items>
+                <v-tab-item
+                  v-for="item in tabs"
+                  :id="item.name"
+                  :key="item.name">
+                  <v-card flat>
+                    <component :is="item.componentName"></component>
+                  </v-card>
+                </v-tab-item>
+              </v-tabs-items>
+            </v-tabs>
         </v-flex>
       </v-layout>
       </v-card>
@@ -54,7 +58,10 @@
 
 <script>
 import fb from '@/firebase/config.js'
+import userOverview from '@/components/user/UserOverview.vue'
 import userSettings from '@/components/user/UserSettings.vue'
+import userStatistic from '@/components/user/UserStatistic.vue'
+
 export default {
   name: 'UserProfile',
   data () {
@@ -66,11 +73,21 @@ export default {
         },
         selectedFile: null,
         loadingProgress: null,
-        tab: null,
-        items: [
-          'Overview', 'Statistic', 'Activity', 'Settings'
-        ],
-        tabContent: 'userSettings'
+        componentName: 'userSettings',
+        tabs: [
+          {
+            name: 'Overview',
+            componentName: 'userOverview'
+          },
+          {
+            name: 'Statistic',
+            componentName: 'userStatistic'
+          },
+          {
+            name: 'Settings',
+            componentName: 'userSettings'
+          },
+        ]
       }
   },
   computed: {
@@ -99,9 +116,14 @@ export default {
     this.$store.commit('set', {type: 'message', val: null})
   },
   methods: {
-    redirect (to) {
-      var router = this.$route.params
-      this.$router.push('/user_' + this.$route.params.id + '/' + to)
+    changeTab (tabName) {
+      if(tabName == 'Overview') {
+        this.componentName = 'userOverview'
+      } else if(tabName == 'Statistic') {
+        this.componentName = 'userStatistic'
+      } else if(tabName == 'Settings') {
+        this.componentName = 'userSettings'
+      }
     },
     logOut () {
       this.$store.dispatch('signOut')
@@ -123,7 +145,9 @@ export default {
     }
   },
   components: {
-    userSettings
+    userSettings,
+    userOverview,
+    userStatistic
   }
 }
 </script>
