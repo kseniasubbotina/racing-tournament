@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-app id="inspire">
+    <v-app id="inspire" dark>
       <v-navigation-drawer
         fixed
         :clipped="$vuetify.breakpoint.lgAndUp"
@@ -9,7 +9,7 @@
         <navigationMenu/>
       </v-navigation-drawer>
       <v-toolbar
-        color="primary"
+        color="red darken-2"
         dark
         app
         :clipped-left="$vuetify.breakpoint.lgAndUp"
