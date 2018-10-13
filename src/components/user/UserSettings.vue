@@ -22,7 +22,7 @@
             </v-flex>
             <v-flex justify-start>
               <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
-              <v-btn flat color="error" @click="deleteImage">Delete</v-btn>
+              <v-btn v-if="userData.avatarURL" flat color="error" @click="deleteImage">Delete</v-btn>
             </v-flex>
           </v-layout>
           <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
