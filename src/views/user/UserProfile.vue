@@ -32,6 +32,7 @@
             show-arrows>
               <v-tabs-slider color="red"></v-tabs-slider>
               <v-tab
+                v-if="item.public || !isGuest && !item.public"
                 v-for="item in tabs" :key="item.name"
                 :href="'#' + item.name">
                 {{ item.name }}
@@ -74,15 +75,18 @@ export default {
         tabs: [
           {
             name: 'Overview',
-            componentName: 'userOverview'
+            componentName: 'userOverview',
+            public: true
           },
           {
             name: 'Statistic',
-            componentName: 'userStatistic'
+            componentName: 'userStatistic',
+            public: true
           },
           {
             name: 'Settings',
-            componentName: 'userSettings'
+            componentName: 'userSettings',
+            public: false
           },
         ]
       }
