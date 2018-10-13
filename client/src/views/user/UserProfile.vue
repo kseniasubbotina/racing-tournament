@@ -1,10 +1,9 @@
 <template>
-  <v-layout>
-    <v-flex>
-      <v-card flat>
-        <v-layout row wrap>
-          <v-flex md5 sm12 xs12 ma-2>
-            <v-layout d-block pa-1>
+  <v-card flat width="100%">
+    <v-container grid-list-sm class="pa-4">
+      <v-layout row wrap>
+        <v-flex xs12 sm4 justify-space-between>
+          <v-layout d-block pa-1>
             <v-flex>
               <v-avatar size="100">
                 <img v-if="userData.avatarURL" :src="userData.avatarURL" alt="">
@@ -28,7 +27,7 @@
             </v-flex>
           </v-layout>
         </v-flex>
-        <v-flex ma-2 sm12 xs12>
+        <v-flex xs12 sm8 justify-space-between>
           <v-tabs
             color="white"
             show-arrows>
@@ -43,7 +42,7 @@
                   v-for="item in tabs"
                   :id="item.name"
                   :key="item.name">
-                  <v-card flat>
+                  <v-card flat class="pa-1">
                     <component :is="item.componentName"></component>
                   </v-card>
                 </v-tab-item>
@@ -51,9 +50,8 @@
             </v-tabs>
         </v-flex>
       </v-layout>
-      </v-card>
-    </v-flex>
-  </v-layout>
+    </v-container>
+  </v-card>
 </template>
 
 <script>
