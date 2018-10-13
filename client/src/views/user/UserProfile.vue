@@ -2,33 +2,33 @@
   <v-layout>
     <v-flex>
       <v-card flat>
-        <v-layout>
-        <v-flex md5 sm12 ma-2>
-          <v-layout d-block pa-1>
-          <v-flex>
-            <v-avatar size="100">
-              <img v-if="userData.avatarURL" :src="userData.avatarURL" alt="">
-              <img v-else src="http://pol.audio/media/user-avatar.png" alt="">
-            </v-avatar>
-          </v-flex>
-          <v-flex>
-            <h2>{{userData.username}}</h2>
-          </v-flex>
-          <v-flex>
-            Country: {{userData.country}}
-          </v-flex>
-          <v-flex>
-            Guest: {{isGuest}}
-          </v-flex>
-          {{authenticatedUserId}}
-          <v-flex>
-            <v-btn @click="logOut">
-              Log out
-            </v-btn>
-          </v-flex>
+        <v-layout row wrap>
+          <v-flex md5 sm12 xs12 ma-2>
+            <v-layout d-block pa-1>
+            <v-flex>
+              <v-avatar size="100">
+                <img v-if="userData.avatarURL" :src="userData.avatarURL" alt="">
+                <img v-else src="http://pol.audio/media/user-avatar.png" alt="">
+              </v-avatar>
+            </v-flex>
+            <v-flex>
+              <h2>{{userData.username}}</h2>
+            </v-flex>
+            <v-flex>
+              Country: {{userData.country}}
+            </v-flex>
+            <v-flex>
+              Guest: {{isGuest}}
+            </v-flex>
+            {{authenticatedUserId}}
+            <v-flex>
+              <v-btn @click="logOut">
+                Log out
+              </v-btn>
+            </v-flex>
           </v-layout>
         </v-flex>
-        <v-flex ma-2 sm12>
+        <v-flex ma-2 sm12 xs12>
           <v-tabs
             color="white"
             show-arrows>
