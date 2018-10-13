@@ -29,9 +29,8 @@
         </v-flex>
         <v-flex xs12 sm8 justify-space-between>
           <v-tabs
-            color="white"
             show-arrows>
-              <v-tabs-slider color="blue"></v-tabs-slider>
+              <v-tabs-slider color="red"></v-tabs-slider>
               <v-tab
                 v-for="item in tabs" :key="item.name"
                 :href="'#' + item.name">
