@@ -3,11 +3,10 @@
     <form>
       <v-layout row wrap>
         <v-flex xs12 justify-space-between>
-          <v-text-field label="Country" v-model="userData.country" type="text" name="country"
-          ></v-text-field>
+          <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="userData.country"/>
         </v-flex>
         <v-flex xs12>
-          <v-text-field label="First name" v-model="userData.username" v-validate="{required: true, min: 2 }" type="text" name="name" :error-messages="errors.collect('name')">
+          <v-text-field label="Username" v-model="userData.username" v-validate="{required: true, min: 2 }" type="text" name="name" :error-messages="errors.collect('name')">
           </v-text-field>
         </v-flex>
         <v-flex>
@@ -45,6 +44,7 @@
 
 <script>
 import fb from '@/firebase/config.js'
+import CountrySelect from '@/components/CountrySelect.vue'
 
 export default {
   name: 'user-settings',
@@ -77,6 +77,9 @@ export default {
   methods: {
     fetchuserData () {
       this.userData = this.$store.getters.userData
+    },
+    onChangeCountry (val) {
+      this.userData.country = val
     },
     update () {
       this.$store.commit('set', {type: 'loading', val: true})
@@ -111,6 +114,9 @@ export default {
       this.selectedFile = event.target.files[0]
       console.log(this.selectedFile)
     }
+  },
+  components: {
+    CountrySelect
   }
 }
 </script>
