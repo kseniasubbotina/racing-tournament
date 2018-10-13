@@ -20,5 +20,4 @@ yarn-error.log*
 *.sln
 run.command
 
-client/src/firebase/config.js
 src/firebase/config.js
