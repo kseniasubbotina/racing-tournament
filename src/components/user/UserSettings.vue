@@ -10,28 +10,31 @@
           </v-text-field>
         </v-flex>
         <v-flex>
-          <input type="file" @change="onFileSelected">
+          <v-layout column wrap>
+            <v-flex justify-start>
+            <v-avatar size="100">
+              <img v-if="userData.avatarURL" :src="userData.avatarURL" alt="">
+              <img v-else src="http://pol.audio/media/user-avatar.png" alt="">
+            </v-avatar>
+            <div v-if="selectedFile">
+              {{selectedFile.name}}
+            </div>
+            </v-flex>
+            <v-flex justify-start>
+              <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
+              <v-btn flat color="error" @click="deleteImage">Delete</v-btn>
+            </v-flex>
+          </v-layout>
+          <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
         </v-flex>
       </v-layout>
       <v-card-actions>
-        <v-layout>
+        <v-layout column wrap>
           <v-flex>
             <v-btn @click="update"
-            :Loading="loading">
-            Update
+            :loading="loading">
+            Update profile
           </v-btn>
-          </v-flex>
-        </v-layout>
-        <v-layout>
-          <v-flex v-if="loadingProgress">
-            <v-progress-circular
-              :rotate="360"
-              :size="50"
-              :width="5"
-              :value="loadingProgress"
-              color="teal"
-            >
-            </v-progress-circular>
           </v-flex>
           <v-flex>
             {{message}}
@@ -80,6 +83,9 @@ export default {
     },
     onChangeCountry (val) {
       this.userData.country = val
+    },
+    deleteImage () {
+      this.userData.avatarURL = ''
     },
     update () {
       this.$store.commit('set', {type: 'loading', val: true})
