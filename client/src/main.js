@@ -29,17 +29,3 @@ fb.auth.onAuthStateChanged(user => {
     })
   }
 })
-
-// new Vue({
-//   router,
-//   store,
-//   created () {
-//     firebase.initializeApp(firebaseConfig)
-//     firebase.auth().onAuthStateChanged((user) => {
-//       if (user) {
-//         this.$store.dispatch('autoSignIn', user)
-//       }
-//     })
-//   },
-//   render: h => h(App)
-// }).$mount('#app')
