@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
 import store from './store'
+import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/src/stylus/main.styl'
 import VeeValidate from 'vee-validate'
@@ -17,12 +17,11 @@ fb.auth.onAuthStateChanged(user => {
   if (!app) {
     app = new Vue({
       el: '#app',
-      router,
       store,
+      router,
       created () {
         if (user) {
           this.$store.dispatch('autoSignIn', user)
-          this.$store.dispatch('fetchUserData', user)
         }
       },
       render: h => h(App)

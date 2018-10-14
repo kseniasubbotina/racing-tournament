@@ -26,7 +26,9 @@ export default new Vuex.Store({
             fb.usersCollection.doc(response.user.uid).set({
               username: credentials.username,
               country: credentials.country,
-              avatarURL: ''
+              avatarURL: '',
+              role: '0'
+              // roles: 0 - subscriber, 1 - moderator
             }).then(
               console.log('User note created!')
             )
@@ -71,10 +73,12 @@ export default new Vuex.Store({
       }
       commit('set', { type: 'user', val: newUser })
       commit('set', { type: 'loading', val: false })
+      this.dispatch('fetchUserData')
     },
     signOut ({ commit }) {
       fb.auth.signOut().then(function () {
         commit('set', { type: 'user', val: null })
+        commit('set', { type: 'userData', val: null })
       }).catch(function (error) {
         commit('set', { type: 'message', val: error })
       })

@@ -38,7 +38,7 @@
       <v-flex sx12>
         <v-btn
         @click.stop="showCreateForm = true"
-        color="primary" dark
+        color="red darken-2" dark
         fixed
         bottom
         right

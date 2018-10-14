@@ -34,8 +34,8 @@
           <v-icon>notifications</v-icon>
         </v-btn>
         <template v-if="!isLoggedIn">
-          <v-btn to="register" flat>Register</v-btn>
-          <v-btn to="login" flat>Login</v-btn>
+          <v-btn to="/register" flat>Register</v-btn>
+          <v-btn to="/login" flat>Login</v-btn>
         </template>
         <v-btn v-if="isLoggedIn" :to="toCurrentUserProfile" icon large>
           <v-avatar size="32px">

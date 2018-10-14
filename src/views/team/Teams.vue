@@ -44,7 +44,7 @@
                   </v-flex>
                   <v-flex>
                     <v-card-text class="text-xs-right">
-                      <v-btn color="primary"  flat @click.stop="createTeamDialog = true">
+                      <v-btn color="red darken-2"  flat @click.stop="createTeamDialog = true">
                         <v-icon>edit</v-icon> Edit
                       </v-btn>
                       <v-btn color="red" flat @click.stop="confirmDialog = true">
@@ -82,9 +82,9 @@
             </form>
           </v-container>
           <v-card-actions>
-            <v-btn color="primary"  flat @click.stop="createTeamDialog=false">Close</v-btn>
+            <v-btn color="red darken-2"  flat @click.stop="createTeamDialog=false">Close</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="primary" dark >Add</v-btn>
+            <v-btn color="red darken-2" dark >Add</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -102,7 +102,7 @@
           </v-container>
           <v-card-actions>
             <v-layout justify-center>
-              <v-btn color="primary"  flat @click.stop="confirmDialog=false">Close</v-btn>
+              <v-btn color="red darken-2"  flat @click.stop="confirmDialog=false">Close</v-btn>
               <v-btn dark color="red"><v-icon>delete</v-icon> Delete</v-btn>
             </v-layout>
           </v-card-actions>

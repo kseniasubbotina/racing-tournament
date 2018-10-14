@@ -46,7 +46,7 @@
       <v-card-actions>
         <v-btn flat color="error" @click="clear">clear</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="primary" dark @click="submit">submit</v-btn>
+        <v-btn color="red darken-2" dark @click="submit">submit</v-btn>
       </v-card-actions>
       <v-flex v-if="loading">
         <v-progress-linear ma-0 :indeterminate="true"></v-progress-linear>

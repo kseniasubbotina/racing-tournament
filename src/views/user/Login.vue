@@ -29,9 +29,9 @@
       </v-container>
       <message />
       <v-card-actions>
-        <v-btn to="register" color="primary" flat>Create account</v-btn>
+        <v-btn to="register" color="red darken-2" flat>Create account</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="primary" dark  @click="submit">submit</v-btn>
+        <v-btn color="red darken-2" dark  @click="submit">submit</v-btn>
       </v-card-actions>
       <v-flex v-if="loading">
         <v-progress-linear ma-0 :indeterminate="true"></v-progress-linear>

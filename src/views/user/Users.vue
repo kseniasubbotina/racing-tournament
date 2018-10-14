@@ -31,6 +31,10 @@
                 <td class="text-xs-right">
                     {{ props.item.country }}
                 </td>
+                <td class="text-xs-right">
+                  <div v-if="props.item.role == 1">Administrator</div>
+                  <div v-if="props.item.role == 0">Subscriber</div>
+                </td>
               </tr>
             </template>
             <template slot="expand" slot-scope="props">
@@ -41,7 +45,7 @@
                   </v-flex>
                   <v-flex>
                     <v-card-text class="text-xs-right">
-                      <v-btn color="primary"  flat @click.stop="createTeamDialog = true">
+                      <v-btn color="red darken-2"  flat @click.stop="createTeamDialog = true">
                         <v-icon>edit</v-icon> Edit
                       </v-btn>
                       <v-btn color="red" flat @click.stop="confirmDialog = true">
@@ -88,6 +92,12 @@ export default {
           align: 'right',
           sortable: true,
           value: 'country' 
+        },
+        { 
+          text: 'Role', 
+          align: 'right',
+          sortable: true,
+          value: 'role' 
         }
       ]
     }

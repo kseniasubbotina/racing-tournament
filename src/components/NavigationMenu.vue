@@ -1,9 +1,11 @@
 <template>
   <v-list>
+    {{role}}
     <v-list-tile
-    v-for="(link, idx) in links"
-    :key="idx"
-    @click="onMenuItemClick(link)">
+      v-if="link.role <= role"
+      v-for="(link, idx) in links"
+      :key="idx"
+      @click="onMenuItemClick(link)">
       <v-list-tile-action>
         <v-icon>{{link.icon}}</v-icon>
       </v-list-tile-action>
@@ -24,30 +26,38 @@ export default {
       {
         label: 'Home',
         icon: 'home',
-        route: '/'
+        route: '/',
+        role: 0
       },
       {
         label: 'Championships',
         icon: 'star',
-        route: 'championships'
+        route: 'championships',
+        role: 0
       },
       {
         label: 'Teams',
         icon: 'directions_car',
-        route: 'teams'
-      },
-      {
-        label: 'Profile',
-        icon: 'account_circle',
-        route: 'user'
+        route: 'teams',
+        role: 1
       },
       {
         label: 'Users',
         icon: 'people',
-        route: 'users'
+        route: 'users',
+        role: 1
       }
     ]
   }),
+  computed: {
+    role () {
+      if (this.$store.getters.userData) {
+        return this.$store.getters.userData.role
+      } else {
+        return 0
+      }
+    }
+  },
   methods: {
     onMenuItemClick: function (_link) {
       this.$router.push(_link.route)
