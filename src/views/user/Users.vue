@@ -41,11 +41,13 @@
               <v-card flat>
                 <v-layout>
                   <v-flex>
-                    <v-card-text class="text-xs-left">{{ props.item.name }} <br> Another details</v-card-text>
+                    <v-card-text class="text-xs-left">{{ props.item.username }} <br> Another details</v-card-text>
                   </v-flex>
                   <v-flex>
                     <v-card-text class="text-xs-right">
-                      <v-btn color="red darken-2"  flat @click.stop="createTeamDialog = true">
+                      <v-btn color="white"  flat 
+                        @click.stop="editUserDialog = true" 
+                        @click="onEditOpen(props.item.username, props.item.username, props.item.role)">
                         <v-icon>edit</v-icon> Edit
                       </v-btn>
                       <v-btn color="red" flat @click.stop="confirmDialog = true">
@@ -63,6 +65,46 @@
         </v-layout>
       </v-card>
     </v-flex>
+    <!-- Dialog -->
+    <v-dialog v-model="editUserDialog" max-width="500px">
+        <v-card>
+          <v-card-title class="py-4 title">
+            Edit user info
+          </v-card-title>
+          <v-container grid-list-sm class="pa-4">
+            <form>
+              <v-layout row wrap>
+                <v-flex xs12 justify-space-between>
+                  <v-text-field label="Username" v-model="username" 
+                    v-validate="'required|min:5'" 
+                    type="text" name="username" 
+                    :error-messages="errors.collect('username')"
+                  ></v-text-field>
+                  <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="country"/>
+                </v-flex>
+                <v-flex xs12>
+                  Select role:
+                  <v-radio-group color="success" v-model="role">
+                    <v-radio
+                      :label="`Administrator`"
+                      :value="1"
+                    ></v-radio>
+                    <v-radio
+                      :label="`Subscriber`"
+                      :value="0"
+                    ></v-radio>
+                  </v-radio-group>
+                </v-flex>
+              </v-layout>
+            </form>
+          </v-container>
+          <v-card-actions>
+            <v-btn color="red darken-2"  flat @click.stop="editUserDialog=false">Close</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="red darken-2" dark >Save</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
   </v-layout>
 </template>
 
@@ -75,10 +117,11 @@ export default {
   data () {
     return {
       users: [],
-      name: '',
-      createTeamDialog: false,
+      username: '',
+      country: '',
+      role: '',
+      editUserDialog: false,
       confirmDialog: false,
-      image: '',
       search: '',
       headers: [
         {
@@ -105,12 +148,29 @@ export default {
   created () {
     this.getUsers()
   },
+  watch: {
+    userData () {
+      this.getUsers()
+    }
+  },
   computed: {
+    userData () {
+      if (this.$store.getters.userData)
+      return this.$store.getters.userData.role
+    },
     loading () {
       return this.$store.getters.loading
     }
   },
   methods: {
+    onEditOpen (username, country, role) {
+      this.username = username,
+      this.country = country,
+      this.role = role
+    },
+    onChangeCountry (val) {
+      this.country = val
+    },
     getUsers () {
       this.$store.commit('set', {type: 'loading', val: true})
       var usersArr = []

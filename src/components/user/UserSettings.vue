@@ -33,7 +33,7 @@
           <v-flex>
             <v-btn @click="update"
             :loading="loading">
-            Update profile
+            Save
           </v-btn>
           </v-flex>
           <v-flex>

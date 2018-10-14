@@ -1,6 +1,5 @@
 <template>
   <v-list>
-    {{role}}
     <v-list-tile
       v-if="link.role <= role"
       v-for="(link, idx) in links"
