@@ -31,7 +31,7 @@
       <v-card-actions>
         <v-layout column wrap>
           <v-flex>
-            <v-btn @click="update"
+            <v-btn @click="update(userData.username, userData.country, userData.avatarURL)"
             :loading="loading">
             Save
           </v-btn>
@@ -46,8 +46,8 @@
 </template>
 
 <script>
-import fb from '@/firebase/config.js'
 import CountrySelect from '@/components/CountrySelect.vue'
+import updateUser from '@/mixins/updateUser.js'
 
 export default {
   name: 'user-settings',
@@ -87,35 +87,6 @@ export default {
     deleteImage () {
       this.userData.avatarURL = ''
     },
-    update () {
-      this.$store.commit('set', {type: 'loading', val: true})
-      if (this.selectedFile) {
-        var uploadTask = fb.storageRef.child('users_avatars/' + this.authenticatedUserId + this.selectedFile.name).put(this.selectedFile)
-        uploadTask.on('state_changed', snapshot => {
-          var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          console.log('Upload is ' + progress + '% done')
-          this.loadingProgress = progress
-        })
-        uploadTask.then(snapshot => {
-          console.log('Uploaded a file!')
-          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-            this.$store.dispatch('updateProfile', {
-            country: this.userData.country, 
-            username: this.userData.username, 
-            avatarURL: downloadURL
-            })
-            this.$store.commit('set', {type: 'loading', val: false})
-          })
-        })
-      } else {
-        this.$store.dispatch('updateProfile', {
-          country: this.userData.country, 
-          username: this.userData.username, 
-          avatarURL: this.userData.avatarURL
-        })
-        this.$store.commit('set', {type: 'loading', val: false})
-      }
-    },
     onFileSelected (event) {
       this.selectedFile = event.target.files[0]
       console.log(this.selectedFile)
@@ -123,6 +94,9 @@ export default {
   },
   components: {
     CountrySelect
-  }
+  },
+  mixins: [
+    updateUser
+  ]
 }
 </script>

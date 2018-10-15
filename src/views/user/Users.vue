@@ -84,7 +84,7 @@
                 </v-flex>
                 <v-flex xs12>
                   Select role:
-                  <v-radio-group color="success" v-model="role">
+                  <v-radio-group v-model="role">
                     <v-radio
                       :label="`Administrator`"
                       :value="1"
@@ -101,7 +101,7 @@
           <v-card-actions>
             <v-btn color="red darken-2"  flat @click.stop="editUserDialog=false">Close</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="red darken-2" dark >Save</v-btn>
+            <v-btn color="red darken-2" @click="update" dark >Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -111,6 +111,7 @@
 <script>
 import CountrySelect from '@/components/CountrySelect.vue'
 import fb from '@/firebase/config.js'
+import updateUser from '@/mixins/updateUser.js'
 
 export default {
   name: 'Users',
@@ -186,6 +187,9 @@ export default {
   },
   components: {
     CountrySelect
-  }
+  },
+  mixins: [
+    updateUser
+  ]
 }
 </script>
