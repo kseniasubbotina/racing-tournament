@@ -31,7 +31,7 @@
       <v-card-actions>
         <v-layout column wrap>
           <v-flex>
-            <v-btn @click="update(userData.username, userData.country, userData.avatarURL)"
+            <v-btn @click="update(userData.id, userData.username, userData.country, userData.avatarURL, userData.role)"
             :loading="loading">
             Save
           </v-btn>
@@ -57,6 +57,9 @@ export default {
       selectedFile: null,
       loadingProgress: null
     }
+  },
+  props: {
+    _userData: Object
   },
   watch: {
     storeUserData() {

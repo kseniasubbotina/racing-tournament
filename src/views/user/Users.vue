@@ -32,8 +32,8 @@
                     {{ props.item.country }}
                 </td>
                 <td class="text-xs-right">
-                  <div v-if="props.item.role == 1">Administrator</div>
-                  <div v-if="props.item.role == 0">Subscriber</div>
+                  <div v-if="props.item.role == '1'">Administrator</div>
+                  <div v-if="props.item.role == '0'">Subscriber</div>
                 </td>
               </tr>
             </template>
@@ -41,13 +41,13 @@
               <v-card flat>
                 <v-layout>
                   <v-flex>
-                    <v-card-text class="text-xs-left">{{ props.item.username }} <br> Another details</v-card-text>
+                    <v-card-text class="text-xs-left">{{ props.item.Username }} <br> Another details</v-card-text>
                   </v-flex>
                   <v-flex>
                     <v-card-text class="text-xs-right">
                       <v-btn color="white"  flat 
                         @click.stop="editUserDialog = true" 
-                        @click="onEditOpen(props.item.username, props.item.username, props.item.role)">
+                        @click="onEditOpen(props.item.id, props.item.username, props.item.country, props.item.avatarURL, props.item.role)">
                         <v-icon>edit</v-icon> Edit
                       </v-btn>
                       <v-btn color="red" flat @click.stop="confirmDialog = true">
@@ -87,11 +87,11 @@
                   <v-radio-group v-model="role">
                     <v-radio
                       :label="`Administrator`"
-                      :value="1"
+                      :value="'1'"
                     ></v-radio>
                     <v-radio
                       :label="`Subscriber`"
-                      :value="0"
+                      :value="'0'"
                     ></v-radio>
                   </v-radio-group>
                 </v-flex>
@@ -101,7 +101,7 @@
           <v-card-actions>
             <v-btn color="red darken-2"  flat @click.stop="editUserDialog=false">Close</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="red darken-2" @click="update" dark >Save</v-btn>
+            <v-btn color="red darken-2" @click="update(userId, username, country, avatarURL, role)" dark>Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -120,6 +120,7 @@ export default {
       users: [],
       username: '',
       country: '',
+      avatarURL: '',
       role: '',
       editUserDialog: false,
       confirmDialog: false,
@@ -164,10 +165,12 @@ export default {
     }
   },
   methods: {
-    onEditOpen (username, country, role) {
+    onEditOpen (userId, username, country, avatarURL, role) {
+      this.userId = userId,
       this.username = username,
       this.country = country,
-      this.role = role
+      this.role = role,
+      this.avatarURL = avatarURL
     },
     onChangeCountry (val) {
       this.country = val

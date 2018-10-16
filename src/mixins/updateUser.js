@@ -2,11 +2,11 @@ import fb from '@/firebase/config.js'
 
 export default {
   methods: {
-    update (username, country, avatarURL, role) {
-      debugger
+    update (userId, username, country, avatarURL, role) {
       this.$store.commit('set', { type: 'loading', val: true })
       if (this.selectedFile) {
-        var uploadTask = fb.storageRef.child('users_avatars/' + this.authenticatedUserId + this.selectedFile.name).put(this.selectedFile)
+        debugger
+        var uploadTask = fb.storageRef.child('users_avatars/' + userId + this.selectedFile.name).put(this.selectedFile)
         uploadTask.on('state_changed', snapshot => {
           var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           console.log('Upload is ' + progress + '% done')
@@ -16,16 +16,18 @@ export default {
           console.log('Uploaded a file!')
           uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
             this.$store.dispatch('updateProfile', {
+              userId: userId,
               country: country,
               username: username,
-              avatarURL: downloadURL
+              avatarURL: downloadURL,
+              role: role
             })
             this.$store.commit('set', { type: 'loading', val: false })
           })
         })
       } else {
-        debugger
         this.$store.dispatch('updateProfile', {
+          userId: userId,
           country: country,
           username: username,
           avatarURL: avatarURL,

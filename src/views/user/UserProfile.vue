@@ -43,7 +43,7 @@
                   :id="item.name"
                   :key="item.name">
                   <v-card flat class="pa-1">
-                    <component :is="item.componentName"></component>
+                    <component :is="item.componentName" :_userData="userData"></component>
                   </v-card>
                 </v-tab-item>
               </v-tabs-items>
@@ -65,6 +65,7 @@ export default {
   data () {
       return {
         userData: {
+          userId: '',
           country: '',
           username: '',
           avatarURL: ''
@@ -135,6 +136,7 @@ export default {
       fb.usersCollection.doc(this.visitedUserId).onSnapshot(doc => {
         if(doc.exists) {
           var data = doc.data()
+          this.userData.userId = data.id
           this.userData.username = data.username
           this.userData.country = data.country
           this.userData.avatarURL = data.avatarURL

@@ -24,6 +24,7 @@ export default new Vuex.Store({
           if (response) {
             commit('set', { type: 'error', val: null })
             fb.usersCollection.doc(response.user.uid).set({
+              id: response.user.uid,
               username: credentials.username,
               country: credentials.country,
               avatarURL: '',
@@ -93,7 +94,7 @@ export default new Vuex.Store({
     },
     updateProfile ({ commit }, newDetails) {
       commit('set', { type: 'loading', val: true })
-      fb.usersCollection.doc(this.state.user.id).update({
+      fb.usersCollection.doc(newDetails.userId).update({
         country: newDetails.country,
         username: newDetails.username,
         avatarURL: newDetails.avatarURL
@@ -105,9 +106,11 @@ export default new Vuex.Store({
         commit('set', { type: 'message', val: error })
         commit('set', { type: 'loading', val: false })
       })
-      fb.usersCollection.doc(this.state.user.id).onSnapshot(doc => {
-        this.dispatch('fetchUserData')
-      })
+      if (this.state.user.id === newDetails.userId) {
+        fb.usersCollection.doc(this.state.user.id).onSnapshot(doc => {
+          this.dispatch('fetchUserData')
+        })
+      }
     },
     clearData ({ commit }) {
       commit('set', { type: 'message', val: null })
