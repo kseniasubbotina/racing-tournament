@@ -2,7 +2,7 @@
   <v-card flat width="100%">
     <v-container grid-list-sm class="pa-4">
       <v-layout row wrap>
-        <v-flex xs12 sm4 justify-space-between>
+        <v-flex xs12 sm4 justify-space-between class="text-xs-center">
           <v-layout d-block pa-1>
             <v-flex>
               <v-avatar size="100">

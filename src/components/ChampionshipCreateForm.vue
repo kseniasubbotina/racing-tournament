@@ -13,22 +13,21 @@
                 ></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6>
-                <v-select
+                    
+                <v-autocomplete
                     :items="gameTypesArray"
                     v-model="gameType"
                     label="Game types"
                     single-line
-                    autocomplete
-                ></v-select>
+                ></v-autocomplete>
                 </v-flex>
             </v-layout>
             <v-layout>
                 <v-flex xs12>
-                <v-text-field
+                <v-textarea
                     v-model="gameDescription"
                     label="Championship description"
-                    multi-line
-                ></v-text-field>
+                ></v-textarea>
                 </v-flex>
             </v-layout>
             <v-layout>
@@ -52,13 +51,12 @@
             </v-layout>
             <v-layout>
                 <v-flex xs10>
-                <v-select
+                <v-autocomplete
                     :items="racingSeriesArray"
                     v-model="racingSerie"
                     label="Racing seria"
                     single-line
-                    autocomplete
-                ></v-select>
+                ></v-autocomplete>
                 </v-flex>
                 <v-flex>
                 <v-tooltip left>
@@ -77,13 +75,12 @@
             <h2 class="headline text-xs-left">Select tracks</h2>
             <v-layout>
                 <v-flex xs12 sm4>
-                <v-select
+                <v-autocomplete
                     :items="tracksArray"
                     v-model="track"
                     label="Track"
                     single-line
-                    autocomplete
-                ></v-select>
+                ></v-autocomplete>
                 </v-flex>
                 <v-flex xs12 sm3>
                 <v-menu
@@ -147,13 +144,12 @@
             <h3 class="subheading text-xs-left">Select from pre-defined teams</h3>
             <v-layout>
                 <v-flex xs12 sm8>
-                <v-select
+                <v-autocomplete
                     :items="preDefinedTeamsArray"
                     v-model="preDefinedTeam"
                     label="Team"
                     single-line
-                    autocomplete
-                ></v-select>
+                ></v-autocomplete>
                 </v-flex>
                 <v-flex xs12 sm2>
                 <v-text-field
@@ -168,13 +164,12 @@
             <h3 class="subheading text-xs-left">Select from custom teams</h3>
             <v-layout>
                 <v-flex xs12 sm8>
-                <v-select
+                <v-autocomplete
                     :items="customTeamsArray"
                     v-model="customTeam"
                     label="Team"
                     single-line
-                    autocomplete
-                ></v-select>
+                ></v-autocomplete>
                 </v-flex>
                 <v-flex xs12 sm2>
                 <v-text-field
