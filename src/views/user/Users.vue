@@ -76,14 +76,14 @@
               <v-layout row wrap>
                 <v-flex xs12 justify-space-between>
                   <v-text-field label="Username" v-model="username" 
-                    v-validate="'required|min:5'" 
+                    v-validate="'required|min:2'" 
                     type="text" name="username" 
                     :error-messages="errors.collect('username')"
                   ></v-text-field>
                   <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="country"/>
                 </v-flex>
-                <v-flex xs12>
-                  Select role:
+                <v-flex class="text-lg-right" justify-start xs12>
+                    Select role
                   <v-radio-group v-model="role">
                     <v-radio
                       :label="`Administrator`"
@@ -148,7 +148,13 @@ export default {
     }
   },
   created () {
-    this.getUsers()
+    var currentUser = this.$store.getters.user 
+    var userRole = this.$store.getters.userData.role
+    if(currentUser && userRole === '1') {
+      this.getUsers()
+    } else {
+      this.$router.push('/')
+    }
   },
   watch: {
     userData () {

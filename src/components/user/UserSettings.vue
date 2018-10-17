@@ -3,17 +3,17 @@
     <form>
       <v-layout row wrap>
         <v-flex xs12 justify-space-between>
-          <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="userData.country"/>
+          <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="_userData.country"/>
         </v-flex>
         <v-flex xs12>
-          <v-text-field label="Username" v-model="userData.username" v-validate="{required: true, min: 2 }" type="text" name="name" :error-messages="errors.collect('name')">
+          <v-text-field label="Username" v-model="_userData.username" v-validate="{required: true, min: 2 }" type="text" name="name" :error-messages="errors.collect('name')">
           </v-text-field>
         </v-flex>
         <v-flex>
           <v-layout column wrap>
             <v-flex justify-start>
             <v-avatar size="100">
-              <img v-if="userData.avatarURL" :src="userData.avatarURL" alt="">
+              <img v-if="_userData.avatarURL" :src="_userData.avatarURL" alt="">
               <img v-else src="http://pol.audio/media/user-avatar.png" alt="">
             </v-avatar>
             <div v-if="selectedFile">
@@ -22,7 +22,7 @@
             </v-flex>
             <v-flex justify-start>
               <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
-              <v-btn v-if="userData.avatarURL" flat color="error" @click="deleteImage">Delete</v-btn>
+              <v-btn v-if="_userData.avatarURL" flat color="error" @click="deleteImage">Delete</v-btn>
             </v-flex>
           </v-layout>
           <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
@@ -31,7 +31,7 @@
       <v-card-actions>
         <v-layout column wrap>
           <v-flex>
-            <v-btn @click="update(userData.id, userData.username, userData.country, userData.avatarURL, userData.role)"
+            <v-btn @click="update(_userData.userId, _userData.username, _userData.country, _userData.avatarURL, _userData.role)"
             :loading="loading">
             Save
           </v-btn>
@@ -61,29 +61,15 @@ export default {
   props: {
     _userData: Object
   },
-  watch: {
-    storeUserData() {
-      this.fetchuserData()
-    }
-  },
-  created () {
-    this.fetchuserData()
-  },
   computed: {
     loading () {
       return this.$store.getters.loading
-    },
-    storeUserData () {
-      return this.$store.getters.userData
     },
     message () {
       return this.$store.getters.message
     }
   },
   methods: {
-    fetchuserData () {
-      this.userData = this.$store.getters.userData
-    },
     onChangeCountry (val) {
       this.userData.country = val
     },

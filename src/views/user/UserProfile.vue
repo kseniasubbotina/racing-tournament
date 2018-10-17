@@ -68,7 +68,8 @@ export default {
           userId: '',
           country: '',
           username: '',
-          avatarURL: ''
+          avatarURL: '',
+          role: ''
         },
         selectedFile: null,
         loadingProgress: null,
@@ -140,6 +141,7 @@ export default {
           this.userData.username = data.username
           this.userData.country = data.country
           this.userData.avatarURL = data.avatarURL
+          this.userData.role = data.role
         } else {
           this.$router.push('/')
           console.log('No user found')

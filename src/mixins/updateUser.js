@@ -5,7 +5,6 @@ export default {
     update (userId, username, country, avatarURL, role) {
       this.$store.commit('set', { type: 'loading', val: true })
       if (this.selectedFile) {
-        debugger
         var uploadTask = fb.storageRef.child('users_avatars/' + userId + this.selectedFile.name).put(this.selectedFile)
         uploadTask.on('state_changed', snapshot => {
           var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
