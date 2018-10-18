@@ -9,6 +9,7 @@ import Teams from './views/team/Teams.vue'
 import UserProfile from './views/user/UserProfile.vue'
 import Users from './views/user/Users.vue'
 import NotFound from './views/common/NotFound.vue'
+import Tracks from './views/tracks/Tracks.vue'
 
 Vue.use(Router)
 
@@ -54,6 +55,11 @@ const router = new Router({
       path: '/users',
       name: 'Users',
       component: Users
+    },
+    {
+      path: '/tracks',
+      name: 'Tracks',
+      component: Tracks
     },
     {
       path: '/*',

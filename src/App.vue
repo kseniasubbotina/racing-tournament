@@ -47,7 +47,7 @@
         </v-btn>
       </v-toolbar>
       <v-content>
-        <v-container fill-height>
+        <v-container>
           <v-layout justify-center>
             <router-view/>
           </v-layout>

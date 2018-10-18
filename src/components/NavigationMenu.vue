@@ -1,7 +1,7 @@
 <template>
   <v-list>
     <v-list-tile
-      v-if="link.role <= role"
+      v-if="link.role <= userRole"
       v-for="(link, idx) in links"
       :key="idx"
       @click="onMenuItemClick(link)">
@@ -45,11 +45,17 @@ export default {
         icon: 'people',
         route: 'users',
         role: 1
+      },
+      {
+        label: 'Tracks',
+        icon: 'swap_calls',
+        route: 'tracks',
+        role: 1
       }
     ]
   }),
   computed: {
-    role () {
+    userRole () {
       if (this.$store.getters.userData) {
         return this.$store.getters.userData.role
       } else {
