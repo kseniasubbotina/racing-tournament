@@ -97,6 +97,7 @@
                 </v-flex>
               </v-layout>
             </form>
+            <message />
           </v-container>
           <v-card-actions>
             <v-btn color="red darken-2"  flat @click.stop="editUserDialog=false">Close</v-btn>
@@ -112,6 +113,7 @@
 import CountrySelect from '@/components/CountrySelect.vue'
 import fb from '@/firebase/config.js'
 import updateUser from '@/mixins/updateUser.js'
+import message from '@/components/Message.vue'
 
 export default {
   name: 'Users',
@@ -195,7 +197,8 @@ export default {
     }
   },
   components: {
-    CountrySelect
+    CountrySelect,
+    message
   },
   mixins: [
     updateUser
