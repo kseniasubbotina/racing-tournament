@@ -1,6 +1,6 @@
 <template>
   <v-layout wrap>
-    <v-flex xs12 sm6 md4 pa-1 v-for="item in 4" :key="item.id">
+    <v-flex xs12 pa-1 v-for="item in 4" :key="item.id">
       <v-card>
         <v-card-title primary-title>
           <div class="headline">Track #1</div>
