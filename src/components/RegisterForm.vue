@@ -41,8 +41,8 @@
             </v-flex>
           </v-layout>
         </form>
+        <message />
       </v-container>
-      <message />
       <v-card-actions>
         <v-btn flat color="error" @click="clear">clear</v-btn>
         <v-spacer></v-spacer>

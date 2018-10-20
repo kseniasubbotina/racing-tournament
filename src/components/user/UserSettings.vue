@@ -37,7 +37,7 @@
           </v-btn>
           </v-flex>
           <v-flex>
-            {{message}}
+            <message />
           </v-flex>
         </v-layout>
       </v-card-actions>
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import Message from '@/components/Message.vue'
 import CountrySelect from '@/components/CountrySelect.vue'
 import updateUser from '@/mixins/updateUser.js'
 
@@ -82,7 +83,8 @@ export default {
     }
   },
   components: {
-    CountrySelect
+    CountrySelect,
+    Message
   },
   mixins: [
     updateUser

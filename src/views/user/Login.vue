@@ -26,8 +26,8 @@
             </v-flex>
           </v-layout>
         </v-form>
+        <message />
       </v-container>
-      <message />
       <v-card-actions>
         <v-btn to="register" color="red darken-2" flat>Create account</v-btn>
         <v-spacer></v-spacer>
