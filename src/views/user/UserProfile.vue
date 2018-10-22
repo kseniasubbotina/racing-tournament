@@ -115,9 +115,6 @@ export default {
   created () {
     this.getUserData ()
   },
-  beforeDestroy () {
-    this.$store.commit('set', {type: 'message', val: null})
-  },
   methods: {
     changeTab (tabName) {
       if(tabName == 'Overview') {
