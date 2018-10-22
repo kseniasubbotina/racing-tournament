@@ -56,7 +56,7 @@ export default {
   }),
   computed: {
     userRole () {
-      if (this.$store.getters.userData) {
+      if (this.$store.getters.user && this.$store.getters.userData) {
         return this.$store.getters.userData.role
       } else {
         return 0
