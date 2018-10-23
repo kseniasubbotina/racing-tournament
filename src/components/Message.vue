@@ -1,7 +1,8 @@
 <template>
   <v-layout>
     <v-flex>
-      <span v-if="message">{{message}}</span>
+      <span class="green--text">{{message.success}}</span>
+      <span class="red--text">{{message.error}}</span>
     </v-flex>
   </v-layout>
 </template>
@@ -12,6 +13,14 @@ export default {
   computed: {
     message () {
       return this.$store.getters.message
+    }
+  },
+  beforeDestroy () {
+    this.clearMessage()
+  },
+  methods: {
+    clearMessage () {
+      this.$store.commit('set', {type: 'message', val: {error: '', success: ''}})
     }
   }
 }
