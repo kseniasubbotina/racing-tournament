@@ -113,6 +113,7 @@
 import CountrySelect from '@/components/CountrySelect.vue'
 import fb from '@/firebase/config.js'
 import updateUser from '@/mixins/updateUser.js'
+import isAdminGuard from '@/mixins/isAdminGuard.js'
 import message from '@/components/Message.vue'
 
 export default {
@@ -149,24 +150,30 @@ export default {
       ]
     }
   },
-  created () {
-    var currentUser = this.$store.getters.user 
-    var userRole = this.$store.getters.userData.role
-    if(currentUser && userRole === '1') {
-      this.getUsers()
-    } else {
-      this.$router.push('/')
-    }
-  },
+  // created () {
+  //   var currentUser = this.$store.getters.user 
+  //   var userRole = this.$store.getters.userData.role
+  //   if(currentUser && userRole === '1') {
+  //     this.getUsers()
+  //   } else {
+  //     this.$router.push('/')
+  //   }
+  // },
   watch: {
     userData () {
       this.getUsers()
+    },
+    isAdmin (newVal, oldVal) {
+      debugger
+      if (newVal) {
+        this.getUsers()
+      }
     }
   },
   computed: {
     userData () {
       if (this.$store.getters.userData)
-      return this.$store.getters.userData.role
+        return this.$store.getters.userData.role
     },
     loading () {
       return this.$store.getters.loading
@@ -201,7 +208,8 @@ export default {
     message
   },
   mixins: [
-    updateUser
+    updateUser,
+    isAdminGuard
   ]
 }
 </script>

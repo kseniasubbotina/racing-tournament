@@ -55,7 +55,6 @@ export default new Vuex.Store({
         function (error) {
           commit('set', { type: 'loading', val: false })
           commit('setMessage', { type: 'error', text: error.message })
-          // commit('set', { type: 'message', val: error.message })
         })
     },
     signIn ({ commit }, credentials) {
@@ -68,12 +67,10 @@ export default new Vuex.Store({
           }
           commit('set', { type: 'user', val: newUser })
           commit('set', { type: 'loading', val: false })
-          // commit('set', { type: 'message', val: {} })
           this.dispatch('fetchUserData')
         },
         function (error) {
           commit('setMessage', { type: 'error', text: error.message })
-          // commit('set', { type: 'message', val: error.message })
           commit('set', { type: 'loading', val: false })
         })
     },
@@ -93,7 +90,6 @@ export default new Vuex.Store({
         commit('set', { type: 'userData', val: null })
       }).catch(function (error) {
         commit('setMessage', { type: 'error', text: error })
-        // commit('set', { type: 'message', val: error })
       })
     },
     fetchUserData ({ commit }) {
@@ -101,7 +97,6 @@ export default new Vuex.Store({
         commit('set', { type: 'userData', val: res.data() })
       }).catch(err => {
         commit('setMessage', { type: 'error', text: err.message })
-        // commit('set', { type: 'message', val: err.message })
       })
     },
     updateProfile ({ commit }, newDetails) {
@@ -124,8 +119,6 @@ export default new Vuex.Store({
       }
     },
     clearData ({ commit }) {
-      // commit('set', { type: 'message', val: null })
-      // commit('set', { type: 'message', val: {} })
       commit('set', { type: 'user', val: null })
       commit('set', { type: 'loading', val: false })
     }
