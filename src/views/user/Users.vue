@@ -164,7 +164,6 @@ export default {
       this.getUsers()
     },
     isAdmin (newVal, oldVal) {
-      debugger
       if (newVal) {
         this.getUsers()
       }
