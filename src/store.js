@@ -104,7 +104,8 @@ export default new Vuex.Store({
       fb.usersCollection.doc(newDetails.userId).update({
         country: newDetails.country,
         username: newDetails.username,
-        avatarURL: newDetails.avatarURL
+        avatarURL: newDetails.avatarURL,
+        role: newDetails.role
       }).then(function () {
         commit('setMessage', { type: 'success', text: 'Information successfully updated!' })
         commit('set', { type: 'loading', val: false })

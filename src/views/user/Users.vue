@@ -150,19 +150,7 @@ export default {
       ]
     }
   },
-  // created () {
-  //   var currentUser = this.$store.getters.user 
-  //   var userRole = this.$store.getters.userData.role
-  //   if(currentUser && userRole === '1') {
-  //     this.getUsers()
-  //   } else {
-  //     this.$router.push('/')
-  //   }
-  // },
   watch: {
-    userData () {
-      this.getUsers()
-    },
     isAdmin (newVal, oldVal) {
       if (newVal) {
         this.getUsers()
@@ -170,7 +158,7 @@ export default {
     }
   },
   computed: {
-    userData () {
+    userRole () {
       if (this.$store.getters.userData)
         return this.$store.getters.userData.role
     },
