@@ -26,6 +26,13 @@
           <v-container grid-list-sm class="pa-4">
             <form>
               <v-layout row wrap>
+                <v-flex>
+                  <v-text-field label="Name" v-model="username" 
+                    v-validate="'required|min:2'" 
+                    type="text" name="name" 
+                    :error-messages="errors.collect('name')">
+                  </v-text-field>
+                </v-flex>
                 <v-flex xs12 justify-space-between>
                   <CountrySelect />
                 </v-flex>
