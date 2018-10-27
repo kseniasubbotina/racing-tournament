@@ -27,7 +27,7 @@
             <form>
               <v-layout row wrap>
                 <v-flex>
-                  <v-text-field label="Name" v-model="username" 
+                  <v-text-field label="Name" v-model="trackName" 
                     v-validate="'required|min:2'" 
                     type="text" name="name" 
                     :error-messages="errors.collect('name')">
@@ -36,6 +36,18 @@
                 <v-flex xs12 justify-space-between>
                   <CountrySelect />
                 </v-flex>
+                <v-flex xs12>
+                  <v-text-field
+                    label="Circuit Length"
+                    value=""
+                    suffix="km"
+                  ></v-text-field>
+                </v-flex>
+                <v-text-field
+                v-model="trackDescription"
+                label="Track description"
+                multi-line
+              ></v-text-field>
               </v-layout>
             </form>
             <message />
