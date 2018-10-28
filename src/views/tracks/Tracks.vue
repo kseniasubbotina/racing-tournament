@@ -27,7 +27,7 @@
             <form>
               <v-layout row wrap>
                 <v-flex>
-                  <v-text-field label="Name" v-model="trackName" 
+                  <v-text-field label="Name" 
                     v-validate="'required|min:2'" 
                     type="text" name="name" 
                     :error-messages="errors.collect('name')">
@@ -45,15 +45,14 @@
                 </v-flex>
                 <v-flex xs12 justify-center>
                   <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
-                  <v-btn flat color="error" @click="deleteImage">Delete</v-btn>
+                  <v-btn flat color="error" >Delete</v-btn>
                   <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
                 </v-flex>
                 <v-flex>
-                  <v-text-field
+                  <v-textarea
                     v-model="trackDescription"
                     label="Track description"
-                    multi-line
-                  ></v-text-field>
+                  ></v-textarea>
                 </v-flex>
 
               </v-layout>
@@ -79,7 +78,8 @@ export default {
     return {
       addTeamDialog: false,
       tracks: [],
-      selectedFile: null
+      selectedFile: null,
+      trackDescription: ''
     }
   },
   computed: {
