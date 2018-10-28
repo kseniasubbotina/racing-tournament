@@ -18,7 +18,7 @@
         </v-card-actions>
       </v-card>
     </v-flex>
-      <v-dialog v-model="addTeamDialog" max-width="500px">
+      <v-dialog fullscreen v-model="addTeamDialog" max-width="500px">
         <v-card>
           <v-card-title class="py-4 title">
             Add new track
@@ -43,11 +43,19 @@
                     suffix="km"
                   ></v-text-field>
                 </v-flex>
-                <v-text-field
-                v-model="trackDescription"
-                label="Track description"
-                multi-line
-              ></v-text-field>
+                <v-flex xs12 justify-center>
+                  <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
+                  <v-btn flat color="error" @click="deleteImage">Delete</v-btn>
+                  <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
+                </v-flex>
+                <v-flex>
+                  <v-text-field
+                    v-model="trackDescription"
+                    label="Track description"
+                    multi-line
+                  ></v-text-field>
+                </v-flex>
+
               </v-layout>
             </form>
             <message />
@@ -70,13 +78,20 @@ export default {
   data () {
     return {
       addTeamDialog: false,
-      tracks: []
+      tracks: [],
+      selectedFile: null
     }
   },
   computed: {
     isLoggedIn () {
       var isLoggedIn = this.$store.getters.user ? true : false
       return isLoggedIn
+    }
+  },
+  methods: {
+    onFileSelected (event) {
+      this.selectedFile = event.target.files[0]
+      console.log(this.selectedFile)
     }
   },
   components: {
