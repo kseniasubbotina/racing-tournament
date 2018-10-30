@@ -38,6 +38,7 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field
+                    v-validate="'numeric|required|min:2'" data-vv-as="field" name="length" type="text"
                     label="Circuit Length"
                     value=""
                     suffix="km"
@@ -45,7 +46,7 @@
                 </v-flex>
                 <v-flex xs12 justify-center>
                   <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
-                  <v-btn flat color="error" >Delete</v-btn>
+                  <v-btn flat color="error">Delete</v-btn>
                   <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
                 </v-flex>
                 <v-flex>
