@@ -38,7 +38,8 @@
                 </v-flex>
                 <v-flex xs12>
                   <v-text-field
-                    v-validate="'numeric|required|min:2'" data-vv-as="field" name="length" type="text"
+                    v-validate="'numeric|required|min:2'" name="length" type="text"
+                    :error-messages="errors.collect('length')"
                     label="Circuit Length"
                     value=""
                     suffix="km"
