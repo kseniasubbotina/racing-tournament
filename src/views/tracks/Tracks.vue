@@ -29,7 +29,8 @@
                 <v-flex>
                   <v-text-field label="Name" 
                     v-validate="'required|min:2'" 
-                    type="text" name="name" 
+                    type="text" name="name"
+                    v-model="name"
                     :error-messages="errors.collect('name')">
                   </v-text-field>
                 </v-flex>
@@ -41,7 +42,7 @@
                     v-validate="'numeric|required|min:2'" name="length" type="text"
                     :error-messages="errors.collect('length')"
                     label="Circuit Length"
-                    value=""
+                    v-model="length"
                     suffix="km"
                   ></v-text-field>
                 </v-flex>
@@ -81,7 +82,10 @@ export default {
       addTeamDialog: false,
       tracks: [],
       selectedFile: null,
-      trackDescription: ''
+      name: '',
+      length: '',
+      trackDescription: '',
+      country: ''
     }
   },
   computed: {
