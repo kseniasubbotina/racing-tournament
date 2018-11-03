@@ -18,12 +18,12 @@
         </v-card-actions>
       </v-card>
     </v-flex>
-      <v-dialog fullscreen v-model="addTeamDialog" max-width="500px">
+      <v-dialog v-model="addTeamDialog" max-width="500px">
         <v-card>
-          <v-card-title class="py-4 title">
-            Add new track
-          </v-card-title>
           <v-container grid-list-sm class="pa-4">
+            <v-card-title class="py-4 title">
+              Add new track
+            </v-card-title>
             <form>
               <v-layout row wrap>
                 <v-flex>
@@ -46,6 +46,7 @@
                     suffix="km"
                   ></v-text-field>
                 </v-flex>
+                Track image
                 <v-flex xs12 justify-center>
                   <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
                   <v-btn flat color="error">Delete</v-btn>
@@ -61,12 +62,12 @@
               </v-layout>
             </form>
             <message />
+            <v-card-actions>
+              <v-btn color="red darken-2"  flat @click.stop="addTeamDialog=false">Close</v-btn>
+              <v-spacer></v-spacer>
+              <v-btn color="red darken-2" dark>Save</v-btn>
+            </v-card-actions>
           </v-container>
-          <v-card-actions>
-            <v-btn color="red darken-2"  flat @click.stop="addTeamDialog=false">Close</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn color="red darken-2" dark>Save</v-btn>
-          </v-card-actions>
         </v-card>
       </v-dialog>
   </v-layout>
