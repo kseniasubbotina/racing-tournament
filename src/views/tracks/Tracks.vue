@@ -38,12 +38,24 @@
                   <CountrySelect />
                 </v-flex>
                 <v-flex xs12>
+                  Track length
+                </v-flex>
+                <v-flex xs6>
                   <v-text-field
-                    v-validate="'numeric|required|min:2'" name="length" type="text"
+                    v-validate="'numeric|required'" name="length" type="text"
                     :error-messages="errors.collect('length')"
-                    label="Circuit Length"
+                    label="Km"
                     v-model="length"
                     suffix="km"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs6>
+                  <v-text-field
+                    v-validate="'numeric|required'" name="length" type="text"
+                    :error-messages="errors.collect('length')"
+                    label="M"
+                    v-model="length"
+                    suffix="m"
                   ></v-text-field>
                 </v-flex>
                 Track image
