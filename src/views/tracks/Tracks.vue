@@ -18,7 +18,7 @@
         </v-card-actions>
       </v-card>
     </v-flex>
-      <v-dialog v-model="addTeamDialog" max-width="500px">
+      <v-dialog v-model="addTeamDialog" max-width="700px">
         <v-card>
           <v-container grid-list-sm class="pa-4">
             <v-card-title class="py-4 title">
