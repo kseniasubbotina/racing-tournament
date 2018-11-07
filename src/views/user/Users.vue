@@ -45,6 +45,10 @@
                   </v-flex>
                   <v-flex>
                     <v-card-text class="text-xs-right">
+                      <v-btn color="white"  flat  
+                        @click="$router.push('/user_'+props.item.id)">
+                        <v-icon>account_circle</v-icon> View
+                      </v-btn>
                       <v-btn color="white"  flat 
                         @click.stop="editUserDialog = true" 
                         @click="onEditOpen(props.item.id, props.item.username, props.item.country, props.item.avatarURL, props.item.role)">

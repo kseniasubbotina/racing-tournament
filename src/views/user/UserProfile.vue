@@ -20,7 +20,7 @@
               Guest: {{isGuest}}
             </v-flex>
             {{authenticatedUserId}}
-            <v-flex>
+            <v-flex v-if="!isGuest">
               <v-btn @click="logOut">
                 Log out
               </v-btn>
