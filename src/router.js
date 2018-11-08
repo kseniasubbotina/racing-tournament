@@ -10,6 +10,7 @@ import UserProfile from './views/user/UserProfile.vue'
 import Users from './views/user/Users.vue'
 import NotFound from './views/common/NotFound.vue'
 import Tracks from './views/tracks/Tracks.vue'
+import Track from './views/tracks/Track.vue'
 
 Vue.use(Router)
 
@@ -60,6 +61,11 @@ const router = new Router({
       path: '/tracks',
       name: 'Tracks',
       component: Tracks
+    },
+    {
+      path: '/track_:id',
+      name: 'Track',
+      component: Track
     },
     {
       path: '/*',
