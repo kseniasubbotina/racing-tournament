@@ -45,7 +45,7 @@
                     v-validate="'numeric|required'" name="length" type="text"
                     :error-messages="errors.collect('length')"
                     label="Km"
-                    v-model="length"
+                    v-model="length.km"
                     suffix="km"
                   ></v-text-field>
                 </v-flex>
@@ -54,7 +54,7 @@
                     v-validate="'numeric|required'" name="length" type="text"
                     :error-messages="errors.collect('length')"
                     label="M"
-                    v-model="length"
+                    v-model="length.m"
                     suffix="m"
                   ></v-text-field>
                 </v-flex>
@@ -77,7 +77,7 @@
             <v-card-actions>
               <v-btn color="red darken-2"  flat @click.stop="addTeamDialog=false">Close</v-btn>
               <v-spacer></v-spacer>
-              <v-btn color="red darken-2" dark>Save</v-btn>
+              <v-btn color="red darken-2" @click="addTrack" dark>Save</v-btn>
             </v-card-actions>
           </v-container>
         </v-card>
@@ -88,6 +88,7 @@
 <script>
 import CountrySelect from '@/components/CountrySelect.vue'
 import message from '@/components/Message.vue'
+import fb from '@/firebase/config.js'
 
 export default {
   data () {
@@ -96,7 +97,10 @@ export default {
       tracks: [],
       selectedFile: null,
       name: '',
-      length: '',
+      length: {
+        km: '',
+        m: ''
+      },
       trackDescription: '',
       country: ''
     }
@@ -111,6 +115,14 @@ export default {
     onFileSelected (event) {
       this.selectedFile = event.target.files[0]
       console.log(this.selectedFile)
+    },
+    addTrack () {
+      fb.tracksCollection.doc(this.name).set({
+        name: this.name,
+        country: this.country
+      }).then(
+        console.log('Track note created!')
+      )
     }
   },
   components: {
