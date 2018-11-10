@@ -26,19 +26,27 @@
             </v-card-title>
             <form>
               <v-layout row wrap>
-                <v-flex>
-                  <v-text-field label="Name" 
+                <v-flex xs12>
+                  <v-text-field label="Circuit Name" 
                     v-validate="'required|min:2'" 
                     type="text" name="name"
                     v-model="name"
                     :error-messages="errors.collect('name')">
                   </v-text-field>
                 </v-flex>
-                <v-flex xs12 justify-space-between>
+                <v-flex xs8 justify-space-between>
                   <CountrySelect />
                 </v-flex>
+                <v-flex xs4>
+                 <v-text-field
+                    v-validate="'numeric|required'" name="first grand prix" type="text"
+                    :error-messages="errors.collect('first grand prix')"
+                    label="First grand prix"
+                    v-model="firstGP"
+                  ></v-text-field>
+                </v-flex>
                 <v-flex xs12>
-                  Track length
+                  Circuit Length
                 </v-flex>
                 <v-flex xs6>
                   <v-text-field
@@ -58,7 +66,7 @@
                     suffix="m"
                   ></v-text-field>
                 </v-flex>
-                Track image
+                Track Image
                 <v-flex xs12 justify-center>
                   <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
                   <v-btn flat color="error">Delete</v-btn>
@@ -67,7 +75,7 @@
                 <v-flex>
                   <v-textarea
                     v-model="trackDescription"
-                    label="Track description"
+                    label="Track Description"
                   ></v-textarea>
                 </v-flex>
 
@@ -101,6 +109,7 @@ export default {
         km: '',
         m: ''
       },
+      firstGP: '',
       trackDescription: '',
       country: ''
     }
@@ -119,7 +128,10 @@ export default {
     addTrack () {
       fb.tracksCollection.doc(this.name).set({
         name: this.name,
-        country: this.country
+        country: this.country,
+        firstGP: this.firstGP,
+        length: this.length.km + '.' + this.length.m,
+        description: this.trackDescription
       }).then(
         console.log('Track note created!')
       )
