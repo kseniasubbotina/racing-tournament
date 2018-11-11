@@ -1,15 +1,24 @@
 <template>
-  <v-layout wrap>
+<v-container>
+    <v-layout wrap>
     <v-spacer></v-spacer>
      <v-btn color="white"  flat 
         @click.stop="addTeamDialog = true">
         <v-icon>add</v-icon> Add new
       </v-btn>
-    <v-flex xs12 pa-1 v-for="item in 4" :key="item.id">
+  </v-layout>
+  <v-layout wrap>
+    <v-flex xs6 pa-1 v-for="item in 4" :key="item.id">
       <v-card>
-        <v-card-title primary-title>
-          <div class="headline">Track #1</div>
-        </v-card-title>
+        <v-layout>
+            <v-card-title primary-title>
+              <div class="headline">Track #1</div>
+            </v-card-title>
+            <v-spacer />
+            <v-btn icon>
+              <v-icon>more_vert</v-icon>
+            </v-btn>
+        </v-layout>
         <v-card-text>
           <div>Track information</div>
         </v-card-text>
@@ -90,6 +99,8 @@
         </v-card>
       </v-dialog>
   </v-layout>
+</v-container>
+
 </template>
 
 <script>

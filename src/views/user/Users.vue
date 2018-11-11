@@ -81,7 +81,7 @@
                 <v-flex xs12 justify-space-between>
                   <v-text-field label="Username" v-model="username" 
                     v-validate="'required|min:2'" 
-                    type="text" name="username" 
+                    type="text" name="username"
                     :error-messages="errors.collect('username')"
                   ></v-text-field>
                   <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="country"/>
