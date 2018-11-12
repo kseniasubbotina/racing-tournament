@@ -79,8 +79,8 @@
             <form>
               <v-layout row wrap>
                 <v-flex xs12 justify-space-between>
-                  <v-text-field label="Username" v-model="username" 
-                    v-validate="'required|min:2'" 
+                  <v-text-field label="Username" v-model="username"
+                    v-validate="'required|min:2'"
                     type="text" name="username"
                     :error-messages="errors.collect('username')"
                   ></v-text-field>

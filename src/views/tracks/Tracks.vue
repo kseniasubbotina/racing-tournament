@@ -15,9 +15,23 @@
               <div class="headline">Track #1</div>
             </v-card-title>
             <v-spacer />
-            <v-btn icon>
+            <v-menu bottom left>
+            <v-btn
+              slot="activator"
+              icon>
               <v-icon>more_vert</v-icon>
             </v-btn>
+            <v-list>
+              <v-list-tile
+              @click.stop="addTeamDialog = true"
+              @click="onEditOpen()">
+                <v-list-tile-title>Edit</v-list-tile-title>
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-title>Delete</v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
         </v-layout>
         <v-card-text>
           <div>Track information</div>
@@ -145,6 +159,16 @@ export default {
       }).then(
         console.log('Track note created!')
       )
+    },
+    onEditOpen (name, lenght, country, firstGP, trackDescription) {
+      this.name = userId,
+      this.length = {
+        km: lenght.km,
+        m: length.m
+      },
+      this.country = country,
+      this.firstGP = firstGP,
+      this.trackDescription = trackDescription
     }
   },
   components: {
