@@ -3,16 +3,16 @@
     <v-layout wrap>
     <v-spacer></v-spacer>
      <v-btn color="white"  flat 
-        @click.stop="addTeamDialog = true">
+        @click="addNewWindowOpen">
         <v-icon>add</v-icon> Add new
       </v-btn>
   </v-layout>
   <v-layout wrap>
-    <v-flex xs6 pa-1 v-for="item in 4" :key="item.id">
+    <v-flex xs6 pa-1 v-for="track in tracks" :key="track.id">
       <v-card>
         <v-layout>
             <v-card-title primary-title>
-              <div class="headline">Track #1</div>
+              <div class="headline">{{track.name}}</div>
             </v-card-title>
             <v-spacer />
             <v-menu bottom left>
@@ -23,11 +23,11 @@
             </v-btn>
             <v-list>
               <v-list-tile
-              @click.stop="addTeamDialog = true"
-              @click="onEditOpen()">
+              @click="onEditClick(track.name, track.length, track.country, track.firstGP, track.description)">
                 <v-list-tile-title>Edit</v-list-tile-title>
               </v-list-tile>
-              <v-list-tile>
+              <v-list-tile
+              @click="deleteTrack">
                 <v-list-tile-title>Delete</v-list-tile-title>
               </v-list-tile>
             </v-list>
@@ -41,11 +41,14 @@
         </v-card-actions>
       </v-card>
     </v-flex>
-      <v-dialog v-model="addTeamDialog" max-width="700px">
+      <v-dialog v-model="trackDialog" persistent max-width="700px">
         <v-card>
           <v-container grid-list-sm class="pa-4">
-            <v-card-title class="py-4 title">
+            <v-card-title v-if="isNewTrack" class="py-4 title">
               Add new track
+            </v-card-title>
+            <v-card-title v-else class="py-4 title">
+              Edit track
             </v-card-title>
             <form>
               <v-layout row wrap>
@@ -58,7 +61,7 @@
                   </v-text-field>
                 </v-flex>
                 <v-flex xs8 justify-space-between>
-                  <CountrySelect />
+                  <CountrySelect @changeCountry="onChangeCountry" />
                 </v-flex>
                 <v-flex xs4>
                  <v-text-field
@@ -71,22 +74,13 @@
                 <v-flex xs12>
                   Circuit Length
                 </v-flex>
-                <v-flex xs6>
+                <v-flex xs12>
                   <v-text-field
-                    v-validate="'numeric|required'" name="length" type="text"
+                    v-validate="{required: true, regex: '^([0-9.]+)$' }" name="length" type="text"
                     :error-messages="errors.collect('length')"
-                    label="Km"
-                    v-model="length.km"
+                    label="x.xx"
+                    v-model="length"
                     suffix="km"
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs6>
-                  <v-text-field
-                    v-validate="'numeric|required'" name="length" type="text"
-                    :error-messages="errors.collect('length')"
-                    label="M"
-                    v-model="length.m"
-                    suffix="m"
                   ></v-text-field>
                 </v-flex>
                 Track Image
@@ -105,9 +99,9 @@
             </form>
             <message />
             <v-card-actions>
-              <v-btn color="red darken-2"  flat @click.stop="addTeamDialog=false">Close</v-btn>
+              <v-btn color="red darken-2"  flat @click="closeEditWindow">Close</v-btn>
               <v-spacer></v-spacer>
-              <v-btn color="red darken-2" @click="addTrack" dark>Save</v-btn>
+              <v-btn color="red darken-2" @click="saveTrack()" dark>Save</v-btn>
             </v-card-actions>
           </v-container>
         </v-card>
@@ -125,15 +119,13 @@ import fb from '@/firebase/config.js'
 export default {
   data () {
     return {
-      addTeamDialog: false,
+      isNewTrack: true,
+      trackDialog: false,
       tracks: [],
       selectedFile: null,
       name: '',
-      length: {
-        km: '',
-        m: ''
-      },
-      firstGP: '',
+      length: null,
+      firstGP: null,
       trackDescription: '',
       country: ''
     }
@@ -144,31 +136,81 @@ export default {
       return isLoggedIn
     }
   },
+  created () {
+    this.getTracks()
+  },
   methods: {
+    addNewWindowOpen () {
+      this.trackDialog = true
+      this.isNewTrack = true
+    },
+    onChangeCountry (val) {
+      this.country = val
+    },
     onFileSelected (event) {
       this.selectedFile = event.target.files[0]
       console.log(this.selectedFile)
+    },
+    saveTrack () {
+      if (this.isNewTrack) {
+        this.addTrack ()
+      } else {
+        this.updateTrack ()
+      }
     },
     addTrack () {
       fb.tracksCollection.doc(this.name).set({
         name: this.name,
         country: this.country,
         firstGP: this.firstGP,
-        length: this.length.km + '.' + this.length.m,
+        length: this.length,
         description: this.trackDescription
       }).then(
         console.log('Track note created!')
       )
     },
-    onEditOpen (name, lenght, country, firstGP, trackDescription) {
-      this.name = userId,
-      this.length = {
-        km: lenght.km,
-        m: length.m
-      },
-      this.country = country,
-      this.firstGP = firstGP,
+    updateTrack () {
+      fb.tracksCollection.doc(this.name).update({
+        name: this.name,
+        country: this.country,
+        firstGP: this.firstGP,
+        length: this.length,
+        description: this.trackDescription
+      }).then(
+        console.log('Track note created!')
+      )
+    },
+    onEditClick (name, length, country, firstGP, trackDescription) {
+      this.name = name
+      this.length = length,
+      this.country = country
+      this.firstGP = firstGP
       this.trackDescription = trackDescription
+      this.isNewTrack = false
+      this.trackDialog = true
+    },
+    closeEditWindow () {
+      this.selectedFile = null
+      this.name = ''
+      this.length = null
+      this.firstGP = null
+      this.trackDescription = ''
+      this.country = ''
+      this.trackDialog = false
+      this.isNewTrack = true
+    },
+    deleteTrack () {
+      // 
+    },
+    getTracks () {
+      var tracksArr = []
+      fb.tracksCollection.get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+        // doc.data() is never undefined for query doc snapshots
+        tracksArr.push(doc.data())
+        })
+        this.tracks = tracksArr
+      })
     }
   },
   components: {

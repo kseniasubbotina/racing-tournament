@@ -49,9 +49,8 @@
                         @click="$router.push('/user_'+props.item.id)">
                         <v-icon>account_circle</v-icon> View
                       </v-btn>
-                      <v-btn color="white"  flat 
-                        @click.stop="editUserDialog = true" 
-                        @click="onEditOpen(props.item.id, props.item.username, props.item.country, props.item.avatarURL, props.item.role)">
+                      <v-btn color="white"  flat
+                        @click="onEditClick(props.item.id, props.item.username, props.item.country, props.item.avatarURL, props.item.role)">
                         <v-icon>edit</v-icon> Edit
                       </v-btn>
                       <v-btn color="red" flat @click.stop="confirmDialog = true">
@@ -171,12 +170,13 @@ export default {
     }
   },
   methods: {
-    onEditOpen (userId, username, country, avatarURL, role) {
-      this.userId = userId,
-      this.username = username,
-      this.country = country,
-      this.role = role,
+    onEditClick (userId, username, country, avatarURL, role) {
+      this.userId = userId
+      this.username = username
+      this.country = country
+      this.role = role
       this.avatarURL = avatarURL
+      this.editUserDialog = true
     },
     onChangeCountry (val) {
       this.country = val
