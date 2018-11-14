@@ -23,7 +23,7 @@
             </v-btn>
             <v-list>
               <v-list-tile
-              @click="onEditClick(track.name, track.length, track.country, track.firstGP, track.description)">
+              @click="onEditClick(track.id, track.name, track.length, track.country, track.firstGP, track.description)">
                 <v-list-tile-title>Edit</v-list-tile-title>
               </v-list-tile>
               <v-list-tile
@@ -35,6 +35,7 @@
         </v-layout>
         <v-card-text>
           <div>Track information</div>
+          {{track.id}}
         </v-card-text>
         <v-card-actions>
           <v-btn flat color="green">View</v-btn>
@@ -123,6 +124,7 @@ export default {
       trackDialog: false,
       tracks: [],
       selectedFile: null,
+      id: '',
       name: '',
       length: null,
       firstGP: null,
@@ -151,6 +153,19 @@ export default {
       this.selectedFile = event.target.files[0]
       console.log(this.selectedFile)
     },
+    getTracks () {
+      var tracksArr = []
+      fb.tracksCollection.get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          var data = doc.data()
+          for(let i = 0; i < data.length; i ++) {
+            data.id = doc.id
+          }
+          tracksArr.push(data)
+        })
+        this.tracks = tracksArr
+      })
+    },
     saveTrack () {
       if (this.isNewTrack) {
         this.addTrack ()
@@ -166,21 +181,24 @@ export default {
         length: this.length,
         description: this.trackDescription
       }).then(
+        this.trackDialog = false,
         console.log('Track note created!')
       )
     },
     updateTrack () {
-      fb.tracksCollection.doc(this.name).update({
+      fb.tracksCollection.doc(this.id).update({
         name: this.name,
         country: this.country,
         firstGP: this.firstGP,
         length: this.length,
         description: this.trackDescription
       }).then(
-        console.log('Track note created!')
+        this.trackDialog = false,
+        console.log('Track note changed!')
       )
     },
-    onEditClick (name, length, country, firstGP, trackDescription) {
+    onEditClick (id, name, length, country, firstGP, trackDescription) {
+      this.id = id
       this.name = name
       this.length = length,
       this.country = country
@@ -201,16 +219,6 @@ export default {
     },
     deleteTrack () {
       // 
-    },
-    getTracks () {
-      var tracksArr = []
-      fb.tracksCollection.get().then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-        // doc.data() is never undefined for query doc snapshots
-        tracksArr.push(doc.data())
-        })
-        this.tracks = tracksArr
-      })
     }
   },
   components: {
