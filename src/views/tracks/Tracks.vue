@@ -35,7 +35,6 @@
         </v-layout>
         <v-card-text>
           <div>Track information</div>
-          {{track.id}}
         </v-card-text>
         <v-card-actions>
           <v-btn flat color="green">View</v-btn>
@@ -62,7 +61,7 @@
                   </v-text-field>
                 </v-flex>
                 <v-flex xs8 justify-space-between>
-                  <CountrySelect @changeCountry="onChangeCountry" />
+                  <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="country" />
                 </v-flex>
                 <v-flex xs4>
                  <v-text-field
