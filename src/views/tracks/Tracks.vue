@@ -34,7 +34,7 @@
           </v-menu>
         </v-layout>
         <v-card-text>
-          <div>Track information</div>
+          <div>{{track.country}}</div>
         </v-card-text>
         <v-card-actions>
           <v-btn flat color="green">View</v-btn>
@@ -61,7 +61,7 @@
                   </v-text-field>
                 </v-flex>
                 <v-flex xs8 justify-space-between>
-                  <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="country" />
+                  <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="country" :_isRequired="false"/>
                 </v-flex>
                 <v-flex xs4>
                  <v-text-field
@@ -173,28 +173,34 @@ export default {
       }
     },
     addTrack () {
-      fb.tracksCollection.doc(this.name).set({
-        name: this.name,
-        country: this.country,
-        firstGP: this.firstGP,
-        length: this.length,
-        description: this.trackDescription
-      }).then(
-        this.trackDialog = false,
-        console.log('Track note created!')
-      )
+      this.$validator.validate().then(result => {
+        if(result) {
+          fb.tracksCollection.doc(this.name).set({
+            name: this.name,
+            country: this.country,
+            firstGP: this.firstGP,
+            length: this.length,
+            description: this.trackDescription
+          }).then(
+            this.closeEditWindow()
+          )
+        }
+      })
     },
     updateTrack () {
-      fb.tracksCollection.doc(this.id).update({
-        name: this.name,
-        country: this.country,
-        firstGP: this.firstGP,
-        length: this.length,
-        description: this.trackDescription
-      }).then(
-        this.trackDialog = false,
-        console.log('Track note changed!')
-      )
+      this.$validator.validate().then(result => {
+        if(result) {
+          fb.tracksCollection.doc(this.id).update({
+            name: this.name,
+            country: this.country,
+            firstGP: this.firstGP,
+            length: this.length,
+            description: this.trackDescription
+          }).then(
+            this.closeEditWindow()
+          )
+        }
+      })
     },
     onEditClick (id, name, length, country, firstGP, trackDescription) {
       this.id = id

@@ -1,7 +1,7 @@
 <template>
 <div>
   <v-autocomplete
-  v-validate="'required'" type="text" name="name" :error-messages="errors.collect('name')"
+  v-validate="_isRequired" type="text" name="name" :error-messages="errors.collect('name')"
     :items="countries"
     label="Country"
     autocomplete
@@ -20,6 +20,7 @@ export default {
     }
   },
   props: {
+    '_isRequired': Boolean,
     '_selectedCountry': String
   },
   created () {
