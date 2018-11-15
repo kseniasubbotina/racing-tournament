@@ -2,7 +2,7 @@
 <v-container>
     <v-layout wrap>
     <v-spacer></v-spacer>
-     <v-btn color="white"  flat 
+     <v-btn flat 
         @click="addNewWindowOpen">
         <v-icon>add</v-icon> Add new
       </v-btn>
