@@ -182,7 +182,8 @@ export default {
             length: this.length,
             description: this.trackDescription
           }).then(
-            this.closeEditWindow()
+            this.closeEditWindow(),
+            this.getTracks()
           )
         }
       })
@@ -197,7 +198,8 @@ export default {
             length: this.length,
             description: this.trackDescription
           }).then(
-            this.closeEditWindow()
+            this.closeEditWindow(),
+            this.getTracks()
           )
         }
       })
