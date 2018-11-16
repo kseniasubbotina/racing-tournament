@@ -50,7 +50,7 @@ export default {
         label: 'Tracks',
         icon: 'swap_calls',
         route: 'tracks',
-        role: 1
+        role: 0
       }
     ]
   }),

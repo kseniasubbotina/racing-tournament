@@ -1,112 +1,121 @@
 <template>
 <v-container>
+    <div v-if="loading" class="text-xs-center">
+      <v-progress-circular
+        :size="50"
+        color="red"
+        indeterminate
+      ></v-progress-circular>
+    </div>
+    <div v-else>
+      <v-layout wrap>
+        <v-spacer></v-spacer>
+        <v-btn v-if="isAdmin" flat 
+            @click="addNewWindowOpen">
+            <v-icon>add</v-icon> Add new
+        </v-btn>
+      </v-layout>
     <v-layout wrap>
-    <v-spacer></v-spacer>
-     <v-btn flat 
-        @click="addNewWindowOpen">
-        <v-icon>add</v-icon> Add new
-      </v-btn>
-  </v-layout>
-  <v-layout wrap>
-    <v-flex xs6 pa-1 v-for="track in tracks" :key="track.id">
-      <v-card>
-        <v-layout>
-            <v-card-title primary-title>
-              <div class="headline">{{track.name}}</div>
-            </v-card-title>
-            <v-spacer />
-            <v-menu bottom left>
-            <v-btn
-              slot="activator"
-              icon>
-              <v-icon>more_vert</v-icon>
-            </v-btn>
-            <v-list>
-              <v-list-tile
-              @click="onEditClick(track.id, track.name, track.length, track.country, track.firstGP, track.description)">
-                <v-list-tile-title>Edit</v-list-tile-title>
-              </v-list-tile>
-              <v-list-tile
-              @click="deleteTrack">
-                <v-list-tile-title>Delete</v-list-tile-title>
-              </v-list-tile>
-            </v-list>
-          </v-menu>
-        </v-layout>
-        <v-card-text>
-          <div>{{track.country}}</div>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn flat color="green">View</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-      <v-dialog v-model="trackDialog" persistent max-width="700px">
+      <v-flex xs6 pa-1 v-for="track in tracks" :key="track.id">
         <v-card>
-          <v-container grid-list-sm class="pa-4">
-            <v-card-title v-if="isNewTrack" class="py-4 title">
-              Add new track
-            </v-card-title>
-            <v-card-title v-else class="py-4 title">
-              Edit track
-            </v-card-title>
-            <form>
-              <v-layout row wrap>
-                <v-flex xs12>
-                  <v-text-field label="Circuit Name" 
-                    v-validate="'required|min:2'" 
-                    type="text" name="name"
-                    v-model="name"
-                    :error-messages="errors.collect('name')">
-                  </v-text-field>
-                </v-flex>
-                <v-flex xs8 justify-space-between>
-                  <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="country" :_isRequired="false"/>
-                </v-flex>
-                <v-flex xs4>
-                 <v-text-field
-                    v-validate="'numeric|required'" name="first grand prix" type="text"
-                    :error-messages="errors.collect('first grand prix')"
-                    label="First grand prix"
-                    v-model="firstGP"
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  Circuit Length
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field
-                    v-validate="{required: true, regex: '^([0-9.]+)$' }" name="length" type="text"
-                    :error-messages="errors.collect('length')"
-                    label="x.xx"
-                    v-model="length"
-                    suffix="km"
-                  ></v-text-field>
-                </v-flex>
-                Track Image
-                <v-flex xs12 justify-center>
-                  <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
-                  <v-btn flat color="error">Delete</v-btn>
-                  <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
-                </v-flex>
-                <v-flex>
-                  <v-textarea
-                    v-model="trackDescription"
-                    label="Track Description"
-                  ></v-textarea>
-                </v-flex>
-              </v-layout>
-            </form>
-            <message />
-            <v-card-actions>
-              <v-btn color="red darken-2"  flat @click="closeEditWindow">Close</v-btn>
-              <v-spacer></v-spacer>
-              <v-btn color="red darken-2" @click="saveTrack()" dark>Save</v-btn>
-            </v-card-actions>
-          </v-container>
+          <v-layout>
+              <v-card-title primary-title>
+                <div class="headline">{{track.name}}</div>
+              </v-card-title>
+              <v-spacer />
+              <v-menu v-if="isAdmin" bottom left>
+              <v-btn
+                slot="activator"
+                icon>
+                <v-icon>more_vert</v-icon>
+              </v-btn>
+              <v-list>
+                <v-list-tile
+                @click="onEditClick(track.id, track.name, track.length, track.country, track.firstGP, track.description)">
+                  <v-list-tile-title>Edit</v-list-tile-title>
+                </v-list-tile>
+                <v-list-tile
+                @click="deleteTrack">
+                  <v-list-tile-title>Delete</v-list-tile-title>
+                </v-list-tile>
+              </v-list>
+            </v-menu>
+          </v-layout>
+          <v-card-text>
+            <div>{{track.country}}</div>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn flat color="green">View</v-btn>
+          </v-card-actions>
         </v-card>
-      </v-dialog>
-  </v-layout>
+      </v-flex>
+        <v-dialog v-model="trackDialog" persistent max-width="700px">
+          <v-card>
+            <v-container grid-list-sm class="pa-4">
+              <v-card-title v-if="isNewTrack" class="py-4 title">
+                Add new track
+              </v-card-title>
+              <v-card-title v-else class="py-4 title">
+                Edit track
+              </v-card-title>
+              <form>
+                <v-layout row wrap>
+                  <v-flex xs12>
+                    <v-text-field label="Circuit Name" 
+                      v-validate="'required|min:2'" 
+                      type="text" name="name"
+                      v-model="name"
+                      :error-messages="errors.collect('name')">
+                    </v-text-field>
+                  </v-flex>
+                  <v-flex xs8 justify-space-between>
+                    <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="country" :_isRequired="false"/>
+                  </v-flex>
+                  <v-flex xs4>
+                  <v-text-field
+                      v-validate="'numeric|required'" name="first grand prix" type="text"
+                      :error-messages="errors.collect('first grand prix')"
+                      label="First grand prix"
+                      v-model="firstGP"
+                    ></v-text-field>
+                  </v-flex>
+                  <v-flex xs12>
+                    Circuit Length
+                  </v-flex>
+                  <v-flex xs12>
+                    <v-text-field
+                      v-validate="{required: true, regex: '^([0-9.]+)$' }" name="length" type="text"
+                      :error-messages="errors.collect('length')"
+                      label="x.xx"
+                      v-model="length"
+                      suffix="km"
+                    ></v-text-field>
+                  </v-flex>
+                  Track Image
+                  <v-flex xs12 justify-center>
+                    <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
+                    <v-btn flat color="error">Delete</v-btn>
+                    <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
+                  </v-flex>
+                  <v-flex>
+                    <v-textarea
+                      v-model="trackDescription"
+                      label="Track Description"
+                    ></v-textarea>
+                  </v-flex>
+                </v-layout>
+              </form>
+              <message />
+              <v-card-actions>
+                <v-btn color="red darken-2"  flat @click="closeEditWindow">Close</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn color="red darken-2" @click="saveTrack()" dark>Save</v-btn>
+              </v-card-actions>
+            </v-container>
+          </v-card>
+        </v-dialog>
+    </v-layout>
+  </div>
 </v-container>
 
 </template>
@@ -132,6 +141,14 @@ export default {
     }
   },
   computed: {
+    isAdmin () {
+      if (this.$store.getters.userData.role == '1') {
+        return true
+      } else return 0
+    },
+    loading () {
+      return this.$store.getters.loading
+    },
     isLoggedIn () {
       var isLoggedIn = this.$store.getters.user ? true : false
       return isLoggedIn
@@ -153,6 +170,7 @@ export default {
       console.log(this.selectedFile)
     },
     getTracks () {
+      this.$store.commit('set', { type: 'loading', val: true })
       var tracksArr = []
       fb.tracksCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
@@ -162,14 +180,17 @@ export default {
           }
           tracksArr.push(data)
         })
+        this.$store.commit('set', { type: 'loading', val: false })
         this.tracks = tracksArr
       })
     },
     saveTrack () {
-      if (this.isNewTrack) {
-        this.addTrack ()
-      } else {
+      if (this.isAdmin) {
+        if (this.isNewTrack) {
+          this.addTrack ()
+        } else {
         this.updateTrack ()
+        }
       }
     },
     addTrack () {
