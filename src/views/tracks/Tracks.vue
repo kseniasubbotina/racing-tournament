@@ -137,7 +137,8 @@ export default {
       length: null,
       firstGP: null,
       trackDescription: '',
-      country: ''
+      country: '',
+      selectedFile: null
     }
   },
   computed: {
@@ -247,6 +248,10 @@ export default {
     },
     deleteTrack () {
       // 
+    },
+    onFileSelected (event) {
+      this.selectedFile = event.target.files[0]
+      console.log(this.selectedFile)
     }
   },
   components: {
