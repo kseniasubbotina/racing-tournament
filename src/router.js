@@ -63,7 +63,7 @@ const router = new Router({
       component: Tracks
     },
     {
-      path: '/track_:id',
+      path: '/circuit_:id',
       name: 'Track',
       component: Track
     },

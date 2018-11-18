@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-app id="inspire" dark>
+    <v-app id="inspire">
       <v-navigation-drawer
         fixed
         :clipped="$vuetify.breakpoint.lgAndUp"

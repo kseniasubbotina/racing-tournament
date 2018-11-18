@@ -17,7 +17,7 @@
       </v-layout>
     <v-layout wrap>
       <v-flex xs6 pa-1 v-for="track in tracks" :key="track.id">
-        <v-card>
+        <v-card :to="'/circuit_' + track.id">
           <v-layout>
               <v-card-title primary-title>
                 <div class="headline">{{track.name}}</div>
@@ -44,9 +44,9 @@
           <v-card-text>
             <div>{{track.country}}</div>
           </v-card-text>
-          <v-card-actions>
+          <!-- <v-card-actions>
             <v-btn flat color="green">View</v-btn>
-          </v-card-actions>
+          </v-card-actions> -->
         </v-card>
       </v-flex>
         <v-dialog v-model="trackDialog" persistent max-width="700px">
