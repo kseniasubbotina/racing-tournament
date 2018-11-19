@@ -49,7 +49,8 @@
       </v-content>
       <v-footer color="grey darken-3" app>
         <v-layout>
-          <v-flex align-center class="text-xs-center">
+          <v-flex align-center 
+            class="text-xs-center">
             &copy; 2018
           </v-flex>
         </v-layout>
