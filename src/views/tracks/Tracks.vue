@@ -93,13 +93,14 @@
                   </v-flex>
                   <v-flex xs12 class="text-xs-center">
                     Track Image
+                    {{trackImageUrl}}
                     <v-layout justify-center align-center column wrap>
                       <v-flex>
                         <img :src="trackImageUrl" width="300px" alt=""><br>
                       </v-flex>
                       <v-flex>
                         <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
-                        <v-btn flat color="error">Delete</v-btn>
+                        <v-btn @click="deleteImage(id)" v-if="selectedFile || trackImageUrl" flat color="error">Delete</v-btn>
                         <input style="display: none" ref="filenput" type="file" @change="onFileSelected">                        
                       </v-flex>
                       <div v-if="selectedFile">
@@ -227,7 +228,7 @@ export default {
       this.$validator.validate().then(result => {
         if(result) {
           if (this.selectedFile) {
-          var uploadTask = fb.storageRef.child('tracks_images/' + this.name + new Date()).put(this.selectedFile)
+          var uploadTask = fb.storageRef.child('tracks_images/' + this.name).put(this.selectedFile)
             uploadTask.on('state_changed', snapshot => {
               var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
               console.log('Upload is ' + progress + '% done')
@@ -256,6 +257,7 @@ export default {
             country: this.country,
             firstGP: this.firstGP,
             length: this.length,
+            imageUrl: this.trackImageUrl,
             description: this.trackDescription
           }).then(
             this.closeEditWindow(),
@@ -281,7 +283,7 @@ export default {
       this.name = ''
       this.length = null
       this.firstGP = null
-      this.imageUrl = '',
+      this.trackImageUrl = '',
       this.trackDescription = ''
       this.country = ''
       this.trackDialog = false
@@ -294,18 +296,31 @@ export default {
       this.selectedFile = event.target.files[0]
     },
     uploadImage () {
-      var uploadTask = fb.storageRef.child('tracks_images/' + this.name + new Date()).put(this.selectedFile)
-        uploadTask.on('state_changed', snapshot => {
-          var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          console.log('Upload is ' + progress + '% done')
-          this.loadingProgress = progress
+      var uploadTask = fb.storageRef.child('tracks_images/' + this.name).put(this.selectedFile)
+      uploadTask.on('state_changed', snapshot => {
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        console.log('Upload is ' + progress + '% done')
+        this.loadingProgress = progress
+      })
+      uploadTask.then(snapshot => {
+        console.log('Uploaded a file!')
+        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+          this.trackImageUrl = downloadURL
         })
-        uploadTask.then(snapshot => {
-          console.log('Uploaded a file!')
-          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-            this.trackImageUrl = downloadURL
-          })
-        })
+      })
+    },
+    deleteImage () {
+      this.selectedFile = null
+      this.trackImageUrl = ""
+      if(this.trackImageUrl) {
+        fb.storageRef.child('tracks_images/' + this.id).delete().then(function() {
+          console.log('deleted')
+          this.updateTrack()
+        }).catch(function(error) {
+          console.log(error)
+          // Uh-oh, an error occurred!
+        });
+      }
     }
   },
   components: {
