@@ -31,7 +31,7 @@
               </v-btn>
               <v-list>
                 <v-list-tile
-                @click="onEditClick(track.id, track.name, track.length, track.country, track.firstGP, track.description)">
+                @click="onEditClick(track.id, track.name, track.length, track.country, track.firstGP, track.imageUrl, track.description)">
                   <v-list-tile-title>Edit</v-list-tile-title>
                 </v-list-tile>
                 <v-list-tile
@@ -91,11 +91,22 @@
                       suffix="km"
                     ></v-text-field>
                   </v-flex>
-                  Track Image
-                  <v-flex xs12 justify-center>
-                    <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
-                    <v-btn flat color="error">Delete</v-btn>
-                    <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
+                  <v-flex xs12 class="text-xs-center">
+                    Track Image
+                    {{trackImageUrl}}
+                    <v-layout justify-center align-center column wrap>
+                      <v-flex>
+                        <img :src="trackImageUrl" width="300px" alt=""><br>
+                      </v-flex>
+                      <v-flex>
+                        <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
+                        <v-btn @click="deleteImage(id)" v-if="selectedFile || trackImageUrl" flat color="error">Delete</v-btn>
+                        <input style="display: none" ref="filenput" type="file" @change="onFileSelected">                        
+                      </v-flex>
+                      <div v-if="selectedFile">
+                        {{selectedFile.name}}
+                      </div>                      
+                    </v-layout>
                   </v-flex>
                   <v-flex>
                     <v-textarea
@@ -136,8 +147,11 @@ export default {
       name: '',
       length: null,
       firstGP: null,
+      trackImageUrl: '',
       trackDescription: '',
-      country: ''
+      country: '',
+      selectedFile: null,
+      loadingProgress: null
     }
   },
   computed: {
@@ -201,6 +215,7 @@ export default {
             country: this.country,
             firstGP: this.firstGP,
             length: this.length,
+            imageUrl: this.trackImageUrl,
             description: this.trackDescription
           }).then(
             this.closeEditWindow(),
@@ -212,25 +227,53 @@ export default {
     updateTrack () {
       this.$validator.validate().then(result => {
         if(result) {
-          fb.tracksCollection.doc(this.id).update({
+          if (this.selectedFile) {
+          var uploadTask = fb.storageRef.child('tracks_images/' + this.name).put(this.selectedFile)
+            uploadTask.on('state_changed', snapshot => {
+              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+              console.log('Upload is ' + progress + '% done')
+              this.loadingProgress = progress
+            })
+            uploadTask.then(snapshot => {
+              console.log('Uploaded a file!')
+              uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+                this.trackImageUrl = downloadURL
+                fb.tracksCollection.doc(this.id).update({
+                name: this.name,
+                country: this.country,
+                firstGP: this.firstGP,
+                length: this.length,
+                imageUrl: this.trackImageUrl,
+                description: this.trackDescription
+                }).then(
+                  this.closeEditWindow(),
+                  this.getTracks()
+                )                
+              })
+            })
+          } else {
+            fb.tracksCollection.doc(this.id).update({
             name: this.name,
             country: this.country,
             firstGP: this.firstGP,
             length: this.length,
+            imageUrl: this.trackImageUrl,
             description: this.trackDescription
           }).then(
             this.closeEditWindow(),
             this.getTracks()
-          )
+            )
+          }
         }
       })
     },
-    onEditClick (id, name, length, country, firstGP, trackDescription) {
+    onEditClick (id, name, length, country, firstGP, trackImageUrl, trackDescription) {
       this.id = id
       this.name = name
       this.length = length,
       this.country = country
       this.firstGP = firstGP
+      this.trackImageUrl = trackImageUrl,
       this.trackDescription = trackDescription
       this.isNewTrack = false
       this.trackDialog = true
@@ -240,6 +283,7 @@ export default {
       this.name = ''
       this.length = null
       this.firstGP = null
+      this.trackImageUrl = '',
       this.trackDescription = ''
       this.country = ''
       this.trackDialog = false
@@ -247,6 +291,36 @@ export default {
     },
     deleteTrack () {
       // 
+    },
+    onFileSelected (event) {
+      this.selectedFile = event.target.files[0]
+    },
+    uploadImage () {
+      var uploadTask = fb.storageRef.child('tracks_images/' + this.name).put(this.selectedFile)
+      uploadTask.on('state_changed', snapshot => {
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        console.log('Upload is ' + progress + '% done')
+        this.loadingProgress = progress
+      })
+      uploadTask.then(snapshot => {
+        console.log('Uploaded a file!')
+        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+          this.trackImageUrl = downloadURL
+        })
+      })
+    },
+    deleteImage () {
+      this.selectedFile = null
+      this.trackImageUrl = ""
+      if(this.trackImageUrl) {
+        fb.storageRef.child('tracks_images/' + this.id).delete().then(function() {
+          console.log('deleted')
+          this.updateTrack()
+        }).catch(function(error) {
+          console.log(error)
+          // Uh-oh, an error occurred!
+        });
+      }
     }
   },
   components: {
