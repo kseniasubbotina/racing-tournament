@@ -92,8 +92,12 @@
                     ></v-text-field>
                   </v-flex>
                   <v-flex xs12 class="text-xs-center">
-                    Track Image
-                    {{trackImageUrl}}
+                    <div v-if="selectedFile">
+                      {{selectedFile.name}}
+                    </div>
+                    <div v-else>
+                      Track Image
+                    </div>
                     <v-layout justify-center align-center column wrap>
                       <v-flex>
                         <img :src="trackImageUrl" width="300px" alt=""><br>
@@ -103,9 +107,7 @@
                         <v-btn @click="deleteImage(id)" v-if="selectedFile || trackImageUrl" flat color="error">Delete</v-btn>
                         <input style="display: none" ref="filenput" type="file" @change="onFileSelected">                        
                       </v-flex>
-                      <div v-if="selectedFile">
-                        {{selectedFile.name}}
-                      </div>                      
+                      <message />                 
                     </v-layout>
                   </v-flex>
                   <v-flex>
@@ -116,11 +118,10 @@
                   </v-flex>
                 </v-layout>
               </form>
-              <message />
               <v-card-actions>
                 <v-btn color="red darken-2"  flat @click="closeEditWindow">Close</v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="red darken-2" @click="saveTrack()" dark>Save</v-btn>
+                <v-btn color="red darken-2" @click="saveTrack()" :loading="imageLoading" dark>Save</v-btn>
               </v-card-actions>
             </v-container>
           </v-card>
@@ -151,7 +152,7 @@ export default {
       trackDescription: '',
       country: '',
       selectedFile: null,
-      loadingProgress: null
+      imageLoading: false,
     }
   },
   computed: {
@@ -210,17 +211,44 @@ export default {
     addTrack () {
       this.$validator.validate().then(result => {
         if(result) {
-          fb.tracksCollection.doc(this.name).set({
-            name: this.name,
-            country: this.country,
-            firstGP: this.firstGP,
-            length: this.length,
-            imageUrl: this.trackImageUrl,
-            description: this.trackDescription
-          }).then(
-            this.closeEditWindow(),
-            this.getTracks()
-          )
+          if (this.selectedFile) {
+            var uploadTask = fb.storageRef.child('tracks_images/' + this.name).put(this.selectedFile)
+            uploadTask.on('state_changed', snapshot => {
+              this.imageLoading = true
+              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+              console.log('Upload is ' + progress + '% done')
+            })
+            uploadTask.then(snapshot => {
+              this.imageLoading = false
+              console.log('Uploaded a file!')
+              uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+                this.trackImageUrl = downloadURL
+                fb.tracksCollection.doc(this.name).set({
+                name: this.name,
+                country: this.country,
+                firstGP: this.firstGP,
+                length: this.length,
+                imageUrl: this.trackImageUrl,
+                description: this.trackDescription
+                }).then(
+                  this.getTracks(),
+                  this.closeEditWindow()
+                )                
+              })
+            })
+          } else {
+            fb.tracksCollection.doc(this.name).set({
+              name: this.name,
+              country: this.country,
+              firstGP: this.firstGP,
+              length: this.length,
+              imageUrl: this.trackImageUrl,
+              description: this.trackDescription
+            }).then(
+              this.closeEditWindow(),
+              this.getTracks()
+            )            
+          }
         }
       })
     },
@@ -228,13 +256,14 @@ export default {
       this.$validator.validate().then(result => {
         if(result) {
           if (this.selectedFile) {
-          var uploadTask = fb.storageRef.child('tracks_images/' + this.name).put(this.selectedFile)
+          var uploadTask = fb.storageRef.child('tracks_images/' + this.id).put(this.selectedFile)
             uploadTask.on('state_changed', snapshot => {
+              this.imageLoading = true
               var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
               console.log('Upload is ' + progress + '% done')
-              this.loadingProgress = progress
             })
             uploadTask.then(snapshot => {
+              this.imageLoading = false
               console.log('Uploaded a file!')
               uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
                 this.trackImageUrl = downloadURL
@@ -246,8 +275,8 @@ export default {
                 imageUrl: this.trackImageUrl,
                 description: this.trackDescription
                 }).then(
-                  this.closeEditWindow(),
-                  this.getTracks()
+                  this.getTracks(),
+                  this.closeEditWindow()
                 )                
               })
             })
@@ -293,29 +322,21 @@ export default {
       // 
     },
     onFileSelected (event) {
-      this.selectedFile = event.target.files[0]
-    },
-    uploadImage () {
-      var uploadTask = fb.storageRef.child('tracks_images/' + this.name).put(this.selectedFile)
-      uploadTask.on('state_changed', snapshot => {
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        console.log('Upload is ' + progress + '% done')
-        this.loadingProgress = progress
-      })
-      uploadTask.then(snapshot => {
-        console.log('Uploaded a file!')
-        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-          this.trackImageUrl = downloadURL
-        })
-      })
+      let type = event.target.files[0].type
+      if(type == 'image/png' || type == 'image/jpg' || type == 'image/jpeg'){
+        this.selectedFile = event.target.files[0]
+        this.trackImageUrl = ''
+      } else {
+        this.$store.commit('setMessage', { type: 'error', text: 'Incorrect type of file. Only PNG, JPEG allowed.' })
+      }
     },
     deleteImage () {
       this.selectedFile = null
-      this.trackImageUrl = ""
       if(this.trackImageUrl) {
+        this.trackImageUrl = ""
         fb.storageRef.child('tracks_images/' + this.id).delete().then(function() {
           console.log('deleted')
-          this.updateTrack()
+          // this.updateTrack()
         }).catch(function(error) {
           console.log(error)
           // Uh-oh, an error occurred!
