@@ -106,7 +106,8 @@
                         <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
                         <v-btn @click="deleteImage(id)" v-if="selectedFile || trackImageUrl" flat color="error">Delete</v-btn>
                         <input style="display: none" ref="filenput" type="file" @change="onFileSelected">                        
-                      </v-flex>                    
+                      </v-flex>
+                      <message />                 
                     </v-layout>
                   </v-flex>
                   <v-flex>
@@ -117,7 +118,6 @@
                   </v-flex>
                 </v-layout>
               </form>
-              <message />
               <v-card-actions>
                 <v-btn color="red darken-2"  flat @click="closeEditWindow">Close</v-btn>
                 <v-spacer></v-spacer>
@@ -322,22 +322,13 @@ export default {
       // 
     },
     onFileSelected (event) {
-      this.selectedFile = event.target.files[0]
-    },
-    uploadImage () {
-      var uploadTask = fb.storageRef.child('tracks_images/' + this.name).put(this.selectedFile)
-      uploadTask.on('state_changed', snapshot => {
-        this.imageLoading = true
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        console.log('Upload is ' + progress + '% done')
-      })
-      uploadTask.then(snapshot => {
-        this.imageLoading = false
-        console.log('Uploaded a file!')
-        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-          this.trackImageUrl = downloadURL
-        })
-      })
+      let type = event.target.files[0].type
+      if(type == 'image/png' || type == 'image/jpg' || type == 'image/jpeg'){
+        this.selectedFile = event.target.files[0]
+        this.trackImageUrl = ''
+      } else {
+        this.$store.commit('setMessage', { type: 'error', text: 'Incorrect type of file. Only PNG, JPEG allowed.' })
+      }
     },
     deleteImage () {
       this.selectedFile = null
