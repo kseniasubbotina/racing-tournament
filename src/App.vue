@@ -97,8 +97,12 @@ export default {
 </script>
 
 <style lang="stylus">
+@font-face {
+  font-family: 'f1font';
+  src: url('./assets/fonts/Formula1-Regular.otf') format('opentype');
+}
 #app
-  font-family 'Avenir', Helvetica, Arial, sans-serif
+  font-family 'f1font', Helvetica, Arial, sans-serif
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
   text-align left

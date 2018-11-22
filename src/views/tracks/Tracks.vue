@@ -16,11 +16,13 @@
         </v-btn>
       </v-layout>
     <v-layout wrap>
-      <v-flex xs6 pa-1 v-for="track in tracks" :key="track.id">
+      <v-flex xs12 pa-1 v-for="track in tracks" :key="track.id">
         <v-card>
           <v-layout>
-              <v-card-title primary-title justify-center>
-                <img :src="require(`@/assets/flag-icons/svg/${track.country.toLowerCase()}.svg`)" width="40px" alt="">
+              <v-card-title primary-title>
+                <v-flex pr-4>
+              <img :src="require(`@/assets/flag-icons/svg/${track.country.toLowerCase()}.svg`)" width="40px" alt="">
+            </v-flex>
                 <div class="headline">{{track.name}}</div>
               </v-card-title>
               <v-spacer />
@@ -43,9 +45,10 @@
             </v-menu>
           </v-layout>
           <v-card-text>
-            <!-- <div>{{track.country}}</div> -->
+            {{track.description}}
           </v-card-text>
           <v-card-actions>
+            <v-spacer></v-spacer>
             <v-btn :to="'/circuit_' + track.id" flat color="green">View</v-btn>
           </v-card-actions>
         </v-card>
