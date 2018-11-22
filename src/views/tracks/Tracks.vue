@@ -19,7 +19,8 @@
       <v-flex xs6 pa-1 v-for="track in tracks" :key="track.id">
         <v-card>
           <v-layout>
-              <v-card-title primary-title>
+              <v-card-title primary-title justify-center>
+                <img :src="require(`@/assets/flag-icons/svg/${track.country.toLowerCase()}.svg`)" width="40px" alt="">
                 <div class="headline">{{track.name}}</div>
               </v-card-title>
               <v-spacer />
@@ -42,7 +43,7 @@
             </v-menu>
           </v-layout>
           <v-card-text>
-            <div>{{track.country}}</div>
+            <!-- <div>{{track.country}}</div> -->
           </v-card-text>
           <v-card-actions>
             <v-btn :to="'/circuit_' + track.id" flat color="green">View</v-btn>
