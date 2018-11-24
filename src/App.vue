@@ -42,7 +42,8 @@
       </v-toolbar>
       <v-content>
         <v-container>
-          <v-layout justify-center>
+          <v-layout align-center column>
+            <Breadcrumbs flex-start/>
             <router-view/>
           </v-layout>
         </v-container>
@@ -61,6 +62,7 @@
 
 <script>
 import NavigationMenu from '@/components/NavigationMenu.vue'
+import Breadcrumbs from '@/components/Breadcrumbs.vue'
 export default {
   props: {
     source: String
@@ -92,7 +94,8 @@ export default {
     this.$store.dispatch('clearData')
   },
   components: {
-    NavigationMenu
+    NavigationMenu,
+    Breadcrumbs
   }
 }
 </script>
