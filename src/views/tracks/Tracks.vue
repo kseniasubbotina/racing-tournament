@@ -216,29 +216,22 @@ export default {
       this.$validator.validate().then(result => {
         if(result) {
           if (this.selectedFile) {
-            var uploadTask = fb.storageRef.child('tracks_images/' + this.name).put(this.selectedFile)
-            uploadTask.on('state_changed', snapshot => {
-              this.imageLoading = true
-              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-              console.log('Upload is ' + progress + '% done')
-            })
-            uploadTask.then(snapshot => {
-              this.imageLoading = false
-              console.log('Uploaded a file!')
-              uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-                this.trackImageUrl = downloadURL
-                fb.tracksCollection.doc(this.name).set({
-                name: this.name,
-                country: this.country,
-                firstGP: this.firstGP,
-                length: this.length,
-                imageUrl: this.trackImageUrl,
-                description: this.trackDescription
-                }).then(
-                  this.getTracks(),
-                  this.closeEditWindow()
-                )                
-              })
+            let id = this.name
+            const upload = async id => {
+              let upload = await this.uploadImage()
+            }
+            upload().then(() => {
+              fb.tracksCollection.doc(this.name).set({
+              name: this.name,
+              country: this.country,
+              firstGP: this.firstGP,
+              length: this.length,
+              imageUrl: this.trackImageUrl,
+              description: this.trackDescription
+              }).then(
+                this.getTracks(),
+                this.closeEditWindow()
+              )                
             })
           } else {
             fb.tracksCollection.doc(this.name).set({
@@ -260,29 +253,22 @@ export default {
       this.$validator.validate().then(result => {
         if(result) {
           if (this.selectedFile) {
-          var uploadTask = fb.storageRef.child('tracks_images/' + this.id).put(this.selectedFile)
-            uploadTask.on('state_changed', snapshot => {
-              this.imageLoading = true
-              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-              console.log('Upload is ' + progress + '% done')
-            })
-            uploadTask.then(snapshot => {
-              this.imageLoading = false
-              console.log('Uploaded a file!')
-              uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-                this.trackImageUrl = downloadURL
-                fb.tracksCollection.doc(this.id).update({
+            let id = this.id
+            const upload = async id => {
+              let upload = await this.uploadImage()
+            }
+            upload().then(() => {
+              fb.tracksCollection.doc(this.id).update({
                 name: this.name,
                 country: this.country,
                 firstGP: this.firstGP,
                 length: this.length,
                 imageUrl: this.trackImageUrl,
                 description: this.trackDescription
-                }).then(
-                  this.getTracks(),
-                  this.closeEditWindow()
-                )                
-              })
+              }).then(
+                this.getTracks(),
+                this.closeEditWindow()
+              )
             })
           } else {
             fb.tracksCollection.doc(this.id).update({
@@ -333,6 +319,24 @@ export default {
       } else {
         this.$store.commit('setMessage', { type: 'error', text: 'Incorrect type of file. Only PNG, JPEG allowed.' })
       }
+    },
+    uploadImage (id) {
+      return new Promise(resolve => {
+        var uploadTask = fb.storageRef.child('tracks_images/' + id).put(this.selectedFile)
+        uploadTask.on('state_changed', snapshot => {
+          this.imageLoading = true
+          var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          console.log('Upload is ' + progress + '% done')
+        })
+        uploadTask.then(snapshot => {
+          this.imageLoading = false
+          console.log('Uploaded a file!')
+          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            this.trackImageUrl = downloadURL
+            resolve(downloadURL)
+          })
+        })
+      })
     },
     deleteImage () {
       this.selectedFile = null
