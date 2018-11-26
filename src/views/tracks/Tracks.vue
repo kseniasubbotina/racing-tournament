@@ -216,9 +216,8 @@ export default {
       this.$validator.validate().then(result => {
         if(result) {
           if (this.selectedFile) {
-            let id = this.name
             const upload = async id => {
-              let upload = await this.uploadImage()
+              let upload = await this.uploadImage(this.name)
             }
             upload().then(() => {
               fb.tracksCollection.doc(this.name).set({
@@ -253,9 +252,8 @@ export default {
       this.$validator.validate().then(result => {
         if(result) {
           if (this.selectedFile) {
-            let id = this.id
-            const upload = async id => {
-              let upload = await this.uploadImage()
+            const upload = async () => {
+              let upload = await this.uploadImage(this.id)
             }
             upload().then(() => {
               fb.tracksCollection.doc(this.id).update({
