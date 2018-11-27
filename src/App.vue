@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <v-app id="inspire">
+    <v-app id="inspire" :dark="isDarkColorTheme">
       <v-navigation-drawer
         fixed
         :clipped="$vuetify.breakpoint.lgAndUp"
         app
         v-model="drawer">
-        <navigationMenu/>
+        <navigationMenu @colorThemeChanged="onColorThemeChanged"/>
       </v-navigation-drawer>
       <v-toolbar
         color="red darken-2"
@@ -66,7 +66,8 @@ export default {
   },
   data: () => ({
     dialog: false,
-    drawer: null
+    drawer: null,
+    isDarkColorTheme: null
   }),
   computed: {
     loading () {
@@ -86,6 +87,11 @@ export default {
   },
   mounted () {
     this.$validator.localize('en', this.dictionary)
+  },
+  methods: {
+    onColorThemeChanged (isDarkColorTheme) {
+      this.isDarkColorTheme = isDarkColorTheme
+    }
   },
   beforeDestroy () {
     this.$store.dispatch('clearData')
