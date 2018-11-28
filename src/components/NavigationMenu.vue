@@ -16,27 +16,29 @@
       dark
       class="my-3"
     ></v-divider>
-    <v-subheader>
-      Settings
-    </v-subheader>
-    <v-layout>
-      <v-flex>
-        <v-list-tile>Theme color:</v-list-tile>
-      </v-flex>
-      <v-flex>
-        <v-list-tile>
-          <v-switch
-            :label="colorThemeName"
-            v-model="isDarkColorTheme"
-            @change="colorThemeChanged">
-          </v-switch> 
-        </v-list-tile>
-      </v-flex>     
-    </v-layout>
-    <v-divider
-      dark
-      class="my-3"
-    ></v-divider>
+    <template v-if="isLoggedIn">
+      <v-subheader>
+        Settings
+      </v-subheader>
+      <v-layout>
+        <v-flex>
+          <v-list-tile>Theme color:</v-list-tile>
+        </v-flex>
+        <v-flex>
+          <v-list-tile>
+            <v-switch
+              :label="colorThemeName"
+              v-model="isDarkColorTheme"
+              @change="colorThemeChanged">
+            </v-switch> 
+          </v-list-tile>
+        </v-flex>     
+      </v-layout>
+      <v-divider
+        dark
+        class="my-3"
+      ></v-divider>
+    </template>
   </v-list>
 </template>
 
@@ -81,6 +83,9 @@ export default {
     ]
   }),
   computed: {
+    isLoggedIn () {
+      return this.$store.getters.user ? true : false
+    },
     colorThemeName () {
       return this.isDarkColorTheme ? 'Dark' : 'Light'
     },
@@ -97,7 +102,7 @@ export default {
       this.$router.push(_link.route)
     },
     colorThemeChanged () {
-      this.$emit('colorThemeChanged', this.isDarkColorTheme)
+      this.$emit('colorThemeChanged')
     }
   }
 }

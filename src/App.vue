@@ -60,6 +60,7 @@
 
 <script>
 import NavigationMenu from '@/components/NavigationMenu.vue'
+import fb from './firebase/config.js'
 export default {
   props: {
     source: String
@@ -69,6 +70,11 @@ export default {
     drawer: null,
     isDarkColorTheme: null
   }),
+  watch: {
+    userData () {
+      this.isDarkColorTheme = this.userData.isDarkColorTheme
+    }
+  },
   computed: {
     loading () {
       return this.$store.getters.loading
@@ -89,8 +95,15 @@ export default {
     this.$validator.localize('en', this.dictionary)
   },
   methods: {
-    onColorThemeChanged (isDarkColorTheme) {
-      this.isDarkColorTheme = isDarkColorTheme
+    onColorThemeChanged () {
+      this.isDarkColorTheme = !this.isDarkColorTheme
+      fb.usersCollection.doc(this.$store.getters.user.id).update({
+        isDarkColorTheme: this.isDarkColorTheme
+      }).then(function () {
+        // success
+      }).catch(function (error) {
+        console.log(error)
+      })
     }
   },
   beforeDestroy () {
