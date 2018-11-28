@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <v-app id="inspire">
+    <v-app id="inspire" :dark="isDarkColorTheme">
       <v-navigation-drawer
         fixed
         :clipped="$vuetify.breakpoint.lgAndUp"
         app
         v-model="drawer">
-        <navigationMenu/>
+        <navigationMenu @colorThemeChanged="onColorThemeChanged"/>
       </v-navigation-drawer>
       <v-toolbar
         color="red darken-2"
@@ -60,14 +60,21 @@
 
 <script>
 import NavigationMenu from '@/components/NavigationMenu.vue'
+import fb from './firebase/config.js'
 export default {
   props: {
     source: String
   },
   data: () => ({
     dialog: false,
-    drawer: null
+    drawer: null,
+    isDarkColorTheme: null
   }),
+  watch: {
+    userData () {
+      this.isDarkColorTheme = this.userData.isDarkColorTheme
+    }
+  },
   computed: {
     loading () {
       return this.$store.getters.loading
@@ -86,6 +93,18 @@ export default {
   },
   mounted () {
     this.$validator.localize('en', this.dictionary)
+  },
+  methods: {
+    onColorThemeChanged () {
+      this.isDarkColorTheme = !this.isDarkColorTheme
+      fb.usersCollection.doc(this.$store.getters.user.id).update({
+        isDarkColorTheme: this.isDarkColorTheme
+      }).then(function () {
+        // success
+      }).catch(function (error) {
+        console.log(error)
+      })
+    }
   },
   beforeDestroy () {
     this.$store.dispatch('clearData')
