@@ -27,6 +27,7 @@
         <v-flex>
           <v-list-tile>
             <v-switch
+              color="red"
               :label="colorThemeName"
               v-model="isDarkColorTheme"
               @change="colorThemeChanged">
