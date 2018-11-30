@@ -346,7 +346,7 @@ export default {
         }).catch(function(error) {
           console.log(error)
           // Uh-oh, an error occurred!
-        });
+        })
       }
     }
   },
