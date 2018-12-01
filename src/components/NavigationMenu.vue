@@ -28,7 +28,7 @@
           <v-list-tile>
             <v-switch
               color="red"
-              :label="colorThemeName"
+              :label="colorThemeLabel"
               v-model="isDarkColorTheme"
               @change="colorThemeChanged">
             </v-switch> 
@@ -49,7 +49,7 @@ export default {
   data: () => ({
     dialog: false,
     drawer: null,
-    isDarkColorTheme: false,
+    // isDarkColorTheme: false,
     links: [
       {
         label: 'Home',
@@ -87,7 +87,10 @@ export default {
     isLoggedIn () {
       return this.$store.getters.user ? true : false
     },
-    colorThemeName () {
+    isDarkColorTheme () {
+      return this.$store.getters.userData.isDarkColorTheme ? true : false
+    },
+    colorThemeLabel () {
       return this.isDarkColorTheme ? 'Dark' : 'Light'
     },
     userRole () {
