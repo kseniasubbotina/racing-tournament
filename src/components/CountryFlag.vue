@@ -10,7 +10,6 @@ export default {
   },
   computed: {
     imageName () {
-      debugger
       let countryDashed = this._country.replace(/ /g, '-')
       return `${countryDashed.toLowerCase()}.svg`
     }
