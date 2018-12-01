@@ -21,8 +21,9 @@
           <v-layout>
               <v-card-title primary-title>
                 <v-flex pr-4>
-              <img :src="require(`@/assets/flag-icons/svg/${track.country.toLowerCase()}.svg`)" width="40px" alt="">
-            </v-flex>
+                  <CountryFlag :_country="track.country" />
+                  <!-- <img :src="require(`@/assets/flag-icons/svg/${track.country.toLowerCase()}.svg`)" width="40px" alt=""> -->
+                </v-flex>
                 <div class="headline">{{track.name}}</div>
               </v-card-title>
               <v-spacer />
@@ -139,6 +140,7 @@
 <script>
 import CountrySelect from '@/components/CountrySelect.vue'
 import message from '@/components/Message.vue'
+import CountryFlag from '@/components/CountryFlag.vue'
 import fb from '@/firebase/config.js'
 
 export default {
@@ -352,7 +354,8 @@ export default {
   },
   components: {
     CountrySelect,
-    message
+    message,
+    CountryFlag
   }
 }
 </script>
