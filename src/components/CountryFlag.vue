@@ -1,12 +1,18 @@
 <template>
-  <img :src="require(`@/assets/flag-icons/svg/${imageName}`)" width="40px" alt="">
+  <div>
+      <img v-if="_country" :src="require(`@/assets/flag-icons/svg/${imageName}`)" :width="_width + 'px'" alt="">
+  </div>
 </template>
 
 <script>
 export default {
   name: 'country-flag',
   props: {
-    _country: String
+    _country: String,
+    _width: {
+      type: Number,
+      default: 40
+    }
   },
   computed: {
     imageName () {

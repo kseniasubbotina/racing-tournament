@@ -22,7 +22,6 @@
               <v-card-title primary-title>
                 <v-flex pr-4>
                   <CountryFlag :_country="track.country" />
-                  <!-- <img :src="require(`@/assets/flag-icons/svg/${track.country.toLowerCase()}.svg`)" width="40px" alt=""> -->
                 </v-flex>
                 <div class="headline">{{track.name}}</div>
               </v-card-title>
