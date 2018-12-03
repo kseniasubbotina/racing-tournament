@@ -4,6 +4,7 @@ import store from './store'
 import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/src/stylus/main.styl'
+import './styles/main.css'
 import VeeValidate from 'vee-validate'
 import fb from './firebase/config'
 

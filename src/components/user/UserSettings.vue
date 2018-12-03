@@ -78,8 +78,13 @@ export default {
       this.userData.avatarURL = ''
     },
     onFileSelected (event) {
-      this.selectedFile = event.target.files[0]
-      console.log(this.selectedFile)
+      let type = event.target.files[0].type
+      if(type == 'image/png' || type == 'image/jpg' || type == 'image/jpeg'){
+        this.selectedFile = event.target.files[0]
+        console.log(this.selectedFile)
+      } else {
+        this.$store.commit('setMessage', { type: 'error', text: 'Incorrect type of file. Only PNG, JPEG allowed.' })
+      }
     }
   },
   components: {

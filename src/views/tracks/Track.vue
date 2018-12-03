@@ -13,6 +13,7 @@
       <div>length: {{trackData.length}}</div>
       <div>First GP: {{trackData.firstGP}}</div>
       <div>{{trackData.description}}</div>
+      <img :src="trackData.imageUrl" width="100%" alt="">
   </v-container>
   </div>
 </template>

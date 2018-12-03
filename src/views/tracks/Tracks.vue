@@ -16,10 +16,13 @@
         </v-btn>
       </v-layout>
     <v-layout wrap>
-      <v-flex xs6 pa-1 v-for="track in tracks" :key="track.id">
+      <v-flex xs12 pa-1 v-for="track in tracks" :key="track.id">
         <v-card>
           <v-layout>
               <v-card-title primary-title>
+                <v-flex pr-4>
+                  <CountryFlag :_country="track.country" />
+                </v-flex>
                 <div class="headline">{{track.name}}</div>
               </v-card-title>
               <v-spacer />
@@ -31,7 +34,7 @@
               </v-btn>
               <v-list>
                 <v-list-tile
-                @click="onEditClick(track.id, track.name, track.length, track.country, track.firstGP, track.description)">
+                @click="onEditClick(track.id, track.name, track.length, track.country, track.firstGP, track.imageUrl, track.description)">
                   <v-list-tile-title>Edit</v-list-tile-title>
                 </v-list-tile>
                 <v-list-tile
@@ -42,9 +45,10 @@
             </v-menu>
           </v-layout>
           <v-card-text>
-            <div>{{track.country}}</div>
+            {{track.description}}
           </v-card-text>
           <v-card-actions>
+            <v-spacer></v-spacer>
             <v-btn :to="'/circuit_' + track.id" flat color="green">View</v-btn>
           </v-card-actions>
         </v-card>
@@ -91,11 +95,24 @@
                       suffix="km"
                     ></v-text-field>
                   </v-flex>
-                  Track Image
-                  <v-flex xs12 justify-center>
-                    <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
-                    <v-btn flat color="error">Delete</v-btn>
-                    <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
+                  <v-flex xs12 class="text-xs-center">
+                    <div v-if="selectedFile">
+                      {{selectedFile.name}}
+                    </div>
+                    <div v-else>
+                      Track Image
+                    </div>
+                    <v-layout justify-center align-center column wrap>
+                      <v-flex>
+                        <img :src="trackImageUrl" width="300px" alt=""><br>
+                      </v-flex>
+                      <v-flex>
+                        <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
+                        <v-btn @click="deleteImage(id)" v-if="selectedFile || trackImageUrl" flat color="error">Delete</v-btn>
+                        <input style="display: none" ref="filenput" type="file" @change="onFileSelected">                        
+                      </v-flex>
+                      <message />                 
+                    </v-layout>
                   </v-flex>
                   <v-flex>
                     <v-textarea
@@ -105,11 +122,10 @@
                   </v-flex>
                 </v-layout>
               </form>
-              <message />
               <v-card-actions>
                 <v-btn color="red darken-2"  flat @click="closeEditWindow">Close</v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="red darken-2" @click="saveTrack()" dark>Save</v-btn>
+                <v-btn color="red darken-2" @click="saveTrack()" :loading="imageLoading" dark>Save</v-btn>
               </v-card-actions>
             </v-container>
           </v-card>
@@ -123,6 +139,7 @@
 <script>
 import CountrySelect from '@/components/CountrySelect.vue'
 import message from '@/components/Message.vue'
+import CountryFlag from '@/components/CountryFlag.vue'
 import fb from '@/firebase/config.js'
 
 export default {
@@ -136,8 +153,11 @@ export default {
       name: '',
       length: null,
       firstGP: null,
+      trackImageUrl: '',
       trackDescription: '',
-      country: ''
+      country: '',
+      selectedFile: null,
+      imageLoading: false,
     }
   },
   computed: {
@@ -196,41 +216,82 @@ export default {
     addTrack () {
       this.$validator.validate().then(result => {
         if(result) {
-          fb.tracksCollection.doc(this.name).set({
-            name: this.name,
-            country: this.country,
-            firstGP: this.firstGP,
-            length: this.length,
-            description: this.trackDescription
-          }).then(
-            this.closeEditWindow(),
-            this.getTracks()
-          )
+          if (this.selectedFile) {
+            const upload = async id => {
+              let upload = await this.uploadImage(this.name)
+            }
+            upload().then(() => {
+              fb.tracksCollection.doc(this.name).set({
+              name: this.name,
+              country: this.country,
+              firstGP: this.firstGP,
+              length: this.length,
+              imageUrl: this.trackImageUrl,
+              description: this.trackDescription
+              }).then(
+                this.getTracks(),
+                this.closeEditWindow()
+              )                
+            })
+          } else {
+            fb.tracksCollection.doc(this.name).set({
+              name: this.name,
+              country: this.country,
+              firstGP: this.firstGP,
+              length: this.length,
+              imageUrl: this.trackImageUrl,
+              description: this.trackDescription
+            }).then(
+              this.closeEditWindow(),
+              this.getTracks()
+            )            
+          }
         }
       })
     },
     updateTrack () {
       this.$validator.validate().then(result => {
         if(result) {
-          fb.tracksCollection.doc(this.id).update({
+          if (this.selectedFile) {
+            const upload = async () => {
+              let upload = await this.uploadImage(this.id)
+            }
+            upload().then(() => {
+              fb.tracksCollection.doc(this.id).update({
+                name: this.name,
+                country: this.country,
+                firstGP: this.firstGP,
+                length: this.length,
+                imageUrl: this.trackImageUrl,
+                description: this.trackDescription
+              }).then(
+                this.getTracks(),
+                this.closeEditWindow()
+              )
+            })
+          } else {
+            fb.tracksCollection.doc(this.id).update({
             name: this.name,
             country: this.country,
             firstGP: this.firstGP,
             length: this.length,
+            imageUrl: this.trackImageUrl,
             description: this.trackDescription
           }).then(
             this.closeEditWindow(),
             this.getTracks()
-          )
+            )
+          }
         }
       })
     },
-    onEditClick (id, name, length, country, firstGP, trackDescription) {
+    onEditClick (id, name, length, country, firstGP, trackImageUrl, trackDescription) {
       this.id = id
       this.name = name
       this.length = length,
       this.country = country
       this.firstGP = firstGP
+      this.trackImageUrl = trackImageUrl,
       this.trackDescription = trackDescription
       this.isNewTrack = false
       this.trackDialog = true
@@ -240,6 +301,7 @@ export default {
       this.name = ''
       this.length = null
       this.firstGP = null
+      this.trackImageUrl = '',
       this.trackDescription = ''
       this.country = ''
       this.trackDialog = false
@@ -247,11 +309,52 @@ export default {
     },
     deleteTrack () {
       // 
+    },
+    onFileSelected (event) {
+      let type = event.target.files[0].type
+      if(type == 'image/png' || type == 'image/jpg' || type == 'image/jpeg'){
+        this.selectedFile = event.target.files[0]
+        this.trackImageUrl = ''
+      } else {
+        this.$store.commit('setMessage', { type: 'error', text: 'Incorrect type of file. Only PNG, JPEG allowed.' })
+      }
+    },
+    uploadImage (id) {
+      return new Promise(resolve => {
+        var uploadTask = fb.storageRef.child('tracks_images/' + id).put(this.selectedFile)
+        uploadTask.on('state_changed', snapshot => {
+          this.imageLoading = true
+          var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          console.log('Upload is ' + progress + '% done')
+        })
+        uploadTask.then(snapshot => {
+          this.imageLoading = false
+          console.log('Uploaded a file!')
+          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            this.trackImageUrl = downloadURL
+            resolve(downloadURL)
+          })
+        })
+      })
+    },
+    deleteImage () {
+      this.selectedFile = null
+      if(this.trackImageUrl) {
+        this.trackImageUrl = ""
+        fb.storageRef.child('tracks_images/' + this.id).delete().then(function() {
+          console.log('deleted')
+          // this.updateTrack()
+        }).catch(function(error) {
+          console.log(error)
+          // Uh-oh, an error occurred!
+        })
+      }
     }
   },
   components: {
     CountrySelect,
-    message
+    message,
+    CountryFlag
   }
 }
 </script>

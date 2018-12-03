@@ -15,7 +15,6 @@ import Track from './views/tracks/Track.vue'
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
   routes: [
     {
       path: '/',
