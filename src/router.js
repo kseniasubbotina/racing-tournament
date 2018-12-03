@@ -11,8 +11,6 @@ import Users from './views/user/Users.vue'
 import NotFound from './views/common/NotFound.vue'
 import Tracks from './views/tracks/Tracks.vue'
 import Track from './views/tracks/Track.vue'
-import Hometest from './views/test/hometest.vue'
-import Childtest from './views/test/childtest.vue'
 
 Vue.use(Router)
 
@@ -25,7 +23,7 @@ const router = new Router({
       component: Home,
       meta: {
         breadcrumbs: [
-          {name: 'Home'}
+          { name: 'Home' }
         ]
       }
     },
@@ -35,7 +33,7 @@ const router = new Router({
       component: Championships,
       meta: {
         breadcrumbs: [
-          {name: 'Championships'},
+          { name: 'Championships' }
         ]
       }
     },
@@ -72,7 +70,14 @@ const router = new Router({
     {
       path: '/tracks',
       name: 'Tracks',
-      component: Tracks
+      component: Tracks,
+      meta: {
+        breadcrumbs: [
+          { name: 'Tracks',
+            path: '/tracks'
+          }
+        ]
+      }
     },
     {
       path: '/circuit_:id',
@@ -80,7 +85,7 @@ const router = new Router({
       component: Track,
       meta: {
         breadcrumbs: [
-          {name: 'circuit_:id'},
+          { name: 'Circuit' }
         ]
       }
     },

@@ -3,7 +3,7 @@
 		<v-breadcrumbs-item v-for="(item, i) in items" 
 			:key="i"
 			:to="item.path">
-			{{item.text}}
+			{{item.name}}
 		</v-breadcrumbs-item>
   </v-breadcrumbs>
 </template>
@@ -15,20 +15,25 @@ export default {
 		return {
 			items: [
 				{
-					text: 'Home',
+					name: 'Home',
 					path: '/'
 				}
     	]
 		}
 	},
+	created () {
+		this.fillBreadcrumbs(this.$route)
+	},
 	watch: {
 		"$route" (val) {
-			debugger
+			this.fillBreadcrumbs(val)
+		}
+	},
+	methods: {
+		fillBreadcrumbs (val) {
 			if (val.name !== 'home') {
-				this.items.push({
-					text: val.name,
-					path: val.path
-				})
+				debugger
+				this.items = this.items.concat(val.meta.breadcrumbs)
 			}
 		}
 	}
