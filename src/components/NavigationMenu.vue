@@ -60,19 +60,19 @@ export default {
       {
         label: 'Championships',
         icon: 'star',
-        route: 'championships',
+        route: '/championships',
         role: 0
       },
       {
         label: 'Tracks',
         icon: 'swap_calls',
-        route: 'tracks',
+        route: '/tracks',
         role: 0
       },
       {
         label: 'Teams',
         icon: 'directions_car',
-        route: 'teams',
+        route: '/teams',
         role: 1
       },
       {
