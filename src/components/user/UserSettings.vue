@@ -6,19 +6,23 @@
           <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="_userData.country"/>
         </v-flex>
         <v-flex xs12>
-          <v-text-field label="Username" v-model="_userData.username" v-validate="{required: true, min: 2 }" type="text" name="name" :error-messages="errors.collect('name')">
-          </v-text-field>
+          <v-text-field
+            label="Username"
+            v-model="_userData.username"
+            v-validate="{required: true, min: 2 }"
+            type="text"
+            name="name"
+            :error-messages="errors.collect('name')"
+          ></v-text-field>
         </v-flex>
         <v-flex>
           <v-layout column wrap>
             <v-flex justify-start>
-            <v-avatar size="100">
-              <img v-if="_userData.avatarURL" :src="_userData.avatarURL" alt="">
-              <img v-else src="http://pol.audio/media/user-avatar.png" alt="">
-            </v-avatar>
-            <div v-if="selectedFile">
-              {{selectedFile.name}}
-            </div>
+              <v-avatar size="100">
+                <img v-if="_userData.avatarURL" :src="_userData.avatarURL" alt>
+                <img v-else src="http://pol.audio/media/user-avatar.png" alt>
+              </v-avatar>
+              <div v-if="selectedFile">{{selectedFile.name}}</div>
             </v-flex>
             <v-flex justify-start>
               <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
@@ -31,17 +35,17 @@
       <v-card-actions>
         <v-layout column wrap>
           <v-flex>
-            <v-btn @click="update(_userData.userId, _userData.username, userData.country, _userData.avatarURL, _userData.role)"
-            :loading="loading">
-            Save
-          </v-btn>
+            <v-btn
+              @click="update(_userData.userId, _userData.username, userData.country, _userData.avatarURL, _userData.role)"
+              :loading="loading"
+            >Save</v-btn>
           </v-flex>
           <v-flex>
-            <message />
+            <message/>
           </v-flex>
         </v-layout>
       </v-card-actions>
-  </form>
+    </form>
   </v-layout>
 </template>
 
@@ -52,7 +56,7 @@ import updateUser from '@/mixins/updateUser.js'
 
 export default {
   name: 'user-settings',
-  data () {
+  data() {
     return {
       userData: {},
       selectedFile: null,
@@ -63,27 +67,30 @@ export default {
     _userData: Object
   },
   computed: {
-    loading () {
+    loading() {
       return this.$store.getters.loading
     },
-    message () {
+    message() {
       return this.$store.getters.message
     }
   },
   methods: {
-    onChangeCountry (val) {
+    onChangeCountry(val) {
       this.userData.country = val
     },
-    deleteImage () {
+    deleteImage() {
       this.userData.avatarURL = ''
     },
-    onFileSelected (event) {
+    onFileSelected(event) {
       let type = event.target.files[0].type
-      if(type == 'image/png' || type == 'image/jpg' || type == 'image/jpeg'){
+      if (type == 'image/png' || type == 'image/jpg' || type == 'image/jpeg') {
         this.selectedFile = event.target.files[0]
         console.log(this.selectedFile)
       } else {
-        this.$store.commit('setMessage', { type: 'error', text: 'Incorrect type of file. Only PNG, JPEG allowed.' })
+        this.$store.commit('setMessage', {
+          type: 'error',
+          text: 'Incorrect type of file. Only PNG, JPEG allowed.'
+        })
       }
     }
   },
@@ -91,8 +98,6 @@ export default {
     CountrySelect,
     Message
   },
-  mixins: [
-    updateUser
-  ]
+  mixins: [updateUser]
 }
 </script>
