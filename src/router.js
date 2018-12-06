@@ -15,6 +15,7 @@ import Track from './views/tracks/Track.vue'
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -44,27 +45,62 @@ const router = new Router({
     {
       path: '/register',
       name: 'register',
-      component: Register
+      component: Register,
+      meta: {
+        breadcrumbs: [
+          {
+            name: 'Register'
+          }
+        ]
+      }
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      meta: {
+        breadcrumbs: [
+          {
+            name: 'Login'
+          }
+        ]
+      }
     },
     {
       path: '/teams',
       name: 'teams',
-      component: Teams
-    },
-    {
-      path: '/user_:id',
-      name: 'UserProfile',
-      component: UserProfile
+      component: Teams,
+      meta: {
+        breadcrumbs: [
+          {
+            name: 'Teams'
+          }
+        ]
+      }
     },
     {
       path: '/users',
       name: 'Users',
-      component: Users
+      component: Users,
+      meta: {
+        breadcrumbs: [
+          {
+            name: 'Users'
+          }
+        ]
+      }
+    },
+    {
+      path: '/user_:id',
+      name: 'UserProfile',
+      component: UserProfile,
+      meta: {
+        breadcrumbs: [
+          {
+            name: 'User'
+          }
+        ]
+      }
     },
     {
       path: '/tracks',
@@ -72,19 +108,22 @@ const router = new Router({
       component: Tracks,
       meta: {
         breadcrumbs: [
-          { name: 'Tracks',
+          {
+            name: 'Tracks',
             path: '/tracks'
           }
         ]
       }
     },
     {
-      path: '/circuit_:id',
+      path: '/tracks/circuit_:id',
       name: 'Track',
       component: Track,
       meta: {
         breadcrumbs: [
-          { name: 'Circuit' }
+          {
+            name: 'Circuit'
+          }
         ]
       }
     },
