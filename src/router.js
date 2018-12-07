@@ -15,16 +15,23 @@ import Track from './views/tracks/Track.vue'
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        breadcrumbs: [{ name: 'Home' }]
+      }
     },
     {
       path: '/championships',
       name: 'championships',
-      component: Championships
+      component: Championships,
+      meta: {
+        breadcrumbs: [{ name: 'Championships' }]
+      }
     },
     {
       path: 'create',
@@ -34,37 +41,90 @@ const router = new Router({
     {
       path: '/register',
       name: 'register',
-      component: Register
+      component: Register,
+      meta: {
+        breadcrumbs: [
+          {
+            name: 'Register'
+          }
+        ]
+      }
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      meta: {
+        breadcrumbs: [
+          {
+            name: 'Login'
+          }
+        ]
+      }
     },
     {
       path: '/teams',
       name: 'teams',
-      component: Teams
-    },
-    {
-      path: '/user_:id',
-      name: 'UserProfile',
-      component: UserProfile
+      component: Teams,
+      meta: {
+        breadcrumbs: [
+          {
+            name: 'Teams'
+          }
+        ]
+      }
     },
     {
       path: '/users',
       name: 'Users',
-      component: Users
+      component: Users,
+      meta: {
+        breadcrumbs: [
+          {
+            name: 'Users'
+          }
+        ]
+      }
+    },
+    {
+      path: '/user_:id',
+      name: 'UserProfile',
+      component: UserProfile,
+      meta: {
+        breadcrumbs: [
+          {
+            name: 'User'
+          }
+        ]
+      }
     },
     {
       path: '/tracks',
       name: 'Tracks',
-      component: Tracks
+      component: Tracks,
+      meta: {
+        breadcrumbs: [
+          {
+            name: 'Tracks'
+          }
+        ]
+      }
     },
     {
-      path: '/circuit_:id',
+      path: '/tracks/circuit_:id',
       name: 'Track',
-      component: Track
+      component: Track,
+      meta: {
+        breadcrumbs: [
+          {
+            name: 'Tracks',
+            path: '/tracks'
+          },
+          {
+            name: 'Circuit'
+          }
+        ]
+      }
     },
     {
       path: '/*',

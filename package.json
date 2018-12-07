@@ -36,6 +36,8 @@
   "eslintConfig": {
     "root": true,
     "extends": [
+      "plugin:prettier/recommended",
+      "@vue/prettier",
       "plugin:vue/essential",
       "@vue/standard"
     ]

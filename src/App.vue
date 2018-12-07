@@ -1,23 +1,13 @@
 <template>
   <div id="app">
     <v-app id="inspire" :dark="isDarkColorTheme">
-      <v-navigation-drawer
-        fixed
-        :clipped="$vuetify.breakpoint.lgAndUp"
-        app
-        v-model="drawer">
+      <v-navigation-drawer fixed :clipped="$vuetify.breakpoint.lgAndUp" app v-model="drawer">
         <navigationMenu @colorThemeChanged="onColorThemeChanged"/>
       </v-navigation-drawer>
-      <v-toolbar
-        color="red darken-2"
-        dark
-        app
-        :clipped-left="$vuetify.breakpoint.lgAndUp"
-        fixed
-      >
+      <v-toolbar color="red darken-2" dark app :clipped-left="$vuetify.breakpoint.lgAndUp" fixed>
         <v-toolbar-title style="width: auto" class="ml-0 mr-2 pl-3">
           <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-          <img width="70" src="./assets/logo1.png" alt="">
+          <img width="70" src="./assets/logo1.png" alt>
           <span class="hidden-sm-and-down">Esport</span>
         </v-toolbar-title>
         <v-spacer></v-spacer>
@@ -33,25 +23,22 @@
         </template>
         <v-btn v-if="isLoggedIn" :to="toCurrentUserProfile" icon large>
           <v-avatar size="32px">
-              <img v-if="userData && userData.avatarURL"
-              :src="userData.avatarURL">
-              <img v-else
-              src="http://pol.audio/media/user-avatar.png">
+            <img v-if="userData && userData.avatarURL" :src="userData.avatarURL">
+            <img v-else src="http://pol.audio/media/user-avatar.png">
           </v-avatar>
         </v-btn>
       </v-toolbar>
       <v-content>
         <v-container>
-          <v-layout justify-center>
+          <v-layout column>
+            <Breadcrumbs flex-start/>
             <router-view/>
           </v-layout>
         </v-container>
       </v-content>
       <v-footer color="grey darken-3" app>
         <v-layout>
-          <v-flex align-center class="text-xs-center white--text">
-            &copy; 2018
-          </v-flex>
+          <v-flex align-center class="text-xs-center white--text">&copy; 2018</v-flex>
         </v-layout>
       </v-footer>
     </v-app>
@@ -60,6 +47,7 @@
 
 <script>
 import NavigationMenu from '@/components/NavigationMenu.vue'
+import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import fb from './firebase/config.js'
 export default {
   props: {
@@ -71,63 +59,74 @@ export default {
     isDarkColorTheme: null
   }),
   watch: {
-    userData () {
+    userData() {
       this.isDarkColorTheme = this.userData.isDarkColorTheme
     }
   },
   computed: {
-    loading () {
+    loading() {
       return this.$store.getters.loading
     },
-    isLoggedIn () {
+    isLoggedIn() {
       var isLoggedIn = this.$store.getters.user ? true : false
       return isLoggedIn
     },
-    userData () {
+    userData() {
       return this.$store.getters.userData
     },
-    toCurrentUserProfile () {
+    toCurrentUserProfile() {
       let id = this.$store.getters.user.id
       return '/user_' + id
     }
   },
-  mounted () {
+  mounted() {
     this.$validator.localize('en', this.dictionary)
   },
   methods: {
-    onColorThemeChanged () {
+    onColorThemeChanged() {
       this.isDarkColorTheme = !this.isDarkColorTheme
-      fb.usersCollection.doc(this.$store.getters.user.id).update({
-        isDarkColorTheme: this.isDarkColorTheme
-      }).then(function () {
-        // success
-      }).catch(function (error) {
-        console.log(error)
-      })
+      fb.usersCollection
+        .doc(this.$store.getters.user.id)
+        .update({
+          isDarkColorTheme: this.isDarkColorTheme
+        })
+        .then(function() {
+          // success
+        })
+        .catch(function(error) {
+          console.log(error)
+        })
     }
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$store.dispatch('clearData')
   },
   components: {
-    NavigationMenu
+    NavigationMenu,
+    Breadcrumbs
   }
 }
 </script>
 
 <style lang="stylus">
-#app
-  font-family 'f1font', Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align left
-  color #2c3e50
+#app {
+  font-family: 'f1font', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: left;
+  color: #2c3e50;
+}
 
-#nav
-  padding 30px
-  a
-    font-weight bold
-    color #2c3e50
-    &.router-link-exact-active
-      color #42b983
+#nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+}
 </style>
