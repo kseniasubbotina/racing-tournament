@@ -22,9 +22,7 @@ const router = new Router({
       name: 'home',
       component: Home,
       meta: {
-        breadcrumbs: [
-          { name: 'Home' }
-        ]
+        breadcrumbs: [{ name: 'Home' }]
       }
     },
     {
@@ -32,9 +30,7 @@ const router = new Router({
       name: 'championships',
       component: Championships,
       meta: {
-        breadcrumbs: [
-          { name: 'Championships' }
-        ]
+        breadcrumbs: [{ name: 'Championships' }]
       }
     },
     {
@@ -109,8 +105,7 @@ const router = new Router({
       meta: {
         breadcrumbs: [
           {
-            name: 'Tracks',
-            path: '/tracks'
+            name: 'Tracks'
           }
         ]
       }
@@ -121,6 +116,10 @@ const router = new Router({
       component: Track,
       meta: {
         breadcrumbs: [
+          {
+            name: 'Tracks',
+            path: '/tracks'
+          },
           {
             name: 'Circuit'
           }
