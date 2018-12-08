@@ -4,7 +4,8 @@
       v-if="link.role <= userRole"
       v-for="(link, idx) in links"
       :key="idx"
-      @click="onMenuItemClick(link)">
+      @click="onMenuItemClick(link)"
+    >
       <v-list-tile-action>
         <v-icon>{{link.icon}}</v-icon>
       </v-list-tile-action>
@@ -12,14 +13,9 @@
         <v-list-tile-title>{{link.label}}</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
-    <v-divider
-      dark
-      class="my-3"
-    ></v-divider>
+    <v-divider dark class="my-3"></v-divider>
     <template v-if="isLoggedIn">
-      <v-subheader>
-        Settings
-      </v-subheader>
+      <v-subheader>Settings</v-subheader>
       <v-layout>
         <v-flex>
           <v-list-tile>Theme color:</v-list-tile>
@@ -30,15 +26,12 @@
               color="red"
               :label="colorThemeLabel"
               v-model="isDarkColorTheme"
-              @change="colorThemeChanged">
-            </v-switch> 
+              @change="colorThemeChanged"
+            ></v-switch>
           </v-list-tile>
-        </v-flex>     
+        </v-flex>
       </v-layout>
-      <v-divider
-        dark
-        class="my-3"
-      ></v-divider>
+      <v-divider dark class="my-3"></v-divider>
     </template>
   </v-list>
 </template>
@@ -49,7 +42,7 @@ export default {
   data: () => ({
     dialog: false,
     drawer: null,
-    // isDarkColorTheme: false,
+    isDarkColorTheme: false,
     links: [
       {
         label: 'Home',
@@ -83,29 +76,35 @@ export default {
       }
     ]
   }),
+  watch: {
+    storedTheme(val) {
+      if (val) this.isDarkColorTheme = val
+    }
+  },
   computed: {
-    isLoggedIn () {
+    isLoggedIn() {
       return this.$store.getters.user ? true : false
     },
-    isDarkColorTheme () {
-      return this.$store.getters.userData.isDarkColorTheme ? true : false
+    storedTheme() {
+      if (this.$store.getters.userData)
+        return this.$store.getters.userData.isDarkColorTheme ? true : false
     },
-    colorThemeLabel () {
+    colorThemeLabel() {
       return this.isDarkColorTheme ? 'Dark' : 'Light'
     },
-    userRole () {
+    userRole() {
       if (this.$store.getters.user && this.$store.getters.userData) {
         return this.$store.getters.userData.role
       } else {
         return 0
       }
     }
-  },  
+  },
   methods: {
-    onMenuItemClick: function (_link) {
+    onMenuItemClick: function(_link) {
       this.$router.push(_link.route)
     },
-    colorThemeChanged () {
+    colorThemeChanged() {
       this.$emit('colorThemeChanged')
     }
   }
