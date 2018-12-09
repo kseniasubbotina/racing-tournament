@@ -1,50 +1,61 @@
 <template>
   <div>
     <div v-if="loading" class="text-xs-center">
-      <v-progress-circular
-        :size="50"
-        color="red"
-        indeterminate
-      ></v-progress-circular>
+      <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
     <v-container v-else>
+      <v-btn flat @click.stop="showEditWindow = true">
+        <v-icon>edit</v-icon>Edit
+      </v-btn>
       <div>{{trackData.name}}</div>
       <div>{{trackData.country}}</div>
       <div>length: {{trackData.length}}</div>
       <div>First GP: {{trackData.firstGP}}</div>
       <div>{{trackData.description}}</div>
-      <img :src="trackData.imageUrl" width="100%" alt="">
-  </v-container>
+      <img :src="trackData.imageUrl" width="100%" alt>
+    </v-container>
+    <EditTrackDialog
+      :_showEditWindow="showEditWindow"
+      :_trackData="trackData"
+      @closeEditWindow="showEditWindow=false"
+    />
   </div>
 </template>
  <script>
 import fb from '@/firebase/config.js'
+import EditTrackDialog from '@/components/tracks/EditTrackDialog.vue'
+
 export default {
   name: 'trackPage',
-  data () {
+  data() {
     return {
-    trackData: {}
+      showEditWindow: false,
+      trackData: {}
     }
   },
-  created () {
+  created() {
     this.getTrack()
   },
   computed: {
-    loading () {
+    loading() {
       return this.$store.getters.loading
     }
   },
   methods: {
-    getTrack () {
+    getTrack() {
       this.$store.commit('set', { type: 'loading', val: true })
       fb.tracksCollection.doc(this.$route.params.id).onSnapshot(doc => {
-        if(doc.exists) {
+        if (doc.exists) {
           this.trackData = doc.data()
+          this.trackData.id = doc.id
           this.$store.commit('set', { type: 'loading', val: false })
         }
       })
     }
+  },
+  components: {
+    EditTrackDialog
   }
 }
- </script>
+</script>
  

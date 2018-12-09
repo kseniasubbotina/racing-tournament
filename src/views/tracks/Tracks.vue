@@ -299,10 +299,11 @@ export default {
     ) {
       this.id = id
       this.name = name
-      ;(this.length = length), (this.country = country)
+      this.length = length
+      this.country = country
       this.firstGP = firstGP
-      ;(this.trackImageUrl = trackImageUrl),
-        (this.trackDescription = trackDescription)
+      this.trackImageUrl = trackImageUrl
+      this.trackDescription = trackDescription
       this.isNewTrack = false
       this.trackDialog = true
     },
