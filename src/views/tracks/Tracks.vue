@@ -11,7 +11,7 @@
         </v-btn>
       </v-layout>
       <v-layout wrap>
-        <v-flex xs12 pa-1 v-for="track in tracks" :key="track.id">
+        <v-flex xs4 pa-1 v-for="track in tracks" :key="track.id">
           <v-card>
             <v-layout>
               <v-card-title primary-title>

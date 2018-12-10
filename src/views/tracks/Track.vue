@@ -7,6 +7,9 @@
       <v-btn flat @click.stop="showEditWindow = true">
         <v-icon>edit</v-icon>Edit
       </v-btn>
+      <v-dialog v-model="showEditWindow" max-width="700px">
+        <EditTrackForm @closeWindow="showEditWindow = false" :_trackData="trackData"/>
+      </v-dialog>
       <div>{{trackData.name}}</div>
       <div>{{trackData.country}}</div>
       <div>length: {{trackData.length}}</div>
@@ -14,16 +17,11 @@
       <div>{{trackData.description}}</div>
       <img :src="trackData.imageUrl" width="100%" alt>
     </v-container>
-    <EditTrackDialog
-      :_showEditWindow="showEditWindow"
-      :_trackData="trackData"
-      @closeEditWindow="showEditWindow=false"
-    />
   </div>
 </template>
  <script>
 import fb from '@/firebase/config.js'
-import EditTrackDialog from '@/components/tracks/EditTrackDialog.vue'
+import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
 
 export default {
   name: 'trackPage',
@@ -54,7 +52,7 @@ export default {
     }
   },
   components: {
-    EditTrackDialog
+    EditTrackForm
   }
 }
 </script>
