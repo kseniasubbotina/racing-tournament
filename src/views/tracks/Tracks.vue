@@ -11,7 +11,7 @@
         </v-btn>
       </v-layout>
       <v-layout wrap>
-        <v-flex xs12 pa-1 v-for="track in tracks" :key="track.id">
+        <v-flex xs4 pa-1 v-for="track in tracks" :key="track.id">
           <v-card>
             <v-layout>
               <v-card-title primary-title>
@@ -299,10 +299,11 @@ export default {
     ) {
       this.id = id
       this.name = name
-      ;(this.length = length), (this.country = country)
+      this.length = length
+      this.country = country
       this.firstGP = firstGP
-      ;(this.trackImageUrl = trackImageUrl),
-        (this.trackDescription = trackDescription)
+      this.trackImageUrl = trackImageUrl
+      this.trackDescription = trackDescription
       this.isNewTrack = false
       this.trackDialog = true
     },
