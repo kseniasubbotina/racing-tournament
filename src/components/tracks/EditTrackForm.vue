@@ -1,6 +1,5 @@
 <template>
   <v-card>
-    {{trackData.id}}
     <v-container grid-list-sm class="pa-4">
       <v-card-title class="py-4 title">Edit track</v-card-title>
       <form v-if="trackData">
@@ -55,8 +54,8 @@
               <v-flex>
                 <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
                 <v-btn
-                  @click="deleteImage()"
-                  v-if="selectedFile || trackData.imageUrl"
+                  @click="deleteImage(trackData.id)"
+                  v-if="trackData.imageUrl"
                   flat
                   color="error"
                 >Delete</v-btn>
@@ -73,7 +72,12 @@
       <v-card-actions>
         <v-btn color="red darken-2" flat @click="$emit('closeWindow')">Close</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="red darken-2" @click="updateTrack()" :loading="imageLoading" dark>Save</v-btn>
+        <v-btn
+          color="red darken-2"
+          @click="updateTrack(trackData.id)"
+          :loading="imageLoading"
+          dark
+        >Save</v-btn>
       </v-card-actions>
     </v-container>
   </v-card>
@@ -122,7 +126,10 @@ export default {
     onChangeCountry(val) {
       this.trackData.country = val
     },
-    updateTrack() {
+    closeWindow() {
+      this.$emit('closeWindow')
+    },
+    updateTrack(id) {
       this.$validator.validate().then(result => {
         if (result) {
           debugger
@@ -145,7 +152,7 @@ export default {
             })
           } else {
             fb.tracksCollection
-              .doc(this.trackData.id)
+              .doc(id)
               .update({
                 name: this.trackData.name,
                 country: this.trackData.country,
@@ -154,7 +161,7 @@ export default {
                 imageUrl: this.trackData.imageUrl,
                 description: this.trackData.description
               })
-              .then(this.closeEditWindow(), this.getTracks())
+              .then(this.closeWindow())
           }
         }
       })
@@ -180,7 +187,7 @@ export default {
       })
     },
     deleteImage() {
-      this.selectedFile = null
+      // this.selectedFile = null
       if (this.trackData.imageUrl) {
         this.trackImageUrl = ''
         fb.storageRef
