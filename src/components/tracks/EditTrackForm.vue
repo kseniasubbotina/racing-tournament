@@ -108,7 +108,7 @@ export default {
     }
   },
   mounted() {
-    this.trackData = this._trackData
+    if (this._trackData) this.trackData = this._trackData
   },
   methods: {
     onFileSelected(event) {
