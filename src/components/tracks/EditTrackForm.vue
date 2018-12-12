@@ -73,11 +73,13 @@
         <v-btn color="red darken-2" flat @click="$emit('closeWindow')">Close</v-btn>
         <v-spacer></v-spacer>
         <v-btn
+          v-if="!_isNew"
           color="red darken-2"
           @click="updateTrack(trackData.id)"
           :loading="imageLoading"
           dark
         >Save</v-btn>
+        <v-btn v-else color="red darken-2" @click="addTrack" :loading="imageLoading" dark>Save</v-btn>
       </v-card-actions>
     </v-container>
   </v-card>
@@ -92,7 +94,7 @@ export default {
   name: 'editTrackForm',
   data() {
     return {
-      trackData: null,
+      trackData: {},
       selectedFile: null,
       imageLoading: false
     }
@@ -100,6 +102,10 @@ export default {
   props: {
     _trackData: {
       type: Object
+    },
+    _isNew: {
+      type: Boolean,
+      default: false
     }
   },
   watch: {
@@ -108,7 +114,16 @@ export default {
     }
   },
   mounted() {
-    if (this._trackData) this.trackData = this._trackData
+    if (this._trackData) {
+      this.trackData = this._trackData
+    } else {
+      this.trackData.name = ''
+      this.trackData.country = ''
+      this.trackData.firstGP = ''
+      this.trackData.length = ''
+      this.trackData.imageUrl = ''
+      this.trackData.description = ''
+    }
   },
   methods: {
     onFileSelected(event) {
@@ -124,15 +139,50 @@ export default {
       }
     },
     onChangeCountry(val) {
-      this.trackData.country = val
+      if (val) this.trackData.country = val
     },
     closeWindow() {
       this.$emit('closeWindow')
     },
+    addTrack() {
+      this.$validator.validate().then(result => {
+        if (result) {
+          if (this.selectedFile) {
+            const upload = async id => {
+              let upload = await this.uploadImage(this.trackData.id)
+            }
+            upload().then(() => {
+              fb.tracksCollection
+                .doc(this.trackData.name)
+                .set({
+                  name: this.trackData.name,
+                  country: this.trackData.country,
+                  firstGP: this.trackData.firstGP,
+                  length: this.trackData.length,
+                  imageUrl: this.trackData.imageUrl,
+                  description: this.trackData.description
+                })
+                .then(this.closeWindow())
+            })
+          } else {
+            fb.tracksCollection
+              .doc(this.trackData.name)
+              .set({
+                name: this.trackData.name,
+                country: this.trackData.country,
+                firstGP: this.trackData.firstGP,
+                length: this.trackData.length,
+                imageUrl: this.trackData.imageUrl,
+                description: this.trackData.description
+              })
+              .then(this.closeWindow(), this.$emit('updateTracks'))
+          }
+        }
+      })
+    },
     updateTrack(id) {
       this.$validator.validate().then(result => {
         if (result) {
-          debugger
           if (this.selectedFile) {
             const upload = async () => {
               let upload = await this.uploadImage(this.trackData.id)
@@ -148,7 +198,7 @@ export default {
                   imageUrl: this.trackData.imageUrl,
                   description: this.trackData.description
                 })
-                .then(this.$emit('closeWindow'))
+                .then(this.$emit('closeWindow'), this.$emit('updateTracks'))
             })
           } else {
             fb.tracksCollection
@@ -187,9 +237,8 @@ export default {
       })
     },
     deleteImage() {
-      // this.selectedFile = null
       if (this.trackData.imageUrl) {
-        this.trackImageUrl = ''
+        this.trackData.imageUrl = ''
         fb.storageRef
           .child('tracks_images/' + this.trackData.id)
           .delete()
@@ -198,13 +247,12 @@ export default {
               type: 'success',
               text: 'The image has been deleted from server.'
             })
-            this.trackData.imageUrl = ''
           })
-          .catch(function(error) {
+          .catch(error => {
             console.log(error)
             this.$store.commit('setMessage', {
               type: 'error',
-              text: 'Error occured.'
+              text: error.message
             })
           })
       }
