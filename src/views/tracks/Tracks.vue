@@ -6,7 +6,7 @@
     <div v-else>
       <v-layout wrap>
         <v-spacer></v-spacer>
-        <v-btn v-if="isAdmin" flat @click="addNewWindowOpen">
+        <v-btn v-if="isAdmin" flat @click="createDialog = true">
           <v-icon>add</v-icon>Add new
         </v-btn>
       </v-layout>
@@ -26,9 +26,7 @@
                   <v-icon>more_vert</v-icon>
                 </v-btn>
                 <v-list>
-                  <v-list-tile
-                    @click="onEditClick(track.id, track.name, track.length, track.country, track.firstGP, track.imageUrl, track.description)"
-                  >
+                  <v-list-tile @click="editTrack(track)">
                     <v-list-tile-title>Edit</v-list-tile-title>
                   </v-list-tile>
                   <v-list-tile @click="deleteTrack">
@@ -48,94 +46,20 @@
             </v-card-actions>
           </v-card>
         </v-flex>
-        <v-dialog v-model="trackDialog" persistent max-width="700px">
-          <v-card>
-            <v-container grid-list-sm class="pa-4">
-              <v-card-title v-if="isNewTrack" class="py-4 title">Add new track</v-card-title>
-              <v-card-title v-else class="py-4 title">Edit track</v-card-title>
-              <form>
-                <v-layout row wrap>
-                  <v-flex xs12>
-                    <v-text-field
-                      label="Circuit Name"
-                      v-validate="'required|min:2'"
-                      type="text"
-                      name="name"
-                      v-model="name"
-                      :error-messages="errors.collect('name')"
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs8 justify-space-between>
-                    <CountrySelect
-                      @changeCountry="onChangeCountry"
-                      :_selectedCountry="country"
-                      :_isRequired="false"
-                    />
-                  </v-flex>
-                  <v-flex xs4>
-                    <v-text-field
-                      v-validate="'numeric|required'"
-                      name="first grand prix"
-                      type="text"
-                      :error-messages="errors.collect('first grand prix')"
-                      label="First grand prix"
-                      v-model="firstGP"
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12>Circuit Length</v-flex>
-                  <v-flex xs12>
-                    <v-text-field
-                      v-validate="{required: true, regex: '^([0-9.]+)$' }"
-                      name="length"
-                      type="text"
-                      :error-messages="errors.collect('length')"
-                      label="x.xx"
-                      v-model="length"
-                      suffix="km"
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12 class="text-xs-center">
-                    <div v-if="selectedFile">{{selectedFile.name}}</div>
-                    <div v-else>Track Image</div>
-                    <v-layout justify-center align-center column wrap>
-                      <v-flex>
-                        <img :src="trackImageUrl" width="300px" alt>
-                        <br>
-                      </v-flex>
-                      <v-flex>
-                        <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
-                        <v-btn
-                          @click="deleteImage(id)"
-                          v-if="selectedFile || trackImageUrl"
-                          flat
-                          color="error"
-                        >Delete</v-btn>
-                        <input
-                          style="display: none"
-                          ref="filenput"
-                          type="file"
-                          @change="onFileSelected"
-                        >
-                      </v-flex>
-                      <message/>
-                    </v-layout>
-                  </v-flex>
-                  <v-flex>
-                    <v-textarea v-model="trackDescription" label="Track Description"></v-textarea>
-                  </v-flex>
-                </v-layout>
-              </form>
-              <v-card-actions>
-                <v-btn color="red darken-2" flat @click="closeEditWindow">Close</v-btn>
-                <v-spacer></v-spacer>
-                <v-btn color="red darken-2" @click="saveTrack()" :loading="imageLoading" dark>Save</v-btn>
-              </v-card-actions>
-            </v-container>
-          </v-card>
+        <!-- Dialog for edit track info -->
+        <v-dialog v-model="editDialog" max-width="700px">
+          <EditTrackForm :_trackData="trackData" @closeWindow="editDialog = false"/>
+        </v-dialog>
+        <!-- Dialog for create a new track -->
+        <v-dialog v-model="createDialog" max-width="700px">
+          <EditTrackForm
+            :_isNew="true"
+            @updateTracks="getTracks"
+            @closeWindow="createDialog = false"
+          />
         </v-dialog>
       </v-layout>
     </div>
-    <!-- <router-view /> -->
   </v-container>
 </template>
 
@@ -144,23 +68,15 @@ import CountrySelect from '@/components/CountrySelect.vue'
 import message from '@/components/Message.vue'
 import CountryFlag from '@/components/CountryFlag.vue'
 import fb from '@/firebase/config.js'
+import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
 
 export default {
   data() {
     return {
-      isNewTrack: true,
-      trackDialog: false,
+      createDialog: false,
+      editDialog: false,
       tracks: [],
-      selectedFile: null,
-      id: '',
-      name: '',
-      length: null,
-      firstGP: null,
-      trackImageUrl: '',
-      trackDescription: '',
-      country: '',
-      selectedFile: null,
-      imageLoading: false
+      trackData: {}
     }
   },
   computed: {
@@ -181,17 +97,6 @@ export default {
     this.getTracks()
   },
   methods: {
-    addNewWindowOpen() {
-      this.trackDialog = true
-      this.isNewTrack = true
-    },
-    onChangeCountry(val) {
-      this.country = val
-    },
-    onFileSelected(event) {
-      this.selectedFile = event.target.files[0]
-      console.log(this.selectedFile)
-    },
     getTracks() {
       this.$store.commit('set', { type: 'loading', val: true })
       var tracksArr = []
@@ -207,173 +112,19 @@ export default {
         this.tracks = tracksArr
       })
     },
-    saveTrack() {
-      if (this.isAdmin) {
-        if (this.isNewTrack) {
-          this.addTrack()
-        } else {
-          this.updateTrack()
-        }
-      }
-    },
-    addTrack() {
-      this.$validator.validate().then(result => {
-        if (result) {
-          if (this.selectedFile) {
-            const upload = async id => {
-              let upload = await this.uploadImage(this.name)
-            }
-            upload().then(() => {
-              fb.tracksCollection
-                .doc(this.name)
-                .set({
-                  name: this.name,
-                  country: this.country,
-                  firstGP: this.firstGP,
-                  length: this.length,
-                  imageUrl: this.trackImageUrl,
-                  description: this.trackDescription
-                })
-                .then(this.getTracks(), this.closeEditWindow())
-            })
-          } else {
-            fb.tracksCollection
-              .doc(this.name)
-              .set({
-                name: this.name,
-                country: this.country,
-                firstGP: this.firstGP,
-                length: this.length,
-                imageUrl: this.trackImageUrl,
-                description: this.trackDescription
-              })
-              .then(this.closeEditWindow(), this.getTracks())
-          }
-        }
-      })
-    },
-    updateTrack() {
-      this.$validator.validate().then(result => {
-        if (result) {
-          if (this.selectedFile) {
-            const upload = async () => {
-              let upload = await this.uploadImage(this.id)
-            }
-            upload().then(() => {
-              fb.tracksCollection
-                .doc(this.id)
-                .update({
-                  name: this.name,
-                  country: this.country,
-                  firstGP: this.firstGP,
-                  length: this.length,
-                  imageUrl: this.trackImageUrl,
-                  description: this.trackDescription
-                })
-                .then(this.getTracks(), this.closeEditWindow())
-            })
-          } else {
-            fb.tracksCollection
-              .doc(this.id)
-              .update({
-                name: this.name,
-                country: this.country,
-                firstGP: this.firstGP,
-                length: this.length,
-                imageUrl: this.trackImageUrl,
-                description: this.trackDescription
-              })
-              .then(this.closeEditWindow(), this.getTracks())
-          }
-        }
-      })
-    },
-    onEditClick(
-      id,
-      name,
-      length,
-      country,
-      firstGP,
-      trackImageUrl,
-      trackDescription
-    ) {
-      this.id = id
-      this.name = name
-      this.length = length
-      this.country = country
-      this.firstGP = firstGP
-      this.trackImageUrl = trackImageUrl
-      this.trackDescription = trackDescription
-      this.isNewTrack = false
-      this.trackDialog = true
-    },
-    closeEditWindow() {
-      this.selectedFile = null
-      this.name = ''
-      this.length = null
-      this.firstGP = null
-      ;(this.trackImageUrl = ''), (this.trackDescription = '')
-      this.country = ''
-      this.trackDialog = false
-      this.isNewTrack = true
+    editTrack(data) {
+      this.trackData = data
+      this.editDialog = true
     },
     deleteTrack() {
       //
-    },
-    onFileSelected(event) {
-      let type = event.target.files[0].type
-      if (type == 'image/png' || type == 'image/jpg' || type == 'image/jpeg') {
-        this.selectedFile = event.target.files[0]
-        this.trackImageUrl = ''
-      } else {
-        this.$store.commit('setMessage', {
-          type: 'error',
-          text: 'Incorrect type of file. Only PNG, JPEG allowed.'
-        })
-      }
-    },
-    uploadImage(id) {
-      return new Promise(resolve => {
-        var uploadTask = fb.storageRef
-          .child('tracks_images/' + id)
-          .put(this.selectedFile)
-        uploadTask.on('state_changed', snapshot => {
-          this.imageLoading = true
-          var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          console.log('Upload is ' + progress + '% done')
-        })
-        uploadTask.then(snapshot => {
-          this.imageLoading = false
-          console.log('Uploaded a file!')
-          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-            this.trackImageUrl = downloadURL
-            resolve(downloadURL)
-          })
-        })
-      })
-    },
-    deleteImage() {
-      this.selectedFile = null
-      if (this.trackImageUrl) {
-        this.trackImageUrl = ''
-        fb.storageRef
-          .child('tracks_images/' + this.id)
-          .delete()
-          .then(function() {
-            console.log('deleted')
-            // this.updateTrack()
-          })
-          .catch(function(error) {
-            console.log(error)
-            // Uh-oh, an error occurred!
-          })
-      }
     }
   },
   components: {
     CountrySelect,
     message,
-    CountryFlag
+    CountryFlag,
+    EditTrackForm
   }
 }
 </script>
