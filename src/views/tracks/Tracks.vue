@@ -11,7 +11,7 @@
         </v-btn>
       </v-layout>
       <v-layout wrap>
-        <v-flex xs6 pa-1 v-for="track in tracks" :key="track.id">
+        <v-flex xs12 md6 pa-1 v-for="track in tracks" :key="track.id">
           <TrackItem :_track="track" @editTrack="editTrack" @deleteTrack="deleteTrack"/>
         </v-flex>
         <!-- Dialog for edit track info -->
