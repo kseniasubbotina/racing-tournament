@@ -70,7 +70,7 @@
         </v-layout>
       </form>
       <v-card-actions>
-        <v-btn color="red darken-2" flat @click="$emit('closeWindow')">Close</v-btn>
+        <v-btn color="red darken-2" flat @click="closeWindow">Close</v-btn>
         <v-spacer></v-spacer>
         <v-btn
           v-if="!_isNew"
@@ -143,6 +143,10 @@ export default {
     },
     closeWindow() {
       this.$emit('closeWindow')
+      this.$store.commit('set', {
+        type: 'message',
+        val: { error: '', success: '' }
+      })
     },
     addTrack() {
       this.$validator.validate().then(result => {
