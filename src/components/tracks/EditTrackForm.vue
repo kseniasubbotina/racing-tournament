@@ -149,7 +149,7 @@ export default {
         if (result) {
           if (this.selectedFile) {
             const upload = async id => {
-              let upload = await this.uploadImage(this.trackData.id)
+              let upload = await this.uploadImage(this.trackData.name)
             }
             upload().then(() => {
               fb.tracksCollection
@@ -162,7 +162,7 @@ export default {
                   imageUrl: this.trackData.imageUrl,
                   description: this.trackData.description
                 })
-                .then(this.closeWindow())
+                .then(this.closeWindow(), this.$emit('updateTracks'))
             })
           } else {
             fb.tracksCollection
