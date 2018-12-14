@@ -7,7 +7,7 @@
       <v-btn flat @click="openForm(trackData)">
         <v-icon>edit</v-icon>Edit
       </v-btn>
-      <v-btn color="error" flat @click.stop="deleteTrack">
+      <v-btn color="error" flat @click="openConfirmation">
         <v-icon>delete</v-icon>Delete
       </v-btn>
       <EditTrackForm :_trackData="trackData"/>
@@ -18,11 +18,13 @@
       <div>{{trackData.description}}</div>
       <img :src="trackData.imageUrl" width="100%" alt>
     </v-container>
+    <Confirmation @confirmed="deleteTrack" _message="Delete this track?"/>
   </div>
 </template>
  <script>
 import fb from '@/firebase/config.js'
 import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
+import Confirmation from '@/components/Confirmation.vue'
 
 export default {
   name: 'trackPage',
@@ -43,6 +45,9 @@ export default {
   methods: {
     openForm(track) {
       this.$root.$emit('openDialog', track)
+    },
+    openConfirmation(track) {
+      this.$root.$emit('confirmDeletion', track)
     },
     getTrack() {
       this.$store.commit('set', { type: 'loading', val: true })
@@ -86,7 +91,8 @@ export default {
     }
   },
   components: {
-    EditTrackForm
+    EditTrackForm,
+    Confirmation
   }
 }
 </script>

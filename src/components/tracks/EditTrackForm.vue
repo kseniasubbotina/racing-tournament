@@ -1,8 +1,9 @@
 <template>
   <v-dialog v-model="trackDialog" max-width="700px">
     <v-card>
-      <v-container grid-list-sm class="pa-4">
-        <v-card-title class="py-4 title">Edit track</v-card-title>
+      <v-card-title class="title">Edit track</v-card-title>
+      <v-divider></v-divider>
+      <v-card-text>
         <form v-if="trackData">
           <v-layout row wrap>
             <v-flex xs12>
@@ -70,19 +71,20 @@
             </v-flex>
           </v-layout>
         </form>
-        <v-card-actions>
-          <v-btn color="red darken-2" flat @click="trackDialog=false">Close</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-            v-if="!_isNew"
-            color="red darken-2"
-            @click="updateTrack(trackData.id)"
-            :loading="imageLoading"
-            dark
-          >Save</v-btn>
-          <v-btn v-else color="red darken-2" @click="addTrack" :loading="imageLoading" dark>Save</v-btn>
-        </v-card-actions>
-      </v-container>
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-actions>
+        <v-btn color="red darken-2" flat @click="trackDialog=false">Close</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn
+          v-if="!_isNew"
+          color="red darken-2"
+          @click="updateTrack(trackData.id)"
+          :loading="imageLoading"
+          dark
+        >Save</v-btn>
+        <v-btn v-else color="red darken-2" @click="addTrack" :loading="imageLoading" dark>Save</v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>

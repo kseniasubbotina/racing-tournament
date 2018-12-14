@@ -12,16 +12,18 @@
       </v-layout>
       <v-layout wrap>
         <v-flex xs12 md6 pa-1 v-for="track in tracks" :key="track.id">
-          <TrackItem :_track="track" @editTrack="openForm" @deleteTrack="deleteTrack"/>
+          <TrackItem :_track="track" @editTrack="openForm" @deleteTrack="openConfirmation"/>
         </v-flex>
         <EditTrackForm :_trackData="trackData" :_isNew="isNew" @updateTracks="getTracks"/>
       </v-layout>
+      <Confirmation @confirmed="deleteTrack" _message="Delete this track?"/>
     </div>
   </v-container>
 </template>
 
 <script>
 import fb from '@/firebase/config.js'
+import Confirmation from '@/components/Confirmation.vue'
 import message from '@/components/Message.vue'
 import CountryFlag from '@/components/CountryFlag.vue'
 import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
@@ -55,6 +57,9 @@ export default {
     this.getTracks()
   },
   methods: {
+    openConfirmation(track) {
+      this.$root.$emit('confirmDeletion', track)
+    },
     getTracks() {
       this.$store.commit('set', { type: 'loading', val: true })
       var tracksArr = []
@@ -122,7 +127,8 @@ export default {
     TrackItem,
     message,
     CountryFlag,
-    EditTrackForm
+    EditTrackForm,
+    Confirmation
   }
 }
 </script>
