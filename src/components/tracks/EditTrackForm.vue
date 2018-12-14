@@ -1,88 +1,90 @@
 <template>
-  <v-card>
-    <v-container grid-list-sm class="pa-4">
-      <v-card-title class="py-4 title">Edit track</v-card-title>
-      <form v-if="trackData">
-        <v-layout row wrap>
-          <v-flex xs12>
-            <v-text-field
-              label="Circuit Name"
-              v-validate="'required|min:2'"
-              type="text"
-              name="name"
-              v-model="trackData.name"
-              :error-messages="errors.collect('name')"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs8 justify-space-between>
-            <CountrySelect
-              @changeCountry="onChangeCountry"
-              :_selectedCountry="trackData.country"
-              :_isRequired="false"
-            />
-          </v-flex>
-          <v-flex xs4>
-            <v-text-field
-              v-validate="'numeric|required'"
-              name="first grand prix"
-              type="text"
-              :error-messages="errors.collect('first grand prix')"
-              label="First grand prix"
-              v-model="trackData.firstGP"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12>Circuit Length</v-flex>
-          <v-flex xs12>
-            <v-text-field
-              v-validate="{required: true, regex: '^([0-9.]+)$' }"
-              name="length"
-              type="text"
-              :error-messages="errors.collect('length')"
-              label="x.xx"
-              v-model="trackData.length"
-              suffix="km"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12 class="text-xs-center">
-            <div v-if="selectedFile">{{selectedFile.name}}</div>
-            <div v-else>Track Image</div>
-            <v-layout justify-center align-center column wrap>
-              <v-flex>
-                <img :src="trackData.imageUrl" width="300px" alt>
-                <br>
-              </v-flex>
-              <v-flex>
-                <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
-                <v-btn
-                  @click="deleteImage(trackData.id)"
-                  v-if="trackData.imageUrl"
-                  flat
-                  color="error"
-                >Delete</v-btn>
-                <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
-              </v-flex>
-              <message/>
-            </v-layout>
-          </v-flex>
-          <v-flex>
-            <v-textarea v-model="trackData.description" label="Track Description"></v-textarea>
-          </v-flex>
-        </v-layout>
-      </form>
-      <v-card-actions>
-        <v-btn color="red darken-2" flat @click="closeWindow">Close</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn
-          v-if="!_isNew"
-          color="red darken-2"
-          @click="updateTrack(trackData.id)"
-          :loading="imageLoading"
-          dark
-        >Save</v-btn>
-        <v-btn v-else color="red darken-2" @click="addTrack" :loading="imageLoading" dark>Save</v-btn>
-      </v-card-actions>
-    </v-container>
-  </v-card>
+  <v-dialog v-model="trackDialog" max-width="700px">
+    <v-card>
+      <v-container grid-list-sm class="pa-4">
+        <v-card-title class="py-4 title">Edit track</v-card-title>
+        <form v-if="trackData">
+          <v-layout row wrap>
+            <v-flex xs12>
+              <v-text-field
+                label="Circuit Name"
+                v-validate="'required|min:2'"
+                type="text"
+                name="name"
+                v-model="trackData.name"
+                :error-messages="errors.collect('name')"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs8 justify-space-between>
+              <CountrySelect
+                @changeCountry="onChangeCountry"
+                :_selectedCountry="trackData.country"
+                :_isRequired="false"
+              />
+            </v-flex>
+            <v-flex xs4>
+              <v-text-field
+                v-validate="'numeric|required'"
+                name="first grand prix"
+                type="text"
+                :error-messages="errors.collect('first grand prix')"
+                label="First grand prix"
+                v-model="trackData.firstGP"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12>Circuit Length</v-flex>
+            <v-flex xs12>
+              <v-text-field
+                v-validate="{required: true, regex: '^([0-9.]+)$' }"
+                name="length"
+                type="text"
+                :error-messages="errors.collect('length')"
+                label="x.xx"
+                v-model="trackData.length"
+                suffix="km"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12 class="text-xs-center">
+              <div v-if="selectedFile">{{selectedFile.name}}</div>
+              <div v-else>Track Image</div>
+              <v-layout justify-center align-center column wrap>
+                <v-flex>
+                  <img :src="trackData.imageUrl" width="300px" alt>
+                  <br>
+                </v-flex>
+                <v-flex>
+                  <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
+                  <v-btn
+                    @click="deleteImage(trackData.id)"
+                    v-if="trackData.imageUrl"
+                    flat
+                    color="error"
+                  >Delete</v-btn>
+                  <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
+                </v-flex>
+                <message/>
+              </v-layout>
+            </v-flex>
+            <v-flex>
+              <v-textarea v-model="trackData.description" label="Track Description"></v-textarea>
+            </v-flex>
+          </v-layout>
+        </form>
+        <v-card-actions>
+          <v-btn color="red darken-2" flat @click="trackDialog=false">Close</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            v-if="!_isNew"
+            color="red darken-2"
+            @click="updateTrack(trackData.id)"
+            :loading="imageLoading"
+            dark
+          >Save</v-btn>
+          <v-btn v-else color="red darken-2" @click="addTrack" :loading="imageLoading" dark>Save</v-btn>
+        </v-card-actions>
+      </v-container>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -96,7 +98,8 @@ export default {
     return {
       trackData: {},
       selectedFile: null,
-      imageLoading: false
+      imageLoading: false,
+      trackDialog: false
     }
   },
   props: {
@@ -114,18 +117,16 @@ export default {
     }
   },
   mounted() {
+    this.$root.$on('openDialog', this.openDialog)
     if (this._trackData) {
       this.trackData = this._trackData
-    } else {
-      this.trackData.name = ''
-      this.trackData.country = ''
-      this.trackData.firstGP = ''
-      this.trackData.length = ''
-      this.trackData.imageUrl = ''
-      this.trackData.description = ''
     }
   },
   methods: {
+    openDialog(trackData) {
+      this.trackData = trackData
+      this.trackDialog = true
+    },
     onFileSelected(event) {
       let type = event.target.files[0].type
       if (type == 'image/png' || type == 'image/jpg' || type == 'image/jpeg') {
@@ -142,7 +143,7 @@ export default {
       if (val) this.trackData.country = val
     },
     closeWindow() {
-      this.$emit('closeWindow')
+      this.trackDialog = false
       this.$store.commit('set', {
         type: 'message',
         val: { error: '', success: '' }

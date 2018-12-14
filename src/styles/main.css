@@ -21,10 +21,10 @@
   color: #42b983;
 }
 /* Tracks */
-.tracks_title {
+.track-item_title {
   cursor: pointer;
 }
-.tracks_card {
+.track-item_card {
   height: 160px;
   max-height: 160px;
 }

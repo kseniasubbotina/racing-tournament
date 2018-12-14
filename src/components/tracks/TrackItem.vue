@@ -1,8 +1,8 @@
 <template>
-  <v-card class="tracks_card">
+  <v-card class="track-item_card">
     <v-layout justify-center>
       <v-card-title
-        class="tracks_title"
+        class="track-item_title"
         pointer
         primary-title
         @click="$router.push({name: 'Track', params: {id: _track.id}})"
@@ -11,7 +11,7 @@
           <v-flex pr-2>
             <CountryFlag :_country="_track.country"/>
           </v-flex>
-          <div class="headline tracks_name">{{_track.name}}</div>
+          <div class="headline track-item_name">{{_track.name}}</div>
         </v-layout>
       </v-card-title>
       <v-spacer/>

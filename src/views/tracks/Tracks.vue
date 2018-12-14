@@ -6,26 +6,15 @@
     <div v-else>
       <v-layout wrap>
         <v-spacer></v-spacer>
-        <v-btn v-if="isAdmin" flat @click="createDialog = true">
+        <v-btn v-if="isAdmin" flat @click="openForm">
           <v-icon>add</v-icon>Add new
         </v-btn>
       </v-layout>
       <v-layout wrap>
         <v-flex xs12 md6 pa-1 v-for="track in tracks" :key="track.id">
-          <TrackItem :_track="track" @editTrack="editTrack" @deleteTrack="deleteTrack"/>
+          <TrackItem :_track="track" @editTrack="openForm" @deleteTrack="deleteTrack"/>
         </v-flex>
-        <!-- Dialog for edit track info -->
-        <v-dialog v-model="editDialog" max-width="700px">
-          <EditTrackForm :_trackData="trackData" @closeWindow="editDialog = false"/>
-        </v-dialog>
-        <!-- Dialog for create a new track -->
-        <v-dialog v-model="createDialog" max-width="700px">
-          <EditTrackForm
-            :_isNew="true"
-            @updateTracks="getTracks"
-            @closeWindow="createDialog = false"
-          />
-        </v-dialog>
+        <EditTrackForm :_trackData="trackData" :_isNew="true" @updateTracks="getTracks"/>
       </v-layout>
     </div>
   </v-container>
@@ -80,9 +69,20 @@ export default {
         this.tracks = tracksArr
       })
     },
-    editTrack(track) {
-      this.trackData = track
-      this.editDialog = true
+    openForm(track) {
+      if (!track.id) {
+        this.trackData = {
+          name: '',
+          country: '',
+          firstGP: '',
+          length: '',
+          imageUrl: '',
+          description: ''
+        }
+      } else {
+        this.trackData = track
+      }
+      this.$root.$emit('openDialog', track)
     },
     deleteTrack(track) {
       fb.tracksCollection
