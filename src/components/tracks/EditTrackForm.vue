@@ -1,7 +1,8 @@
 <template>
   <v-dialog v-model="trackDialog" max-width="700px">
     <v-card>
-      <v-card-title class="title">Edit track</v-card-title>
+      <v-card-title v-if="!_isNew" class="title">Edit track</v-card-title>
+      <v-card-title v-else class="title">Add track</v-card-title>
       <v-divider></v-divider>
       <v-card-text>
         <form v-if="trackData">

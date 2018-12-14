@@ -41,7 +41,10 @@ export default {
   },
   computed: {
     isAdmin() {
-      if (this.$store.getters.userData.role == '1') {
+      if (
+        this.$store.getters.user &&
+        this.$store.getters.userData.role == '1'
+      ) {
         return true
       } else return 0
     },

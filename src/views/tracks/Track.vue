@@ -4,12 +4,14 @@
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
     <v-container v-else>
-      <v-btn flat @click="openForm(trackData)">
-        <v-icon>edit</v-icon>Edit
-      </v-btn>
-      <v-btn color="error" flat @click="openConfirmation">
-        <v-icon>delete</v-icon>Delete
-      </v-btn>
+      <div v-if="isAdmin">
+        <v-btn flat @click="openForm(trackData)">
+          <v-icon>edit</v-icon>Edit
+        </v-btn>
+        <v-btn color="error" flat @click="openConfirmation">
+          <v-icon>delete</v-icon>Delete
+        </v-btn>
+      </div>
       <EditTrackForm :_trackData="trackData"/>
       <div>{{trackData.name}}</div>
       <div>{{trackData.country}}</div>
@@ -40,6 +42,14 @@ export default {
   computed: {
     loading() {
       return this.$store.getters.loading
+    },
+    isAdmin() {
+      if (
+        this.$store.getters.user &&
+        this.$store.getters.userData.role == '1'
+      ) {
+        return true
+      } else return 0
     }
   },
   methods: {

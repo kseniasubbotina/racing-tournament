@@ -30,7 +30,7 @@
       </v-menu>
     </v-layout>
     <v-card-text>
-      <v-layout align-center>
+      <v-layout align-center wrap>
         <v-flex>
           Country:
           <b>{{_track.country}}</b>
@@ -60,7 +60,10 @@ export default {
   },
   computed: {
     isAdmin() {
-      if (this.$store.getters.userData.role == '1') {
+      if (
+        this.$store.getters.user &&
+        this.$store.getters.userData.role == '1'
+      ) {
         return true
       } else return 0
     }
