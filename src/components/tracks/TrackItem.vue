@@ -30,7 +30,7 @@
       </v-menu>
     </v-layout>
     <v-card-text>
-      <v-layout>
+      <v-layout align-center>
         <v-flex>
           Country:
           <b>{{_track.country}}</b>
@@ -39,6 +39,12 @@
           Length:
           <b>{{_track.length}} km</b>
         </v-flex>
+        <v-btn
+          @click="$router.push({name: 'Track', params: {id: _track.id}})"
+          color="success"
+          flat
+          round
+        >View</v-btn>
       </v-layout>
     </v-card-text>
   </v-card>

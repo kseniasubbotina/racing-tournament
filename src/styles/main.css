@@ -25,6 +25,5 @@
   cursor: pointer;
 }
 .track-item_card {
-  height: 160px;
-  max-height: 160px;
+  min-height: 160px;
 }

@@ -14,16 +14,16 @@
         <v-flex xs12 md6 pa-1 v-for="track in tracks" :key="track.id">
           <TrackItem :_track="track" @editTrack="openForm" @deleteTrack="deleteTrack"/>
         </v-flex>
-        <EditTrackForm :_trackData="trackData" :_isNew="true" @updateTracks="getTracks"/>
+        <EditTrackForm :_trackData="trackData" :_isNew="isNew" @updateTracks="getTracks"/>
       </v-layout>
     </div>
   </v-container>
 </template>
 
 <script>
+import fb from '@/firebase/config.js'
 import message from '@/components/Message.vue'
 import CountryFlag from '@/components/CountryFlag.vue'
-import fb from '@/firebase/config.js'
 import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
 import TrackItem from '@/components/tracks/TrackItem.vue'
 
@@ -33,7 +33,8 @@ export default {
       createDialog: false,
       editDialog: false,
       tracks: [],
-      trackData: {}
+      trackData: {},
+      isNew: false
     }
   },
   computed: {
@@ -79,7 +80,9 @@ export default {
           imageUrl: '',
           description: ''
         }
+        this.isNew = true
       } else {
+        this.isNew = false
         this.trackData = track
       }
       this.$root.$emit('openDialog', track)
