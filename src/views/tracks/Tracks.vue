@@ -6,69 +6,28 @@
     <div v-else>
       <v-layout wrap>
         <v-spacer></v-spacer>
-        <v-btn v-if="isAdmin" flat @click="createDialog = true">
+        <v-btn v-if="isAdmin" flat @click="openForm">
           <v-icon>add</v-icon>Add new
         </v-btn>
       </v-layout>
       <v-layout wrap>
-        <v-flex xs4 pa-1 v-for="track in tracks" :key="track.id">
-          <v-card>
-            <v-layout>
-              <v-card-title primary-title>
-                <v-flex pr-4>
-                  <CountryFlag :_country="track.country"/>
-                </v-flex>
-                <div class="headline">{{track.name}}</div>
-              </v-card-title>
-              <v-spacer/>
-              <v-menu v-if="isAdmin" bottom left>
-                <v-btn slot="activator" icon>
-                  <v-icon>more_vert</v-icon>
-                </v-btn>
-                <v-list>
-                  <v-list-tile @click="editTrack(track)">
-                    <v-list-tile-title>Edit</v-list-tile-title>
-                  </v-list-tile>
-                  <v-list-tile @click="deleteTrack">
-                    <v-list-tile-title>Delete</v-list-tile-title>
-                  </v-list-tile>
-                </v-list>
-              </v-menu>
-            </v-layout>
-            <v-card-text>{{track.description}}</v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                @click="$router.push({name: 'Track', params: {id: track.id}})"
-                flat
-                color="green"
-              >View</v-btn>
-            </v-card-actions>
-          </v-card>
+        <v-flex xs12 md6 pa-1 v-for="track in tracks" :key="track.id">
+          <TrackItem :_track="track" @editTrack="openForm" @deleteTrack="openConfirmation"/>
         </v-flex>
-        <!-- Dialog for edit track info -->
-        <v-dialog v-model="editDialog" max-width="700px">
-          <EditTrackForm :_trackData="trackData" @closeWindow="editDialog = false"/>
-        </v-dialog>
-        <!-- Dialog for create a new track -->
-        <v-dialog v-model="createDialog" max-width="700px">
-          <EditTrackForm
-            :_isNew="true"
-            @updateTracks="getTracks"
-            @closeWindow="createDialog = false"
-          />
-        </v-dialog>
+        <EditTrackForm :_trackData="trackData" :_isNew="isNew" @updateTracks="getTracks"/>
       </v-layout>
+      <Confirmation @confirmed="deleteTrack" _message="Delete this track?"/>
     </div>
   </v-container>
 </template>
 
 <script>
-import CountrySelect from '@/components/CountrySelect.vue'
+import fb from '@/firebase/config.js'
+import Confirmation from '@/components/Confirmation.vue'
 import message from '@/components/Message.vue'
 import CountryFlag from '@/components/CountryFlag.vue'
-import fb from '@/firebase/config.js'
 import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
+import TrackItem from '@/components/tracks/TrackItem.vue'
 
 export default {
   data() {
@@ -76,12 +35,16 @@ export default {
       createDialog: false,
       editDialog: false,
       tracks: [],
-      trackData: {}
+      trackData: {},
+      isNew: false
     }
   },
   computed: {
     isAdmin() {
-      if (this.$store.getters.userData.role == '1') {
+      if (
+        this.$store.getters.user &&
+        this.$store.getters.userData.role == '1'
+      ) {
         return true
       } else return 0
     },
@@ -97,6 +60,9 @@ export default {
     this.getTracks()
   },
   methods: {
+    openConfirmation(track) {
+      this.$root.$emit('confirmDeletion', track)
+    },
     getTracks() {
       this.$store.commit('set', { type: 'loading', val: true })
       var tracksArr = []
@@ -112,19 +78,60 @@ export default {
         this.tracks = tracksArr
       })
     },
-    editTrack(data) {
-      this.trackData = data
-      this.editDialog = true
+    openForm(track) {
+      if (!track.id) {
+        this.trackData = {
+          name: '',
+          country: '',
+          firstGP: '',
+          length: '',
+          imageUrl: '',
+          description: ''
+        }
+        this.isNew = true
+      } else {
+        this.isNew = false
+        this.trackData = track
+      }
+      this.$root.$emit('openDialog', track)
     },
-    deleteTrack() {
-      //
+    deleteTrack(track) {
+      fb.tracksCollection
+        .doc(track.id)
+        .delete()
+        .then(() => {
+          console.log('Document successfully deleted!')
+          this.getTracks()
+          if (track.imageUrl) {
+            fb.storageRef
+              .child('tracks_images/' + track.id)
+              .delete()
+              .then(() => {
+                this.$store.commit('setMessage', {
+                  type: 'success',
+                  text: 'The image has been deleted from server.'
+                })
+              })
+              .catch(error => {
+                console.log(error)
+                this.$store.commit('setMessage', {
+                  type: 'error',
+                  text: error.message
+                })
+              })
+          }
+        })
+        .catch(function(error) {
+          console.error('Error removing document: ', error)
+        })
     }
   },
   components: {
-    CountrySelect,
+    TrackItem,
     message,
     CountryFlag,
-    EditTrackForm
+    EditTrackForm,
+    Confirmation
   }
 }
 </script>

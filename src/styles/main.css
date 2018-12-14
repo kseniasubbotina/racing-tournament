@@ -20,3 +20,10 @@
 #nav a .router-link-exact-active {
   color: #42b983;
 }
+/* Tracks */
+.track-item_title {
+  cursor: pointer;
+}
+.track-item_card {
+  min-height: 160px;
+}
