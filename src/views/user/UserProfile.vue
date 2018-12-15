@@ -84,6 +84,11 @@ export default {
       ]
     }
   },
+  watch: {
+    $route(val) {
+      this.getUserData()
+    }
+  },
   computed: {
     authenticatedUserId() {
       if (this.$store.getters.user) {

@@ -59,8 +59,10 @@ export default {
     isDarkColorTheme: null
   }),
   watch: {
-    userData() {
-      this.isDarkColorTheme = this.userData.isDarkColorTheme
+    userData(val) {
+      if (val) {
+        this.isDarkColorTheme = val.isDarkColorTheme
+      }
     }
   },
   computed: {
@@ -107,26 +109,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus">
-#app {
-  font-family: 'f1font', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: left;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
