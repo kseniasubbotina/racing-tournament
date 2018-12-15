@@ -1,10 +1,20 @@
 @font-face {
-  font-family: 'F1 Font';
-  src: url('../assets/fonts/Formula1-Regular.woff2') format('woff2');
-  src: url('../assets/fonts/Formula1-Regular.woff') format('woff');
+  font-family: 'f1font';
+  src: url('../assets/fonts/Formula1-Regular.otf') format('opentype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'f1font';
+  src: url('../assets/fonts/Formula1-Bold.otf') format('opentype');
+  font-weight: 700;
+}
+.application,
+.title,
+.headline,
+#app {
+  font-family: 'f1font' !important;
 }
 #app {
-  font-family: 'F1 Font', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
