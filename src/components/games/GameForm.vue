@@ -89,7 +89,7 @@
               <div v-else>Cover Image</div>
               <v-layout justify-center align-center column wrap>
                 <v-flex>
-                  <img width="300px" alt>
+                  <img width="300px" :src="gameData.coverImageUrl" alt>
                   <br>
                 </v-flex>
                 <v-flex>
@@ -105,9 +105,6 @@
                 <message/>
               </v-layout>
             </v-flex>
-            <!-- <v-flex>
-              <v-textarea label="Game Description"></v-textarea>
-            </v-flex>-->
           </v-layout>
         </form>
       </v-card-text>
@@ -206,6 +203,7 @@ export default {
                 .set({
                   name: this.gameData.name,
                   releaseDate: this.gameData.releaseDate,
+                  platforms: this.gameData.platforms,
                   developer: this.gameData.developer,
                   publisher: this.gameData.publisher,
                   coverImageUrl: this.gameData.coverImageUrl,
@@ -214,12 +212,12 @@ export default {
                 .then(this.closeWindow(), this.$emit('updateGames'))
             })
           } else {
-            debugger
             fb.gamesCollection
               .doc(this.gameData.name)
               .set({
                 name: this.gameData.name,
                 releaseDate: this.gameData.releaseDate,
+                platforms: this.gameData.platforms,
                 developer: this.gameData.developer,
                 publisher: this.gameData.publisher,
                 webSite: this.gameData.webSite
@@ -286,10 +284,10 @@ export default {
       })
     },
     deleteImage() {
-      if (this.trackData.imageUrl) {
-        this.trackData.imageUrl = ''
+      if (this.gameData.coverImageUrl) {
+        this.gameData.coverImageUrl = ''
         fb.storageRef
-          .child('tracks_images/' + this.trackData.id)
+          .child('games_images/' + this.gameData.id)
           .delete()
           .then(() => {
             this.$store.commit('setMessage', {

@@ -12,7 +12,7 @@
       </v-layout>
       <v-layout wrap>
         <v-flex xs12 md6 pa-1 v-for="game in games" :key="game.id">
-          <GameItem :_game="game"/>
+          <GameItem :_game="game" @editGame="openForm"/>
           <!-- <TrackItem :_track="track" @editTrack="openForm" @deleteTrack="openConfirmation"/> -->
         </v-flex>
       </v-layout>
@@ -70,7 +70,7 @@ export default {
         this.isNew = true
       } else {
         this.isNew = false
-        this.gameData = track
+        this.gameData = game
       }
       this.$root.$emit('openDialog', game)
     },
@@ -80,9 +80,7 @@ export default {
       fb.gamesCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           var data = doc.data()
-          for (let i = 0; i < data.length; i++) {
-            data.id = doc.id
-          }
+          data.id = doc.id
           gamesArr.push(data)
         })
         this.$store.commit('set', { type: 'loading', val: false })

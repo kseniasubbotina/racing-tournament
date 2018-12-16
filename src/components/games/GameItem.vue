@@ -1,26 +1,40 @@
 <template>
   <v-card>
     <v-img class="white--text" height="200px" :src="_game.coverImageUrl">
-      <v-container fill-height fluid>
-        <v-layout fill-height>
-          <v-flex xs12 align-end flexbox>
-            <span class="headline">{{_game.name}}</span>
-          </v-flex>
-        </v-layout>
-      </v-container>
+      <v-layout>
+        <v-spacer/>
+        <v-menu v-if="isAdmin" bottom left>
+          <v-btn color="white" slot="activator" icon>
+            <v-icon>more_vert</v-icon>
+          </v-btn>
+          <v-list>
+            <v-list-tile @click="$emit('editGame', _game)">
+              <v-list-tile-title>Edit</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile @click="$emit('deleteGame', _game)">
+              <v-list-tile-title>Delete</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+      </v-layout>
+      <v-container fill-height fluid></v-container>
     </v-img>
     <v-card-title>
+      <v-layout fill-height>
+        <v-flex xs12 align-end flexbox>
+          <span class="headline">{{_game.name}}</span>
+        </v-flex>
+      </v-layout>
       <div>
         <span class="grey--text">{{_game.developer}}</span>
         <br>
-        <span>Whitehaven Beach</span>
+        <span v-if="_game.platforms">{{_game.platforms.join(', ')}}</span>
         <br>
-        <span>Whitsunday Island, Whitsunday Islands</span>
+        <span>{{_game.releaseDate}}</span>
       </div>
     </v-card-title>
     <v-card-actions>
-      <v-btn flat color="orange">Share</v-btn>
-      <v-btn flat color="orange">Explore</v-btn>
+      <v-btn flat>Details</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -30,6 +44,16 @@ export default {
   name: 'GameItem',
   props: {
     _game: Object
+  },
+  computed: {
+    isAdmin() {
+      if (
+        this.$store.getters.user &&
+        this.$store.getters.userData.role == '1'
+      ) {
+        return true
+      } else return 0
+    }
   }
 }
 </script>
