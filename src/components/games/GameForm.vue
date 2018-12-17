@@ -115,7 +115,7 @@
         <v-btn
           v-if="!_isNew"
           color="red darken-2"
-          @click="updateGame(gameData.id)"
+          @click="updateGame(gameData)"
           :loading="imageLoading"
           dark
         >Save</v-btn>
@@ -158,7 +158,7 @@ export default {
     }
   },
   mounted() {
-    this.$root.$on('openDialog', this.openDialog)
+    this.$root.$on('openGameDialog', this.openDialog)
     if (this._gameData) {
       this.gameData = this._gameData
     }
@@ -175,7 +175,7 @@ export default {
       let type = event.target.files[0].type
       if (type == 'image/png' || type == 'image/jpg' || type == 'image/jpeg') {
         this.selectedFile = event.target.files[0]
-        // this.gameCoverImageUrl = ''
+        this.gameCoverImageUrl = ''
       } else {
         this.$store.commit('setMessage', {
           type: 'error',
@@ -220,6 +220,7 @@ export default {
                 platforms: this.gameData.platforms,
                 developer: this.gameData.developer,
                 publisher: this.gameData.publisher,
+                coverImageUrl: this.gameData.coverImageUrl,
                 webSite: this.gameData.webSite
               })
               .then(this.closeWindow(), this.$emit('updateGames'))
@@ -227,7 +228,7 @@ export default {
         }
       })
     },
-    updateGame(id) {
+    updateGame(gameData) {
       this.$validator.validate().then(result => {
         if (result) {
           if (this.selectedFile) {
@@ -240,6 +241,7 @@ export default {
                 .update({
                   name: this.gameData.name,
                   releaseDate: this.gameData.releaseDate,
+                  platforms: this.gameData.platforms,
                   developer: this.gameData.developer,
                   publisher: this.gameData.publisher,
                   coverImageUrl: this.gameData.coverImageUrl,
@@ -249,14 +251,15 @@ export default {
             })
           } else {
             fb.gamesCollection
-              .doc(id)
+              .doc(gameData.id)
               .update({
-                name: this.gameData.name,
-                releaseDate: this.gameData.releaseDate,
-                developer: this.gameData.developer,
-                publisher: this.gameData.publisher,
-                coverImageUrl: this.gameData.coverImageUrl,
-                webSite: this.gameData.webSite
+                name: gameData.name,
+                releaseDate: gameData.releaseDate,
+                platforms: gameData.platforms,
+                developer: gameData.developer,
+                publisher: gameData.publisher,
+                coverImageUrl: gameData.coverImageUrl,
+                webSite: gameData.webSite
               })
               .then(this.closeWindow())
           }

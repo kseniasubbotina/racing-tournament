@@ -12,7 +12,7 @@
       </v-layout>
       <v-layout wrap>
         <v-flex xs12 md6 pa-1 v-for="game in games" :key="game.id">
-          <GameItem :_game="game" @editGame="openForm"/>
+          <GameItem :_game="game" @editGame="openForm" @deleteGame="deleteGame"/>
           <!-- <TrackItem :_track="track" @editTrack="openForm" @deleteTrack="openConfirmation"/> -->
         </v-flex>
       </v-layout>
@@ -57,22 +57,21 @@ export default {
   methods: {
     openForm(game) {
       if (!game.id) {
-        this.trackData = {
+        this.gameData = {
           name: '',
           releaseDate: '',
-          platforms: ['PS4', 'Xbox One', 'PC', 'Other'],
+          platforms: [],
           developer: '',
           publisher: '',
           coverImageUrl: '',
-          webSite: '',
-          buy: []
+          webSite: ''
         }
         this.isNew = true
       } else {
         this.isNew = false
         this.gameData = game
       }
-      this.$root.$emit('openDialog', game)
+      this.$root.$emit('openGameDialog', game)
     },
     getGames() {
       this.$store.commit('set', { type: 'loading', val: true })
@@ -86,6 +85,36 @@ export default {
         this.$store.commit('set', { type: 'loading', val: false })
         this.games = gamesArr
       })
+    },
+    deleteGame(game) {
+      fb.gamesCollection
+        .doc(game.id)
+        .delete()
+        .then(() => {
+          console.log('Document successfully deleted!')
+          this.getGames()
+          if (game.coverImageUrl) {
+            fb.storageRef
+              .child('games_images/' + game.id)
+              .delete()
+              .then(() => {
+                this.$store.commit('setMessage', {
+                  type: 'success',
+                  text: 'The image has been deleted from server.'
+                })
+              })
+              .catch(error => {
+                console.log(error)
+                this.$store.commit('setMessage', {
+                  type: 'error',
+                  text: error.message
+                })
+              })
+          }
+        })
+        .catch(function(error) {
+          console.error('Error removing document: ', error)
+        })
     }
   },
   components: {
