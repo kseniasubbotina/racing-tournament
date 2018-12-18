@@ -247,7 +247,7 @@ export default {
                   coverImageUrl: this.gameData.coverImageUrl,
                   webSite: this.gameData.webSite
                 })
-                .then(this.$emit('closeWindow'), this.$emit('updateGames'))
+                .then(this.closeWindow(), this.$emit('updateGames'))
             })
           } else {
             fb.gamesCollection
@@ -297,6 +297,7 @@ export default {
               type: 'success',
               text: 'The image has been deleted from server.'
             })
+            this.$emit('imageDeleted')
           })
           .catch(error => {
             console.log(error)

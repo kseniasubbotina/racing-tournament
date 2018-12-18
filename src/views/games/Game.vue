@@ -6,40 +6,50 @@
       </div>
       <v-container v-else>
         <div v-if="isAdmin">
-          <v-btn flat @click="openForm(trackData)">
+          <v-btn flat @click="openForm(gameData)">
             <v-icon>edit</v-icon>Edit
           </v-btn>
           <v-btn color="error" flat @click="openConfirmation">
             <v-icon>delete</v-icon>Delete
           </v-btn>
         </div>
-        <EditTrackForm :_trackData="trackData"/>
-        <div>{{trackData.name}}</div>
-        <div>{{trackData.country}}</div>
-        <div>length: {{trackData.length}}</div>
-        <div>First GP: {{trackData.firstGP}}</div>
-        <div>{{trackData.description}}</div>
-        <img :src="trackData.imageUrl" width="100%" alt>
+        <v-layout>
+          <v-flex pa-1 xs12 lg4>
+            <img :src="gameData.coverImageUrl" width="100%" alt>
+          </v-flex>
+          <v-flex pa-1 xs12 lg8>
+            <div class="headline">{{gameData.name}}</div>
+            <div>Release date: {{gameData.releaseDate}}</div>
+            <div>Platforms: {{gameData.platforms.join(', ')}}</div>
+            <div>Developer: {{gameData.developer}}</div>
+            <div>Publisher: {{gameData.publisher}}</div>
+            <div>
+              <a :href="gameData.webSite">{{gameData.webSite}}</a>
+            </div>
+          </v-flex>
+        </v-layout>
+        <GameForm :_gameData="gameData" @imageDeleted="gameData.coverImageUrl=''"/>
       </v-container>
-      <Confirmation @confirmed="deleteTrack" _message="Delete this track?"/>
+      <Confirmation @confirmed="deleteGame" _message="Delete this game?"/>
     </div>
   </v-card>
 </template>
- <script>
+
+<script>
 import fb from '@/firebase/config.js'
-import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
+import GameForm from '@/components/games/GameForm.vue'
 import Confirmation from '@/components/Confirmation.vue'
 
 export default {
-  name: 'trackPage',
+  name: 'Game',
   data() {
     return {
       showEditWindow: false,
-      trackData: {}
+      gameData: {}
     }
   },
   created() {
-    this.getTrack()
+    this.getGame()
   },
   computed: {
     loading() {
@@ -55,32 +65,32 @@ export default {
     }
   },
   methods: {
-    openForm(track) {
-      this.$root.$emit('openDialog', track)
+    openForm(game) {
+      this.$root.$emit('openGameDialog', game)
     },
     openConfirmation(track) {
       this.$root.$emit('confirm', track)
     },
-    getTrack() {
+    getGame() {
       this.$store.commit('set', { type: 'loading', val: true })
-      fb.tracksCollection.doc(this.$route.params.id).onSnapshot(doc => {
+      fb.gamesCollection.doc(this.$route.params.id).onSnapshot(doc => {
         if (doc.exists) {
-          this.trackData = doc.data()
-          this.trackData.id = doc.id
+          this.gameData = doc.data()
+          this.gameData.id = doc.id
           this.$store.commit('set', { type: 'loading', val: false })
         }
       })
     },
-    deleteTrack() {
-      fb.tracksCollection
-        .doc(this.trackData.id)
+    deleteGame() {
+      fb.gamesCollection
+        .doc(this.gameData.id)
         .delete()
         .then(() => {
           console.log('Document successfully deleted!')
-          this.$router.push('/tracks')
-          if (this.trackData.imageUrl) {
+          this.$router.push('/games')
+          if (this.gameData.coverImageUrl) {
             fb.storageRef
-              .child('tracks_images/' + this.trackData.id)
+              .child('games_images/' + this.gameData.id)
               .delete()
               .then(() => {
                 this.$store.commit('setMessage', {
@@ -103,9 +113,8 @@ export default {
     }
   },
   components: {
-    EditTrackForm,
+    GameForm,
     Confirmation
   }
 }
 </script>
- 

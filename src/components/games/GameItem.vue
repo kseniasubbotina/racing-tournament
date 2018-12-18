@@ -34,7 +34,7 @@
       </div>
     </v-card-title>
     <v-card-actions>
-      <v-btn depressed>Details</v-btn>
+      <v-btn depressed @click="$router.push({name: 'Game', params: {id: _game.id}})">Details</v-btn>
     </v-card-actions>
   </v-card>
 </template>

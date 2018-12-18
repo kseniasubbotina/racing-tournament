@@ -12,6 +12,7 @@ import NotFound from './views/common/NotFound.vue'
 import Tracks from './views/tracks/Tracks.vue'
 import Track from './views/tracks/Track.vue'
 import Games from './views/games/Games.vue'
+import Game from './views/games/Game.vue'
 
 Vue.use(Router)
 
@@ -136,6 +137,22 @@ const router = new Router({
           {
             name: 'Games',
             path: '/games'
+          }
+        ]
+      }
+    },
+    {
+      path: '/games/:id',
+      name: 'Game',
+      component: Game,
+      meta: {
+        breadcrumbs: [
+          {
+            name: 'Games',
+            path: '/games'
+          },
+          {
+            name: 'Game'
           }
         ]
       }
