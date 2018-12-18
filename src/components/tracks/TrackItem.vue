@@ -39,13 +39,8 @@
           Length:
           <b>{{_track.length}} km</b>
         </v-flex>
-        <v-btn
-          @click="$router.push({name: 'Track', params: {id: _track.id}})"
-          color="success"
-          flat
-          round
-        >View</v-btn>
       </v-layout>
+      <v-btn @click="$router.push({name: 'Track', params: {id: _track.id}})" depressed>Details</v-btn>
     </v-card-text>
   </v-card>
 </template>

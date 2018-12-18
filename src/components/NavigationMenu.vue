@@ -71,8 +71,14 @@ export default {
       {
         label: 'Users',
         icon: 'people',
-        route: 'users',
+        route: '/users',
         role: 1
+      },
+      {
+        label: 'Games',
+        icon: 'gamepad',
+        route: '/games',
+        role: 0
       }
     ]
   }),

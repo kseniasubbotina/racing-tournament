@@ -34,7 +34,7 @@ export default {
     _message: String
   },
   mounted() {
-    this.$root.$on('confirmDeletion', this.openDialog)
+    this.$root.$on('confirm', this.openDialog)
   },
   methods: {
     openDialog(data) {

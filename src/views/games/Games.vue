@@ -11,31 +11,26 @@
         </v-btn>
       </v-layout>
       <v-layout wrap>
-        <v-flex xs12 md6 pa-1 v-for="track in tracks" :key="track.id">
-          <TrackItem :_track="track" @editTrack="openForm" @deleteTrack="openConfirmation"/>
+        <v-flex xs12 md6 pa-1 v-for="game in games" :key="game.id">
+          <GameItem :_game="game" @editGame="openForm" @deleteGame="deleteGame"/>
+          <!-- <TrackItem :_track="track" @editTrack="openForm" @deleteTrack="openConfirmation"/> -->
         </v-flex>
-        <EditTrackForm :_trackData="trackData" :_isNew="isNew" @updateTracks="getTracks"/>
       </v-layout>
-      <Confirmation @confirmed="deleteTrack" _message="Delete this track?"/>
+      <GameForm :_gameData="gameData" :_isNew="isNew" @updateGames="getGames"/>
     </div>
   </v-container>
 </template>
 
 <script>
 import fb from '@/firebase/config.js'
-import Confirmation from '@/components/Confirmation.vue'
-import message from '@/components/Message.vue'
-import CountryFlag from '@/components/CountryFlag.vue'
-import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
-import TrackItem from '@/components/tracks/TrackItem.vue'
-
+import GameForm from '@/components/games/GameForm.vue'
+import GameItem from '@/components/games/GameItem.vue'
 export default {
+  name: 'games',
   data() {
     return {
-      createDialog: false,
-      editDialog: false,
-      tracks: [],
-      trackData: {},
+      games: [],
+      gameData: {},
       isNew: false
     }
   },
@@ -57,52 +52,50 @@ export default {
     }
   },
   created() {
-    this.getTracks()
+    this.getGames()
   },
   methods: {
-    openConfirmation(track) {
-      this.$root.$emit('confirmDeletion', track)
-    },
-    getTracks() {
-      this.$store.commit('set', { type: 'loading', val: true })
-      var tracksArr = []
-      fb.tracksCollection.get().then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          var data = doc.data()
-          data.id = doc.id
-          tracksArr.push(data)
-        })
-        this.$store.commit('set', { type: 'loading', val: false })
-        this.tracks = tracksArr
-      })
-    },
-    openForm(track) {
-      if (!track.id) {
-        this.trackData = {
+    openForm(game) {
+      if (!game.id) {
+        this.gameData = {
           name: '',
-          country: '',
-          firstGP: '',
-          length: '',
-          imageUrl: '',
-          description: ''
+          releaseDate: '',
+          platforms: [],
+          developer: '',
+          publisher: '',
+          coverImageUrl: '',
+          webSite: ''
         }
         this.isNew = true
       } else {
         this.isNew = false
-        this.trackData = track
+        this.gameData = game
       }
-      this.$root.$emit('openDialog', track)
+      this.$root.$emit('openGameDialog', game)
     },
-    deleteTrack(track) {
-      fb.tracksCollection
-        .doc(track.id)
+    getGames() {
+      this.$store.commit('set', { type: 'loading', val: true })
+      var gamesArr = []
+      fb.gamesCollection.get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          var data = doc.data()
+          data.id = doc.id
+          gamesArr.push(data)
+        })
+        this.$store.commit('set', { type: 'loading', val: false })
+        this.games = gamesArr
+      })
+    },
+    deleteGame(game) {
+      fb.gamesCollection
+        .doc(game.id)
         .delete()
         .then(() => {
           console.log('Document successfully deleted!')
-          this.getTracks()
-          if (track.imageUrl) {
+          this.getGames()
+          if (game.coverImageUrl) {
             fb.storageRef
-              .child('tracks_images/' + track.id)
+              .child('games_images/' + game.id)
               .delete()
               .then(() => {
                 this.$store.commit('setMessage', {
@@ -125,11 +118,8 @@ export default {
     }
   },
   components: {
-    TrackItem,
-    message,
-    CountryFlag,
-    EditTrackForm,
-    Confirmation
+    GameForm,
+    GameItem
   }
 }
 </script>
