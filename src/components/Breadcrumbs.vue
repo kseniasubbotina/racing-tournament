@@ -38,6 +38,11 @@ export default {
           path: '/'
         }
       ]
+      if (this.$route.params.id) {
+        var breadcrumbsMetaArr = this.$route.meta.breadcrumbs
+        var lastEl = breadcrumbsMetaArr.length - 1
+        this.$route.meta.breadcrumbs[lastEl].name = this.$route.params.id
+      }
       if (this.$route.name !== 'home') {
         this.items = items.concat(this.$route.meta.breadcrumbs)
       } else {
