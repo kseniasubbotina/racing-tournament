@@ -1,42 +1,46 @@
 <template>
   <v-flex xs12 sm6>
     <v-card>
-      <v-card-title class="py-4 title">
-        Login
-      </v-card-title>
+      <v-card-title class="py-4 title">Login</v-card-title>
       <v-container grid-list-sm class="pa-4">
         <v-form>
           <v-layout row wrap>
             <v-flex xs12 justify-space-between>
-              <v-text-field label="Email" v-model="email" v-validate="'required|email'" type="text" name="email" :error-messages="errors.collect('email')"
+              <v-text-field
+                label="Email"
+                v-model="email"
+                v-validate="'required|email'"
+                type="text"
+                name="email"
+                :error-messages="errors.collect('email')"
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
               <v-text-field
-              v-model="password"
-              :append-icon="show ? 'visibility_off' : 'visibility'"
-              v-validate="{required: true, min: 6, max: 25 }"
-              :type="show ? 'text' : 'password'"
-              label="Password"
-              name="password" 
-              :error-messages="errors.collect('password')"
-              counter
-              @click:append="show = !show"
-            ></v-text-field>
+                v-model="password"
+                :append-icon="show ? 'visibility_off' : 'visibility'"
+                v-validate="{required: true, min: 6, max: 25 }"
+                :type="show ? 'text' : 'password'"
+                label="Password"
+                name="password"
+                :error-messages="errors.collect('password')"
+                counter
+                @click:append="show = !show"
+              ></v-text-field>
             </v-flex>
           </v-layout>
         </v-form>
-        <message />
+        <message/>
       </v-container>
       <v-card-actions>
         <v-btn to="register" color="red darken-2" flat>Create account</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="red darken-2" dark  @click="submit">submit</v-btn>
+        <v-btn color="red darken-2" dark @click="submit">submit</v-btn>
       </v-card-actions>
       <v-flex v-if="loading">
         <v-progress-linear ma-0 :indeterminate="true"></v-progress-linear>
       </v-flex>
-    </v-card>  
+    </v-card>
   </v-flex>
 </template>
 
@@ -46,7 +50,7 @@ import message from '@/components/Message.vue'
 
 export default {
   name: 'Login',
-  data: function () {
+  data: function() {
     return {
       email: '',
       password: '',
@@ -54,21 +58,24 @@ export default {
     }
   },
   computed: {
-    user () {
+    user() {
       return this.$store.getters.user
     },
-    loading () {
+    userData() {
+      if (this.$store.getters.userData) return this.$store.getters.userData
+    },
+    loading() {
       return this.$store.getters.loading
     }
   },
   methods: {
-    submit: function (){
+    submit: function() {
       let router = this.$router
       this.$validator.validate().then(result => {
-        if(result) {
+        if (result) {
           let credentials = {
-          "email": this.email,
-          "password": this.password
+            email: this.email,
+            password: this.password
           }
           this.$store.dispatch('signIn', credentials)
         }
@@ -76,9 +83,9 @@ export default {
     }
   },
   watch: {
-    user (newVal, oldVal) {
+    userData(newVal, oldVal) {
       if (newVal && newVal !== undefined) {
-        this.$router.push('/user_' + this.user.id)
+        this.$router.push('/user_' + this.userData.username)
       }
     }
   },

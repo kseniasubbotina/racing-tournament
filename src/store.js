@@ -36,7 +36,7 @@ export default new Vuex.Store({
           response => {
             if (response) {
               fb.usersCollection
-                .doc(response.user.uid)
+                .doc(credentials.username)
                 .set({
                   id: response.user.uid,
                   username: credentials.username,
@@ -104,10 +104,12 @@ export default new Vuex.Store({
     },
     fetchUserData({ commit }) {
       fb.usersCollection
-        .doc(this.state.user.id)
+        .where('id', '==', this.state.user.id)
         .get()
-        .then(res => {
-          commit('set', { type: 'userData', val: res.data() })
+        .then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+            commit('set', { type: 'userData', val: doc.data() })
+          })
         })
         .catch(err => {
           commit('setMessage', { type: 'error', text: err.message })

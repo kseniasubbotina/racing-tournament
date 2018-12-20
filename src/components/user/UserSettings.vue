@@ -36,7 +36,7 @@
         <v-layout column wrap>
           <v-flex>
             <v-btn
-              @click="update(_userData.userId, _userData.username, userData.country, _userData.avatarURL, _userData.role)"
+              @click="update(_userData.username, _userData.username, userData.country, _userData.avatarURL, _userData.role)"
               :loading="loading"
             >Save</v-btn>
           </v-flex>

@@ -43,7 +43,7 @@
                   </v-flex>
                   <v-flex>
                     <v-card-text class="text-xs-right">
-                      <v-btn flat @click="$router.push('/user_'+props.item.id)">
+                      <v-btn flat @click="$router.push('/user_'+props.item.username)">
                         <v-icon>account_circle</v-icon>View
                       </v-btn>
                       <v-btn
@@ -103,7 +103,7 @@
           <v-spacer></v-spacer>
           <v-btn
             color="red darken-2"
-            @click="update(userId, username, country, avatarURL, role)"
+            @click="update(username, username, country, avatarURL, role)"
             dark
           >Save</v-btn>
         </v-card-actions>

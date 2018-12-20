@@ -55,13 +55,7 @@ export default {
   name: 'UserProfile',
   data() {
     return {
-      userData: {
-        userId: '',
-        country: '',
-        username: '',
-        avatarURL: '',
-        role: ''
-      },
+      userData: {},
       selectedFile: null,
       loadingProgress: null,
       componentName: 'userSettings',
@@ -99,7 +93,8 @@ export default {
       return this.$route.params.id
     },
     isGuest() {
-      return this.authenticatedUserId !== this.visitedUserId
+      debugger
+      return this.authenticatedUserId !== this.userData.id
     },
     message() {
       return this.$store.getters.message
@@ -129,12 +124,13 @@ export default {
     getUserData() {
       fb.usersCollection.doc(this.visitedUserId).onSnapshot(doc => {
         if (doc.exists) {
-          var data = doc.data()
-          this.userData.userId = data.id
-          this.userData.username = data.username
-          this.userData.country = data.country
-          this.userData.avatarURL = data.avatarURL
-          this.userData.role = data.role
+          debugger
+          this.userData = doc.data()
+          // this.userData.userId = data.id
+          // this.userData.username = data.username
+          // this.userData.country = data.country
+          // this.userData.avatarURL = data.avatarURL
+          // this.userData.role = data.role
         } else {
           this.$router.push('/')
           console.log('No user found')
