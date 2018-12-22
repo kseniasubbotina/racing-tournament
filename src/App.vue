@@ -90,7 +90,7 @@ export default {
     onColorThemeChanged() {
       this.isDarkColorTheme = !this.isDarkColorTheme
       fb.usersCollection
-        .doc(this.$store.getters.user.id)
+        .doc(this.$store.getters.userData.username)
         .update({
           isDarkColorTheme: this.isDarkColorTheme
         })
