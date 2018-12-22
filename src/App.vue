@@ -77,8 +77,10 @@ export default {
       return this.$store.getters.userData
     },
     toCurrentUserProfile() {
-      let id = this.$store.getters.user.id
-      return '/user_' + id
+      if (this.$store.getters.userData) {
+        let id = this.$store.getters.userData.username
+        return '/user_' + id
+      }
     }
   },
   mounted() {
@@ -88,7 +90,7 @@ export default {
     onColorThemeChanged() {
       this.isDarkColorTheme = !this.isDarkColorTheme
       fb.usersCollection
-        .doc(this.$store.getters.user.id)
+        .doc(this.$store.getters.userData.username)
         .update({
           isDarkColorTheme: this.isDarkColorTheme
         })

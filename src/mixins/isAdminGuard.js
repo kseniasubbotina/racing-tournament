@@ -1,44 +1,74 @@
 import fb from './../firebase/config.js'
 
 export default {
-  data () {
+  data() {
     return {
       isAdmin: false
     }
   },
-  created: function () {
+  created: function() {
     this.checkPermission()
   },
   watch: {
-    userRole () {
+    userRole() {
       this.checkPermission()
     }
   },
   computed: {
-    userRole () {
+    userRole() {
       if (this.$store.getters.userData) {
         return this.$store.getters.userData.role
       }
     }
   },
   methods: {
-    checkPermission () {
+    checkPermission() {
       this.$store.commit('set', { type: 'loading', val: true })
       var currentUser = this.$store.getters.user
+      var userData = this.$store.getters.userData
       if (currentUser) {
-        fb.usersCollection.doc(currentUser.id).get().then(res => {
-          let data = res.data()
-          if (data.role === '1') {
-            this.isAdmin = true
-            this.$store.commit('set', { type: 'loading', val: false })
-          } else {
+        fb.usersCollection
+          .where('id', '==', currentUser.id)
+          .get()
+          .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+              let data = doc.data()
+              if (data.role === '1') {
+                this.isAdmin = true
+                this.$store.commit('set', { type: 'loading', val: false })
+              } else {
+                this.isAdmin = false
+                this.$router.push('/')
+              }
+            })
+          })
+          .catch(err => {
             this.isAdmin = false
-            this.$router.push('/')
-          }
-        }).catch(err => {
-          this.isAdmin = false
-          this.$store.commit('setMessage', { type: 'error', text: err.message })
-        })
+            this.$store.commit('setMessage', {
+              type: 'error',
+              text: err.message
+            })
+          })
+        // fb.usersCollection
+        //   .doc(userData.username)
+        //   .get()
+        //   .then(res => {
+        //     let data = res.data()
+        //     if (data.role === '1') {
+        //       this.isAdmin = true
+        //       this.$store.commit('set', { type: 'loading', val: false })
+        //     } else {
+        //       this.isAdmin = false
+        //       this.$router.push('/')
+        //     }
+        //   })
+        //   .catch(err => {
+        //     this.isAdmin = false
+        //     this.$store.commit('setMessage', {
+        //       type: 'error',
+        //       text: err.message
+        //     })
+        //   })
       } else {
         this.$router.push('/')
       }

@@ -5,16 +5,6 @@
         <v-flex xs12 justify-space-between>
           <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="_userData.country"/>
         </v-flex>
-        <v-flex xs12>
-          <v-text-field
-            label="Username"
-            v-model="_userData.username"
-            v-validate="{required: true, min: 2 }"
-            type="text"
-            name="name"
-            :error-messages="errors.collect('name')"
-          ></v-text-field>
-        </v-flex>
         <v-flex>
           <v-layout column wrap>
             <v-flex justify-start>
@@ -36,7 +26,7 @@
         <v-layout column wrap>
           <v-flex>
             <v-btn
-              @click="update(_userData.userId, _userData.username, userData.country, _userData.avatarURL, _userData.role)"
+              @click="update(_userData.username, _userData.username, userData.country, _userData.avatarURL, _userData.role)"
               :loading="loading"
             >Save</v-btn>
           </v-flex>

@@ -43,7 +43,7 @@
                   </v-flex>
                   <v-flex>
                     <v-card-text class="text-xs-right">
-                      <v-btn flat @click="$router.push('/user_'+props.item.id)">
+                      <v-btn flat @click="$router.push('/user_'+props.item.username)">
                         <v-icon>account_circle</v-icon>View
                       </v-btn>
                       <v-btn
@@ -52,9 +52,9 @@
                       >
                         <v-icon>edit</v-icon>Edit
                       </v-btn>
-                      <v-btn color="red" flat @click.stop="confirmDialog = true">
+                      <!-- <v-btn color="red" flat @click.stop="confirmDialog = true">
                         <v-icon>delete</v-icon>Delete
-                      </v-btn>
+                      </v-btn>-->
                     </v-card-text>
                   </v-flex>
                 </v-layout>
@@ -78,14 +78,6 @@
           <form>
             <v-layout row wrap>
               <v-flex xs12 justify-space-between>
-                <v-text-field
-                  label="Username"
-                  v-model="username"
-                  v-validate="'required|min:2'"
-                  type="text"
-                  name="username"
-                  :error-messages="errors.collect('username')"
-                ></v-text-field>
                 <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="country"/>
               </v-flex>
               <v-flex class="text-lg-right" justify-start xs12>Select role
@@ -103,7 +95,7 @@
           <v-spacer></v-spacer>
           <v-btn
             color="red darken-2"
-            @click="update(userId, username, country, avatarURL, role)"
+            @click="update(username, username, country, avatarURL, role)"
             dark
           >Save</v-btn>
         </v-card-actions>
