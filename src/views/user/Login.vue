@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import firebase from 'firebase'
 import message from '@/components/Message.vue'
 
 export default {

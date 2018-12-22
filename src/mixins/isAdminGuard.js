@@ -28,17 +28,19 @@ export default {
       var userData = this.$store.getters.userData
       if (currentUser) {
         fb.usersCollection
-          .doc(userData.username)
+          .where('id', '==', currentUser.id)
           .get()
-          .then(res => {
-            let data = res.data()
-            if (data.role === '1') {
-              this.isAdmin = true
-              this.$store.commit('set', { type: 'loading', val: false })
-            } else {
-              this.isAdmin = false
-              this.$router.push('/')
-            }
+          .then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+              let data = doc.data()
+              if (data.role === '1') {
+                this.isAdmin = true
+                this.$store.commit('set', { type: 'loading', val: false })
+              } else {
+                this.isAdmin = false
+                this.$router.push('/')
+              }
+            })
           })
           .catch(err => {
             this.isAdmin = false
@@ -47,6 +49,26 @@ export default {
               text: err.message
             })
           })
+        // fb.usersCollection
+        //   .doc(userData.username)
+        //   .get()
+        //   .then(res => {
+        //     let data = res.data()
+        //     if (data.role === '1') {
+        //       this.isAdmin = true
+        //       this.$store.commit('set', { type: 'loading', val: false })
+        //     } else {
+        //       this.isAdmin = false
+        //       this.$router.push('/')
+        //     }
+        //   })
+        //   .catch(err => {
+        //     this.isAdmin = false
+        //     this.$store.commit('setMessage', {
+        //       type: 'error',
+        //       text: err.message
+        //     })
+        //   })
       } else {
         this.$router.push('/')
       }

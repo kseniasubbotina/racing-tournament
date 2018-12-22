@@ -6,14 +6,18 @@
         <form>
           <v-layout row wrap>
             <v-flex xs12 sm6 justify-space-between>
-              <v-text-field
-                label="Username"
-                v-model="username"
-                v-validate="'required|min:3'"
-                type="text"
-                name="username"
-                :error-messages="errors.collect('username')"
-              ></v-text-field>
+              <v-tooltip top>
+                <v-text-field
+                  slot="activator"
+                  label="Username"
+                  v-model="username"
+                  v-validate="'required|min:3'"
+                  type="text"
+                  name="username"
+                  :error-messages="errors.collect('username')"
+                ></v-text-field>
+                <span>You will not be able to change your username after registering.</span>
+              </v-tooltip>
             </v-flex>
             <v-flex xs12 sm6>
               <v-text-field
@@ -38,14 +42,6 @@
                 @click:append="show = !show"
               ></v-text-field>
             </v-flex>
-            <!-- <v-flex xs12 sm6>
-              <v-text-field label="Confirm password" v-model="confirmPassword" v-validate="'required|min:6'" type="password" name="password_confirmation" :error-messages="errors.collect('password_confirmation')">
-              </v-text-field>
-            </v-flex>-->
-            <!-- <v-flex xs12 sm6>
-              <v-text-field label="Name" v-model="name" v-validate="'required|min:3|alpha'" type="text" name="name" :error-messages="errors.collect('name')">
-              </v-text-field>
-            </v-flex>-->
             <v-flex xs12 sm6>
               <CountrySelect @changeCountry="onChangeCountry"/>
             </v-flex>
@@ -79,7 +75,8 @@
 <script>
 import CountrySelect from '@/components/CountrySelect.vue'
 import message from '@/components/Message.vue'
-import firebase from 'firebase'
+import fb from '@/firebase/config.js'
+
 export default {
   name: 'RegisterForm',
   data: () => ({
@@ -117,13 +114,34 @@ export default {
     submit() {
       this.$validator.validate().then(result => {
         if (result) {
-          let credentials = {
-            email: this.email,
-            password: this.password,
-            username: this.username,
-            country: this.country
-          }
-          this.$store.dispatch('signUp', credentials)
+          this.$store.commit('set', { type: 'loading', val: true })
+          fb.usersCollection
+            .doc(this.username)
+            .get()
+            .then(doc => {
+              this.$store.commit('set', { type: 'loading', val: false })
+              if (doc.exists) {
+                this.$store.commit('setMessage', {
+                  type: 'error',
+                  text: 'The username is already in use by another account.'
+                })
+              } else {
+                let credentials = {
+                  email: this.email,
+                  password: this.password,
+                  username: this.username,
+                  country: this.country || ''
+                }
+                this.$store.dispatch('signUp', credentials)
+              }
+            })
+            .catch(err => {
+              this.$store.commit('set', { type: 'loading', val: false })
+              this.$store.commit('setMessage', {
+                type: 'error',
+                text: err.message
+              })
+            })
         }
       })
     },

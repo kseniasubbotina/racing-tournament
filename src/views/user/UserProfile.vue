@@ -93,7 +93,6 @@ export default {
       return this.$route.params.id
     },
     isGuest() {
-      debugger
       return this.authenticatedUserId !== this.userData.id
     },
     message() {
@@ -124,13 +123,7 @@ export default {
     getUserData() {
       fb.usersCollection.doc(this.visitedUserId).onSnapshot(doc => {
         if (doc.exists) {
-          debugger
           this.userData = doc.data()
-          // this.userData.userId = data.id
-          // this.userData.username = data.username
-          // this.userData.country = data.country
-          // this.userData.avatarURL = data.avatarURL
-          // this.userData.role = data.role
         } else {
           this.$router.push('/')
           console.log('No user found')
