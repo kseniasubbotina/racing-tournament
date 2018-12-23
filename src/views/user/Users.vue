@@ -24,7 +24,10 @@
             <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
             <template slot="items" slot-scope="props">
               <tr @click="props.expanded = !props.expanded">
-                <td class="text-xs-left">{{ props.item.username }}</td>
+                <td class="text-xs-left">
+                  Photo
+                  <strong>{{ props.item.username }}</strong>
+                </td>
                 <td class="text-xs-right">{{ props.item.country }}</td>
                 <td class="text-xs-right">
                   <div v-if="props.item.role == '1'">Administrator</div>
@@ -52,9 +55,6 @@
                       >
                         <v-icon>edit</v-icon>Edit
                       </v-btn>
-                      <!-- <v-btn color="red" flat @click.stop="confirmDialog = true">
-                        <v-icon>delete</v-icon>Delete
-                      </v-btn>-->
                     </v-card-text>
                   </v-flex>
                 </v-layout>
