@@ -5,28 +5,24 @@
         <v-flex xs12 justify-space-between>
           <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="_userData.country"/>
         </v-flex>
-        <v-flex>
-          <v-layout column wrap>
-            <v-flex justify-start>
-              <v-avatar size="100">
-                <img v-if="_userData.avatarURL" :src="_userData.avatarURL" alt>
-                <img v-else src="http://pol.audio/media/user-avatar.png" alt>
-              </v-avatar>
-              <div v-if="selectedFile">{{selectedFile.name}}</div>
-            </v-flex>
-            <v-flex justify-start>
-              <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
-              <v-btn v-if="_userData.avatarURL" flat color="error" @click="deleteImage">Delete</v-btn>
-            </v-flex>
-          </v-layout>
-          <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
-        </v-flex>
       </v-layout>
+      <!-- <v-layout column justify-center align-center> -->
+      <v-flex>User image</v-flex>
+      <ImageInput
+        :_url="_userData.avatarURL"
+        @fileSelected="onfileSelected"
+        @deleteImage="deleteImage"
+      />
+      <!-- </v-layout> -->
       <v-card-actions>
+        <v-spacer></v-spacer>
         <v-layout column wrap>
           <v-flex>
             <v-btn
-              @click="update(_userData.username, _userData.username, userData.country, _userData.avatarURL, _userData.role)"
+              class="white--text"
+              depressed
+              color="red"
+              @click="update(userData.username, userData.username, userData.country, userData.avatarURL, userData.role)"
               :loading="loading"
             >Save</v-btn>
           </v-flex>
@@ -40,6 +36,7 @@
 </template>
 
 <script>
+import ImageInput from '@/components/ImageInput.vue'
 import Message from '@/components/Message.vue'
 import CountrySelect from '@/components/CountrySelect.vue'
 import updateUser from '@/mixins/updateUser.js'
@@ -56,6 +53,11 @@ export default {
   props: {
     _userData: Object
   },
+  watch: {
+    _userData(val) {
+      this.userData = val
+    }
+  },
   computed: {
     loading() {
       return this.$store.getters.loading
@@ -68,25 +70,24 @@ export default {
     onChangeCountry(val) {
       this.userData.country = val
     },
+    onfileSelected(file) {
+      this.selectedFile = file
+    },
     deleteImage() {
       this.userData.avatarURL = ''
-    },
-    onFileSelected(event) {
-      let type = event.target.files[0].type
-      if (type == 'image/png' || type == 'image/jpg' || type == 'image/jpeg') {
-        this.selectedFile = event.target.files[0]
-        console.log(this.selectedFile)
-      } else {
-        this.$store.commit('setMessage', {
-          type: 'error',
-          text: 'Incorrect type of file. Only PNG, JPEG allowed.'
-        })
-      }
+      this.deleteAvatar(
+        this.userData.username,
+        this.userData.username,
+        this.userData.country,
+        this.userData.avatarURL,
+        this.userData.role
+      )
     }
   },
   components: {
     CountrySelect,
-    Message
+    Message,
+    ImageInput
   },
   mixins: [updateUser]
 }

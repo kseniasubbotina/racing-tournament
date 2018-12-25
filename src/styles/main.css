@@ -37,3 +37,7 @@
 .track-item_card {
   min-height: 160px;
 }
+.image-input {
+  background: #d2d2d226;
+  padding: 10px;
+}

@@ -6,7 +6,7 @@ export default {
       this.$store.commit('set', { type: 'loading', val: true })
       if (this.selectedFile) {
         var uploadTask = fb.storageRef
-          .child('users_avatars/' + userId + this.selectedFile.name)
+          .child('users_avatars/' + userId)
           .put(this.selectedFile)
         uploadTask.on('state_changed', snapshot => {
           var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
@@ -23,6 +23,7 @@ export default {
               avatarURL: downloadURL,
               role: role
             })
+            this.$store.dispatch('fetchUserData')
             this.$store.commit('set', { type: 'loading', val: false })
           })
         })
@@ -34,8 +35,29 @@ export default {
           avatarURL: avatarURL,
           role: role
         })
+        this.$store.dispatch('fetchUserData')
         this.$store.commit('set', { type: 'loading', val: false })
       }
+    },
+    deleteAvatar(id, username, country, avatarURL, role) {
+      fb.storageRef
+        .child('users_avatars/' + id)
+        .delete()
+        .then(() => {
+          this.$store.commit('setMessage', {
+            type: 'success',
+            text: 'The image has been deleted from server.'
+          })
+          this.$emit('imageDeleted')
+          this.update(id, username, country, avatarURL, role)
+        })
+        .catch(error => {
+          console.log(error)
+          this.$store.commit('setMessage', {
+            type: 'error',
+            text: error.message
+          })
+        })
     }
   }
 }
