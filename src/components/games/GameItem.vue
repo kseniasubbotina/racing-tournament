@@ -4,7 +4,7 @@
       <v-layout>
         <v-spacer/>
         <v-menu v-if="isAdmin" bottom left>
-          <v-btn color="white" slot="activator" icon>
+          <v-btn class="black--text" color="white" slot="activator" icon>
             <v-icon>more_vert</v-icon>
           </v-btn>
           <v-list>
