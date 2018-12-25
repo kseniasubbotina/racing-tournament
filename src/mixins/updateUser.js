@@ -23,7 +23,7 @@ export default {
               avatarURL: downloadURL,
               role: role
             })
-            // this.$store.dispatch('fetchUserData')
+            this.$store.dispatch('fetchUserData')
             this.$store.commit('set', { type: 'loading', val: false })
           })
         })
@@ -35,12 +35,11 @@ export default {
           avatarURL: avatarURL,
           role: role
         })
-        // this.$store.dispatch('fetchUserData')
+        this.$store.dispatch('fetchUserData')
         this.$store.commit('set', { type: 'loading', val: false })
       }
     },
     deleteAvatar(id, username, country, avatarURL, role) {
-      debugger
       fb.storageRef
         .child('users_avatars/' + id)
         .delete()
@@ -50,7 +49,6 @@ export default {
             text: 'The image has been deleted from server.'
           })
           this.$emit('imageDeleted')
-          debugger
           this.update(id, username, country, avatarURL, role)
         })
         .catch(error => {
