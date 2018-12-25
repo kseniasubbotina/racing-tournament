@@ -16,7 +16,7 @@
       <!-- </v-layout> -->
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-layout wrap>
+        <v-layout column wrap>
           <v-flex>
             <v-btn
               class="white--text"
