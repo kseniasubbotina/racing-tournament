@@ -5,16 +5,23 @@
         <v-flex xs12 justify-space-between>
           <CountrySelect @changeCountry="onChangeCountry" :_selectedCountry="_userData.country"/>
         </v-flex>
-        <ImageInput
-          :_url="_userData.avatarURL"
-          @fileSelected="onfileSelected"
-          @deleteImage="deleteImage"
-        />
       </v-layout>
+      <!-- <v-layout column justify-center align-center> -->
+      <v-flex>User image</v-flex>
+      <ImageInput
+        :_url="_userData.avatarURL"
+        @fileSelected="onfileSelected"
+        @deleteImage="deleteImage"
+      />
+      <!-- </v-layout> -->
       <v-card-actions>
+        <v-spacer></v-spacer>
         <v-layout wrap>
           <v-flex>
             <v-btn
+              class="white--text"
+              depressed
+              color="red"
               @click="update(userData.username, userData.username, userData.country, userData.avatarURL, userData.role)"
               :loading="loading"
             >Save</v-btn>
