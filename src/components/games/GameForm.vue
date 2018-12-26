@@ -84,27 +84,6 @@
                 v-model="gameData.webSite"
               ></v-text-field>
             </v-flex>
-            <!-- <v-flex xs12 class="text-xs-center">
-              <div v-if="selectedFile">{{selectedFile.name}}</div>
-              <div v-else>Cover Image</div>
-              <v-layout justify-center align-center column wrap>
-                <v-flex>
-                  <img width="300px" :src="gameData.coverImageUrl" alt>
-                  <br>
-                </v-flex>
-                <v-flex>
-                  <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
-                  <v-btn
-                    @click="deleteImage(gameData.id)"
-                    v-if="gameData.coverImageUrl"
-                    flat
-                    color="error"
-                  >Delete</v-btn>
-                  <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
-                </v-flex>
-                <message/>
-              </v-layout>
-            </v-flex>-->
             <ImageInput
               :_url="gameData.coverImageUrl"
               @deleteImage="deleteImage"
