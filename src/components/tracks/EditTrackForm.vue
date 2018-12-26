@@ -49,23 +49,11 @@
             <v-flex xs12 class="text-xs-center">
               <div v-if="selectedFile">{{selectedFile.name}}</div>
               <div v-else>Track Image</div>
-              <v-layout justify-center align-center column wrap>
-                <v-flex>
-                  <img :src="trackData.imageUrl" width="300px" alt>
-                  <br>
-                </v-flex>
-                <v-flex>
-                  <v-btn @click="$refs.filenput.click()" flat>Browse</v-btn>
-                  <v-btn
-                    @click="deleteImage(trackData.id)"
-                    v-if="trackData.imageUrl"
-                    flat
-                    color="error"
-                  >Delete</v-btn>
-                  <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
-                </v-flex>
-                <message/>
-              </v-layout>
+              <ImageInput
+                :_url="trackData.imageUrl"
+                @deleteImage="deleteImage"
+                @fileSelected="onfileSelected"
+              />
             </v-flex>
             <v-flex>
               <v-textarea v-model="trackData.description" label="Track Description"></v-textarea>
@@ -91,6 +79,7 @@
 </template>
 
 <script>
+import ImageInput from '@/components/ImageInput.vue'
 import message from '@/components/Message.vue'
 import CountrySelect from '@/components/CountrySelect.vue'
 import fb from '@/firebase/config.js'
@@ -130,17 +119,8 @@ export default {
       this.trackData = trackData
       this.trackDialog = true
     },
-    onFileSelected(event) {
-      let type = event.target.files[0].type
-      if (type == 'image/png' || type == 'image/jpg' || type == 'image/jpeg') {
-        this.selectedFile = event.target.files[0]
-        this.trackImageUrl = ''
-      } else {
-        this.$store.commit('setMessage', {
-          type: 'error',
-          text: 'Incorrect type of file. Only PNG, JPEG allowed.'
-        })
-      }
+    onfileSelected(file) {
+      this.selectedFile = file
     },
     onChangeCountry(val) {
       if (val) this.trackData.country = val
@@ -267,6 +247,7 @@ export default {
     }
   },
   components: {
+    ImageInput,
     message,
     CountrySelect
   }

@@ -25,7 +25,10 @@
             <template slot="items" slot-scope="props">
               <tr @click="props.expanded = !props.expanded">
                 <td class="text-xs-left">
-                  Photo
+                  <v-avatar size="32px" style="margin-right: 4px">
+                    <img v-if="props.item.avatarURL" :src="props.item.avatarURL">
+                    <img v-else src="http://pol.audio/media/user-avatar.png">
+                  </v-avatar>
                   <strong>{{ props.item.username }}</strong>
                 </td>
                 <td class="text-xs-right">{{ props.item.country }}</td>
