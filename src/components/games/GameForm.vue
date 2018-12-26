@@ -84,7 +84,7 @@
                 v-model="gameData.webSite"
               ></v-text-field>
             </v-flex>
-            <v-flex xs12 class="text-xs-center">
+            <!-- <v-flex xs12 class="text-xs-center">
               <div v-if="selectedFile">{{selectedFile.name}}</div>
               <div v-else>Cover Image</div>
               <v-layout justify-center align-center column wrap>
@@ -104,7 +104,12 @@
                 </v-flex>
                 <message/>
               </v-layout>
-            </v-flex>
+            </v-flex>-->
+            <ImageInput
+              :_url="gameData.coverImageUrl"
+              @deleteImage="deleteImage"
+              @fileSelected="onfileSelected"
+            />
           </v-layout>
         </form>
       </v-card-text>
@@ -125,6 +130,7 @@
   </v-dialog>
 </template>
 <script>
+import ImageInput from '@/components/ImageInput.vue'
 import message from '@/components/Message.vue'
 import fb from '@/firebase/config.js'
 
@@ -171,17 +177,8 @@ export default {
       this.gameData = gameData
       this.gameDialog = true
     },
-    onFileSelected(event) {
-      let type = event.target.files[0].type
-      if (type == 'image/png' || type == 'image/jpg' || type == 'image/jpeg') {
-        this.selectedFile = event.target.files[0]
-        this.gameCoverImageUrl = ''
-      } else {
-        this.$store.commit('setMessage', {
-          type: 'error',
-          text: 'Incorrect type of file. Only PNG, JPEG allowed.'
-        })
-      }
+    onfileSelected(file) {
+      this.selectedFile = file
     },
     closeWindow() {
       this.gameDialog = false
@@ -310,7 +307,8 @@ export default {
     }
   },
   components: {
-    message
+    message,
+    ImageInput
   }
 }
 </script>
