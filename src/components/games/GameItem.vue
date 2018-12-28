@@ -25,6 +25,8 @@
           <span class="headline">{{_game.name}}</span>
         </v-flex>
       </v-layout>
+    </v-card-title>
+    <v-card-text>
       <div>
         <span class="grey--text">{{_game.developer}}</span>
         <br>
@@ -32,7 +34,7 @@
         <br>
         <span>{{_game.releaseDate}}</span>
       </div>
-    </v-card-title>
+    </v-card-text>
     <v-card-actions>
       <v-btn depressed @click="$router.push({name: 'Game', params: {id: _game.id}})">Details</v-btn>
     </v-card-actions>
