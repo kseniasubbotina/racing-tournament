@@ -42,7 +42,7 @@
     </v-card-title>
     <v-card-text>
       <v-layout>
-        <v-flex class="grey--text">Country: {{_track.country}}</v-flex>
+        <v-flex>Country: {{_track.country}}</v-flex>
         <br>
         <v-flex>Length: {{_track.length}}</v-flex>
       </v-layout>
