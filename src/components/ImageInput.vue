@@ -1,8 +1,6 @@
 <template>
   <v-layout class="image-input">
     <v-flex xs12 class="text-xs-center">
-      <div v-if="selectedFile">{{selectedFile.name}}</div>
-      <div v-else></div>
       <v-layout justify-center align-center column wrap>
         <v-flex style="cursor: pointer" @click="$refs.filenput.click()">
           <img v-if="previewUrl" width="200px" :src="previewUrl" alt>
