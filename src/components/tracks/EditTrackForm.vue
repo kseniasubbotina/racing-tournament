@@ -51,7 +51,7 @@
               <div v-else>Track Photo</div>
               <ImageInput
                 :_url="trackData.trackPhoto"
-                @deleteImage="deleteImage"
+                @deleteImage="deleteImage('trackPhoto')"
                 @fileSelected="trackPhotoSelected"
               />
             </v-flex>
@@ -60,7 +60,7 @@
               <div v-else>Track Scheme</div>
               <ImageInput
                 :_url="trackData.trackScheme"
-                @deleteImage="deleteImage"
+                @deleteImage="deleteImage('trackScheme')"
                 @fileSelected="trackSchemeSelected"
               />
             </v-flex>

@@ -59,7 +59,7 @@ export default {
                   trackPhoto: this.trackData.trackPhoto,
                   description: this.trackData.description
                 })
-                .then(this.$emit('closeWindow'), this.$emit('updateTracks'))
+                .then(this.closeWindow(), this.$emit('updateTracks'))
             })
           } else {
             if (this.selectedFile == null) {
@@ -72,6 +72,8 @@ export default {
                 country: this.trackData.country,
                 firstGP: this.trackData.firstGP,
                 length: this.trackData.length,
+                trackScheme: this.trackData.trackScheme,
+                trackPhoto: this.trackData.trackPhoto,
                 description: this.trackData.description
               })
               .then(this.closeWindow())
@@ -99,11 +101,18 @@ export default {
         })
       })
     },
-    deleteImage() {
-      if (this.trackData.imageUrl) {
-        this.trackData.imageUrl = ''
+    deleteImage(type) {
+      if (this.trackData[type]) {
+        this.trackData[type] = ''
         fb.storageRef
-          .child('tracks_images/' + this.trackData.id)
+          .child(
+            'tracks_images/' +
+              this.trackData.id +
+              '/' +
+              this.trackData.id +
+              '_' +
+              type
+          )
           .delete()
           .then(() => {
             this.$store.commit('setMessage', {
