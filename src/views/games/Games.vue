@@ -12,10 +12,11 @@
       </v-layout>
       <v-layout wrap>
         <v-flex xs12 md6 pa-1 v-for="game in games" :key="game.id">
-          <GameItem :_game="game" @editGame="openForm" @deleteGame="deleteGame"/>
+          <GameItem :_game="game" @editGame="openForm" @deleteGame="openConfirmation"/>
           <!-- <TrackItem :_track="track" @editTrack="openForm" @deleteTrack="openConfirmation"/> -->
         </v-flex>
       </v-layout>
+      <Confirmation @confirmed="deleteGame" _message="Delete this game?"/>
       <GameForm :_gameData="gameData" :_isNew="isNew" @updateGames="getGames"/>
     </div>
   </v-container>
@@ -25,6 +26,8 @@
 import fb from '@/firebase/config.js'
 import GameForm from '@/components/games/GameForm.vue'
 import GameItem from '@/components/games/GameItem.vue'
+import Confirmation from '@/components/Confirmation.vue'
+
 export default {
   name: 'games',
   data() {
@@ -55,6 +58,9 @@ export default {
     this.getGames()
   },
   methods: {
+    openConfirmation(game) {
+      this.$root.$emit('confirm', game)
+    },
     openForm(game) {
       if (!game.id) {
         this.gameData = {
@@ -119,7 +125,8 @@ export default {
   },
   components: {
     GameForm,
-    GameItem
+    GameItem,
+    Confirmation
   }
 }
 </script>

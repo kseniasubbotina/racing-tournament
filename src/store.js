@@ -35,16 +35,14 @@ export default new Vuex.Store({
         .then(
           response => {
             if (response) {
-              fb.usersCollection
-                .doc(credentials.username)
-                .set({
-                  id: response.user.uid,
-                  username: credentials.username,
-                  country: credentials.country,
-                  avatarURL: '',
-                  role: '0'
-                })
-                .then(console.log('User note created!'))
+              fb.usersCollection.doc(credentials.username).set({
+                id: response.user.uid,
+                username: credentials.username,
+                country: credentials.country,
+                avatarURL: '',
+                role: '0'
+              })
+              // .then(console.log('User note created!'))
               const newUser = {
                 id: response.user.uid,
                 email: response.user.email
