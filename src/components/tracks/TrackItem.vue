@@ -1,6 +1,6 @@
 <template>
   <v-card class="track-item_card">
-    <v-img class="white--text" height="200px" :src="_track.imageUrl">
+    <v-img class="white--text" height="200px" :src="_track.trackPhoto">
       <v-layout justify-center>
         <v-spacer/>
         <v-menu v-if="isAdmin" bottom left>

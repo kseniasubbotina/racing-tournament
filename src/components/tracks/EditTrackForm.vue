@@ -46,13 +46,22 @@
                 suffix="km"
               ></v-text-field>
             </v-flex>
-            <v-flex xs12 class="text-xs-center">
+            <v-flex xs12 sm6 class="text-xs-center">
               <div v-if="selectedFile">{{selectedFile.name}}</div>
-              <div v-else>Track Image</div>
+              <div v-else>Track Photo</div>
               <ImageInput
-                :_url="trackData.imageUrl"
+                :_url="trackData.trackPhoto"
                 @deleteImage="deleteImage"
-                @fileSelected="onfileSelected"
+                @fileSelected="trackPhotoSelected"
+              />
+            </v-flex>
+            <v-flex xs12 sm6 class="text-xs-center">
+              <div v-if="selectedFile">{{selectedFile.name}}</div>
+              <div v-else>Track Scheme</div>
+              <ImageInput
+                :_url="trackData.trackScheme"
+                @deleteImage="deleteImage"
+                @fileSelected="trackSchemeSelected"
               />
             </v-flex>
             <v-flex>
@@ -82,6 +91,7 @@
 import ImageInput from '@/components/ImageInput.vue'
 import message from '@/components/Message.vue'
 import CountrySelect from '@/components/CountrySelect.vue'
+import tracks from '@/mixins/tracks.js'
 import fb from '@/firebase/config.js'
 
 export default {
@@ -90,6 +100,7 @@ export default {
     return {
       trackData: {},
       selectedFile: null,
+      selectedFiles: [],
       imageLoading: false,
       trackDialog: false
     }
@@ -122,6 +133,14 @@ export default {
     onfileSelected(file) {
       this.selectedFile = file
     },
+    trackPhotoSelected(file) {
+      file.trackImageType = 'trackPhoto'
+      this.selectedFiles.push(file)
+    },
+    trackSchemeSelected(file) {
+      file.trackImageType = 'trackScheme'
+      this.selectedFiles.push(file)
+    },
     onChangeCountry(val) {
       if (val) this.trackData.country = val
     },
@@ -131,121 +150,9 @@ export default {
         type: 'message',
         val: { error: '', success: '' }
       })
-    },
-    addTrack() {
-      this.$validator.validate().then(result => {
-        if (result) {
-          if (this.selectedFile) {
-            const upload = async id => {
-              let upload = await this.uploadImage(this.trackData.name)
-            }
-            upload().then(() => {
-              fb.tracksCollection
-                .doc(this.trackData.name)
-                .set({
-                  name: this.trackData.name,
-                  country: this.trackData.country,
-                  firstGP: this.trackData.firstGP,
-                  length: this.trackData.length,
-                  imageUrl: this.trackData.imageUrl,
-                  description: this.trackData.description
-                })
-                .then(this.closeWindow(), this.$emit('updateTracks'))
-            })
-          } else {
-            fb.tracksCollection
-              .doc(this.trackData.name)
-              .set({
-                name: this.trackData.name,
-                country: this.trackData.country,
-                firstGP: this.trackData.firstGP,
-                length: this.trackData.length,
-                imageUrl: this.trackData.imageUrl,
-                description: this.trackData.description
-              })
-              .then(this.closeWindow(), this.$emit('updateTracks'))
-          }
-        }
-      })
-    },
-    updateTrack(id) {
-      this.$validator.validate().then(result => {
-        if (result) {
-          if (this.selectedFile) {
-            const upload = async () => {
-              let upload = await this.uploadImage(this.trackData.id)
-            }
-            upload().then(() => {
-              fb.tracksCollection
-                .doc(this.trackData.id)
-                .update({
-                  name: this.trackData.name,
-                  country: this.trackData.country,
-                  firstGP: this.trackData.firstGP,
-                  length: this.trackData.length,
-                  imageUrl: this.trackData.imageUrl,
-                  description: this.trackData.description
-                })
-                .then(this.$emit('closeWindow'), this.$emit('updateTracks'))
-            })
-          } else {
-            fb.tracksCollection
-              .doc(id)
-              .update({
-                name: this.trackData.name,
-                country: this.trackData.country,
-                firstGP: this.trackData.firstGP,
-                length: this.trackData.length,
-                imageUrl: this.trackData.imageUrl,
-                description: this.trackData.description
-              })
-              .then(this.closeWindow())
-          }
-        }
-      })
-    },
-    uploadImage(id) {
-      return new Promise(resolve => {
-        var uploadTask = fb.storageRef
-          .child('tracks_images/' + id)
-          .put(this.selectedFile)
-        uploadTask.on('state_changed', snapshot => {
-          this.imageLoading = true
-          var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          console.log('Upload is ' + progress + '% done')
-        })
-        uploadTask.then(snapshot => {
-          this.imageLoading = false
-          console.log('Uploaded a file!')
-          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-            this.trackData.imageUrl = downloadURL
-            resolve(downloadURL)
-          })
-        })
-      })
-    },
-    deleteImage() {
-      if (this.trackData.imageUrl) {
-        this.trackData.imageUrl = ''
-        fb.storageRef
-          .child('tracks_images/' + this.trackData.id)
-          .delete()
-          .then(() => {
-            this.$store.commit('setMessage', {
-              type: 'success',
-              text: 'The image has been deleted from server.'
-            })
-          })
-          .catch(error => {
-            console.log(error)
-            this.$store.commit('setMessage', {
-              type: 'error',
-              text: error.message
-            })
-          })
-      }
     }
   },
+  mixins: [tracks],
   components: {
     ImageInput,
     message,

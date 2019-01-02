@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     openConfirmation(track) {
-      this.$root.$emit('confirmDeletion', track)
+      this.$root.$emit('confirm', track)
     },
     getTracks() {
       this.$store.commit('set', { type: 'loading', val: true })

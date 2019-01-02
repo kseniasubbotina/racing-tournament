@@ -19,7 +19,8 @@
         <div>length: {{trackData.length}}</div>
         <div>First GP: {{trackData.firstGP}}</div>
         <div>{{trackData.description}}</div>
-        <img :src="trackData.imageUrl" width="100%" alt>
+        <img :src="trackData.trackPhoto" width="50%" alt>
+        <img :src="trackData.trackScheme" width="50%" alt>
       </v-container>
       <Confirmation @confirmed="deleteTrack" _message="Delete this track?"/>
     </div>
@@ -80,13 +81,10 @@ export default {
           this.$router.push('/tracks')
           if (this.trackData.imageUrl) {
             fb.storageRef
-              .child('tracks_images/' + this.trackData.id)
+              .child('tracks_images')
               .delete()
               .then(() => {
-                this.$store.commit('setMessage', {
-                  type: 'success',
-                  text: 'The image has been deleted from server.'
-                })
+                // success
               })
               .catch(error => {
                 console.log(error)
