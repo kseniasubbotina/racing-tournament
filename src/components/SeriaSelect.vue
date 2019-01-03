@@ -1,20 +1,22 @@
 <template>
-  <v-select
-  v-validate="'required'" type="text" name="name" :error-messages="errors.collect('name')"
+  <v-autocomplete
+    v-validate="'required'"
+    type="text"
+    name="name"
+    :error-messages="errors.collect('name')"
     :items="series"
     label="Seria"
-    autocomplete
     v-model="seria"
-  ></v-select>
+  ></v-autocomplete>
 </template>
 
 <script>
 export default {
   name: 'CountrySelector',
-  data: function () {
+  data: function() {
     return {
-    seria: null,
-    series: ['Rally', 'Open Wheels']
+      seria: null,
+      series: ['F1', 'WEC', 'Rally', 'IndyCar', 'All']
     }
   },
   watch: {
