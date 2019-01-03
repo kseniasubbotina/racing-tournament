@@ -1,5 +1,6 @@
 <template>
   <v-list>
+    <v-subheader>Menu</v-subheader>
     <v-list-tile
       v-if="link.role <= userRole"
       v-for="(link, idx) in links"
