@@ -106,24 +106,13 @@ export default {
     }
   },
   props: {
-    _trackData: {
-      type: Object
-    },
     _isNew: {
       type: Boolean,
       default: false
     }
   },
-  watch: {
-    _trackData(val) {
-      this.trackData = val
-    }
-  },
   mounted() {
     this.$root.$on('openDialog', this.openDialog)
-    if (this._trackData) {
-      this.trackData = this._trackData
-    }
   },
   methods: {
     openDialog(trackData) {

@@ -126,27 +126,18 @@ export default {
     }
   },
   props: {
-    _gameData: {
-      type: Object
-    },
     _isNew: {
       type: Boolean,
       default: false
     }
   },
   watch: {
-    _gameData(val) {
-      this.gameData = val
-    },
     menu(val) {
       val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
     }
   },
   mounted() {
     this.$root.$on('openGameDialog', this.openDialog)
-    if (this._gameData) {
-      this.gameData = this._gameData
-    }
   },
   methods: {
     save(date) {

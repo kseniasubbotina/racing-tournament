@@ -13,11 +13,10 @@
       <v-layout wrap>
         <v-flex xs12 md6 pa-1 v-for="game in games" :key="game.id">
           <GameItem :_game="game" @editGame="openForm" @deleteGame="openConfirmation"/>
-          <!-- <TrackItem :_track="track" @editTrack="openForm" @deleteTrack="openConfirmation"/> -->
         </v-flex>
       </v-layout>
       <Confirmation @confirmed="deleteGame" _message="Delete this game?"/>
-      <GameForm :_gameData="gameData" :_isNew="isNew" @updateGames="getGames"/>
+      <GameForm :_isNew="isNew" @updateGames="getGames"/>
     </div>
   </v-container>
 </template>
@@ -33,7 +32,6 @@ export default {
   data() {
     return {
       games: [],
-      gameData: {},
       isNew: false
     }
   },
@@ -63,7 +61,7 @@ export default {
     },
     openForm(game) {
       if (!game.id) {
-        this.gameData = {
+        var gameData = {
           name: '',
           releaseDate: '',
           platforms: [],
@@ -75,9 +73,9 @@ export default {
         this.isNew = true
       } else {
         this.isNew = false
-        this.gameData = game
+        var gameData = game
       }
-      this.$root.$emit('openGameDialog', game)
+      this.$root.$emit('openGameDialog', gameData)
     },
     getGames() {
       this.$store.commit('set', { type: 'loading', val: true })

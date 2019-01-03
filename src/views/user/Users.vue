@@ -180,7 +180,6 @@ export default {
       var usersArr = []
       fb.usersCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          // doc.data() is never undefined for query doc snapshots
           usersArr.push(doc.data())
         })
         this.users = usersArr
