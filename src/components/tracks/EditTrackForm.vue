@@ -50,6 +50,7 @@
               <div v-if="selectedFile">{{selectedFile.name}}</div>
               <div v-else>Track Photo</div>
               <ImageInput
+                v-if="trackDialog"
                 :_url="trackData.trackPhoto"
                 @deleteImage="deleteImage('trackPhoto')"
                 @fileSelected="trackPhotoSelected"
@@ -59,6 +60,7 @@
               <div v-if="selectedFile">{{selectedFile.name}}</div>
               <div v-else>Track Scheme</div>
               <ImageInput
+                v-if="trackDialog"
                 :_url="trackData.trackScheme"
                 @deleteImage="deleteImage('trackScheme')"
                 @fileSelected="trackSchemeSelected"

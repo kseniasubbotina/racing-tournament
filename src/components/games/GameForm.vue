@@ -85,6 +85,7 @@
               ></v-text-field>
             </v-flex>
             <ImageInput
+              v-if="gameDialog"
               :_url="gameData.coverImageUrl"
               @deleteImage="deleteImage"
               @fileSelected="onfileSelected"

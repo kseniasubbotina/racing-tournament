@@ -19,9 +19,19 @@ export default {
       series: ['F1', 'WEC', 'Rally', 'IndyCar', 'All']
     }
   },
+  props: {
+    _selectedSeria: String
+  },
   watch: {
-    seria: function(nextVal, prevVal) {
+    seria(nextVal, prevVal) {
       this.$emit('changeSeria', nextVal)
+    },
+    _selectedSeria(val) {
+      if (!val) {
+        this.seria = this.series[0]
+      } else {
+        this.seria = val
+      }
     }
   }
 }

@@ -17,6 +17,7 @@
             :headers="headers"
             :items="users"
             :loading="loading"
+            :rows-per-page-items="[10, 20]"
             :search="search"
             class="elevation-1"
             item-key="username"
