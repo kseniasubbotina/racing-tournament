@@ -8,6 +8,7 @@
   src: url('../assets/fonts/Formula1-Bold.otf') format('opentype');
   font-weight: 700;
 }
+
 .application,
 .title,
 .headline,
@@ -29,6 +30,14 @@
 }
 #nav a .router-link-exact-active {
   color: #42b983;
+}
+
+/* BREADCRUMBS */
+.v-breadcrumbs.theme--dark a {
+  color: #fff;
+}
+.v-breadcrumbs.theme--light a {
+  color: #000;
 }
 /* Tracks */
 .track-item_title {
