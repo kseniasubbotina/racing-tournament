@@ -62,9 +62,6 @@ export default {
                 .then(this.closeWindow(), this.$emit('updateTracks'))
             })
           } else {
-            if (this.selectedFile == null) {
-              this.trackData.imageUrl = ''
-            }
             fb.tracksCollection
               .doc(id)
               .update({
@@ -102,16 +99,12 @@ export default {
       })
     },
     deleteImage(type) {
-      if (this.trackData[type]) {
-        this.trackData[type] = ''
+      let trackData = this.trackData
+      if (trackData[type]) {
+        trackData[type] = ''
         fb.storageRef
           .child(
-            'tracks_images/' +
-              this.trackData.id +
-              '/' +
-              this.trackData.id +
-              '_' +
-              type
+            'tracks_images/' + trackData.id + '/' + trackData.id + '_' + type
           )
           .delete()
           .then(() => {
@@ -119,6 +112,7 @@ export default {
               type: 'success',
               text: 'The image has been deleted from server.'
             })
+            this.updateTrack(trackData.id)
           })
           .catch(error => {
             console.log(error)

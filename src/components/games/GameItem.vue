@@ -19,7 +19,12 @@
       </v-layout>
       <v-container fill-height fluid></v-container>
     </v-img>
-    <v-card-title>
+    <v-card-title
+      class="game-item_title"
+      pointer
+      primary-title
+      @click="$router.push({name: 'Game', params: {id: _game.id}})"
+    >
       <v-layout fill-height>
         <v-flex xs12 align-end flexbox>
           <span class="headline">{{_game.name}}</span>

@@ -50,6 +50,7 @@
               <div v-if="selectedFile">{{selectedFile.name}}</div>
               <div v-else>Track Photo</div>
               <ImageInput
+                v-if="trackDialog"
                 :_url="trackData.trackPhoto"
                 @deleteImage="deleteImage('trackPhoto')"
                 @fileSelected="trackPhotoSelected"
@@ -59,6 +60,7 @@
               <div v-if="selectedFile">{{selectedFile.name}}</div>
               <div v-else>Track Scheme</div>
               <ImageInput
+                v-if="trackDialog"
                 :_url="trackData.trackScheme"
                 @deleteImage="deleteImage('trackScheme')"
                 @fileSelected="trackSchemeSelected"
@@ -91,7 +93,7 @@
 import ImageInput from '@/components/ImageInput.vue'
 import message from '@/components/Message.vue'
 import CountrySelect from '@/components/CountrySelect.vue'
-import tracks from '@/mixins/tracks.js'
+import tracks from '@/mixins/tracks/tracks.js'
 import fb from '@/firebase/config.js'
 
 export default {
@@ -106,24 +108,13 @@ export default {
     }
   },
   props: {
-    _trackData: {
-      type: Object
-    },
     _isNew: {
       type: Boolean,
       default: false
     }
   },
-  watch: {
-    _trackData(val) {
-      this.trackData = val
-    }
-  },
   mounted() {
     this.$root.$on('openDialog', this.openDialog)
-    if (this._trackData) {
-      this.trackData = this._trackData
-    }
   },
   methods: {
     openDialog(trackData) {

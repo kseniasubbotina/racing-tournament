@@ -14,7 +14,7 @@
         <v-flex xs12 md6 pa-1 v-for="track in tracks" :key="track.id">
           <TrackItem :_track="track" @editTrack="openForm" @deleteTrack="openConfirmation"/>
         </v-flex>
-        <EditTrackForm :_trackData="trackData" :_isNew="isNew" @updateTracks="getTracks"/>
+        <EditTrackForm :_isNew="isNew" @updateTracks="getTracks"/>
       </v-layout>
       <Confirmation @confirmed="deleteTrack" _message="Delete this track?"/>
     </div>
@@ -78,7 +78,7 @@ export default {
     },
     openForm(track) {
       if (!track.id) {
-        this.trackData = {
+        var trackData = {
           name: '',
           country: '',
           firstGP: '',
@@ -89,9 +89,9 @@ export default {
         this.isNew = true
       } else {
         this.isNew = false
-        this.trackData = track
+        var trackData = track
       }
-      this.$root.$emit('openDialog', track)
+      this.$root.$emit('openDialog', trackData)
     },
     deleteTrack(track) {
       fb.tracksCollection
