@@ -40,13 +40,12 @@
               </tr>
             </template>
             <template slot="expand" slot-scope="props">
-              <v-card flat>
+              <v-card flat dark>
                 <v-layout>
                   <v-flex>
-                    <v-card-text class="text-xs-left">
-                      {{ props.item.Username }}
-                      <br>Another details
-                    </v-card-text>
+                    <v-card-text
+                      class="text-xs-left"
+                    >Choose the action with {{ props.item.username }}</v-card-text>
                   </v-flex>
                   <v-flex>
                     <v-card-text class="text-xs-right">
@@ -111,7 +110,7 @@
 <script>
 import CountrySelect from '@/components/CountrySelect.vue'
 import fb from '@/firebase/config.js'
-import updateUser from '@/mixins/updateUser.js'
+import updateUser from '@/mixins/users/updateUser.js'
 import isAdminGuard from '@/mixins/isAdminGuard.js'
 import message from '@/components/Message.vue'
 
