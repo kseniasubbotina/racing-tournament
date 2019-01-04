@@ -218,6 +218,7 @@ export default {
                 .then(this.closeWindow(), this.$emit('updateGames'))
             })
           } else {
+            console.log(gameData)
             fb.gamesCollection
               .doc(gameData.id)
               .update({
@@ -255,16 +256,18 @@ export default {
       })
     },
     deleteImage() {
-      if (this.gameData.coverImageUrl) {
-        this.gameData.coverImageUrl = ''
+      let gameData = this.gameData
+      if (gameData.coverImageUrl) {
+        gameData.coverImageUrl = ''
         fb.storageRef
-          .child('games_images/' + this.gameData.id)
+          .child('games_images/' + gameData.id)
           .delete()
           .then(() => {
             this.$store.commit('setMessage', {
               type: 'success',
               text: 'The image has been deleted from server.'
             })
+            this.updateGame(gameData)
             this.$emit('imageDeleted')
           })
           .catch(error => {

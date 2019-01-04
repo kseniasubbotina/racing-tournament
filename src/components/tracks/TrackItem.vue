@@ -25,12 +25,6 @@
       primary-title
       @click="$router.push({name: 'Track', params: {id: _track.id}})"
     >
-      <!-- <v-layout justify-center align-center row>
-        <v-flex pr-2>
-          <CountryFlag :_country="_track.country"/>
-        </v-flex>
-        <div class="headline track-item_name">{{_track.name}}</div>
-      </v-layout>-->
       <v-layout fill-height>
         <v-flex pr-2>
           <CountryFlag :_country="_track.country"/>
