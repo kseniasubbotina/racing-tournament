@@ -62,7 +62,6 @@ export default {
                 .then(this.closeWindow(), this.$emit('updateTracks'))
             })
           } else {
-            console.log(this.trackData)
             fb.tracksCollection
               .doc(id)
               .update({

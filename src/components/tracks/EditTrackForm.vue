@@ -93,7 +93,7 @@
 import ImageInput from '@/components/ImageInput.vue'
 import message from '@/components/Message.vue'
 import CountrySelect from '@/components/CountrySelect.vue'
-import tracks from '@/mixins/tracks.js'
+import tracks from '@/mixins/tracks/tracks.js'
 import fb from '@/firebase/config.js'
 
 export default {
