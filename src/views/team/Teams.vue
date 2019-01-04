@@ -2,129 +2,91 @@
   <v-layout>
     <v-flex>
       <v-card>
-        <v-card-title justify-end class=" py-2 title">
-          All teams
-          <v-btn color="red accent-21" flat @click.stop="createTeamDialog = true"><i class="material-icons">
-            add
-            </i>Add new
+        <v-card-title justify-end class="py-2 title">All teams
+          <v-btn color="success" flat @click.stop="openTeamFormDialog">
+            <i class="material-icons">add</i>Add new
           </v-btn>
           <v-spacer></v-spacer>
           <v-text-field
-              v-model="search"
-              append-icon="search"
-              label="Search"
-              single-line
-              hide-details
+            v-model="search"
+            append-icon="search"
+            label="Search"
+            single-line
+            hide-details
           ></v-text-field>
         </v-card-title>
         <v-layout column>
           <v-data-table
             :headers="headers"
             :items="teams"
+            :rows-per-page-items="[10, 20]"
             :loading="loading"
             :search="search"
             class="elevation-1"
             item-key="name"
           >
-          <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+            <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
             <template slot="items" slot-scope="props">
               <tr @click="props.expanded = !props.expanded">
                 <td class="text-xs-left">
-                  {{ props.item.name }}
+                  <v-layout align-center justify-start>
+                    <img
+                      v-if="props.item.teamLogo"
+                      :src="props.item.teamLogo"
+                      width="100px"
+                      align="middle"
+                      style="margin-right: 5px"
+                    >
+                    {{ props.item.name }}
+                  </v-layout>
                 </td>
-                <td class="text-xs-right">{{ props.item.seria }}
-                </td>
+                <td class="text-xs-right">{{ props.item.seria }}</td>
               </tr>
             </template>
             <template slot="expand" slot-scope="props">
-              <v-card flat>
+              <v-card flat dark>
                 <v-layout>
                   <v-flex>
-                    <v-card-text class="text-xs-left">{{ props.item.name }} <br> Another details</v-card-text>
+                    <v-card-text class="text-xs-left">Choose the action with {{ props.item.name }}</v-card-text>
                   </v-flex>
                   <v-flex>
                     <v-card-text class="text-xs-right">
-                      <v-btn color="red darken-2"  flat @click.stop="createTeamDialog = true">
-                        <v-icon>edit</v-icon> Edit
+                      <v-btn flat @click.stop="openTeamFormDialog(props.item)">
+                        <v-icon>edit</v-icon>Edit
                       </v-btn>
-                      <v-btn color="red" flat @click.stop="confirmDialog = true">
-                        <v-icon>delete</v-icon> Delete
+                      <v-btn color="red" flat @click.stop="deleteTeam(props.item)">
+                        <v-icon>delete</v-icon>Delete
                       </v-btn>
                     </v-card-text>
                   </v-flex>
                 </v-layout>
               </v-card>
             </template>
-            <v-alert slot="no-results" :value="true" color="error" icon="warning">
-              Your search for "{{ search }}" found no results.
-            </v-alert>
+            <v-alert
+              slot="no-results"
+              :value="true"
+              color="error"
+              icon="warning"
+            >Your search for "{{ search }}" found no results.</v-alert>
           </v-data-table>
         </v-layout>
       </v-card>
     </v-flex>
-    <v-dialog v-model="createTeamDialog" max-width="500px">
-        <v-card>
-          <v-card-title class="py-4 title">
-            Create a new team
-          </v-card-title>
-          <v-container grid-list-sm class="pa-4">
-            <form>
-              <v-layout row wrap>
-                <v-flex xs12 justify-space-between>
-                  <v-text-field label="Name" v-model="name" v-validate="'required|min:5'" type="text" name="name" :error-messages="errors.collect('name')"
-                  ></v-text-field>
-                  <SeriaSelect @changeSeria="onChangeSeria"/>
-                </v-flex>
-                <v-flex xs12>
-                  <p>Picture</p>
-                </v-flex>
-              </v-layout>
-            </form>
-          </v-container>
-          <v-card-actions>
-            <v-btn color="red darken-2"  flat @click.stop="createTeamDialog=false">Close</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn color="red darken-2" dark >Add</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      <v-dialog v-model="confirmDialog" max-width="500px">
-        <v-card>
-          <v-card-title class="py-4 title">
-            Please confirm
-          </v-card-title>
-          <v-container grid-list-sm class="pa-4">
-              <v-layout row wrap>
-                <v-flex xs12 justify-space-between>
-                  Delete ItemName? 
-                </v-flex>
-              </v-layout>
-          </v-container>
-          <v-card-actions>
-            <v-layout justify-center>
-              <v-btn color="red darken-2"  flat @click.stop="confirmDialog=false">Close</v-btn>
-              <v-btn dark color="red"><v-icon>delete</v-icon> Delete</v-btn>
-            </v-layout>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+    <TeamForm @updateTeams="getTeams" :_isNew="isNew"/>
   </v-layout>
 </template>
 
 <script>
-import SeriaSelect from '@/components/SeriaSelect.vue'
-
+import TeamForm from '@/components/teams/TeamForm.vue'
+import fb from '@/firebase/config.js'
 export default {
   name: 'Teams',
-  data () {
+  data() {
     return {
       name: '',
-      seria: '',
-      createTeamDialog: false,
-      confirmDialog: false,
-      image: '',
+      isNew: false,
+      teamFormDialog: false,
       search: '',
-      loading: false,
       headers: [
         {
           text: 'Name',
@@ -132,49 +94,85 @@ export default {
           sortable: true,
           value: 'name'
         },
-        { 
-          text: 'Seria', 
-          value: 'seria', 
-          align: 'right' 
+        {
+          text: 'Seria',
+          value: 'seria',
+          align: 'right'
         }
       ],
-      teams: [
-        {
-          value: false,
-          name: 'Ferrari',
-          seria: 'Formula 1',
-          align: 'left'
-        },
-        {
-          value: false,
-          name: 'Renault',
-          seria: 'Formula 1'
-        },
-        {
-          value: false,
-          name: 'Citroen Racing',
-          seria: 'Rally'
-        },
-        {
-          value: false,
-          name: 'M-Sport',
-          seria: 'Rally'
-        },
-        {
-          value: true,
-          name: 'Sauber',
-          seria: 'Formula 1'
-        }
-      ]
+      teams: []
     }
   },
+  computed: {
+    loading() {
+      return this.$store.getters.loading
+    }
+  },
+  created() {
+    this.getTeams()
+  },
   methods: {
-    onChangeSeria (val) {
-      this.seria = val
+    openTeamFormDialog(team) {
+      if (!team.id) {
+        var teamData = {
+          name: '',
+          seria: '',
+          teamLogo: '',
+          places: '2'
+        }
+        this.isNew = true
+      } else {
+        this.isNew = false
+        var teamData = team
+      }
+      this.$root.$emit('openTeamFormDialog', teamData)
+    },
+    getTeams() {
+      this.$store.commit('set', { type: 'loading', val: true })
+      var teamsArr = []
+      fb.teamsCollection.get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          var data = doc.data()
+          data.id = doc.id
+          teamsArr.push(data)
+        })
+        this.teams = teamsArr
+        this.$store.commit('set', { type: 'loading', val: false })
+      })
+    },
+    deleteTeam(team) {
+      fb.teamsCollection
+        .doc(team.id)
+        .delete()
+        .then(() => {
+          console.log('Document successfully deleted!')
+          this.getTeams()
+          if (team.teamLogo) {
+            fb.storageRef
+              .child('team_logos/' + team.id + '/' + team.id + '_logo')
+              .delete()
+              .then(() => {
+                this.$store.commit('setMessage', {
+                  type: 'success',
+                  text: 'The image has been deleted from server.'
+                })
+              })
+              .catch(error => {
+                console.log(error)
+                this.$store.commit('setMessage', {
+                  type: 'error',
+                  text: error.message
+                })
+              })
+          }
+        })
+        .catch(function(error) {
+          console.error('Error removing document: ', error)
+        })
     }
   },
   components: {
-    SeriaSelect
+    TeamForm
   }
 }
 </script>

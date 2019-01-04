@@ -40,7 +40,8 @@
   color: #000;
 }
 /* TRACKS */
-.track-item_title {
+.track-item_title,
+.game-item_title {
   cursor: pointer;
 }
 .track-item_card {
