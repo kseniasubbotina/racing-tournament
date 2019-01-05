@@ -60,10 +60,14 @@ export default {
   }),
   watch: {
     userData(val) {
-      if (val) {
-        this.isDarkColorTheme = val.isDarkColorTheme
+      if (val && val.isDarkColorTheme) {
+        this.onColorThemeChanged(val.isDarkColorTheme)
       }
     }
+  },
+  created() {
+    if (window.localStorage)
+      this.isDarkColorTheme = window.localStorage.isDarkColorTheme == 'true'
   },
   computed: {
     loading() {
@@ -87,19 +91,24 @@ export default {
     this.$validator.localize('en', this.dictionary)
   },
   methods: {
-    onColorThemeChanged() {
-      this.isDarkColorTheme = !this.isDarkColorTheme
-      fb.usersCollection
-        .doc(this.$store.getters.userData.username)
-        .update({
-          isDarkColorTheme: this.isDarkColorTheme
-        })
-        .then(function() {
-          // success
-        })
-        .catch(function(error) {
-          console.log(error)
-        })
+    onColorThemeChanged(val) {
+      if (window.localStorage) {
+        window.localStorage.isDarkColorTheme = val
+      }
+      this.isDarkColorTheme = val
+      if (this.isLoggedIn) {
+        fb.usersCollection
+          .doc(this.$store.getters.userData.username)
+          .update({
+            isDarkColorTheme: val
+          })
+          .then(function() {
+            // success
+          })
+          .catch(function(error) {
+            console.log(error)
+          })
+      }
     }
   },
   beforeDestroy() {
