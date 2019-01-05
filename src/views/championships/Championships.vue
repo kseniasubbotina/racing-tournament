@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import ChampionshipCreateForm from '@/components/championship/ChampionshipCreateForm'
+import ChampionshipCreateForm from '@/components/championship/form/ChampionshipCreateForm'
 import firebase from 'firebase'
 
 export default {
