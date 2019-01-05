@@ -15,7 +15,8 @@
       </v-list-tile-content>
     </v-list-tile>
     <v-divider dark class="my-3"></v-divider>
-    <template v-if="isLoggedIn">
+    <template>
+      <!-- v-if="isLoggedIn" -->
       <v-subheader>Settings</v-subheader>
       <v-layout>
         <v-flex>
@@ -27,7 +28,7 @@
               color="red"
               :label="colorThemeLabel"
               v-model="isDarkColorTheme"
-              @change="colorThemeChanged"
+              @change="colorThemeChanged(isDarkColorTheme)"
             ></v-switch>
           </v-list-tile>
         </v-flex>
@@ -93,8 +94,14 @@ export default {
       return this.$store.getters.user ? true : false
     },
     storedTheme() {
-      if (this.$store.getters.userData)
-        return this.$store.getters.userData.isDarkColorTheme ? true : false
+      var isDarkColorTheme = this.$store.getters.userData.isDarkColorTheme
+      if (isDarkColorTheme) {
+        this.isDarkColorTheme = isDarkColorTheme
+        return isDarkColorTheme
+      } else {
+        this.isDarkColorTheme = window.localStorage.isDarkColorTheme == 'true'
+        return window.localStorage.isDarkColorTheme == 'true'
+      }
     },
     colorThemeLabel() {
       return this.isDarkColorTheme ? 'Dark' : 'Light'
@@ -111,8 +118,8 @@ export default {
     onMenuItemClick: function(_link) {
       this.$router.push(_link.route)
     },
-    colorThemeChanged() {
-      this.$emit('colorThemeChanged')
+    colorThemeChanged(val) {
+      this.$emit('colorThemeChanged', val)
     }
   }
 }
