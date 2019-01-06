@@ -1,8 +1,7 @@
 <template>
   <v-stepper v-model="e6" vertical>
-    <v-stepper-step color="success" :complete="e6 > 1" step="1">
-      Championship information
-      <small>Summarize if needed</small>
+    <v-stepper-step color="success" :complete="e6 > 1" step="1">Championship information
+      <!-- <small>Summarize if needed</small> -->
     </v-stepper-step>
 
     <v-stepper-content step="1">

@@ -13,16 +13,16 @@
         ></v-text-field>
       </v-flex>
       <v-flex>
-        <GameSelect :_selectedGame="game" @changeGame="onChangeGame"/>
+        <GameSelect :_disabled="true" :_selectedGame="game" @changeGame="onChangeGame"/>
       </v-flex>
       <v-flex>
         <SeriaSelect :_disabled="true" :_selectedSeria="seria" @changeSeria="onChangeSeria"/>
       </v-flex>
       <v-text-field
-        v-validate="{required: true, regex: '^([0-9.]+)$' }"
+        v-validate="'required|min:1|numeric'"
         name="players"
         type="number"
-        :error-messages="errors.collect('Players')"
+        :error-messages="errors.collect('players')"
         label="Maximum Drivers"
         v-model="playersCount"
       ></v-text-field>
@@ -50,8 +50,8 @@
 
 <script>
 import SeriaSelect from '@/components/SeriaSelect.vue'
-import GameSelect from '@/components/forms/GameSelect.vue'
-import ImageInput from '@/components/ImageInput.vue'
+import GameSelect from '@/components/form-elements/GameSelect.vue'
+import ImageInput from '@/components/form-elements/ImageInput.vue'
 
 export default {
   name: 'ChampInfoForm',
@@ -60,8 +60,8 @@ export default {
       champName: '',
       seria: '',
       description: '',
-      game: '',
-      playersCount: '',
+      game: 'F1 2018',
+      playersCount: 20,
       champImage: '',
       selectedFile: null
     }

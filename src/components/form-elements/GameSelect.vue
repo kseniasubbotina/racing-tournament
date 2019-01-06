@@ -18,7 +18,7 @@ export default {
   name: 'CountrySelector',
   data: function() {
     return {
-      game: '',
+      game: 'F1 2018',
       games: []
     }
   },

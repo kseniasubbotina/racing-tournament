@@ -1,8 +1,6 @@
 <template>
   <div>
-    <F1GameSettings/>
-    <v-btn color="primary" @click="$emit('nextStep')">Continue</v-btn>
-    <v-btn flat @click="$emit('backStep')">Back</v-btn>
+    <F1GameSettings @nextStep="$emit('nextStep')" @backStep="$emit('backStep')"/>
   </div>
 </template>
 
