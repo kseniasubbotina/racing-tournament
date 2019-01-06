@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-layout wrap justify-start>
-      <v-flex sm5>
+      <v-flex xs12 sm12 md4>
         <v-label>Session</v-label>
         <v-select
           v-model="settings.distance"
@@ -37,7 +37,7 @@
           label="Weather"
         ></v-select>
       </v-flex>
-      <v-flex>
+      <v-flex xs12 sm12 md8>
         <v-flex>
           <v-container pt-0>
             <v-label>Assists</v-label>
