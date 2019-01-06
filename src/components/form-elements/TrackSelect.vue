@@ -3,11 +3,11 @@
     :disabled="_disabled"
     v-validate="'required'"
     type="text"
-    name="Game"
-    :error-messages="errors.collect('Game')"
-    :items="games"
-    label="Game"
-    v-model="game"
+    name="Track"
+    :error-messages="errors.collect('Track')"
+    :items="tracks"
+    label="Track"
+    v-model="track"
   ></v-autocomplete>
 </template>
 
@@ -15,44 +15,44 @@
 import fb from '@/firebase/config.js'
 
 export default {
-  name: 'GameSelect',
+  name: 'TrackSelect',
   data: function() {
     return {
-      game: 'F1 2018',
-      games: []
+      track: 'F1 2018',
+      tracks: []
     }
   },
   props: {
-    _selectedGame: String,
+    _selectedTrack: String,
     _disabled: Boolean
   },
   created() {
-    this.getGames()
+    this.getTracks()
   },
   watch: {
-    game(nextVal, prevVal) {
-      this.$emit('changeGame', nextVal)
+    track(nextVal, prevVal) {
+      this.$emit('changeTrack', nextVal)
     },
-    _selectedGame(val) {
+    _selectedTrack(val) {
       if (!val) {
-        this.game = this.games[0]
+        this.track = this.tracks[0]
       } else {
-        this.game = val
+        this.track = val
       }
     }
   },
   methods: {
-    getGames() {
+    getTracks() {
       // this.$store.commit('set', { type: 'loading', val: true })
-      var gamesArr = []
-      fb.gamesCollection.get().then(querySnapshot => {
+      var tracksArr = []
+      fb.tracksCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           var data = doc.data()
           data.id = doc.id
-          gamesArr.push(data.id)
+          tracksArr.push(data.id)
         })
         // this.$store.commit('set', { type: 'loading', val: false })
-        this.games = gamesArr
+        this.tracks = tracksArr
       })
     }
   }

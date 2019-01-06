@@ -10,11 +10,6 @@ import ChampionshipCreateForm from '@/components/championship/form/ChampionshipC
 
 export default {
   name: 'CreateChampionship',
-  data() {
-    return {
-      e6: 1
-    }
-  },
   components: {
     ChampionshipCreateForm
   }
