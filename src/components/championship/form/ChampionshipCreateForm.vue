@@ -17,7 +17,7 @@
     <v-stepper-step color="success" :complete="e6 > 3" step="3">Calendar</v-stepper-step>
 
     <v-stepper-content step="3">
-      <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+      <ChampCalendarForm/>
       <v-btn color="primary" @click="e6 = 4">Continue</v-btn>
       <v-btn flat @click="e6 = 2">Back</v-btn>
     </v-stepper-content>
@@ -235,10 +235,11 @@
 <script>
 import ChampInfoForm from '@/components/championship/form/ChampInfoForm.vue'
 import SessionSettingsForm from '@/components/championship/form/SessionSettingsForm.vue'
+import ChampCalendarForm from '@/components/championship/form/ChampCalendarForm.vue'
 export default {
   name: 'CreateChampionshipForm',
   data: () => ({
-    e6: 1
+    e6: 3
   }),
   computed: {
     computedDateFormatted() {
@@ -285,7 +286,8 @@ export default {
   },
   components: {
     ChampInfoForm,
-    SessionSettingsForm
+    SessionSettingsForm,
+    ChampCalendarForm
   }
 }
 </script>
