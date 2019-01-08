@@ -1,11 +1,13 @@
 <template>
   <div>
+    {{stages}}
     <v-label>Add Stages</v-label>
     <v-card v-for="(stage, i) in stages" :key="stage.i">
       <v-card-actions>
         <v-layout align-center>
           <v-flex>
-            <TrackSelect/>
+            <TrackSelect @changeTrack="onchangeTrack($event, i)"/>
+            <!-- <TrackSelect/> -->
           </v-flex>
           <v-flex>
             <v-menu
@@ -59,7 +61,6 @@
           </v-flex>
 
           <v-flex xs2>
-            <v-spacer/>
             <v-btn small fab flat depressed color="success" dark @click="addStage">
               <v-icon>add</v-icon>
             </v-btn>
@@ -88,8 +89,6 @@ export default {
   name: 'ChampCalendarForm',
   data() {
     return {
-      time: null,
-      timeMenu1: false,
       stages: [
         {
           timeMenu: false,
@@ -121,6 +120,11 @@ export default {
     },
     removeStage(i) {
       if (this.stages.length !== 1) this.stages.splice(i, 1)
+    },
+    onchangeTrack(track, id) {
+      this.stages[id].track = track
+      // this.stages.$set(id, track)
+      // this.stages.splice(id, 1, track)
     }
   },
   components: {
