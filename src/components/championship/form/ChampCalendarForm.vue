@@ -7,7 +7,6 @@
         <v-layout align-center>
           <v-flex>
             <TrackSelect @changeTrack="onchangeTrack($event, i)"/>
-            <!-- <TrackSelect/> -->
           </v-flex>
           <v-flex>
             <v-menu
@@ -54,7 +53,7 @@
               <v-time-picker
                 v-model="stage.time"
                 color="green lighten-1"
-                @change="$refs.menu[i].save(stage.time)"
+                @change="$refs.menu[i].saveTime(stage.time)"
                 header-color="primary"
               ></v-time-picker>
             </v-menu>
@@ -104,8 +103,7 @@ export default {
     }
   },
   methods: {
-    save(time, i) {
-      debugger
+    saveTime(time, i) {
       this.$refs.menu[i].save(time)
     },
     addStage() {
