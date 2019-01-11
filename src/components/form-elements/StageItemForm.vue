@@ -83,6 +83,9 @@ export default {
       time: null
     }
   },
+  props: {
+    _id: Number
+  },
   methods: {
     addStage() {
       this.$emit('addStage')
