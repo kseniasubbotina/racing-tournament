@@ -2,6 +2,7 @@
   <v-card>
     <v-card-actions>
       <v-layout align-center>
+        <v-flex>{{_id + 1}} {{_name}}</v-flex>
         <v-flex>
           <TrackSelect @changeTrack="onchangeTrack"/>
         </v-flex>
@@ -84,14 +85,42 @@ export default {
     }
   },
   props: {
-    _id: Number
+    _id: Number,
+    _name: String
+  },
+  watch: {
+    // stage: {
+    //   handler: function(newVal) {
+    //     debugger
+    //     this.updateStage(newVal, this._id)
+    //   },
+    //   deep: true
+    // },
+    track() {
+      this.updateStage()
+    },
+    date() {
+      this.updateStage()
+    },
+    time() {
+      this.updateStage()
+    }
   },
   methods: {
     addStage() {
+      debugger
       this.$emit('addStage')
     },
-    removeStage(i) {
-      this.$emit('removeStage', i)
+    removeStage() {
+      this.$emit('removeStage', this._id)
+    },
+    updateStage() {
+      var stage = {
+        track: this.track,
+        date: this.date,
+        time: this.time
+      }
+      this.$emit('updateStage', stage, this._id)
     },
     onchangeTrack(track, id) {
       this.track = track
