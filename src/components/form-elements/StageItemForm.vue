@@ -1,10 +1,10 @@
 <template>
-  <v-card>
+  <v-card :key="_id">
     <v-card-actions>
       <v-layout align-center>
-        <v-flex>{{_id + 1}} {{_name}}</v-flex>
+        <v-flex>{{_id + 1}}</v-flex>
         <v-flex>
-          <TrackSelect @changeTrack="onchangeTrack"/>
+          <TrackSelect @changeTrack="onchangeTrack" :_selectedTrack="track"/>
         </v-flex>
         <v-flex>
           <v-menu
@@ -20,7 +20,7 @@
             <v-text-field
               slot="activator"
               v-model="date"
-              label="Picker without buttons"
+              label="Race Day"
               prepend-icon="event"
               readonly
             ></v-text-field>
@@ -45,15 +45,19 @@
               prepend-icon="access_time"
               slot="activator"
               v-model="time"
-              label="Time"
+              label="Race Time"
               readonly
             ></v-text-field>
             <v-time-picker
               v-model="time"
-              color="green lighten-1"
               @change="$refs.menu.save(time)"
               header-color="primary"
-            ></v-time-picker>
+              color="blue"
+            >
+              <v-spacer></v-spacer>
+              <v-btn flat color="primary" @click="modal2 = false">Cancel</v-btn>
+              <v-btn flat color="primary" @click="$refs.dialog.save(time)">OK</v-btn>
+            </v-time-picker>
           </v-menu>
         </v-flex>
 
@@ -66,6 +70,7 @@
           </v-btn>
         </v-flex>
       </v-layout>
+      {{date}} - {{time}}
     </v-card-actions>
   </v-card>
 </template>
@@ -86,17 +91,11 @@ export default {
   },
   props: {
     _id: Number,
-    _name: String
+    _stage: Object
   },
   watch: {
-    // stage: {
-    //   handler: function(newVal) {
-    //     debugger
-    //     this.updateStage(newVal, this._id)
-    //   },
-    //   deep: true
-    // },
     track() {
+      debugger
       this.updateStage()
     },
     date() {
@@ -108,13 +107,13 @@ export default {
   },
   methods: {
     addStage() {
-      debugger
       this.$emit('addStage')
     },
     removeStage() {
       this.$emit('removeStage', this._id)
     },
     updateStage() {
+      debugger
       var stage = {
         track: this.track,
         date: this.date,
