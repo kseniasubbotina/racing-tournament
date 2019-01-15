@@ -1,12 +1,11 @@
 <template>
-  <v-card :key="_id">
+  <v-card>
     <v-card-actions>
-      <v-layout align-center>
-        <v-flex>{{_id + 1}}</v-flex>
-        <v-flex>
-          <TrackSelect @changeTrack="onchangeTrack" :_selectedTrack="track"/>
+      <v-layout align-center wrap>
+        <v-flex xs12 md4>
+          <TrackSelect @changeTrack="onchangeTrack" :_selectedTrack="_stage.track || ''"/>
         </v-flex>
-        <v-flex>
+        <v-flex xs12 md3>
           <v-menu
             :close-on-content-click="false"
             v-model="dateMenu"
@@ -19,15 +18,15 @@
           >
             <v-text-field
               slot="activator"
-              v-model="date"
+              v-model="_stage.date"
               label="Race Day"
               prepend-icon="event"
               readonly
             ></v-text-field>
-            <v-date-picker v-model="date" @input="dateMenu = false"></v-date-picker>
+            <v-date-picker v-model="_stage.date" @input="dateMenu = false"></v-date-picker>
           </v-menu>
         </v-flex>
-        <v-flex xs3>
+        <v-flex xs12 md3>
           <v-menu
             ref="menu"
             :close-on-content-click="false"
@@ -44,7 +43,7 @@
             <v-text-field
               prepend-icon="access_time"
               slot="activator"
-              v-model="time"
+              v-model="_stage.time"
               label="Race Time"
               readonly
             ></v-text-field>
@@ -61,16 +60,15 @@
           </v-menu>
         </v-flex>
 
-        <v-flex xs2>
-          <v-btn small fab flat depressed color="success" dark @click="addStage">
+        <v-flex xs12 md2>
+          <v-btn v-if="_isLast" small flat depressed color="success" dark @click="addStage">
             <v-icon>add</v-icon>
           </v-btn>
-          <v-btn small fab flat depressed color="red" dark @click="removeStage()">
+          <v-btn small flat depressed color="red" dark @click="removeStage()">
             <v-icon>remove</v-icon>
           </v-btn>
         </v-flex>
       </v-layout>
-      {{date}} - {{time}}
     </v-card-actions>
   </v-card>
 </template>
@@ -85,17 +83,17 @@ export default {
       timeMenu: false,
       dateMenu: false,
       track: '',
-      date: new Date().toISOString().substr(0, 10),
+      date: null,
       time: null
     }
   },
   props: {
+    _isLast: Boolean,
     _id: Number,
     _stage: Object
   },
   watch: {
     track() {
-      debugger
       this.updateStage()
     },
     date() {
@@ -113,10 +111,9 @@ export default {
       this.$emit('removeStage', this._id)
     },
     updateStage() {
-      debugger
       var stage = {
         track: this.track,
-        date: this.date,
+        date: this._stage.date || this.date,
         time: this.time
       }
       this.$emit('updateStage', stage, this._id)

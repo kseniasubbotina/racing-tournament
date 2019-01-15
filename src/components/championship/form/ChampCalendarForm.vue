@@ -3,14 +3,15 @@
     <v-label>Add Stages</v-label>
     <StageItemForm
       v-for="(stage, i) in stages"
-      :key="stage.hj"
-      :_id="i"
+      :key="i"
+      :_isLast="stagesCount - 1 == i"
+      :_id="stage.id"
       :_stage="stage"
       @addStage="addStage"
       @updateStage="updateStage"
       @removeStage="removeStage"
     />
-    {{stages}}
+    {{stages[0]}}
   </div>
 </template>
 
@@ -24,10 +25,15 @@ export default {
         {
           track: '',
           date: null,
-          time: null
+          time: null,
+          id: Math.random()
         }
-      ],
-      stagesCount: 1
+      ]
+    }
+  },
+  computed: {
+    stagesCount() {
+      return this.stages.length
     }
   },
   methods: {
@@ -35,15 +41,21 @@ export default {
       var stage = {
         track: '',
         date: null,
-        time: this.stages.time
+        time: this.stages.time,
+        id: Math.random()
       }
       this.stages.push(stage)
     },
     updateStage(stage, id) {
-      debugger
-      this.stages[id].track = stage.track
-      this.stages[id].date = stage.date
-      this.stages[id].time = stage.time
+      let index = null
+      this.stages.forEach((item, i, arr) => {
+        if (item.id == id) {
+          index = i
+        }
+      })
+      this.stages[index].track = stage.track
+      this.stages[index].date = stage.date
+      this.stages[index].time = stage.time
     },
     removeStage(i) {
       if (this.stages.length !== 1) {
