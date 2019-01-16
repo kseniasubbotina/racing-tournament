@@ -60,7 +60,7 @@
                 ></v-switch>
                 <v-switch
                   color="red"
-                  :label="`ERS Mode - ${statusLabel(settings.assists.ERSModeAuto)}`"
+                  :label="`ERS Mode - ${ERSmodeLabel}`"
                   v-model="settings.assists.ERSModeAuto"
                 ></v-switch>
               </v-flex>
@@ -119,6 +119,9 @@ export default {
   computed: {
     gearboxLabel() {
       return this.settings.assists.gearboxManual ? 'Automatic' : 'Manual'
+    },
+    ERSmodeLabel() {
+      return this.settings.assists.ERSModeAuto ? 'Automatic' : 'Manual'
     }
   },
   methods: {
