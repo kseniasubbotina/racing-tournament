@@ -18,8 +18,9 @@ export default {
   name: 'TrackSelect',
   data: function() {
     return {
-      track: 'F1 2018',
-      tracks: []
+      track: '',
+      tracks: [],
+      countries: []
     }
   },
   props: {
@@ -31,7 +32,10 @@ export default {
   },
   watch: {
     track(nextVal, prevVal) {
-      this.$emit('changeTrack', nextVal)
+      const matchedCountry = this.countries.filter(
+        item => item.track === nextVal
+      )
+      this.$emit('changeTrack', nextVal, matchedCountry[0].country)
     },
     _selectedTrack(val) {
       if (!val) {
@@ -43,16 +47,21 @@ export default {
   },
   methods: {
     getTracks() {
-      // this.$store.commit('set', { type: 'loading', val: true })
       var tracksArr = []
+      var countries = [
+        {
+          track: '',
+          country: ''
+        }
+      ]
       fb.tracksCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           var data = doc.data()
-          data.id = doc.id
-          tracksArr.push(data.id)
+          tracksArr.push(doc.id)
+          countries.push({ track: doc.id, country: data.country })
         })
-        // this.$store.commit('set', { type: 'loading', val: false })
         this.tracks = tracksArr
+        this.countries = countries
       })
     }
   }
