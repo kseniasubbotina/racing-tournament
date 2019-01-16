@@ -11,7 +11,6 @@
       @updateStage="updateStage"
       @removeStage="removeStage"
     />
-    {{stages[0]}}
   </div>
 </template>
 
