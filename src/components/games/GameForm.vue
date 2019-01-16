@@ -110,7 +110,7 @@
   </v-dialog>
 </template>
 <script>
-import ImageInput from '@/components/ImageInput.vue'
+import ImageInput from '@/components/form-elements/ImageInput.vue'
 import message from '@/components/Message.vue'
 import fb from '@/firebase/config.js'
 import games from '@/mixins/games/games.js'

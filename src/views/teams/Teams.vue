@@ -37,7 +37,7 @@
                       align="middle"
                       style="margin-right: 5px"
                     >
-                    {{ props.item.name }}
+                    <span class="font-weight-bold">{{ props.item.name }}</span>
                   </v-layout>
                 </td>
                 <td class="text-xs-right">{{ props.item.seria }}</td>

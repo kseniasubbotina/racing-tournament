@@ -1,9 +1,10 @@
 <template>
   <v-autocomplete
+    :disabled="_disabled"
     v-validate="'required'"
     type="text"
-    name="name"
-    :error-messages="errors.collect('name')"
+    name="seria"
+    :error-messages="errors.collect('Seria')"
     :items="series"
     label="Seria"
     v-model="seria"
@@ -15,12 +16,13 @@ export default {
   name: 'CountrySelector',
   data: function() {
     return {
-      seria: null,
+      seria: 'F1',
       series: ['F1', 'WEC', 'Rally', 'IndyCar', 'All']
     }
   },
   props: {
-    _selectedSeria: String
+    _selectedSeria: String,
+    _disabled: Boolean
   },
   watch: {
     seria(nextVal, prevVal) {

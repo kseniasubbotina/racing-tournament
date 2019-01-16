@@ -30,7 +30,7 @@
                     <img v-if="props.item.avatarURL" :src="props.item.avatarURL">
                     <img v-else src="http://pol.audio/media/user-avatar.png">
                   </v-avatar>
-                  <strong>{{ props.item.username }}</strong>
+                  <span class="font-weight-bold">{{ props.item.username }}</span>
                 </td>
                 <td class="text-xs-right">{{ props.item.country }}</td>
                 <td class="text-xs-right">

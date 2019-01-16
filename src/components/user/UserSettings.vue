@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import ImageInput from '@/components/ImageInput.vue'
+import ImageInput from '@/components/form-elements/ImageInput.vue'
 import Message from '@/components/Message.vue'
 import CountrySelect from '@/components/CountrySelect.vue'
 import updateUser from '@/mixins/users/updateUser.js'

@@ -5,10 +5,10 @@
         <navigationMenu @colorThemeChanged="onColorThemeChanged"/>
       </v-navigation-drawer>
       <v-toolbar color="red darken-2" dark app :clipped-left="$vuetify.breakpoint.lgAndUp" fixed>
+        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-toolbar-title style="width: auto" class="ml-0 mr-2 pl-3">
-          <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
           <img width="70" src="./assets/logo1.png" alt>
-          <span class="hidden-sm-and-down">Esport</span>
+          <span class="hidden-sm-and-down font-weight-bold">Esport</span>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon>

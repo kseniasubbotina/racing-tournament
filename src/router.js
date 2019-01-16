@@ -5,7 +5,7 @@ import Championships from './views/championships/Championships.vue'
 import CreateChampionship from './views/championships/CreateChampionship.vue'
 import Register from './views/user/Register.vue'
 import Login from './views/user/Login.vue'
-import Teams from './views/team/Teams.vue'
+import Teams from './views/teams/Teams.vue'
 import UserProfile from './views/user/UserProfile.vue'
 import Users from './views/user/Users.vue'
 import NotFound from './views/common/NotFound.vue'
@@ -17,7 +17,7 @@ import Game from './views/games/Game.vue'
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     {
       path: '/',
@@ -36,9 +36,15 @@ const router = new Router({
       }
     },
     {
-      path: 'create',
+      path: '/create',
       name: 'createChampionship',
-      component: CreateChampionship
+      component: CreateChampionship,
+      meta: {
+        breadcrumbs: [
+          { name: 'Championships', path: '/championships' },
+          { name: 'Create Championship' }
+        ]
+      }
     },
     {
       path: '/register',
@@ -160,7 +166,10 @@ const router = new Router({
     {
       path: '/*',
       name: 'not-found',
-      component: NotFound
+      component: NotFound,
+      meta: {
+        breadcrumbs: [{ name: 'Not Found' }]
+      }
     }
   ]
 })
