@@ -11,6 +11,7 @@
       @updateStage="updateStage"
       @removeStage="removeStage"
     />
+    {{stages}}
   </div>
 </template>
 
@@ -28,6 +29,14 @@ export default {
           id: Math.random()
         }
       ]
+    }
+  },
+  watch: {
+    stages: {
+      handler: function(newValue) {
+        this.$emit('updateData', newValue)
+      },
+      deep: true
     }
   },
   computed: {
