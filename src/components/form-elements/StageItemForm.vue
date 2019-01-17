@@ -2,7 +2,9 @@
   <v-card flat>
     <v-layout align-center wrap>
       <v-flex>
-        <CountryFlag :_country="stageCountry"/>
+        <v-layout justify-center>
+          <CountryFlag :_country="stageCountry"/>
+        </v-layout>
       </v-flex>
       <v-flex xs12 md3>
         <TrackSelect @changeTrack="onchangeTrack" :_selectedTrack="_stage.track || ''"/>
