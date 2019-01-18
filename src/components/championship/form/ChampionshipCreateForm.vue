@@ -24,7 +24,8 @@
 
     <v-stepper-step color="success" step="4">Finish</v-stepper-step>
     <v-stepper-content step="4">
-      <v-card color="grey lighten-1" class="mb-5" height="200px"></v-card>
+      YouTube or Twitch Link,
+      another info
       <v-btn color="primary" @click="e6 = 1">Continue</v-btn>
       <v-btn flat @click="e6 = 3">Back</v-btn>
     </v-stepper-content>
@@ -41,35 +42,12 @@ export default {
   data: () => ({
     e6: 3
   }),
-  computed: {
-    computedDateFormatted() {
-      return this.formatDate(this.date)
-    }
-  },
-  watch: {
-    date(val) {
-      this.dateFormatted = this.formatDate(this.date)
-    }
-  },
   methods: {
     updateData(data) {
-      //
-    },
-    onChanged() {
-      console.log('New picture loaded')
-      if (this.$refs.pictureInput.file) {
-        this.image = this.$refs.pictureInput.file
-      } else {
-        console.log('Old browser. No support for Filereader API')
-      }
+      debugger
     },
     onRemoved: function() {
       this.image = ''
-    },
-    attemptUpload: function() {
-      if (this.image) {
-        // axios
-      }
     },
     submit() {
       //
