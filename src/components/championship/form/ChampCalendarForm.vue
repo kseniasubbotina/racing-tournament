@@ -11,7 +11,8 @@
       @updateStage="updateStage"
       @removeStage="removeStage"
     />
-    {{stages}}
+    <v-btn color="primary" @click="nextStep">Continue</v-btn>
+    <v-btn flat @click="$emit('backStep')">Back</v-btn>
   </div>
 </template>
 
@@ -32,12 +33,12 @@ export default {
     }
   },
   watch: {
-    stages: {
-      handler: function(newValue) {
-        this.$emit('updateData', newValue)
-      },
-      deep: true
-    }
+    // stages: {
+    //   handler: function(newValue) {
+    //     this.nextStep(newValue)
+    //   },
+    //   deep: true
+    // }
   },
   computed: {
     stagesCount() {
@@ -45,6 +46,9 @@ export default {
     }
   },
   methods: {
+    nextStep() {
+      this.$emit('nextStep', this.stages, 'calendar')
+    },
     addStage() {
       var stage = {
         track: '',

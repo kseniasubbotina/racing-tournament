@@ -129,7 +129,7 @@ export default {
       return state ? 'On' : 'Off'
     },
     nextStep() {
-      this.$emit('nextStep')
+      this.$emit('nextStep', this.settings, 'settings')
     }
   }
 }

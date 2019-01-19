@@ -43,7 +43,7 @@
         <ImageInput :_url="champImage" @fileSelected="onfileSelected"/>
       </v-flex>
     </v-layout>
-    <v-btn color="primary" @click="$emit('nextStep')">Continue</v-btn>
+    <v-btn color="primary" @click="nextStep">Continue</v-btn>
     <v-btn flat @click="$emit('backStep')">Back</v-btn>
   </div>
 </template>
@@ -67,6 +67,17 @@ export default {
     }
   },
   methods: {
+    nextStep() {
+      let info = {
+        name: this.champName,
+        seria: this.seria,
+        description: this.description,
+        game: this.game,
+        playersCount: this.playersCount,
+        champImage: this.champImage
+      }
+      this.$emit('nextStep', info, 'info')
+    },
     onChangeSeria(val) {
       this.seria = val
     },
