@@ -86,7 +86,7 @@
         </v-flex>
       </v-flex>
     </v-layout>
-    <v-btn color="primary" @click="nextStep">Continue</v-btn>
+    <v-btn :disabled="!isValid" color="primary" @click="nextStep">Continue</v-btn>
     <v-btn flat @click="$emit('backStep')">Back</v-btn>
   </div>
 </template>
@@ -96,11 +96,12 @@ export default {
   name: 'F1GameSettings',
   data() {
     return {
+      isValid: false,
       distances: ['3 laps', '5 laps', '25%', '50%', '100%'],
       qFormats: ['1 lap', 'Short - 15min', 'Full', 'No Qualification'],
-      qFormat: 'Short - 15min',
       weatherItems: ['Dinamic', 'Custom'],
       settings: {
+        qFormat: '',
         aiDifficulty: 50,
         weather: 'Dinamic',
         distance: '50%',
@@ -116,6 +117,17 @@ export default {
       }
     }
   },
+  created() {
+    this.settings.qFormat = this.qFormats[0]
+  },
+  watch: {
+    settings: {
+      handler: function(newValue) {
+        this.validate()
+      },
+      deep: true
+    }
+  },
   computed: {
     gearboxLabel() {
       return this.settings.assists.gearboxManual ? 'Automatic' : 'Manual'
@@ -129,7 +141,20 @@ export default {
       return state ? 'On' : 'Off'
     },
     nextStep() {
-      this.$emit('nextStep')
+      this.$validator.validate().then(result => {
+        if (result) {
+          this.$emit('nextStep', this.settings, 'settings')
+        }
+      })
+    },
+    validate(scope) {
+      this.$validator.validateAll(scope).then(result => {
+        if (result) {
+          this.isValid = true
+        } else {
+          this.isValid = false
+        }
+      })
     }
   }
 }

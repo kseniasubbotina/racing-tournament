@@ -6,6 +6,7 @@
       :width="_width + 'px'"
       alt
     >
+    <div v-else class="country-flag-empty"></div>
   </div>
 </template>
 
@@ -27,3 +28,12 @@ export default {
   }
 }
 </script>
+<style>
+.country-flag-empty {
+  background-color: #bdbdbd;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+}
+</style>
+

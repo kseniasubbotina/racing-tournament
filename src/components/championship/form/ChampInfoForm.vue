@@ -5,7 +5,7 @@
         <v-text-field
           label="Championship Name"
           v-model="champName"
-          v-validate="'required|min:3|max:50'"
+          v-validate="'required|min:5|max:50'"
           counter="50"
           type="text"
           name="Name"
@@ -43,7 +43,7 @@
         <ImageInput :_url="champImage" @fileSelected="onfileSelected"/>
       </v-flex>
     </v-layout>
-    <v-btn color="primary" @click="$emit('nextStep')">Continue</v-btn>
+    <v-btn :disabled="!isValid" color="primary" @click="nextStep">Continue</v-btn>
     <v-btn flat @click="$emit('backStep')">Back</v-btn>
   </div>
 </template>
@@ -58,15 +58,36 @@ export default {
   data() {
     return {
       champName: '',
-      seria: '',
+      seria: 'F1',
       description: '',
       game: 'F1 2018',
       playersCount: 20,
       champImage: '',
-      selectedFile: null
+      selectedFile: null,
+      isValid: false
+    }
+  },
+  watch: {
+    champName(val) {
+      this.validate()
     }
   },
   methods: {
+    nextStep() {
+      this.$validator.validate().then(result => {
+        if (result) {
+          let info = {
+            name: this.champName,
+            seria: this.seria,
+            description: this.description,
+            game: this.game,
+            playersCount: this.playersCount,
+            champImage: this.champImage
+          }
+          this.$emit('nextStep', info, 'info')
+        }
+      })
+    },
     onChangeSeria(val) {
       this.seria = val
     },
@@ -75,6 +96,15 @@ export default {
     },
     onfileSelected(file) {
       this.selectedFile = file
+    },
+    validate(scope) {
+      this.$validator.validateAll(scope).then(result => {
+        if (result) {
+          this.isValid = true
+        } else {
+          this.isValid = false
+        }
+      })
     }
   },
   components: {

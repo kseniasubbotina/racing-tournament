@@ -61,6 +61,7 @@ export default {
           countries.push({ track: doc.id, country: data.country })
         })
         this.tracks = tracksArr
+        this.track = tracksArr[0]
         this.countries = countries
       })
     }
