@@ -21,6 +21,10 @@
           min-width="290px"
         >
           <v-text-field
+            :key="_stage.date"
+            v-validate="'required'"
+            name="date"
+            :error-messages="errors.collect('date')"
             slot="activator"
             v-model="_stage.date"
             label="Race Day"
@@ -45,6 +49,9 @@
           min-width="290px"
         >
           <v-text-field
+            v-validate="'required'"
+            name="time"
+            :error-messages="errors.collect('time')"
             prepend-icon="access_time"
             slot="activator"
             v-model="_stage.time"
@@ -58,8 +65,8 @@
             color="blue"
           >
             <v-spacer></v-spacer>
-            <v-btn flat color="primary" @click="modal2 = false">Cancel</v-btn>
-            <v-btn flat color="primary" @click="$refs.dialog.save(time)">OK</v-btn>
+            <v-btn flat color="primary" @click="timeMenu = false">Cancel</v-btn>
+            <v-btn flat color="primary" @click="$refs.menu.save(time)">OK</v-btn>
           </v-time-picker>
         </v-menu>
       </v-flex>
@@ -91,7 +98,8 @@ export default {
       track: '',
       date: null,
       time: null,
-      stageCountry: ''
+      stageCountry: '',
+      isValidated: false
     }
   },
   props: {
@@ -112,7 +120,16 @@ export default {
   },
   methods: {
     addStage() {
-      this.$emit('addStage')
+      var validation = this.validate()
+      validation
+        .then(result => {
+          if (result) {
+            this.$emit('addStage')
+          }
+        })
+        .catch(e => {
+          console.log('Form is not valid')
+        })
     },
     removeStage() {
       this.$emit('removeStage', this._id)
@@ -125,11 +142,17 @@ export default {
       }
       this.$emit('updateStage', stage, this._id)
     },
+    validate() {
+      return new Promise((resolve, reject) => {
+        this.$validator.validate().then(result => {
+          this.isValidated = result
+          resolve(result)
+        })
+      })
+    },
     onchangeTrack(track, country) {
       this.track = track
       this.stageCountry = country
-      // this.stages.$set(id, track)
-      // this.stages.splice(id, 1, track)
     }
   },
   components: {

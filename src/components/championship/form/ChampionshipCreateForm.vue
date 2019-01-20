@@ -39,7 +39,7 @@ import ChampCalendarForm from '@/components/championship/form/ChampCalendarForm.
 export default {
   name: 'CreateChampionshipForm',
   data: () => ({
-    step: 3,
+    step: 1,
     championship: {}
   }),
   methods: {

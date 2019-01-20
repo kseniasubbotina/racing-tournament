@@ -11,7 +11,7 @@
       @updateStage="updateStage"
       @removeStage="removeStage"
     />
-    <v-btn color="primary" @click="nextStep">Continue</v-btn>
+    <v-btn :disabled="!isValid" color="primary" @click="nextStep">Continue</v-btn>
     <v-btn flat @click="$emit('backStep')">Back</v-btn>
   </div>
 </template>
@@ -43,6 +43,17 @@ export default {
   computed: {
     stagesCount() {
       return this.stages.length
+    },
+    isValid() {
+      var isValid = false
+      this.stages.forEach((stage, i) => {
+        if (!stage.track || !stage.date || !stage.time) {
+          isValid = false
+        } else {
+          isValid = true
+        }
+      })
+      return isValid
     }
   },
   methods: {
@@ -65,13 +76,17 @@ export default {
           index = i
         }
       })
-      this.stages[index].track = stage.track
-      this.stages[index].date = stage.date
-      this.stages[index].time = stage.time
+      this.stages.splice(index, 1, stage)
     },
-    removeStage(i) {
+    removeStage(id) {
       if (this.stages.length !== 1) {
-        this.stages.splice(i, 1)
+        let index = null
+        this.stages.forEach((item, i, arr) => {
+          if (item.id == id) {
+            index = i
+          }
+        })
+        this.stages.splice(index, 1)
       }
     }
   },
