@@ -72,12 +72,11 @@
       </v-flex>
       <v-flex xs12 md2>
         <v-layout>
-          <v-spacer></v-spacer>
-          <v-btn v-if="_isLast" small fab flat depressed color="success" dark @click="addStage">
-            <v-icon>add</v-icon>
-          </v-btn>
+          <!-- <v-spacer></v-spacer> -->
           <v-btn small flat depressed fab color="red" dark @click="removeStage()">
             <v-icon>remove</v-icon>
+          </v-btn>
+            <v-icon>add</v-icon>
           </v-btn>
         </v-layout>
       </v-flex>
