@@ -76,6 +76,7 @@
           <v-btn small flat depressed fab color="red" dark @click="removeStage()">
             <v-icon>remove</v-icon>
           </v-btn>
+          <v-btn v-if="_isLast" small fab flat depressed color="success" dark @click="addStage">
             <v-icon>add</v-icon>
           </v-btn>
         </v-layout>
