@@ -24,7 +24,7 @@
     <v-stepper-content step="4">
       YouTube or Twitch Link,
       another info
-      <v-btn color="primary" @click="step = 1">Continue</v-btn>
+      <v-btn :loading="imageLoading" color="primary" @click="submit">Continue</v-btn>
       <v-btn flat @click="step = 3">Back</v-btn>
     </v-stepper-content>
     {{championship}}
@@ -36,24 +36,21 @@
 import ChampInfoForm from '@/components/championship/form/ChampInfoForm.vue'
 import SessionSettingsForm from '@/components/championship/form/SessionSettingsForm.vue'
 import ChampCalendarForm from '@/components/championship/form/ChampCalendarForm.vue'
+import championships from '@/mixins/championship/championship.js'
 export default {
   name: 'CreateChampionshipForm',
   data: () => ({
     step: 1,
-    championship: {}
+    championship: {},
+    imageLoading: false
   }),
   methods: {
     nextStep(data, fieldName) {
       this.step++
       this.championship[fieldName] = data
-    },
-    onRemoved: function() {
-      this.image = ''
-    },
-    submit() {
-      //
     }
   },
+  mixins: [championships],
   components: {
     ChampInfoForm,
     SessionSettingsForm,
