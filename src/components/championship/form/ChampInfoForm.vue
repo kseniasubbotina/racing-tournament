@@ -76,15 +76,18 @@ export default {
     nextStep() {
       this.$validator.validate().then(result => {
         if (result) {
-          let info = {
-            name: this.champName,
-            seria: this.seria,
-            description: this.description,
-            game: this.game,
-            playersCount: this.playersCount,
-            champImage: this.champImage
+          let data = {
+            info: {
+              name: this.champName,
+              seria: this.seria,
+              description: this.description,
+              game: this.game,
+              playersCount: this.playersCount,
+              champImage: this.champImage
+            },
+            selectedFile: this.selectedFile
           }
-          this.$emit('nextStep', info, 'info')
+          this.$emit('nextStep', data, 'data')
         }
       })
     },

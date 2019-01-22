@@ -58,13 +58,13 @@ export default {
     drawer: null,
     isDarkColorTheme: null
   }),
-  watch: {
-    userData(val) {
-      if (val && val.isDarkColorTheme) {
-        this.onColorThemeChanged(val.isDarkColorTheme)
-      }
-    }
-  },
+  // watch: {
+  //   userData(val) {
+  //     if (val && val.isDarkColorTheme) {
+  //       this.onColorThemeChanged(val.isDarkColorTheme)
+  //     }
+  //   }
+  // },
   created() {
     if (window.localStorage)
       this.isDarkColorTheme = window.localStorage.isDarkColorTheme == 'true'
@@ -78,7 +78,11 @@ export default {
       return isLoggedIn
     },
     userData() {
-      return this.$store.getters.userData
+      let userData = this.$store.getters.userData
+      if (userData && userData.isDarkColorTheme) {
+        this.onColorThemeChanged(userData.isDarkColorTheme)
+      }
+      return userData
     },
     toCurrentUserProfile() {
       if (this.$store.getters.userData) {
