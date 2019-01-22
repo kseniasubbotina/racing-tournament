@@ -8,10 +8,10 @@
       </v-btn>
     </v-layout>
     <v-layout wrap>
-      <v-flex xs12 sm6 md4 pa-1>
+      <v-flex xs12 sm6 md4 pa-1 v-for="champ in championships" :key="champ.id">
         <v-card>
           <v-card-title primary-title>
-            <div class="headline">Championship #1</div>
+            <div class="headline">{{champ.info.name}}</div>
           </v-card-title>
           <v-card-text>
             <div>F1 2017 championship - no assists</div>
@@ -45,13 +45,33 @@
 
 <script>
 import ChampionshipCreateForm from '@/components/championship/form/ChampionshipCreateForm'
-import firebase from 'firebase'
+import fb from '@/firebase/config.js'
 
 export default {
   name: 'Championships',
   data() {
     return {
+      championships: [],
       showCreateForm: false
+    }
+  },
+  created() {
+    this.getChampionships()
+  },
+  methods: {
+    getChampionships() {
+      this.$store.commit('set', { type: 'loading', val: true })
+      var championships = []
+      fb.champsCollection.get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          var data = doc.data()
+          data.id = doc.id
+          championships.push(data)
+        })
+        this.$store.commit('set', { type: 'loading', val: false })
+        debugger
+        this.championships = championships
+      })
     }
   },
   components: {
