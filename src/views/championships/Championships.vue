@@ -69,7 +69,6 @@ export default {
           championships.push(data)
         })
         this.$store.commit('set', { type: 'loading', val: false })
-        debugger
         this.championships = championships
       })
     }
