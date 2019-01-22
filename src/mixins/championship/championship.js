@@ -3,25 +3,26 @@ import fb from '@/firebase/config.js'
 export default {
   methods: {
     submit() {
+      console.log(this.user)
       if (this.championship.data.selectedFile) {
         this.uploadImage(this.championship.data.info.name).then(() => {
-          fb.champsCollection
-            .doc(this.championship.data.info.name)
-            .set({
-              info: this.championship.data.info,
-              settings: this.championship.settings,
-              calendar: this.championship.calendar
-            })
-            .then(this.$router.push('/championships'))
+          this.sendQuery()
         })
       } else {
-        fb.champsCollection()
-          .doc(this.championship.data.info.name)
-          .set({
-            name: this.championship.data.info.name
-          })
-          .then()
+        this.sendQuery()
       }
+    },
+    sendQuery() {
+      fb.champsCollection
+        .doc(this.championship.data.info.name)
+        .set({
+          admin: this.$store.getters.userData.username,
+          moderators: [],
+          info: this.championship.data.info,
+          settings: this.championship.settings,
+          calendar: this.championship.calendar
+        })
+        .then(this.$router.push('/championships'))
     },
     uploadImage(id) {
       return new Promise(resolve => {
@@ -37,7 +38,7 @@ export default {
           this.imageLoading = false
           console.log('Uploaded a file!')
           uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-            this.championship.data.info.imageUrl = downloadURL
+            this.championship.data.info.champImage = downloadURL
             resolve(downloadURL)
           })
         })
