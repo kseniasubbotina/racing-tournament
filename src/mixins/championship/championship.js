@@ -3,7 +3,7 @@ import fb from '@/firebase/config.js'
 export default {
   methods: {
     submit() {
-      console.log(this.user)
+      if (this.isLoggedIn) console.log(this.user)
       if (this.championship.data.selectedFile) {
         this.uploadImage(this.championship.data.info.name).then(() => {
           this.sendQuery()
@@ -17,6 +17,7 @@ export default {
         .doc(this.championship.data.info.name)
         .set({
           admin: this.$store.getters.userData.username,
+          approved: false,
           moderators: [],
           info: this.championship.data.info,
           settings: this.championship.settings,

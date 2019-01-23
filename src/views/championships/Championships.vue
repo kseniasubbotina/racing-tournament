@@ -3,7 +3,7 @@
     <v-layout wrap>
       <h1>Available Championships</h1>
       <v-spacer></v-spacer>
-      <v-btn :to="'/create'" depressed color="success">
+      <v-btn v-if="isLoggedIn" :to="'/create'" depressed color="success">
         <v-icon>add</v-icon>Create Championship
       </v-btn>
     </v-layout>
@@ -21,7 +21,7 @@
           </v-card-actions>
         </v-card>
       </v-flex>
-      <v-layout>
+      <!-- <v-layout>
         <v-flex sx12>
           <v-btn
             @click.stop="showCreateForm = true"
@@ -35,7 +35,7 @@
             <v-icon>add</v-icon>
           </v-btn>
         </v-flex>
-      </v-layout>
+      </v-layout>-->
       <v-dialog v-model="showCreateForm" max-width="800px">
         <ChampionshipCreateForm/>
       </v-dialog>
@@ -57,6 +57,12 @@ export default {
   },
   created() {
     this.getChampionships()
+  },
+  computed: {
+    isLoggedIn() {
+      var isLoggedIn = this.$store.getters.user ? true : false
+      return isLoggedIn
+    }
   },
   methods: {
     getChampionships() {

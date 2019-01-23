@@ -44,6 +44,12 @@ export default {
     championship: {},
     imageLoading: false
   }),
+  computed: {
+    isLoggedIn() {
+      var isLoggedIn = this.$store.getters.user ? true : false
+      return isLoggedIn
+    }
+  },
   methods: {
     nextStep(data, fieldName) {
       this.step++
