@@ -73,13 +73,24 @@ export default {
     },
     getGame() {
       this.$store.commit('set', { type: 'loading', val: true })
-      fb.gamesCollection.doc(this.$route.params.id).onSnapshot(doc => {
-        if (doc.exists) {
-          this.gameData = doc.data()
-          this.gameData.id = doc.id
-          this.$store.commit('set', { type: 'loading', val: false })
-        }
-      })
+      fb.gamesCollection
+        .where('name', '==', this.$route.params.id)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            this.gameData = doc.data()
+            this.gameData.id = doc.id
+            this.$store.commit('set', { type: 'loading', val: false })
+          })
+        })
+
+      // fb.gamesCollection.doc(this.$route.params.id).onSnapshot(doc => {
+      //   if (doc.exists) {
+      //     this.gameData = doc.data()
+      //     this.gameData.id = doc.id
+      //     this.$store.commit('set', { type: 'loading', val: false })
+      //   }
+      // })
     },
     deleteGame() {
       fb.gamesCollection
