@@ -21,7 +21,7 @@
           </v-card-actions>
         </v-card>
       </v-flex>
-      <!-- <v-layout>
+      <v-layout>
         <v-flex sx12>
           <v-btn
             @click.stop="showCreateForm = true"
@@ -35,7 +35,7 @@
             <v-icon>add</v-icon>
           </v-btn>
         </v-flex>
-      </v-layout>-->
+      </v-layout>
       <v-dialog v-model="showCreateForm" max-width="800px">
         <ChampionshipCreateForm/>
       </v-dialog>
