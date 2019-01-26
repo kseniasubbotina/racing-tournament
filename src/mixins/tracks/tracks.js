@@ -79,7 +79,6 @@ export default {
       })
     },
     uploadImage(id, file) {
-      debugger
       return new Promise(resolve => {
         var uploadTask = fb.storageRef
           .child('tracks_images/' + id + '/' + id + '_' + file.trackImageType)
