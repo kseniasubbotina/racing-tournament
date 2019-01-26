@@ -3,18 +3,19 @@ import fb from '@/firebase/config.js'
 export default {
   methods: {
     submit() {
-      if (this.isLoggedIn) console.log(this.user)
-      if (this.championship.data.selectedFile) {
-        this.uploadImage(this.championship.data.info.name).then(() => {
+      if (this.isLoggedIn) {
+        if (this.championship.data.selectedFile) {
+          this.uploadImage(this.championship.data.info.name).then(() => {
+            this.sendQuery()
+          })
+        } else {
           this.sendQuery()
-        })
-      } else {
-        this.sendQuery()
+        }
       }
     },
     sendQuery() {
       fb.champsCollection
-        .doc(this.championship.data.info.name)
+        .doc()
         .set({
           admin: this.$store.getters.userData.username,
           approved: false,

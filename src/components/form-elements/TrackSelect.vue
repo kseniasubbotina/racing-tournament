@@ -19,6 +19,7 @@ export default {
   data: function() {
     return {
       track: '',
+      keys: {},
       tracks: [],
       countries: []
     }
@@ -32,10 +33,10 @@ export default {
   },
   watch: {
     track(nextVal, prevVal) {
-      const matchedCountry = this.countries.filter(
-        item => item.track === nextVal
-      )
-      this.$emit('changeTrack', nextVal, matchedCountry[0].country)
+      if (nextVal) {
+        const matchedTrack = this.keys.filter(item => item.name === nextVal)
+        this.$emit('changeTrack', matchedTrack[0])
+      }
     },
     _selectedTrack(val) {
       if (!val) {
@@ -47,22 +48,25 @@ export default {
   },
   methods: {
     getTracks() {
-      var tracksArr = []
-      var countries = [
-        {
-          track: '',
-          country: ''
-        }
-      ]
+      let tracksArr = []
+      let keys = []
+      // let countries = [
+      //   {
+      //     track: '',
+      //     country: ''
+      //   }
+      // ]
       fb.tracksCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          var data = doc.data()
-          tracksArr.push(doc.id)
-          countries.push({ track: doc.id, country: data.country })
+          let data = doc.data()
+          tracksArr.push(data.name)
+          keys.push({ id: doc.id, name: data.name, country: data.country })
+          // countries.push({ track: data.name, country: data.country })
         })
         this.tracks = tracksArr
+        this.keys = keys
         this.track = tracksArr[0]
-        this.countries = countries
+        // this.countries = countries
       })
     }
   }
