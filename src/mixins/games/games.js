@@ -11,7 +11,7 @@ export default {
             }
             upload().then(() => {
               fb.gamesCollection
-                .doc(this.gameData.name)
+                .doc()
                 .set({
                   name: this.gameData.name,
                   releaseDate: this.gameData.releaseDate,
@@ -25,7 +25,7 @@ export default {
             })
           } else {
             fb.gamesCollection
-              .doc(this.gameData.name)
+              .doc()
               .set({
                 name: this.gameData.name,
                 releaseDate: this.gameData.releaseDate,
