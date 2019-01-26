@@ -23,7 +23,7 @@
       class="game-item_title"
       pointer
       primary-title
-      @click="$router.push({name: 'Game', params: {id: _game.id}})"
+      @click="$router.push({name: 'Game', params: {id: _game.name}})"
     >
       <v-layout fill-height>
         <v-flex xs12 align-end flexbox>
@@ -41,7 +41,7 @@
       </div>
     </v-card-text>
     <v-card-actions>
-      <v-btn depressed @click="$router.push({name: 'Game', params: {id: _game.id}})">Details</v-btn>
+      <v-btn depressed @click="$router.push({name: 'Game', params: {id: _game.name}})">Details</v-btn>
     </v-card-actions>
   </v-card>
 </template>

@@ -83,7 +83,8 @@ export default {
               description: this.description,
               game: this.game,
               playersCount: this.playersCount,
-              champImage: this.champImage
+              champImage: this.champImage,
+              createdDate: new Date()
             },
             selectedFile: this.selectedFile
           }
