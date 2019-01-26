@@ -64,13 +64,17 @@ export default {
     },
     getTrack() {
       this.$store.commit('set', { type: 'loading', val: true })
-      fb.tracksCollection.doc(this.$route.params.id).onSnapshot(doc => {
-        if (doc.exists) {
-          this.trackData = doc.data()
-          this.trackData.id = doc.id
-          this.$store.commit('set', { type: 'loading', val: false })
-        }
-      })
+
+      fb.tracksCollection
+        .where('name', '==', this.$route.params.id)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            this.trackData = doc.data()
+            this.trackData.id = doc.id
+            this.$store.commit('set', { type: 'loading', val: false })
+          })
+        })
     },
     deleteTrack() {
       fb.tracksCollection

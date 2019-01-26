@@ -12,7 +12,7 @@ export default {
               )
             ).then(() => {
               fb.tracksCollection
-                .doc(this.trackData.name)
+                .doc()
                 .set({
                   name: this.trackData.name,
                   country: this.trackData.country,
@@ -26,7 +26,7 @@ export default {
             })
           } else {
             fb.tracksCollection
-              .doc(this.trackData.name)
+              .doc()
               .set({
                 name: this.trackData.name,
                 country: this.trackData.country,
