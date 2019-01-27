@@ -143,7 +143,6 @@ export default {
         time: this.time,
         index: this._index
       }
-      debugger
       this.$emit('updateStage', stage)
     },
     validate() {

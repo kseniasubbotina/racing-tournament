@@ -71,7 +71,6 @@ export default {
     },
     updateStage(stage) {
       let arayIndex = null
-      debugger
       this.stages.forEach((item, i, arr) => {
         if (item.index == stage.index) {
           arayIndex = i

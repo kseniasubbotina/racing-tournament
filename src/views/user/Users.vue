@@ -166,7 +166,6 @@ export default {
   },
   methods: {
     onEditClick(userId, username, country, avatarURL, role) {
-      debugger
       this.userId = userId
       this.username = username
       this.country = country
