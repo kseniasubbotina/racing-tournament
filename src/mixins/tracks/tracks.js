@@ -11,30 +11,10 @@ export default {
                 this.uploadImage(this.trackData.id, item)
               )
             ).then(() => {
-              fb.tracksCollection
-                .doc()
-                .set({
-                  name: this.trackData.name,
-                  country: this.trackData.country,
-                  firstGP: this.trackData.firstGP,
-                  length: this.trackData.length,
-                  trackScheme: this.trackData.trackScheme,
-                  trackPhoto: this.trackData.trackPhoto,
-                  description: this.trackData.description
-                })
-                .then(this.closeWindow(), this.$emit('updateTracks'))
+              this.setQuery()
             })
           } else {
-            fb.tracksCollection
-              .doc()
-              .set({
-                name: this.trackData.name,
-                country: this.trackData.country,
-                firstGP: this.trackData.firstGP,
-                length: this.trackData.length,
-                description: this.trackData.description
-              })
-              .then(this.closeWindow(), this.$emit('updateTracks'))
+            this.setQuery()
           }
         }
       })
@@ -48,35 +28,41 @@ export default {
                 this.uploadImage(this.trackData.id, item)
               )
             ).then(() => {
-              fb.tracksCollection
-                .doc(this.trackData.id)
-                .update({
-                  name: this.trackData.name,
-                  country: this.trackData.country,
-                  firstGP: this.trackData.firstGP,
-                  length: this.trackData.length,
-                  trackScheme: this.trackData.trackScheme,
-                  trackPhoto: this.trackData.trackPhoto,
-                  description: this.trackData.description
-                })
-                .then(this.closeWindow(), this.$emit('updateTracks'))
+              this.updateQuery(id)
             })
           } else {
-            fb.tracksCollection
-              .doc(id)
-              .update({
-                name: this.trackData.name,
-                country: this.trackData.country,
-                firstGP: this.trackData.firstGP,
-                length: this.trackData.length,
-                trackScheme: this.trackData.trackScheme,
-                trackPhoto: this.trackData.trackPhoto,
-                description: this.trackData.description
-              })
-              .then(this.closeWindow())
+            this.updateQuery(id)
           }
         }
       })
+    },
+    setQuery() {
+      fb.tracksCollection
+        .doc()
+        .set({
+          name: this.trackData.name,
+          country: this.trackData.country,
+          firstGP: this.trackData.firstGP,
+          length: this.trackData.length,
+          trackScheme: this.trackData.trackScheme,
+          trackPhoto: this.trackData.trackPhoto,
+          description: this.trackData.description
+        })
+        .then(this.closeWindow(), this.$emit('updateTracks'))
+    },
+    updateQuery(id) {
+      fb.tracksCollection
+        .doc(id)
+        .update({
+          name: this.trackData.name,
+          country: this.trackData.country,
+          firstGP: this.trackData.firstGP,
+          length: this.trackData.length,
+          trackScheme: this.trackData.trackScheme,
+          trackPhoto: this.trackData.trackPhoto,
+          description: this.trackData.description
+        })
+        .then(this.closeWindow(), this.$emit('updateTracks'))
     },
     uploadImage(id, file) {
       return new Promise(resolve => {
