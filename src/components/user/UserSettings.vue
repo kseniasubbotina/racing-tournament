@@ -22,7 +22,7 @@
               class="white--text"
               depressed
               color="red"
-              @click="update(userData.username, userData.username, userData.country, userData.avatarURL, userData.role)"
+              @click="update(userData.id, userData.username, userData.country, userData.avatarURL, userData.role)"
               :loading="loading"
             >Save</v-btn>
           </v-flex>
@@ -76,7 +76,7 @@ export default {
     deleteImage() {
       this.userData.avatarURL = ''
       this.deleteAvatar(
-        this.userData.username,
+        this.userData.id,
         this.userData.username,
         this.userData.country,
         this.userData.avatarURL,

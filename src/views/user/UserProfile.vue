@@ -121,14 +121,19 @@ export default {
       this.$store.dispatch('clearData')
     },
     getUserData() {
-      fb.usersCollection.doc(this.visitedUserId).onSnapshot(doc => {
-        if (doc.exists) {
-          this.userData = doc.data()
-        } else {
-          this.$router.push('/')
-          console.log('No user found')
-        }
-      })
+      fb.usersCollection
+        .where('username', '==', this.$route.params.id)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            if (doc.exists) {
+              this.userData = doc.data()
+            } else {
+              this.$router.push('/')
+              console.log('No user found')
+            }
+          })
+        })
     }
   },
   components: {

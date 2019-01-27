@@ -35,7 +35,7 @@ export default new Vuex.Store({
         .then(
           response => {
             if (response) {
-              fb.usersCollection.doc(credentials.username).set({
+              fb.usersCollection.doc(response.user.uid).set({
                 id: response.user.uid,
                 username: credentials.username,
                 country: credentials.country,
