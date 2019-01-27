@@ -98,7 +98,7 @@
           <v-spacer></v-spacer>
           <v-btn
             color="red darken-2"
-            @click="update(username, username, country, avatarURL, role)"
+            @click="update(userId, username, country, avatarURL, role)"
             dark
           >Save</v-btn>
         </v-card-actions>
@@ -119,6 +119,7 @@ export default {
   data() {
     return {
       users: [],
+      userId: '',
       username: '',
       country: '',
       avatarURL: '',
@@ -165,6 +166,7 @@ export default {
   },
   methods: {
     onEditClick(userId, username, country, avatarURL, role) {
+      debugger
       this.userId = userId
       this.username = username
       this.country = country
