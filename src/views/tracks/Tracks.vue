@@ -97,7 +97,7 @@ export default {
     },
     deleteTrack(track) {
       fb.tracksCollection
-        .doc(track.id)
+        .doc(track.documentId)
         .delete()
         .then(() => {
           console.log('Document successfully deleted!')
