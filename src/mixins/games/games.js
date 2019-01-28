@@ -54,7 +54,6 @@ export default {
         .doc(gameData.documentId)
         .update({
           name: gameData.name,
-          // id: gameData.name,
           releaseDate: gameData.releaseDate,
           platforms: gameData.platforms,
           developer: gameData.developer,
@@ -85,12 +84,11 @@ export default {
       })
     },
     deleteImage() {
-      debugger
       let gameData = this.gameData
       if (gameData.coverImageUrl) {
         gameData.coverImageUrl = ''
         fb.storageRef
-          .child('games_images/' + gameData.documentId)
+          .child('games_images/' + gameData.id)
           .delete()
           .then(() => {
             this.$store.commit('setMessage', {

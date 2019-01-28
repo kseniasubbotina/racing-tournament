@@ -71,7 +71,7 @@ export default {
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
             this.trackData = doc.data()
-            this.trackData.id = doc.id
+            this.trackData.documentId = doc.id
             this.$store.commit('set', { type: 'loading', val: false })
           })
         })

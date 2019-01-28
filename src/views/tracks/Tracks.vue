@@ -70,7 +70,7 @@ export default {
       fb.tracksCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           var data = doc.data()
-          data.id = doc.id
+          data.documentId = doc.id
           tracksArr.push(data)
         })
         this.$store.commit('set', { type: 'loading', val: false })
@@ -84,7 +84,8 @@ export default {
           country: '',
           firstGP: '',
           length: '',
-          imageUrl: '',
+          trackPhoto: '',
+          trackScheme: '',
           description: ''
         }
         this.isNew = true

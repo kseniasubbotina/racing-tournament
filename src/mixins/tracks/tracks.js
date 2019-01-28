@@ -8,7 +8,7 @@ export default {
           if (this.selectedFiles.length) {
             Promise.all(
               this.selectedFiles.map(item =>
-                this.uploadImage(this.trackData.id, item)
+                this.uploadImage(this.trackData.name, item)
               )
             ).then(() => {
               this.setQuery()
@@ -41,6 +41,7 @@ export default {
         .doc()
         .set({
           name: this.trackData.name,
+          id: this.trackData.name,
           country: this.trackData.country,
           firstGP: this.trackData.firstGP,
           length: this.trackData.length,
@@ -98,7 +99,7 @@ export default {
               type: 'success',
               text: 'The image has been deleted from server.'
             })
-            this.updateTrack(trackData.id)
+            this.updateTrack(trackData.documentId)
           })
           .catch(error => {
             console.log(error)
