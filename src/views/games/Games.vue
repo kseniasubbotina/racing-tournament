@@ -27,6 +27,7 @@ import fb from '@/firebase/config.js'
 import GameForm from '@/components/games/GameForm.vue'
 import GameItem from '@/components/games/GameItem.vue'
 import Confirmation from '@/components/Confirmation.vue'
+import games from '@/mixins/games/games.js'
 
 export default {
   name: 'games',
@@ -61,7 +62,7 @@ export default {
       this.$root.$emit('confirm', game)
     },
     openForm(game) {
-      if (!game.id) {
+      if (!game.documentId) {
         var gameData = {
           name: '',
           releaseDate: '',
@@ -84,7 +85,7 @@ export default {
       fb.gamesCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           var data = doc.data()
-          data.id = doc.id
+          data.documentId = doc.id
           gamesArr.push(data)
         })
         this.$store.commit('set', { type: 'loading', val: false })
@@ -93,7 +94,7 @@ export default {
     },
     deleteGame(game) {
       fb.gamesCollection
-        .doc(game.id)
+        .doc(game.documentId)
         .delete()
         .then(() => {
           console.log('Document successfully deleted!')
@@ -122,6 +123,7 @@ export default {
         })
     }
   },
+  mixins: [games],
   components: {
     GameForm,
     GameItem,

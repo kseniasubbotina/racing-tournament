@@ -10,32 +10,10 @@ export default {
               let upload = await this.uploadImage(this.gameData.name)
             }
             upload().then(() => {
-              fb.gamesCollection
-                .doc()
-                .set({
-                  name: this.gameData.name,
-                  releaseDate: this.gameData.releaseDate,
-                  platforms: this.gameData.platforms,
-                  developer: this.gameData.developer,
-                  publisher: this.gameData.publisher,
-                  coverImageUrl: this.gameData.coverImageUrl,
-                  webSite: this.gameData.webSite
-                })
-                .then(this.closeWindow(), this.$emit('updateGames'))
+              this.setQuery()
             })
           } else {
-            fb.gamesCollection
-              .doc()
-              .set({
-                name: this.gameData.name,
-                releaseDate: this.gameData.releaseDate,
-                platforms: this.gameData.platforms,
-                developer: this.gameData.developer,
-                publisher: this.gameData.publisher,
-                coverImageUrl: this.gameData.coverImageUrl,
-                webSite: this.gameData.webSite
-              })
-              .then(this.closeWindow(), this.$emit('updateGames'))
+            this.setQuery()
           }
         }
       })
@@ -45,38 +23,46 @@ export default {
         if (result) {
           if (this.selectedFile) {
             const upload = async () => {
-              let upload = await this.uploadImage(this.gameData.id)
+              let upload = await this.uploadImage(gameData.id)
             }
             upload().then(() => {
-              fb.gamesCollection
-                .doc(this.gameData.id)
-                .update({
-                  name: this.gameData.name,
-                  releaseDate: this.gameData.releaseDate,
-                  platforms: this.gameData.platforms,
-                  developer: this.gameData.developer,
-                  publisher: this.gameData.publisher,
-                  coverImageUrl: this.gameData.coverImageUrl,
-                  webSite: this.gameData.webSite
-                })
-                .then(this.closeWindow(), this.$emit('updateGames'))
+              this.updateQuery(gameData)
             })
           } else {
-            fb.gamesCollection
-              .doc(gameData.id)
-              .update({
-                name: gameData.name,
-                releaseDate: gameData.releaseDate,
-                platforms: gameData.platforms,
-                developer: gameData.developer,
-                publisher: gameData.publisher,
-                coverImageUrl: gameData.coverImageUrl,
-                webSite: gameData.webSite
-              })
-              .then(this.closeWindow())
+            this.updateQuery(gameData)
           }
         }
       })
+    },
+    setQuery() {
+      fb.gamesCollection
+        .doc()
+        .set({
+          name: this.gameData.name,
+          id: this.gameData.name,
+          releaseDate: this.gameData.releaseDate,
+          platforms: this.gameData.platforms,
+          developer: this.gameData.developer,
+          publisher: this.gameData.publisher,
+          coverImageUrl: this.gameData.coverImageUrl,
+          webSite: this.gameData.webSite
+        })
+        .then(this.closeWindow(), this.$emit('updateGames'))
+    },
+    updateQuery(gameData) {
+      fb.gamesCollection
+        .doc(gameData.documentId)
+        .update({
+          name: gameData.name,
+          // id: gameData.name,
+          releaseDate: gameData.releaseDate,
+          platforms: gameData.platforms,
+          developer: gameData.developer,
+          publisher: gameData.publisher,
+          coverImageUrl: gameData.coverImageUrl,
+          webSite: gameData.webSite
+        })
+        .then(this.closeWindow(), this.$emit('updateGames'))
     },
     uploadImage(id) {
       return new Promise(resolve => {
@@ -99,11 +85,12 @@ export default {
       })
     },
     deleteImage() {
+      debugger
       let gameData = this.gameData
       if (gameData.coverImageUrl) {
         gameData.coverImageUrl = ''
         fb.storageRef
-          .child('games_images/' + gameData.id)
+          .child('games_images/' + gameData.documentId)
           .delete()
           .then(() => {
             this.$store.commit('setMessage', {
