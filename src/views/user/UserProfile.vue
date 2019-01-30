@@ -1,5 +1,8 @@
 <template>
   <v-card width="100%">
+    <!-- <div v-if="loading" class="text-xs-center">
+      <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
+    </div>-->
     <v-container grid-list-sm class="pa-4">
       <v-layout row wrap>
         <v-flex xs12 sm3 class="text-xs-center">
@@ -99,7 +102,7 @@ export default {
       return this.$store.getters.message
     },
     loading() {
-      this.$store.getters.loading
+      return this.$store.getters.loading
     }
   },
   created() {
@@ -121,18 +124,23 @@ export default {
       this.$store.dispatch('clearData')
     },
     getUserData() {
+      this.$store.commit('set', { type: 'loading', val: true })
       fb.usersCollection
         .where('username', '==', this.$route.params.id)
         .get()
         .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            if (doc.exists) {
-              this.userData = doc.data()
-            } else {
-              this.$router.push('/')
-              console.log('No user found')
-            }
-          })
+          if (!querySnapshot.empty) {
+            querySnapshot.forEach(doc => {
+              if (doc.exists) {
+                this.userData = doc.data()
+              } else {
+                this.$router.push('/')
+              }
+            })
+          } else {
+            this.$router.push('/404')
+          }
+          this.$store.commit('set', { type: 'loading', val: false })
         })
     }
   },

@@ -58,13 +58,6 @@ export default {
     drawer: null,
     isDarkColorTheme: null
   }),
-  // watch: {
-  //   userData(val) {
-  //     if (val && val.isDarkColorTheme) {
-  //       this.onColorThemeChanged(val.isDarkColorTheme)
-  //     }
-  //   }
-  // },
   created() {
     if (window.localStorage)
       this.isDarkColorTheme = window.localStorage.isDarkColorTheme == 'true'

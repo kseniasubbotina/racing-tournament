@@ -1,5 +1,6 @@
 <template>
   <v-layout class="image-input">
+    <!-- {{_url}} -->
     <v-flex xs12 class="text-xs-center">
       <v-layout justify-center align-center column wrap>
         <v-flex style="cursor: pointer" @click="$refs.filenput.click()">

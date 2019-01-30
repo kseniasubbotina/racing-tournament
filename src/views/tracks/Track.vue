@@ -69,11 +69,15 @@ export default {
         .where('name', '==', this.$route.params.id)
         .get()
         .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            this.trackData = doc.data()
-            this.trackData.documentId = doc.id
-            this.$store.commit('set', { type: 'loading', val: false })
-          })
+          if (!querySnapshot.empty) {
+            querySnapshot.forEach(doc => {
+              this.trackData = doc.data()
+              this.trackData.documentId = doc.id
+            })
+          } else {
+            this.$router.push('/404')
+          }
+          this.$store.commit('set', { type: 'loading', val: false })
         })
     },
     deleteTrack() {

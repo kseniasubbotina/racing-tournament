@@ -20,7 +20,7 @@
           <v-flex pa-1 xs12 lg8>
             <div class="headline">{{gameData.name}}</div>
             <div>Release date: {{gameData.releaseDate}}</div>
-            <div>Platforms: {{gameData.platforms.join(', ')}}</div>
+            <div>Platforms: {{gameData.platforms}}</div>
             <div>Developer: {{gameData.developer}}</div>
             <div>Publisher: {{gameData.publisher}}</div>
             <div>
@@ -50,6 +50,7 @@ export default {
     }
   },
   created() {
+    debugger
     this.getGame()
   },
   computed: {
@@ -73,16 +74,22 @@ export default {
       this.$root.$emit('confirm', track)
     },
     getGame() {
+      debugger
       this.$store.commit('set', { type: 'loading', val: true })
       fb.gamesCollection
         .where('name', '==', this.$route.params.id)
         .get()
         .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            this.gameData = doc.data()
-            this.gameData.documentId = doc.id
-            this.$store.commit('set', { type: 'loading', val: false })
-          })
+          debugger
+          if (!querySnapshot.empty) {
+            querySnapshot.forEach(doc => {
+              this.gameData = doc.data()
+              this.gameData.documentId = doc.id
+            })
+          } else {
+            this.$router.push('/404')
+          }
+          this.$store.commit('set', { type: 'loading', val: false })
         })
     },
     deleteGame() {
