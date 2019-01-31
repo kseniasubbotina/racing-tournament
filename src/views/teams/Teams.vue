@@ -90,6 +90,8 @@
 import Confirmation from '@/components/Confirmation.vue'
 import TeamForm from '@/components/teams/TeamForm.vue'
 import fb from '@/firebase/config.js'
+import isAdminGuard from '@/mixins/isAdminGuard.js'
+
 export default {
   name: 'Teams',
   data() {
@@ -185,6 +187,7 @@ export default {
         })
     }
   },
+  mixins: [isAdminGuard],
   components: {
     TeamForm,
     Confirmation
