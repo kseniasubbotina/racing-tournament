@@ -45,7 +45,7 @@
                   <v-btn small fab flat @click.stop="openTeamFormDialog(props.item)">
                     <v-icon>edit</v-icon>
                   </v-btn>
-                  <v-btn small fab color="red" flat @click.stop="deleteTeam(props.item)">
+                  <v-btn small fab color="red" flat @click.stop="openConfirmation(props.item)">
                     <v-icon>delete</v-icon>
                   </v-btn>
                   {{ props.item.seria }}
@@ -82,10 +82,12 @@
       </v-card>
     </v-flex>
     <TeamForm @updateTeams="getTeams" :_isNew="isNew"/>
+    <Confirmation @confirmed="deleteTeam" _message="Delete this team?"/>
   </v-layout>
 </template>
 
 <script>
+import Confirmation from '@/components/Confirmation.vue'
 import TeamForm from '@/components/teams/TeamForm.vue'
 import fb from '@/firebase/config.js'
 export default {
@@ -121,6 +123,9 @@ export default {
     this.getTeams()
   },
   methods: {
+    openConfirmation(team) {
+      this.$root.$emit('confirm', team)
+    },
     openTeamFormDialog(team) {
       if (!team.id) {
         var teamData = {
@@ -181,7 +186,8 @@ export default {
     }
   },
   components: {
-    TeamForm
+    TeamForm,
+    Confirmation
   }
 }
 </script>
