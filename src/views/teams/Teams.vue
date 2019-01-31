@@ -27,6 +27,7 @@
           >
             <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
             <template slot="items" slot-scope="props">
+              <!-- <tr @click="props.expanded = !props.expanded"> -->
               <tr @click="props.expanded = !props.expanded">
                 <td class="text-xs-left">
                   <v-layout align-center justify-start>
@@ -40,10 +41,18 @@
                     <span class="font-weight-bold">{{ props.item.name }}</span>
                   </v-layout>
                 </td>
-                <td class="text-xs-right">{{ props.item.seria }}</td>
+                <td class="text-xs-right">
+                  <v-btn small fab flat @click.stop="openTeamFormDialog(props.item)">
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                  <v-btn small fab color="red" flat @click.stop="deleteTeam(props.item)">
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                  {{ props.item.seria }}
+                </td>
               </tr>
             </template>
-            <template slot="expand" slot-scope="props">
+            <!-- <template slot="expand" slot-scope="props">
               <v-card flat dark>
                 <v-layout>
                   <v-flex>
@@ -61,7 +70,7 @@
                   </v-flex>
                 </v-layout>
               </v-card>
-            </template>
+            </template>-->
             <v-alert
               slot="no-results"
               :value="true"
@@ -116,7 +125,7 @@ export default {
       if (!team.id) {
         var teamData = {
           name: '',
-          seria: '',
+          seria: 'F1',
           teamLogo: '',
           places: '2'
         }
@@ -133,7 +142,7 @@ export default {
       fb.teamsCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           var data = doc.data()
-          data.id = doc.id
+          data.documentId = doc.id
           teamsArr.push(data)
         })
         this.teams = teamsArr
@@ -142,7 +151,7 @@ export default {
     },
     deleteTeam(team) {
       fb.teamsCollection
-        .doc(team.id)
+        .doc(team.documentId)
         .delete()
         .then(() => {
           console.log('Document successfully deleted!')

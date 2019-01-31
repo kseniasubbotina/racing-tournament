@@ -86,6 +86,7 @@ export default {
     },
     closeDialog() {
       this.teamFormDialog = false
+      this.selectedFile = null
     },
     onfileSelected(file) {
       this.selectedFile = file

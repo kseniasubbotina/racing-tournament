@@ -13,9 +13,10 @@ export default {
             }
             upload().then(() => {
               fb.teamsCollection
-                .doc(this.teamData.name)
+                .doc()
                 .set({
                   name: this.teamData.name,
+                  id: this.teamData.name,
                   seria: this.teamData.seria,
                   places: this.teamData.places,
                   teamLogo: this.teamData.teamLogo
@@ -24,9 +25,10 @@ export default {
             })
           } else {
             fb.teamsCollection
-              .doc(this.teamData.name)
+              .doc()
               .set({
                 name: this.teamData.name,
+                id: this.teamData.name,
                 seria: this.teamData.seria,
                 places: this.teamData.places,
                 teamLogo: this.teamData.teamLogo
@@ -48,7 +50,7 @@ export default {
             }
             upload().then(() => {
               fb.teamsCollection
-                .doc(this.teamData.id)
+                .doc(this.teamData.documentId)
                 .update({
                   name: this.teamData.name,
                   seria: this.teamData.seria,
@@ -59,7 +61,7 @@ export default {
             })
           } else {
             fb.teamsCollection
-              .doc(teamData.id)
+              .doc(teamData.documentId)
               .update({
                 name: this.teamData.name,
                 seria: this.teamData.seria,
