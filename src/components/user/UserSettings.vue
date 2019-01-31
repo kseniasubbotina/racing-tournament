@@ -16,7 +16,7 @@
         />
         <!-- </v-layout> -->
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <!-- <v-spacer></v-spacer> -->
           <v-layout column wrap>
             <v-flex>
               <v-btn
@@ -27,11 +27,11 @@
                 :loading="loading"
               >Save</v-btn>
             </v-flex>
-            <v-flex>
-              <message/>
-            </v-flex>
           </v-layout>
         </v-card-actions>
+        <v-flex>
+          <message/>
+        </v-flex>
       </form>
     </v-flex>
   </v-layout>

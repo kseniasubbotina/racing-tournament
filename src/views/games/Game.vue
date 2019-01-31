@@ -50,7 +50,6 @@ export default {
     }
   },
   created() {
-    debugger
     this.getGame()
   },
   computed: {
@@ -74,13 +73,11 @@ export default {
       this.$root.$emit('confirm', track)
     },
     getGame() {
-      debugger
       this.$store.commit('set', { type: 'loading', val: true })
       fb.gamesCollection
         .where('name', '==', this.$route.params.id)
         .get()
         .then(querySnapshot => {
-          debugger
           if (!querySnapshot.empty) {
             querySnapshot.forEach(doc => {
               this.gameData = doc.data()
