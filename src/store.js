@@ -35,12 +35,13 @@ export default new Vuex.Store({
         .then(
           response => {
             if (response) {
-              fb.usersCollection.doc(credentials.username).set({
+              fb.usersCollection.doc(response.user.uid).set({
                 id: response.user.uid,
                 username: credentials.username,
                 country: credentials.country,
                 avatarURL: '',
-                role: '0'
+                role: '0',
+                registerDate: new Date()
               })
               // .then(console.log('User note created!'))
               const newUser = {
@@ -101,16 +102,19 @@ export default new Vuex.Store({
         })
     },
     fetchUserData({ commit }) {
+      commit('set', { type: 'loading', val: true })
       fb.usersCollection
         .where('id', '==', this.state.user.id)
         .get()
         .then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
             commit('set', { type: 'userData', val: doc.data() })
+            commit('set', { type: 'loading', val: false })
           })
         })
         .catch(err => {
           commit('setMessage', { type: 'error', text: err.message })
+          commit('set', { type: 'loading', val: false })
         })
     },
     updateProfile({ commit }, newDetails) {

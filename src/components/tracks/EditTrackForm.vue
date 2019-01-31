@@ -79,7 +79,7 @@
         <v-btn
           v-if="!_isNew"
           color="red darken-2"
-          @click="updateTrack(trackData.id)"
+          @click="updateTrack(trackData.documentId)"
           :loading="imageLoading"
           dark
         >Save</v-btn>

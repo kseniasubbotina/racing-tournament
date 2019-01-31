@@ -20,7 +20,7 @@
           <v-flex pa-1 xs12 lg8>
             <div class="headline">{{gameData.name}}</div>
             <div>Release date: {{gameData.releaseDate}}</div>
-            <div>Platforms: {{gameData.platforms.join(', ')}}</div>
+            <div>Platforms: {{gameData.platforms}}</div>
             <div>Developer: {{gameData.developer}}</div>
             <div>Publisher: {{gameData.publisher}}</div>
             <div>
@@ -30,7 +30,7 @@
         </v-layout>
         <GameForm :_gameData="gameData" @imageDeleted="gameData.coverImageUrl=''"/>
       </v-container>
-      <Confirmation @confirmed="deleteGame" _message="Delete this game?"/>
+      <Confirmation @confirmed="deleteGame(gameData)" _message="Delete this game?"/>
     </div>
   </v-card>
 </template>
@@ -39,6 +39,7 @@
 import fb from '@/firebase/config.js'
 import GameForm from '@/components/games/GameForm.vue'
 import Confirmation from '@/components/Confirmation.vue'
+import games from '@/mixins/games/games.js'
 
 export default {
   name: 'Game',
@@ -77,24 +78,20 @@ export default {
         .where('name', '==', this.$route.params.id)
         .get()
         .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            this.gameData = doc.data()
-            this.gameData.id = doc.id
-            this.$store.commit('set', { type: 'loading', val: false })
-          })
+          if (!querySnapshot.empty) {
+            querySnapshot.forEach(doc => {
+              this.gameData = doc.data()
+              this.gameData.documentId = doc.id
+            })
+          } else {
+            this.$router.push('/404')
+          }
+          this.$store.commit('set', { type: 'loading', val: false })
         })
-
-      // fb.gamesCollection.doc(this.$route.params.id).onSnapshot(doc => {
-      //   if (doc.exists) {
-      //     this.gameData = doc.data()
-      //     this.gameData.id = doc.id
-      //     this.$store.commit('set', { type: 'loading', val: false })
-      //   }
-      // })
     },
     deleteGame() {
       fb.gamesCollection
-        .doc(this.gameData.id)
+        .doc(this.gameData.documentId)
         .delete()
         .then(() => {
           console.log('Document successfully deleted!')
@@ -123,6 +120,7 @@ export default {
         })
     }
   },
+  mixins: [games],
   components: {
     GameForm,
     Confirmation

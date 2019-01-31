@@ -96,6 +96,7 @@ export default {
       timeMenu: false,
       dateMenu: false,
       track: '',
+      trackId: '',
       date: null,
       time: null,
       stageCountry: '',
@@ -104,7 +105,7 @@ export default {
   },
   props: {
     _isLast: Boolean,
-    _id: Number,
+    _index: Number,
     _stage: Object
   },
   watch: {
@@ -132,15 +133,17 @@ export default {
         })
     },
     removeStage() {
-      this.$emit('removeStage', this._id)
+      this.$emit('removeStage', this._index)
     },
     updateStage() {
       var stage = {
         track: this.track,
+        documentId: this.trackId,
         date: this._stage.date || this.date,
-        time: this.time
+        time: this.time,
+        index: this._index
       }
-      this.$emit('updateStage', stage, this._id)
+      this.$emit('updateStage', stage)
     },
     validate() {
       return new Promise((resolve, reject) => {
@@ -150,9 +153,10 @@ export default {
         })
       })
     },
-    onchangeTrack(track, country) {
-      this.track = track
-      this.stageCountry = country
+    onchangeTrack(data) {
+      this.track = data.name
+      this.stageCountry = data.country
+      this.trackId = data.id
     }
   },
   components: {

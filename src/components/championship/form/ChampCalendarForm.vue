@@ -5,7 +5,7 @@
       v-for="(stage, i) in stages"
       :key="i"
       :_isLast="stagesCount - 1 == i"
-      :_id="stage.id"
+      :_index="stage.index"
       :_stage="stage"
       @addStage="addStage"
       @updateStage="updateStage"
@@ -27,7 +27,7 @@ export default {
           track: '',
           date: null,
           time: null,
-          id: Math.random()
+          index: Math.random()
         }
       ]
     }
@@ -65,18 +65,18 @@ export default {
         track: '',
         date: null,
         time: this.stages.time,
-        id: Math.random()
+        index: Math.random()
       }
       this.stages.push(stage)
     },
-    updateStage(stage, id) {
-      let index = null
+    updateStage(stage) {
+      let arayIndex = null
       this.stages.forEach((item, i, arr) => {
-        if (item.id == id) {
-          index = i
+        if (item.index == stage.index) {
+          arayIndex = i
         }
       })
-      this.stages.splice(index, 1, stage)
+      this.stages.splice(arayIndex, 1, stage)
     },
     removeStage(id) {
       if (this.stages.length !== 1) {

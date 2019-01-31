@@ -64,17 +64,25 @@ export default {
     },
     getTrack() {
       this.$store.commit('set', { type: 'loading', val: true })
-      fb.tracksCollection.doc(this.$route.params.id).onSnapshot(doc => {
-        if (doc.exists) {
-          this.trackData = doc.data()
-          this.trackData.id = doc.id
+
+      fb.tracksCollection
+        .where('name', '==', this.$route.params.id)
+        .get()
+        .then(querySnapshot => {
+          if (!querySnapshot.empty) {
+            querySnapshot.forEach(doc => {
+              this.trackData = doc.data()
+              this.trackData.documentId = doc.id
+            })
+          } else {
+            this.$router.push('/404')
+          }
           this.$store.commit('set', { type: 'loading', val: false })
-        }
-      })
+        })
     },
     deleteTrack() {
       fb.tracksCollection
-        .doc(this.trackData.id)
+        .doc(this.trackData.documentId)
         .delete()
         .then(() => {
           console.log('Document successfully deleted!')

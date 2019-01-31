@@ -23,7 +23,7 @@
       class="track-item_title"
       pointer
       primary-title
-      @click="$router.push({name: 'Track', params: {id: _track.id}})"
+      @click="$router.push({name: 'Track', params: {id: _track.name}})"
     >
       <v-layout fill-height>
         <v-flex pr-2>
@@ -42,7 +42,7 @@
       </v-layout>
     </v-card-text>
     <v-card-actions>
-      <v-btn @click="$router.push({name: 'Track', params: {id: _track.id}})" depressed>Details</v-btn>
+      <v-btn @click="$router.push({name: 'Track', params: {id: _track.name}})" depressed>Details</v-btn>
     </v-card-actions>
   </v-card>
 </template>

@@ -94,8 +94,10 @@ export default {
       return this.$store.getters.user ? true : false
     },
     storedTheme() {
-      var isDarkColorTheme = this.$store.getters.userData.isDarkColorTheme
-      if (isDarkColorTheme) {
+      if (
+        this.$store.getters.userData &&
+        this.$store.getters.userData.isDarkColorTheme
+      ) {
         this.isDarkColorTheme = isDarkColorTheme
         return isDarkColorTheme
       } else {

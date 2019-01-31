@@ -39,9 +39,9 @@ export default {
         this.$store.commit('set', { type: 'loading', val: false })
       }
     },
-    deleteAvatar(id, username, country, avatarURL, role) {
+    deleteAvatar(userData) {
       fb.storageRef
-        .child('users_avatars/' + id)
+        .child('users_avatars/' + userData.id)
         .delete()
         .then(() => {
           this.$store.commit('setMessage', {
@@ -49,7 +49,13 @@ export default {
             text: 'The image has been deleted from server.'
           })
           this.$emit('imageDeleted')
-          this.update(id, username, country, avatarURL, role)
+          this.update(
+            userData.id,
+            userData.username,
+            userData.country,
+            userData.avatarURL,
+            userData.role
+          )
         })
         .catch(error => {
           console.log(error)
