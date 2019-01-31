@@ -9,11 +9,6 @@ export default {
   created: function() {
     this.checkPermission()
   },
-  // watch: {
-  //   userRole() {
-  //     this.checkPermission()
-  //   }
-  // },
   computed: {
     userRole() {
       if (this.$store.getters.userData) {
