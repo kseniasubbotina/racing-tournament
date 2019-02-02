@@ -1,25 +1,18 @@
 <template>
-  <div>
-    <v-layout wrap>
+  <v-container>
+    <div v-if="loading" class="text-xs-center">
+      <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
+    </div>
+    <v-layout v-else wrap>
       <h1>Available Championships</h1>
       <v-spacer></v-spacer>
-      <v-btn v-if="isLoggedIn" :to="'/create'" depressed color="success">
+      <v-btn v-if="isLoggedIn" :to="'/championships/create'" depressed color="success">
         <v-icon>add</v-icon>Create Championship
       </v-btn>
     </v-layout>
     <v-layout wrap>
-      <v-flex xs12 sm6 md4 pa-1 v-for="champ in championships" :key="champ.id">
-        <v-card>
-          <v-card-title primary-title>
-            <div class="headline">{{champ.info.name}}</div>
-          </v-card-title>
-          <v-card-text>
-            <div>F1 2017 championship - no assists</div>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn flat color="green">Join</v-btn>
-          </v-card-actions>
-        </v-card>
+      <v-flex xs12 sm6 md6 pa-1 v-for="champ in championships" :key="champ.id">
+        <ChampionshipItem :_championship="champ"/>
       </v-flex>
       <v-layout>
         <v-flex sx12>
@@ -40,12 +33,13 @@
         <ChampionshipCreateForm/>
       </v-dialog>
     </v-layout>
-  </div>
+  </v-container>
 </template>
 
 <script>
 import ChampionshipCreateForm from '@/components/championship/form/ChampionshipCreateForm'
 import fb from '@/firebase/config.js'
+import ChampionshipItem from '@/components/championship/ChampionshipItem'
 
 export default {
   name: 'Championships',
@@ -62,6 +56,9 @@ export default {
     isLoggedIn() {
       var isLoggedIn = this.$store.getters.user ? true : false
       return isLoggedIn
+    },
+    loading() {
+      return this.$store.getters.loading
     }
   },
   methods: {
@@ -80,6 +77,7 @@ export default {
     }
   },
   components: {
+    ChampionshipItem,
     ChampionshipCreateForm
   }
 }

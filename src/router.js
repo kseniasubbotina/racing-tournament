@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Championships from './views/championships/Championships.vue'
 import CreateChampionship from './views/championships/CreateChampionship.vue'
+import Championship from './views/championships/Championship.vue'
 import Register from './views/user/Register.vue'
 import Login from './views/user/Login.vue'
 import Teams from './views/teams/Teams.vue'
@@ -36,7 +37,18 @@ const router = new Router({
       }
     },
     {
-      path: '/create',
+      path: '/championships/championship_:id',
+      name: 'championship',
+      component: Championship,
+      meta: {
+        breadcrumbs: [
+          { name: 'Championships', path: '/championships' },
+          { name: 'Championship' }
+        ]
+      }
+    },
+    {
+      path: '/championships/create',
       name: 'createChampionship',
       component: CreateChampionship,
       meta: {
