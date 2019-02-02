@@ -37,8 +37,8 @@ const router = new Router({
       }
     },
     {
-      path: '/championships/championship_:id',
-      name: 'championship',
+      path: '/championships/:id',
+      name: 'Championship',
       component: Championship,
       meta: {
         breadcrumbs: [

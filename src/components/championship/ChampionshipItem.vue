@@ -19,7 +19,12 @@
       </v-layout>
       <v-container fill-height fluid></v-container>
     </v-img>
-    <v-card-title class="game-item_title" pointer primary-title>
+    <v-card-title
+      class="game-item_title"
+      pointer
+      primary-title
+      @click="$router.push({name: 'Championship', params: {id: _championship.info.name}})"
+    >
       <v-layout fill-height>
         <v-flex xs12 align-end flexbox>
           <span class="headline">{{_championship.info.name}}</span>
@@ -36,7 +41,10 @@
       </div>
     </v-card-text>
     <v-card-actions>
-      <v-btn depressed>Details</v-btn>
+      <v-btn
+        depressed
+        @click="$router.push({name: 'Championship', params: {id: _championship.info.name}})"
+      >Details</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -57,7 +65,8 @@ export default {
       } else return 0
     },
     isCreator() {
-      return this.$store.getters.user.id == this._championship.admin.id
+      if (this.$store.getters.user)
+        return this.$store.getters.user.id == this._championship.admin.id
     }
   }
 }
