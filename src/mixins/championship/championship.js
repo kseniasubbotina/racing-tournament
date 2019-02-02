@@ -17,7 +17,11 @@ export default {
       fb.champsCollection
         .doc()
         .set({
-          admin: this.$store.getters.userData.username,
+          admin: {
+            username: this.$store.getters.userData.username,
+            id: this.$store.getters.user.id
+          },
+          drivers: [],
           approved: false,
           moderators: [],
           info: this.championship.data.info,
