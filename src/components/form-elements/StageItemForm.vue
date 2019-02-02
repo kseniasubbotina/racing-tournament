@@ -1,12 +1,12 @@
 <template>
   <v-card flat>
     <v-layout align-center wrap>
-      <v-flex>
-        <v-layout justify-center>
+      <v-flex xs2 lg1>
+        <v-layout pr-1 justify-center>
           <CountryFlag :_country="stageCountry"/>
         </v-layout>
       </v-flex>
-      <v-flex xs12 md3>
+      <v-flex xs10 lg3 md3>
         <TrackSelect @changeTrack="onchangeTrack" :_selectedTrack="_stage.track || ''"/>
       </v-flex>
       <v-flex xs12 md3>
