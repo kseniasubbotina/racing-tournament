@@ -6,7 +6,7 @@
     <v-layout v-else wrap>
       <h1>Available Championships</h1>
       <v-spacer></v-spacer>
-      <v-btn v-if="isLoggedIn" :to="'/championships/create'" depressed color="success">
+      <v-btn v-if="isLoggedIn" :to="'/create'" depressed color="success">
         <v-icon>add</v-icon>Create Championship
       </v-btn>
     </v-layout>

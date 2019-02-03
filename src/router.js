@@ -48,7 +48,7 @@ const router = new Router({
       }
     },
     {
-      path: '/championships/create',
+      path: '/create',
       name: 'createChampionship',
       component: CreateChampionship,
       meta: {
