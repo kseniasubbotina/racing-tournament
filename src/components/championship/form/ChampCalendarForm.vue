@@ -63,6 +63,7 @@ export default {
     addStage() {
       var stage = {
         track: '',
+        country: '',
         date: null,
         time: this.stages.time,
         index: Math.random()
