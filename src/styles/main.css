@@ -13,7 +13,7 @@
 .title,
 .headline,
 #app {
-  font-family: 'f1font' !important;
+  font-family: 'f1font', sans-serif !important;
 }
 #app {
   -webkit-font-smoothing: antialiased;
