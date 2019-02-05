@@ -1,4 +1,5 @@
 import fb from '@/firebase/config.js'
+import idGenerator from '@/mixins/generateId.js'
 
 export default {
   methods: {
@@ -17,6 +18,7 @@ export default {
       fb.champsCollection
         .doc()
         .set({
+          id: idGenerator.generateId(),
           admin: {
             username: this.$store.getters.userData.username,
             id: this.$store.getters.user.id
@@ -49,6 +51,38 @@ export default {
           })
         })
       })
+    },
+    deleteChampionship(championship) {
+      fb.champsCollection
+        .doc(championship.documentId)
+        .delete()
+        .then(() => {
+          console.log('Document successfully deleted!')
+          this.$router.push('/championships')
+          if (championship.champImage) {
+            fb.storageRef
+              .child(
+                'championship_images/' + championship.id + '/' + championship.id
+              )
+              .delete()
+              .then(() => {
+                this.$store.commit('setMessage', {
+                  type: 'success',
+                  text: 'The image has been deleted from server.'
+                })
+              })
+              .catch(error => {
+                console.log(error)
+                this.$store.commit('setMessage', {
+                  type: 'error',
+                  text: error.message
+                })
+              })
+          }
+        })
+        .catch(function(error) {
+          console.error('Error removing document: ', error)
+        })
     }
   }
 }

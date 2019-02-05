@@ -6,6 +6,9 @@
 
     <v-card>
       <v-container v-if="championship">
+        <v-btn color="error" flat @click="openConfirmation(championship)">
+          <v-icon>delete</v-icon>Delete
+        </v-btn>
         <v-layout>
           <v-flex>
             <h1>{{championship.info.name}}</h1>
@@ -24,10 +27,16 @@
         >{{stage.track}} - {{stage.date}} {{stage.time}}</div>
       </v-container>
     </v-card>
+    <Confirmation
+      @confirmed="deleteChampionship(championship)"
+      _message="Delete this championship?"
+    />
   </div>
 </template>
 
 <script>
+import Confirmation from '@/components/Confirmation.vue'
+import championship from '@/mixins/championship/championship.js'
 import fb from '@/firebase/config.js'
 export default {
   name: 'Championship',
@@ -45,6 +54,9 @@ export default {
     }
   },
   methods: {
+    openConfirmation(championship) {
+      this.$root.$emit('confirm', championship)
+    },
     getChampionship() {
       this.$store.commit('set', { type: 'loading', val: true })
       fb.champsCollection
@@ -62,6 +74,10 @@ export default {
           this.$store.commit('set', { type: 'loading', val: false })
         })
     }
+  },
+  mixins: [championship],
+  components: {
+    Confirmation
   }
 }
 </script>
