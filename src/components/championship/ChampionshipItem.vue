@@ -1,9 +1,9 @@
 <template>
-  <v-card>
+  <v-card v-if="isChampionshipVisible">
     <v-img class="white--text" height="200px" :src="_championship.info.champImage">
       <v-layout>
         <v-spacer/>
-        <v-menu v-if="isCreator || isAdmin" bottom left>
+        <v-menu v-if="isAuthor || isAdmin" bottom left>
           <v-btn class="black--text" color="white" slot="activator" icon>
             <v-icon>more_vert</v-icon>
           </v-btn>
@@ -45,6 +45,17 @@
         depressed
         @click="$router.push({name: 'Championship', params: {id: _championship.info.name}})"
       >Details</v-btn>
+      <v-spacer></v-spacer>
+      <v-layout align-center justify-end>
+        <template v-if="_championship.approved">
+          <v-icon color="success">check_circle_outline</v-icon>
+          <!-- <span>Approved</span> -->
+        </template>
+        <template v-else>
+          <v-icon color="amber">schedule</v-icon>
+          <!-- <span>Pending</span> -->
+        </template>
+      </v-layout>
     </v-card-actions>
   </v-card>
 </template>
@@ -56,17 +67,26 @@ export default {
     _championship: Object
   },
   computed: {
+    isChampionshipVisible() {
+      if (this._championship.approved) {
+        return true
+      } else if (this.isAdmin || this.isAuthor) {
+        return true
+      } else {
+        return false
+      }
+    },
     isAdmin() {
       if (
         this.$store.getters.user &&
         this.$store.getters.userData.role == '1'
       ) {
         return true
-      } else return 0
+      } else return false
     },
-    isCreator() {
+    isAuthor() {
       if (this.$store.getters.user)
-        return this.$store.getters.user.id == this._championship.admin.id
+        return this.$store.getters.user.id == this._championship.author.id
     }
   }
 }
