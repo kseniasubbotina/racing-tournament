@@ -19,7 +19,7 @@ export default {
         .doc()
         .set({
           id: idGenerator.generateId(),
-          admin: {
+          author: {
             username: this.$store.getters.userData.username,
             id: this.$store.getters.user.id
           },
@@ -51,6 +51,25 @@ export default {
           })
         })
       })
+    },
+    approveChampionship(documentId) {
+      debugger
+      fb.champsCollection
+        .doc(documentId)
+        .update({
+          approved: true,
+          rejectComment: ''
+        })
+        .then(() => {})
+    },
+    rejectChampionship(documentId, comment) {
+      fb.champsCollection
+        .doc(documentId)
+        .update({
+          approved: false,
+          rejectComment: comment
+        })
+        .then(() => {})
     },
     deleteChampionship(championship) {
       fb.champsCollection
