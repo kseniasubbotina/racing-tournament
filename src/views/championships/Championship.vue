@@ -6,8 +6,24 @@
 
     <v-card>
       <v-container v-if="championship">
-        <v-btn color="error" flat @click="openConfirmation(championship)">
+        <v-btn
+          v-if="isAdmin || isAuthor"
+          color="error"
+          flat
+          @click="openConfirmation(championship)"
+        >
           <v-icon>delete</v-icon>Delete
+        </v-btn>
+        <v-btn
+          v-if="isAdmin && !isApproved"
+          color="success"
+          flat
+          @click="approveChampionship(championship.documentId)"
+        >
+          <v-icon>check</v-icon>Approve
+        </v-btn>
+        <v-btn v-if="isAdmin" color="yellow" flat>
+          <v-icon>block</v-icon>Reject
         </v-btn>
         <v-layout>
           <v-flex>
@@ -51,9 +67,32 @@ export default {
   computed: {
     loading() {
       return this.$store.getters.loading
+    },
+    isAdmin() {
+      if (
+        this.$store.getters.user &&
+        this.$store.getters.userData.role == '1'
+      ) {
+        return true
+      } else return false
+    },
+    isAuthor() {
+      if (this.$store.getters.user)
+        return this.$store.getters.user.id == this.championship.author.id
+    },
+    isApproved() {
+      return this.championship.approved
     }
   },
   methods: {
+    // subscribeForUpdates() {
+    //   debugger
+    //   fb.champsCollection
+    //     .doc(this.championship.documentId)
+    //     .onSnapshot(function(doc) {
+    //       this.championship = doc.data()
+    //     })
+    // },
     openConfirmation(championship) {
       this.$root.$emit('confirm', championship)
     },
