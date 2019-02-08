@@ -22,7 +22,7 @@
         >
           <v-icon>check</v-icon>Approve
         </v-btn>
-        <v-btn v-if="isAdmin" color="yellow" flat>
+        <v-btn v-if="isAdmin" color="orange" flat>
           <v-icon>block</v-icon>Reject
         </v-btn>
         <v-layout>
