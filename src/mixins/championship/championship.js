@@ -3,6 +3,23 @@ import idGenerator from '@/mixins/generateId.js'
 
 export default {
   methods: {
+    getChampionship() {
+      this.$store.commit('set', { type: 'loading', val: true })
+      fb.champsCollection
+        .where('info.name', '==', this.$route.params.id)
+        .get()
+        .then(querySnapshot => {
+          if (!querySnapshot.empty) {
+            querySnapshot.forEach(doc => {
+              this.championship = doc.data()
+              this.championship.documentId = doc.id
+            })
+          } else {
+            this.$router.push('/404')
+          }
+          this.$store.commit('set', { type: 'loading', val: false })
+        })
+    },
     submit() {
       if (this.isLoggedIn) {
         if (this.championship.data.selectedFile) {
@@ -53,14 +70,15 @@ export default {
       })
     },
     approveChampionship(documentId) {
-      debugger
       fb.champsCollection
         .doc(documentId)
         .update({
           approved: true,
           rejectComment: ''
         })
-        .then(() => {})
+        .then(() => {
+          this.getChampionship()
+        })
     },
     rejectChampionship(documentId, comment) {
       fb.champsCollection
@@ -69,7 +87,10 @@ export default {
           approved: false,
           rejectComment: comment
         })
-        .then(() => {})
+        .then(() => {
+          this.showRejectDialog = false
+          this.getChampionship()
+        })
     },
     deleteChampionship(championship) {
       fb.champsCollection
