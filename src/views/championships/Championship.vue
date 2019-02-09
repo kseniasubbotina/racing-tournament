@@ -3,7 +3,7 @@
     <div v-if="loading" class="text-xs-center">
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
-    <v-card>
+    <v-card v-else>
       <ChampionshipActions :_championship="championship" :_isAdmin="isAdmin" :_isAuthor="isAuthor"/>
       <v-container v-if="championship">
         <v-layout>
@@ -41,6 +41,14 @@ export default {
   created() {
     this.getChampionship()
   },
+  watch: {
+    championship: {
+      handler: function(newValue) {
+        this.championship = newValue
+      },
+      deep: true
+    }
+  },
   computed: {
     loading() {
       return this.$store.getters.loading
@@ -70,23 +78,6 @@ export default {
     //       this.championship = doc.data()
     //     })
     // },
-    getChampionship() {
-      this.$store.commit('set', { type: 'loading', val: true })
-      fb.champsCollection
-        .where('info.name', '==', this.$route.params.id)
-        .get()
-        .then(querySnapshot => {
-          if (!querySnapshot.empty) {
-            querySnapshot.forEach(doc => {
-              this.championship = doc.data()
-              this.championship.documentId = doc.id
-            })
-          } else {
-            this.$router.push('/404')
-          }
-          this.$store.commit('set', { type: 'loading', val: false })
-        })
-    }
   },
   mixins: [championship],
   components: {

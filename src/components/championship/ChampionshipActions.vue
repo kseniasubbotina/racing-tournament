@@ -1,35 +1,55 @@
 <template>
-  <v-layout>
-    <v-spacer></v-spacer>
-    <v-btn v-if="_isAdmin || _isAuthor" flat>
-      <v-icon>edit</v-icon>Edit
-    </v-btn>
-    <v-btn
-      v-if="_championship && _isAdmin && !approved"
-      color="success"
-      flat
-      @click="approveChampionship(_championship.documentId)"
-    >
-      <v-icon>check</v-icon>Approve
-    </v-btn>
-    <v-btn v-if="_isAdmin" color="orange" flat>
-      <v-icon>block</v-icon>Reject
-    </v-btn>
-    <v-btn v-if="_isAdmin || _isAuthor" color="error" flat @click="openConfirmation(_championship)">
-      <v-icon>delete</v-icon>Delete
-    </v-btn>
+  <div>
+    <v-layout>
+      <v-spacer></v-spacer>
+      <v-btn v-if="_isAdmin || _isAuthor" flat>
+        <v-icon>edit</v-icon>Edit
+      </v-btn>
+      <v-btn
+        v-if="_championship && _isAdmin && !approved"
+        color="success"
+        flat
+        @click="approveChampionship(_championship.documentId)"
+      >
+        <v-icon>check</v-icon>Approve
+      </v-btn>
+      <v-btn @click="showRejectDialog = !showRejectDialog" v-if="_isAdmin" color="orange" flat>
+        <v-icon>block</v-icon>Block
+      </v-btn>
+      <v-btn v-if="_isAdmin || _isAuthor" color="error" flat @click="openConfirmation">
+        <v-icon>delete</v-icon>Delete
+      </v-btn>
+    </v-layout>
+    <v-alert
+      v-if="_championship && _championship.rejectComment && (_isAdmin || _isAuthor)"
+      :value="_championship.rejectComment"
+      type="warning"
+    >{{_championship.rejectComment}}</v-alert>
     <Confirmation
-      @confirmed="deleteChampionship(championship)"
+      @confirmed="deleteChampionship(_championship)"
       _message="Delete this championship?"
     />
-  </v-layout>
+    <v-dialog v-model="showRejectDialog" max-width="500px">
+      <RejectChampionship
+        @close="showRejectDialog=false"
+        @sendReject="sendReject"
+        :_showRejectDialog="showRejectDialog"
+      />
+    </v-dialog>
+  </div>
 </template>
 
 <script>
+import RejectChampionship from '@/components/championship/RejectChampionship.vue'
 import Confirmation from '@/components/Confirmation.vue'
 import championship from '@/mixins/championship/championship.js'
 export default {
   name: 'ChampionshipActions',
+  data() {
+    return {
+      showRejectDialog: false
+    }
+  },
   props: {
     _isAdmin: Boolean,
     _isAuthor: Boolean,
@@ -41,13 +61,17 @@ export default {
     }
   },
   methods: {
-    openConfirmation(_championship) {
-      this.$root.$emit('confirm', _championship)
+    sendReject(message) {
+      this.rejectChampionship(this._championship.documentId, message)
+    },
+    openConfirmation() {
+      this.$root.$emit('confirm')
     }
   },
   mixins: [championship],
   components: {
-    Confirmation
+    Confirmation,
+    RejectChampionship
   }
 }
 </script>
