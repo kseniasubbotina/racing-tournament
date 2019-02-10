@@ -50,23 +50,15 @@ export default {
     getTracks() {
       let tracksArr = []
       let keys = []
-      // let countries = [
-      //   {
-      //     track: '',
-      //     country: ''
-      //   }
-      // ]
       fb.tracksCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           let data = doc.data()
           tracksArr.push(data.name)
           keys.push({ id: doc.id, name: data.name, country: data.country })
-          // countries.push({ track: data.name, country: data.country })
         })
         this.tracks = tracksArr
         this.keys = keys
         this.track = tracksArr[0]
-        // this.countries = countries
       })
     }
   }

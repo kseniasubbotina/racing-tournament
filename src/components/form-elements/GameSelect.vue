@@ -19,7 +19,8 @@ export default {
   data: function() {
     return {
       game: 'F1 2018',
-      games: []
+      games: [],
+      keys: []
     }
   },
   props: {
@@ -31,7 +32,8 @@ export default {
   },
   watch: {
     game(nextVal, prevVal) {
-      this.$emit('changeGame', nextVal)
+      const matchedGame = this.keys.filter(item => item.name === nextVal)
+      this.$emit('changeGame', matchedGame[0])
     },
     _selectedGame(val) {
       if (!val) {
@@ -43,16 +45,18 @@ export default {
   },
   methods: {
     getGames() {
-      // this.$store.commit('set', { type: 'loading', val: true })
       var gamesArr = []
+      let keys = []
       fb.gamesCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           var data = doc.data()
           data.id = doc.id
-          gamesArr.push(data.id)
+          gamesArr.push(data.name)
+          keys.push({ id: doc.id, name: data.name })
         })
-        // this.$store.commit('set', { type: 'loading', val: false })
         this.games = gamesArr
+        this.game = gamesArr[0]
+        this.keys = keys
       })
     }
   }
