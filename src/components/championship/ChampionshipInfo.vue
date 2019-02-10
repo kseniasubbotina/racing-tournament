@@ -16,6 +16,9 @@
       v-for="stage in _championship.calendar"
       :key="stage.documentId"
     >{{stage.track}} - {{stage.date}} {{stage.time}}</div>
+    <div>Author:
+      <router-link :to="'/user_' + _championship.author.username">{{_championship.author.username}}</router-link>
+    </div>
   </div>
 </template>
 
