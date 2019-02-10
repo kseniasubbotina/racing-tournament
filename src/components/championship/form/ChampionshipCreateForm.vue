@@ -27,7 +27,6 @@
       <v-btn :loading="imageLoading" color="primary" @click="submit">Continue</v-btn>
       <v-btn flat @click="step = 3">Back</v-btn>
     </v-stepper-content>
-    {{championship}}
   </v-stepper>
 </template>
 

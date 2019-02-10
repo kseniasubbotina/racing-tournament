@@ -13,7 +13,7 @@
         ></v-text-field>
       </v-flex>
       <v-flex>
-        <GameSelect :_disabled="true" :_selectedGame="game" @changeGame="onChangeGame"/>
+        <GameSelect :_disabled="true" :_selectedGame="game.name" @changeGame="onChangeGame"/>
       </v-flex>
       <v-flex>
         <SeriaSelect :_disabled="true" :_selectedSeria="seria" @changeSeria="onChangeSeria"/>
@@ -96,7 +96,10 @@ export default {
       this.seria = val
     },
     onChangeGame(val) {
-      this.game = val
+      this.game = {
+        name: val.name,
+        documentId: val.id
+      }
     },
     onfileSelected(file) {
       this.selectedFile = file

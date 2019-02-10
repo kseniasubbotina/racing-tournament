@@ -10,9 +10,9 @@
       </v-container>
       <v-card-actions>
         <v-layout>
-          <v-btn color="red darken-2" flat @click.stop="confirmDialog=false">Close</v-btn>
           <v-spacer></v-spacer>
-          <v-btn dark color="red" @click="confirm">
+          <v-btn flat @click.stop="confirmDialog=false">Close</v-btn>
+          <v-btn flat color="red" @click="confirm">
             <v-icon>delete</v-icon>Delete
           </v-btn>
         </v-layout>

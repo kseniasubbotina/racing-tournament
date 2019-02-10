@@ -37,8 +37,8 @@ const router = new Router({
       }
     },
     {
-      path: '/championships/championship_:id',
-      name: 'championship',
+      path: '/championships/:id',
+      name: 'Championship',
       component: Championship,
       meta: {
         breadcrumbs: [
@@ -48,7 +48,7 @@ const router = new Router({
       }
     },
     {
-      path: '/championships/create',
+      path: '/create',
       name: 'createChampionship',
       component: CreateChampionship,
       meta: {

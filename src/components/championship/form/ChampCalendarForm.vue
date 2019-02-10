@@ -11,8 +11,8 @@
       @updateStage="updateStage"
       @removeStage="removeStage"
     />
-    <v-btn :disabled="!isValid" color="primary" @click="nextStep">Continue</v-btn>
     <v-btn flat @click="$emit('backStep')">Back</v-btn>
+    <v-btn :disabled="!isValid" flat color="primary" @click="nextStep">Continue</v-btn>
   </div>
 </template>
 
@@ -63,6 +63,7 @@ export default {
     addStage() {
       var stage = {
         track: '',
+        country: '',
         date: null,
         time: this.stages.time,
         index: Math.random()

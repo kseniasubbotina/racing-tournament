@@ -138,6 +138,7 @@ export default {
     updateStage() {
       var stage = {
         track: this.track,
+        country: this.stageCountry,
         documentId: this.trackId,
         date: this._stage.date || this.date,
         time: this.time,
