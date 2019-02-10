@@ -6,8 +6,12 @@ export default {
     realtimeUpdate() {
       fb.champsCollection.doc(this.championship.documentId).onSnapshot(doc => {
         let data = doc.data()
-        this.championship.approved = data.approved
-        this.championship.rejectComment = data.rejectComment
+        if (data) {
+          this.championship.approved = data.approved
+          this.championship.rejectComment = data.rejectComment
+        } else {
+          return
+        }
       })
     },
     getChampionship() {

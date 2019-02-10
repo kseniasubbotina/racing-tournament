@@ -12,7 +12,10 @@
     </v-layout>
     <v-layout wrap>
       <v-flex xs12 sm6 md6 pa-1 v-for="champ in championships" :key="champ.id">
-        <ChampionshipItem :_championship="champ"/>
+        <ChampionshipItem
+          v-if="champ.approved || champ.currentUserId == champ.author.id || isAdmin"
+          :_championship="champ"
+        />
       </v-flex>
       <v-layout>
         <v-flex sx12>
@@ -59,6 +62,17 @@ export default {
     },
     loading() {
       return this.$store.getters.loading
+    },
+    currentUserId() {
+      return this.$store.getters.user.id
+    },
+    isAdmin() {
+      if (
+        this.$store.getters.user &&
+        this.$store.getters.userData.role == '1'
+      ) {
+        return true
+      } else return false
     }
   },
   methods: {

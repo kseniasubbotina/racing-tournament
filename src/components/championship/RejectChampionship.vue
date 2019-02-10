@@ -11,7 +11,7 @@
               label="Message"
               v-model="message"
               hint="Required"
-              v-validate="'max:50'"
+              v-validate="'max:50|required'"
               :error-messages="errors.collect('Message')"
               counter="50"
             ></v-textarea>
@@ -22,7 +22,7 @@
         <v-layout>
           <v-spacer></v-spacer>
           <v-btn @click="$emit('close')" flat>Close</v-btn>
-          <v-btn @click="$emit('sendReject', message)" flat color="success">Send</v-btn>
+          <v-btn @click="sendReject" flat color="success">Send</v-btn>
         </v-layout>
       </v-card-actions>
     </v-card>
@@ -34,6 +34,15 @@ export default {
   data() {
     return {
       message: ''
+    }
+  },
+  methods: {
+    sendReject() {
+      this.$validator.validate().then(result => {
+        if (result) {
+          this.$emit('sendReject', this.message)
+        }
+      })
     }
   }
 }

@@ -11,28 +11,14 @@
       >{{championship.rejectComment}}</v-alert>
       <ChampionshipActions :_championship="championship" :_isAdmin="isAdmin" :_isAuthor="isAuthor"/>
       <v-container>
-        <v-layout>
-          <v-flex>
-            <h1>{{championship.info.name}}</h1>
-            <v-spacer></v-spacer>
-          </v-flex>
-          <v-flex>Approved: {{championship.approved}}</v-flex>
-        </v-layout>
-        <v-layout column>
-          <h3>{{championship.info.game}}</h3>
-          {{championship.info.description}}
-          Drivers: {{championship.drivers.length}}/{{championship.info.playersCount}}
-        </v-layout>
-        <div
-          v-for="stage in championship.calendar"
-          :key="stage.documentId"
-        >{{stage.track}} - {{stage.date}} {{stage.time}}</div>
+        <ChampionshipInfo :_championship="championship"/>
       </v-container>
     </v-card>
   </div>
 </template>
 
 <script>
+import ChampionshipInfo from '@/components/championship/ChampionshipInfo.vue'
 import ChampionshipActions from '@/components/championship/ChampionshipActions.vue'
 import championship from '@/mixins/championship/championship.js'
 import fb from '@/firebase/config.js'
@@ -68,7 +54,8 @@ export default {
   },
   mixins: [championship],
   components: {
-    ChampionshipActions
+    ChampionshipActions,
+    ChampionshipInfo
   }
 }
 </script>
