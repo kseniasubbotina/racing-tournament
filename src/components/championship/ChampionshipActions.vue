@@ -20,11 +20,6 @@
         <v-icon>delete</v-icon>Delete
       </v-btn>
     </v-layout>
-    <v-alert
-      v-if="_championship && _championship.rejectComment && (_isAdmin || _isAuthor)"
-      :value="_championship.rejectComment"
-      type="warning"
-    >{{_championship.rejectComment}}</v-alert>
     <Confirmation
       @confirmed="deleteChampionship(_championship)"
       _message="Delete this championship?"

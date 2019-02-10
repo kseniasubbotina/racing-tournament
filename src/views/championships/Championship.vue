@@ -3,9 +3,14 @@
     <div v-if="loading" class="text-xs-center">
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
-    <v-card v-else>
+    <v-card :key="championship.documentId" v-else-if="championship">
+      <v-alert
+        v-if="championship && championship.rejectComment && (isAdmin || isAuthor)"
+        :value="championship.rejectComment"
+        type="warning"
+      >{{championship.rejectComment}}</v-alert>
       <ChampionshipActions :_championship="championship" :_isAdmin="isAdmin" :_isAuthor="isAuthor"/>
-      <v-container v-if="championship">
+      <v-container>
         <v-layout>
           <v-flex>
             <h1>{{championship.info.name}}</h1>
@@ -41,14 +46,6 @@ export default {
   created() {
     this.getChampionship()
   },
-  watch: {
-    championship: {
-      handler: function(newValue) {
-        this.championship = newValue
-      },
-      deep: true
-    }
-  },
   computed: {
     loading() {
       return this.$store.getters.loading
@@ -68,16 +65,6 @@ export default {
     isApproved() {
       return this.championship ? this.championship.approved : false
     }
-  },
-  methods: {
-    // subscribeForUpdates() {
-    //   debugger
-    //   fb.champsCollection
-    //     .doc(this.championship.documentId)
-    //     .onSnapshot(function(doc) {
-    //       this.championship = doc.data()
-    //     })
-    // },
   },
   mixins: [championship],
   components: {

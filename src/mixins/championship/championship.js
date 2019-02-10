@@ -3,15 +3,13 @@ import idGenerator from '@/mixins/generateId.js'
 
 export default {
   methods: {
-    // realtimeUpdate() {
-    //   debugger
-    //   fb.champsCollection
-    //     .doc(this.championship.documentId)
-    //     .onSnapshot(function(doc) {
-    //       this.championship = null
-    //       this.championship = doc.data()
-    //     })
-    // },
+    realtimeUpdate() {
+      fb.champsCollection.doc(this.championship.documentId).onSnapshot(doc => {
+        let data = doc.data()
+        this.championship.approved = data.approved
+        this.championship.rejectComment = data.rejectComment
+      })
+    },
     getChampionship() {
       this.$store.commit('set', { type: 'loading', val: true })
       fb.champsCollection
@@ -23,7 +21,7 @@ export default {
               this.championship = doc.data()
               this.championship.documentId = doc.id
             })
-            // this.realtimeUpdate()
+            this.realtimeUpdate()
           } else {
             this.$router.push('/404')
           }
@@ -86,7 +84,7 @@ export default {
           approved: true,
           rejectComment: ''
         })
-        .then(this.getChampionship())
+        .then()
     },
     rejectChampionship(documentId, comment) {
       fb.champsCollection
@@ -95,7 +93,7 @@ export default {
           approved: false,
           rejectComment: comment
         })
-        .then((this.showRejectDialog = false), this.getChampionship())
+        .then((this.showRejectDialog = false))
     },
     deleteChampionship(championship) {
       fb.champsCollection
