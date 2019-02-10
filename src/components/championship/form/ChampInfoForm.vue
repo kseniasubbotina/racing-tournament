@@ -96,7 +96,6 @@ export default {
       this.seria = val
     },
     onChangeGame(val) {
-      debugger
       this.game = {
         name: val.name,
         documentId: val.id
