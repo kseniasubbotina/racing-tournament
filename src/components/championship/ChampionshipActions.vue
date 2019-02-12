@@ -2,7 +2,7 @@
   <div>
     <v-layout>
       <v-spacer></v-spacer>
-      <v-btn v-if="_isAdmin || _isAuthor" flat>
+      <v-btn @click.stop="showCreateForm=true" v-if="_isAdmin || _isAuthor" flat>
         <v-icon>edit</v-icon>Edit
       </v-btn>
       <v-btn
@@ -25,16 +25,16 @@
       _message="Delete this championship?"
     />
     <v-dialog v-model="showRejectDialog" max-width="500px">
-      <RejectChampionship
-        @close="showRejectDialog=false"
-        @sendReject="sendReject"
-        :_showRejectDialog="showRejectDialog"
-      />
+      <RejectChampionship @close="showRejectDialog=false" @sendReject="sendReject"/>
+    </v-dialog>
+    <v-dialog v-model="showCreateForm" max-width="800px">
+      <ChampionshipForm :_championship="_championship"/>
     </v-dialog>
   </div>
 </template>
 
 <script>
+import ChampionshipForm from '@/components/championship/form/ChampionshipForm'
 import RejectChampionship from '@/components/championship/RejectChampionship.vue'
 import Confirmation from '@/components/Confirmation.vue'
 import championship from '@/mixins/championship/championship.js'
@@ -42,7 +42,8 @@ export default {
   name: 'ChampionshipActions',
   data() {
     return {
-      showRejectDialog: false
+      showRejectDialog: false,
+      showCreateForm: false
     }
   },
   props: {
@@ -66,7 +67,8 @@ export default {
   mixins: [championship],
   components: {
     Confirmation,
-    RejectChampionship
+    RejectChampionship,
+    ChampionshipForm
   }
 }
 </script>
