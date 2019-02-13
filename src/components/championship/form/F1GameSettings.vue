@@ -117,8 +117,12 @@ export default {
       }
     }
   },
+  props: {
+    _champSettings: Object
+  },
   created() {
     this.settings.qFormat = this.qFormats[0]
+    this.fetchSettings()
   },
   watch: {
     settings: {
@@ -137,6 +141,12 @@ export default {
     }
   },
   methods: {
+    fetchSettings() {
+      if (this._champSettings) {
+        this.settings.qFormat = this._champSettings.qFormat
+        this.settings.assists = this._champSettings.assists
+      }
+    },
     statusLabel(state) {
       return state ? 'On' : 'Off'
     },

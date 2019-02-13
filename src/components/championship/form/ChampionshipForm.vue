@@ -5,13 +5,17 @@
     </v-stepper-step>
 
     <v-stepper-content step="1">
-      <ChampInfoForm @nextStep="nextStep" @backStep="step = 1"/>
+      <ChampInfoForm :_champInfo="champInfo" @nextStep="nextStep" @backStep="step = 1"/>
     </v-stepper-content>
 
     <v-stepper-step color="success" :complete="step > 2" step="2">Session and Difficulty</v-stepper-step>
 
     <v-stepper-content step="2">
-      <SessionSettingsForm @nextStep="nextStep" @backStep="step = 1"/>
+      <SessionSettingsForm
+        :_champSettings="champSettings"
+        @nextStep="nextStep"
+        @backStep="step = 1"
+      />
     </v-stepper-content>
 
     <v-stepper-step color="success" :complete="step > 3" step="3">Calendar</v-stepper-step>
@@ -37,13 +41,22 @@ import SessionSettingsForm from '@/components/championship/form/SessionSettingsF
 import ChampCalendarForm from '@/components/championship/form/ChampCalendarForm.vue'
 import championships from '@/mixins/championship/championship.js'
 export default {
-  name: 'CreateChampionshipForm',
+  name: 'ChampionshipForm',
   data: () => ({
     step: 1,
     championship: {},
     imageLoading: false
   }),
+  props: {
+    _championship: Object
+  },
   computed: {
+    champInfo() {
+      return this._championship ? this._championship.info : null
+    },
+    champSettings() {
+      return this._championship ? this._championship.settings : null
+    },
     isLoggedIn() {
       var isLoggedIn = this.$store.getters.user ? true : false
       return isLoggedIn

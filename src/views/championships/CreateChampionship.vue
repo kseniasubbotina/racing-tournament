@@ -1,17 +1,17 @@
 <template>
   <div>
     <h1>Create a Championship</h1>
-    <ChampionshipCreateForm/>
+    <ChampionshipForm/>
   </div>
 </template>
 
 <script>
-import ChampionshipCreateForm from '@/components/championship/form/ChampionshipCreateForm'
+import ChampionshipForm from '@/components/championship/form/ChampionshipForm'
 
 export default {
   name: 'CreateChampionship',
   components: {
-    ChampionshipCreateForm
+    ChampionshipForm
   }
 }
 </script>
