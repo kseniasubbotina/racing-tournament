@@ -67,12 +67,27 @@ export default {
       isValid: false
     }
   },
+  props: {
+    _champInfo: Object
+  },
+  mounted() {
+    debugger
+    this.fetchInfo()
+    console.log(this._champInfo)
+  },
   watch: {
     champName(val) {
       this.validate()
     }
   },
   methods: {
+    fetchInfo() {
+      if (this._champInfo) {
+        this.champName = this._champInfo.name
+        this.description = this._champInfo.description
+        this.champImage = this._champInfo.champImage
+      }
+    },
     nextStep() {
       this.$validator.validate().then(result => {
         if (result) {
