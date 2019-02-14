@@ -71,7 +71,6 @@ export default {
     _champInfo: Object
   },
   mounted() {
-    debugger
     this.fetchInfo()
     console.log(this._champInfo)
   },
