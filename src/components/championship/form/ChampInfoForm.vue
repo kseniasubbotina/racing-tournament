@@ -72,7 +72,6 @@ export default {
   },
   mounted() {
     this.fetchInfo()
-    console.log(this._champInfo)
   },
   watch: {
     champName(val) {
