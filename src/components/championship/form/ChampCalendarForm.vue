@@ -32,14 +32,6 @@ export default {
       ]
     }
   },
-  watch: {
-    // stages: {
-    //   handler: function(newValue) {
-    //     this.nextStep(newValue)
-    //   },
-    //   deep: true
-    // }
-  },
   computed: {
     stagesCount() {
       return this.stages.length
