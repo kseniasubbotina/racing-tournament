@@ -144,6 +144,9 @@ export default {
     fetchSettings() {
       if (this._champSettings) {
         this.settings.qFormat = this._champSettings.qFormat
+        this.settings.aiDifficulty = this._champSettings.aiDifficulty
+        this.settings.weather = this._champSettings.weather
+        this.settings.distance = this._champSettings.distance
         this.settings.assists = this._champSettings.assists
       }
     },

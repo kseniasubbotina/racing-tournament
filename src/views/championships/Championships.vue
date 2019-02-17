@@ -32,7 +32,7 @@
           </v-btn>
         </v-flex>
       </v-layout>
-      <v-dialog v-model="showCreateForm" max-width="800px">
+      <v-dialog v-model="showCreateForm" max-width="950px">
         <ChampionshipForm/>
       </v-dialog>
     </v-layout>
