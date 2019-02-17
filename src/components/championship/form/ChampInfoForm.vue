@@ -64,7 +64,7 @@ export default {
       playersCount: 20,
       champImage: '',
       selectedFile: null,
-      isValid: false
+      isValid: true
     }
   },
   props: {
@@ -73,17 +73,19 @@ export default {
   mounted() {
     this.fetchInfo()
   },
-  watch: {
-    champName(val) {
-      this.validate()
-    }
-  },
+  // watch: {
+  //   champName(val) {
+  //     debugger
+  //     this.validate()
+  //   }
+  // },
   methods: {
     fetchInfo() {
       if (this._champInfo) {
         this.champName = this._champInfo.name
         this.description = this._champInfo.description
         this.champImage = this._champInfo.champImage
+        if (this._champInfo.name.length > 4) this.isValid = true
       }
     },
     nextStep() {

@@ -1,37 +1,42 @@
 <template>
-  <v-stepper v-model="step" vertical>
-    <v-stepper-step color="success" :complete="step > 1" step="1">Championship information
-      <!-- <small>Summarize if needed</small> -->
-    </v-stepper-step>
+  <v-card flat>
+    <v-stepper v-model="step" vertical>
+      <v-stepper-step color="success" :complete="step > 1" step="1">Championship information
+        <!-- <small>Summarize if needed</small> -->
+      </v-stepper-step>
 
-    <v-stepper-content step="1">
-      <ChampInfoForm :_champInfo="champInfo" @nextStep="nextStep" @backStep="step = 1"/>
-    </v-stepper-content>
+      <v-stepper-content step="1">
+        <ChampInfoForm :_champInfo="champInfo" @nextStep="nextStep" @backStep="step = 1"/>
+      </v-stepper-content>
 
-    <v-stepper-step color="success" :complete="step > 2" step="2">Session and Difficulty</v-stepper-step>
+      <v-stepper-step color="success" :complete="step > 2" step="2">Session and Difficulty</v-stepper-step>
 
-    <v-stepper-content step="2">
-      <SessionSettingsForm
-        :_champSettings="champSettings"
-        @nextStep="nextStep"
-        @backStep="step = 1"
-      />
-    </v-stepper-content>
+      <v-stepper-content step="2">
+        <SessionSettingsForm
+          :_champSettings="champSettingsProp"
+          @nextStep="nextStep"
+          @backStep="step = 1"
+        />
+      </v-stepper-content>
 
-    <v-stepper-step color="success" :complete="step > 3" step="3">Calendar</v-stepper-step>
+      <v-stepper-step color="success" :complete="step > 3" step="3">Calendar</v-stepper-step>
 
-    <v-stepper-content step="3">
-      <ChampCalendarForm @backStep="step = 2" @nextStep="nextStep"/>
-    </v-stepper-content>
+      <v-stepper-content step="3">
+        <ChampCalendarForm :_calendar="calendarProp" @backStep="step = 2" @nextStep="nextStep"/>
+      </v-stepper-content>
 
-    <v-stepper-step color="success" step="4">Finish</v-stepper-step>
-    <v-stepper-content step="4">
-      YouTube or Twitch Link,
-      another info
-      <v-btn :loading="imageLoading" color="primary" @click="submit">Continue</v-btn>
-      <v-btn flat @click="step = 3">Back</v-btn>
-    </v-stepper-content>
-  </v-stepper>
+      <v-stepper-step color="success" step="4">Finish</v-stepper-step>
+      <v-stepper-content step="4">
+        YouTube or Twitch Link,
+        another info
+        <v-btn :loading="imageLoading" color="primary" @click="submit">Save</v-btn>
+        <v-btn flat @click="step = 3">Back</v-btn>
+      </v-stepper-content>
+    </v-stepper>
+    <!-- <v-card-actions>
+      <v-btn flat color="error" @click="$emit('close')">Cancel</v-btn>
+    </v-card-actions>-->
+  </v-card>
 </template>
 
 
@@ -54,8 +59,11 @@ export default {
     champInfo() {
       return this._championship ? this._championship.info : null
     },
-    champSettings() {
+    champSettingsProp() {
       return this._championship ? this._championship.settings : null
+    },
+    calendarProp() {
+      return this._championship ? this._championship.calendar : null
     },
     isLoggedIn() {
       var isLoggedIn = this.$store.getters.user ? true : false

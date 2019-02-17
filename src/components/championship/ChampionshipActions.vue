@@ -2,7 +2,7 @@
   <div>
     <v-layout>
       <v-spacer></v-spacer>
-      <v-btn @click.stop="showCreateForm=true" v-if="_isAdmin || _isAuthor" flat>
+      <v-btn @click.stop="showChampForm=true" v-if="_isAdmin || _isAuthor" flat>
         <v-icon>edit</v-icon>Edit
       </v-btn>
       <v-btn
@@ -27,8 +27,8 @@
     <v-dialog v-model="showRejectDialog" max-width="500px">
       <RejectChampionship @close="showRejectDialog=false" @sendReject="sendReject"/>
     </v-dialog>
-    <v-dialog v-model="showCreateForm" max-width="800px">
-      <ChampionshipForm :_championship="_championship"/>
+    <v-dialog v-model="showChampForm" max-width="800px">
+      <ChampionshipForm :_championship="_championship" @close="showChampForm=false"/>
     </v-dialog>
   </div>
 </template>
@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       showRejectDialog: false,
-      showCreateForm: false
+      showChampForm: false
     }
   },
   props: {

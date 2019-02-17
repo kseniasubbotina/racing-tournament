@@ -19,7 +19,7 @@ export default {
   data: function() {
     return {
       track: '',
-      keys: {},
+      keys: null,
       tracks: [],
       countries: []
     }
@@ -34,8 +34,10 @@ export default {
   watch: {
     track(nextVal, prevVal) {
       if (nextVal) {
-        const matchedTrack = this.keys.filter(item => item.name === nextVal)
-        this.$emit('changeTrack', matchedTrack[0])
+        if (this.keys) {
+          const matchedTrack = this.keys.filter(item => item.name === nextVal)
+          this.$emit('changeTrack', matchedTrack[0])
+        }
       }
     },
     _selectedTrack(val) {
