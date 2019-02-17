@@ -117,8 +117,12 @@ export default {
       }
     }
   },
+  props: {
+    _champSettings: Object
+  },
   created() {
     this.settings.qFormat = this.qFormats[0]
+    this.fetchSettings()
   },
   watch: {
     settings: {
@@ -137,6 +141,15 @@ export default {
     }
   },
   methods: {
+    fetchSettings() {
+      if (this._champSettings) {
+        this.settings.qFormat = this._champSettings.qFormat
+        this.settings.aiDifficulty = this._champSettings.aiDifficulty
+        this.settings.weather = this._champSettings.weather
+        this.settings.distance = this._champSettings.distance
+        this.settings.assists = this._champSettings.assists
+      }
+    },
     statusLabel(state) {
       return state ? 'On' : 'Off'
     },

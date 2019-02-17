@@ -8,7 +8,7 @@
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-toolbar-title style="width: auto" class="ml-0 mr-2 pl-3">
           <img width="70" src="./assets/logo1.png" alt>
-          <span class="hidden-sm-and-down font-weight-bold">Esport</span>
+          <span class="hidden-sm-and-down font-weight-bold">Esport (&#945;)</span>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon>

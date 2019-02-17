@@ -32,15 +32,15 @@
           </v-btn>
         </v-flex>
       </v-layout>
-      <v-dialog v-model="showCreateForm" max-width="800px">
-        <ChampionshipCreateForm/>
+      <v-dialog v-model="showCreateForm" max-width="950px">
+        <ChampionshipForm v-if="showCreateForm"/>
       </v-dialog>
     </v-layout>
   </v-container>
 </template>
 
 <script>
-import ChampionshipCreateForm from '@/components/championship/form/ChampionshipCreateForm'
+import ChampionshipForm from '@/components/championship/form/ChampionshipForm'
 import fb from '@/firebase/config.js'
 import ChampionshipItem from '@/components/championship/ChampionshipItem'
 
@@ -92,7 +92,7 @@ export default {
   },
   components: {
     ChampionshipItem,
-    ChampionshipCreateForm
+    ChampionshipForm
   }
 }
 </script>

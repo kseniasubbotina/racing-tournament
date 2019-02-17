@@ -12,7 +12,7 @@
       @removeStage="removeStage"
     />
     <v-btn flat @click="$emit('backStep')">Back</v-btn>
-    <v-btn :disabled="!isValid" flat color="primary" @click="nextStep">Continue</v-btn>
+    <v-btn :disabled="!isValid" depressed color="primary" @click="nextStep">Continue</v-btn>
   </div>
 </template>
 
@@ -32,13 +32,11 @@ export default {
       ]
     }
   },
-  watch: {
-    // stages: {
-    //   handler: function(newValue) {
-    //     this.nextStep(newValue)
-    //   },
-    //   deep: true
-    // }
+  props: {
+    _calendar: Array
+  },
+  mounted() {
+    this.fetchCalendar()
   },
   computed: {
     stagesCount() {
@@ -57,6 +55,9 @@ export default {
     }
   },
   methods: {
+    fetchCalendar() {
+      if (this._calendar) this.stages = this._calendar
+    },
     nextStep() {
       this.$emit('nextStep', this.stages, 'calendar')
     },

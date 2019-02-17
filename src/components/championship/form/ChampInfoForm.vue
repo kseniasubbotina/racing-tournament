@@ -64,15 +64,30 @@ export default {
       playersCount: 20,
       champImage: '',
       selectedFile: null,
-      isValid: false
+      isValid: true
     }
   },
-  watch: {
-    champName(val) {
-      this.validate()
-    }
+  props: {
+    _champInfo: Object
   },
+  mounted() {
+    this.fetchInfo()
+  },
+  // watch: {
+  //   champName(val) {
+  //     debugger
+  //     this.validate()
+  //   }
+  // },
   methods: {
+    fetchInfo() {
+      if (this._champInfo) {
+        this.champName = this._champInfo.name
+        this.description = this._champInfo.description
+        this.champImage = this._champInfo.champImage
+        if (this._champInfo.name.length > 4) this.isValid = true
+      }
+    },
     nextStep() {
       this.$validator.validate().then(result => {
         if (result) {

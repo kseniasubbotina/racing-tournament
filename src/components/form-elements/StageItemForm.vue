@@ -3,7 +3,7 @@
     <v-layout align-center wrap>
       <v-flex xs2 lg1>
         <v-layout pr-1 justify-center>
-          <CountryFlag :_country="stageCountry"/>
+          <CountryFlag :_country="_stage.country"/>
         </v-layout>
       </v-flex>
       <v-flex xs10 lg3 md3>
