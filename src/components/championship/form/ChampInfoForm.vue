@@ -43,8 +43,10 @@
         <ImageInput :_url="champImage" @fileSelected="onfileSelected"/>
       </v-flex>
     </v-layout>
-    <v-btn :disabled="!isValid" color="primary" @click="nextStep">Continue</v-btn>
-    <v-btn flat @click="$emit('backStep')">Back</v-btn>
+    <v-layout justify-end>
+      <v-btn flat @click="$emit('backStep')">Back</v-btn>
+      <v-btn depressed :disabled="!isValid" dark color="green" @click="nextStep">Continue</v-btn>
+    </v-layout>
   </div>
 </template>
 

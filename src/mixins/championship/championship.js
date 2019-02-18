@@ -56,6 +56,7 @@ export default {
           approved: false,
           moderators: [],
           info: this.championship.data.info,
+          externalInfo: this.championship.externalInfo,
           settings: this.championship.settings,
           calendar: this.championship.calendar
         })
