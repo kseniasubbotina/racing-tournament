@@ -5,10 +5,16 @@
     </div>
     <v-card :key="championship.documentId" v-else-if="championship">
       <v-alert
-        v-if="championship && championship.rejectComment && (isAdmin || isAuthor)"
-        :value="championship.rejectComment"
+        class="black--text"
+        v-if="!championship.approved && (isAdmin || isAuthor)"
+        :value="championship"
         type="warning"
-      >{{championship.rejectComment}}</v-alert>
+      >
+        <div
+          v-if="championship.rejectComment && !championship.approved"
+        >{{championship.rejectComment}}</div>
+        <div v-else>Waiting for moderation</div>
+      </v-alert>
       <ChampionshipActions :_championship="championship" :_isAdmin="isAdmin" :_isAuthor="isAuthor"/>
       <v-container>
         <ChampionshipInfo :_championship="championship"/>
