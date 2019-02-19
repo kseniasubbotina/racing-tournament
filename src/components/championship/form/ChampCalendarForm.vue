@@ -13,7 +13,7 @@
     />
     <v-layout justify-end>
       <v-btn flat @click="$emit('backStep')">Back</v-btn>
-      <v-btn :disabled="!isValid" depressed dark color="green" @click="nextStep">Continue</v-btn>
+      <v-btn :disabled="!isValid" depressed color="green white--text" @click="nextStep">Continue</v-btn>
     </v-layout>
   </div>
 </template>
