@@ -44,7 +44,6 @@
       </v-flex>
     </v-layout>
     <v-layout justify-end>
-      <v-btn flat @click="$emit('backStep')">Back</v-btn>
       <v-btn depressed :disabled="!isValid" dark color="green" @click="nextStep">Continue</v-btn>
     </v-layout>
   </div>
