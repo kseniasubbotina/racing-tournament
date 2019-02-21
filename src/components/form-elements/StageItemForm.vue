@@ -40,7 +40,7 @@
           :close-on-content-click="false"
           v-model="timeMenu"
           :nudge-right="40"
-          :return-value.sync="time"
+          :return-value.sync="_stage.time"
           lazy
           transition="scale-transition"
           offset-y
@@ -59,14 +59,14 @@
             readonly
           ></v-text-field>
           <v-time-picker
-            v-model="time"
-            @change="$refs.menu.save(time)"
+            v-model="_stage.time"
+            @change="$refs.menu.save(_stage.time)"
             header-color="primary"
             color="blue"
           >
             <v-spacer></v-spacer>
             <v-btn flat color="primary" @click="timeMenu = false">Cancel</v-btn>
-            <v-btn flat color="primary" @click="$refs.menu.save(time)">OK</v-btn>
+            <v-btn flat color="primary" @click="$refs.menu.save(_stage.time)">OK</v-btn>
           </v-time-picker>
         </v-menu>
       </v-flex>
@@ -98,7 +98,6 @@ export default {
       track: '',
       trackId: '',
       date: null,
-      time: null,
       stageCountry: '',
       isValidated: false
     }
@@ -113,9 +112,6 @@ export default {
       this.updateStage()
     },
     date() {
-      this.updateStage()
-    },
-    time() {
       this.updateStage()
     }
   },
@@ -141,7 +137,7 @@ export default {
         country: this.stageCountry,
         documentId: this.trackId,
         date: this._stage.date || this.date,
-        time: this.time,
+        time: this._stage.time,
         index: this._index
       }
       this.$emit('updateStage', stage)

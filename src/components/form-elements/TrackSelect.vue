@@ -60,7 +60,11 @@ export default {
         })
         this.tracks = tracksArr
         this.keys = keys
-        this.track = tracksArr[0]
+        if (!this._selectedTrack) {
+          this.track = tracksArr[0]
+        } else {
+          this.track = this._selectedTrack
+        }
       })
     }
   }
