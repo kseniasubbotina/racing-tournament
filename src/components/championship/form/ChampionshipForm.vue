@@ -1,5 +1,9 @@
 <template>
-  <v-card flat>
+  <v-card>
+    <v-container>
+      <h1 v-if="_isNew">Create a championship</h1>
+      <h1 v-else>Update a championship</h1>
+    </v-container>
     <v-stepper v-model="step" vertical>
       <v-stepper-step color="success" :complete="step > 1" step="1">Championship information
         <!-- <small>Summarize if needed</small> -->
@@ -36,9 +40,24 @@
 
       <v-stepper-step color="success" step="5">Finish</v-stepper-step>
       <v-stepper-content step="5">
-        <v-layout justify-end>
+        <v-layout justify-center>
           <v-btn flat @click="step = 4">Back</v-btn>
-          <v-btn depressed :loading="imageLoading" dark color="green" @click="submit">Save</v-btn>
+          <v-btn
+            v-if="_isNew"
+            depressed
+            :loading="imageLoading"
+            dark
+            color="green"
+            @click="submit('set')"
+          >Save</v-btn>
+          <v-btn
+            v-else
+            depressed
+            :loading="imageLoading"
+            dark
+            color="green"
+            @click="submit('update', _championship.documentId)"
+          >Update</v-btn>
         </v-layout>
       </v-stepper-content>
     </v-stepper>
@@ -60,7 +79,11 @@ export default {
     imageLoading: false
   }),
   props: {
-    _championship: Object
+    _championship: Object,
+    _isNew: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     champInfo() {
