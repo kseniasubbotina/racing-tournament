@@ -27,8 +27,12 @@
     <v-dialog v-model="showRejectDialog" max-width="500px">
       <RejectChampionship @close="showRejectDialog=false" @sendReject="sendReject"/>
     </v-dialog>
-    <v-dialog v-model="showChampForm" max-width="800px">
-      <ChampionshipForm :_championship="_championship" @close="showChampForm=false"/>
+    <v-dialog v-model="showChampForm" max-width="950px">
+      <ChampionshipForm
+        v-if="showChampForm"
+        :_championship="_championship"
+        @close="showChampForm=false"
+      />
     </v-dialog>
   </div>
 </template>

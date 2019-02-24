@@ -30,6 +30,7 @@
 import fb from '@/firebase/config.js'
 import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
 import Confirmation from '@/components/Confirmation.vue'
+import tracks from '@/mixins/tracks/tracks.js'
 
 export default {
   name: 'trackPage',
@@ -62,24 +63,6 @@ export default {
     openConfirmation(track) {
       this.$root.$emit('confirm', track)
     },
-    getTrack() {
-      this.$store.commit('set', { type: 'loading', val: true })
-
-      fb.tracksCollection
-        .where('name', '==', this.$route.params.id)
-        .get()
-        .then(querySnapshot => {
-          if (!querySnapshot.empty) {
-            querySnapshot.forEach(doc => {
-              this.trackData = doc.data()
-              this.trackData.documentId = doc.id
-            })
-          } else {
-            this.$router.push('/404')
-          }
-          this.$store.commit('set', { type: 'loading', val: false })
-        })
-    },
     deleteTrack() {
       fb.tracksCollection
         .doc(this.trackData.documentId)
@@ -108,6 +91,7 @@ export default {
         })
     }
   },
+  mixins: [tracks],
   components: {
     EditTrackForm,
     Confirmation

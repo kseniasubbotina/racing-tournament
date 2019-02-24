@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h1>Create a Championship</h1>
-    <ChampionshipForm/>
+    <ChampionshipForm :_isNew="true"/>
   </div>
 </template>
 

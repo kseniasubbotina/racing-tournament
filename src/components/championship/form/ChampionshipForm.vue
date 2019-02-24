@@ -1,5 +1,9 @@
 <template>
-  <v-card flat>
+  <v-card>
+    <v-container>
+      <h1 v-if="_isNew">Create a championship</h1>
+      <h1 v-else>Update a championship</h1>
+    </v-container>
     <v-stepper v-model="step" vertical>
       <v-stepper-step color="success" :complete="step > 1" step="1">Championship information
         <!-- <small>Summarize if needed</small> -->
@@ -25,22 +29,44 @@
         <ChampCalendarForm :_calendar="calendarProp" @backStep="step = 2" @nextStep="nextStep"/>
       </v-stepper-content>
 
-      <v-stepper-step color="success" step="4">Finish</v-stepper-step>
+      <v-stepper-step color="success" :complete="step > 4" step="4">Extenal info</v-stepper-step>
       <v-stepper-content step="4">
-        YouTube or Twitch Link,
-        another info
-        <v-btn :loading="imageLoading" color="primary" @click="submit">Save</v-btn>
-        <v-btn flat @click="step = 3">Back</v-btn>
+        <ChampExternalInfo
+          :_externalInfo="externalInfoProp"
+          @nextStep="nextStep"
+          @backStep="step = 3"
+        />
+      </v-stepper-content>
+
+      <v-stepper-step color="success" step="5">Finish</v-stepper-step>
+      <v-stepper-content step="5">
+        <v-layout justify-center>
+          <v-btn flat @click="step = 4">Back</v-btn>
+          <v-btn
+            v-if="_isNew"
+            depressed
+            :loading="imageLoading"
+            dark
+            color="green"
+            @click="submit('set')"
+          >Save</v-btn>
+          <v-btn
+            v-else
+            depressed
+            :loading="imageLoading"
+            dark
+            color="green"
+            @click="submit('update', _championship.documentId)"
+          >Update</v-btn>
+        </v-layout>
       </v-stepper-content>
     </v-stepper>
-    <!-- <v-card-actions>
-      <v-btn flat color="error" @click="$emit('close')">Cancel</v-btn>
-    </v-card-actions>-->
   </v-card>
 </template>
 
 
 <script>
+import ChampExternalInfo from '@/components/championship/form/ChampExternalInfo.vue'
 import ChampInfoForm from '@/components/championship/form/ChampInfoForm.vue'
 import SessionSettingsForm from '@/components/championship/form/SessionSettingsForm.vue'
 import ChampCalendarForm from '@/components/championship/form/ChampCalendarForm.vue'
@@ -53,7 +79,11 @@ export default {
     imageLoading: false
   }),
   props: {
-    _championship: Object
+    _championship: Object,
+    _isNew: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     champInfo() {
@@ -64,6 +94,9 @@ export default {
     },
     calendarProp() {
       return this._championship ? this._championship.calendar : null
+    },
+    externalInfoProp() {
+      return this._championship ? this._championship.externalInfo : null
     },
     isLoggedIn() {
       var isLoggedIn = this.$store.getters.user ? true : false
@@ -78,6 +111,7 @@ export default {
   },
   mixins: [championships],
   components: {
+    ChampExternalInfo,
     ChampInfoForm,
     SessionSettingsForm,
     ChampCalendarForm

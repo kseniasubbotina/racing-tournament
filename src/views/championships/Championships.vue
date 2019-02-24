@@ -11,11 +11,16 @@
       </v-btn>
     </v-layout>
     <v-layout wrap>
-      <v-flex xs12 sm6 md6 pa-1 v-for="champ in championships" :key="champ.id">
-        <ChampionshipItem
-          v-if="champ.approved || champ.currentUserId == champ.author.id || isAdmin"
-          :_championship="champ"
-        />
+      <v-flex
+        v-if="champ.approved || champ.currentUserId == champ.author.id || isAdmin"
+        xs12
+        sm6
+        md4
+        pa-1
+        v-for="champ in championships"
+        :key="champ.id"
+      >
+        <ChampionshipItem :_championship="champ"/>
       </v-flex>
       <v-layout>
         <v-flex sx12>
@@ -33,7 +38,7 @@
         </v-flex>
       </v-layout>
       <v-dialog v-model="showCreateForm" max-width="950px">
-        <ChampionshipForm v-if="showCreateForm"/>
+        <ChampionshipForm :_isNew="true" v-if="showCreateForm"/>
       </v-dialog>
     </v-layout>
   </v-container>

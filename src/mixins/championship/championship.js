@@ -14,10 +14,11 @@ export default {
         }
       })
     },
-    getChampionship() {
+    getChampionship(name) {
+      let champName = name ? name : this.$route.params.id
       this.$store.commit('set', { type: 'loading', val: true })
       fb.champsCollection
-        .where('info.name', '==', this.$route.params.id)
+        .where('info.name', '==', champName)
         .get()
         .then(querySnapshot => {
           if (!querySnapshot.empty) {
@@ -25,25 +26,33 @@ export default {
               this.championship = doc.data()
               this.championship.documentId = doc.id
             })
-            this.realtimeUpdate()
+            // this.realtimeUpdate()
           } else {
             this.$router.push('/404')
           }
           this.$store.commit('set', { type: 'loading', val: false })
         })
     },
-    submit() {
+    submit(type, documentId) {
       if (this.isLoggedIn) {
         if (this.championship.data.selectedFile) {
           this.uploadImage(this.championship.data.info.name).then(() => {
-            this.sendQuery()
+            if (type === 'set') {
+              this.setQuery()
+            } else if (type === 'update') {
+              this.updateQuery(documentId)
+            }
           })
         } else {
-          this.sendQuery()
+          if (type === 'set') {
+            this.setQuery()
+          } else if (type === 'update') {
+            this.updateQuery(documentId)
+          }
         }
       }
     },
-    sendQuery() {
+    setQuery() {
       fb.champsCollection
         .doc()
         .set({
@@ -56,10 +65,26 @@ export default {
           approved: false,
           moderators: [],
           info: this.championship.data.info,
+          externalInfo: this.championship.externalInfo,
           settings: this.championship.settings,
           calendar: this.championship.calendar
         })
         .then(this.$router.push('/championships'))
+    },
+    updateQuery(documentId) {
+      fb.champsCollection
+        .doc(documentId)
+        .update({
+          info: this.championship.data.info,
+          externalInfo: this.championship.externalInfo,
+          settings: this.championship.settings,
+          calendar: this.championship.calendar
+        })
+        .then(() => {
+          this.$router.push(
+            '/championships/' + this.championship.data.info.name
+          )
+        })
     },
     uploadImage(id) {
       return new Promise(resolve => {

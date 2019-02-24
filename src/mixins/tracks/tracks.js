@@ -1,7 +1,29 @@
 import fb from '@/firebase/config.js'
 
 export default {
+  watch: {
+    $route() {
+      this.getTrack()
+    }
+  },
   methods: {
+    getTrack() {
+      this.$store.commit('set', { type: 'loading', val: true })
+      fb.tracksCollection
+        .where('name', '==', this.$route.params.id)
+        .get()
+        .then(querySnapshot => {
+          if (!querySnapshot.empty) {
+            querySnapshot.forEach(doc => {
+              this.trackData = doc.data()
+              this.trackData.documentId = doc.id
+            })
+          } else {
+            this.$router.push('/404')
+          }
+          this.$store.commit('set', { type: 'loading', val: false })
+        })
+    },
     addTrack() {
       this.$validator.validate().then(result => {
         if (result) {
@@ -63,7 +85,12 @@ export default {
           trackPhoto: this.trackData.trackPhoto,
           description: this.trackData.description
         })
-        .then(this.closeWindow(), this.$emit('updateTracks'))
+        .then(() => {
+          if (this.$route.params.id) {
+            this.$router.push('/tracks/circuit_' + this.trackData.name)
+          }
+          this.closeWindow(), this.$emit('updateTracks')
+        })
     },
     uploadImage(id, file) {
       return new Promise(resolve => {

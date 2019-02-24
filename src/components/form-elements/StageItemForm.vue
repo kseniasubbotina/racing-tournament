@@ -1,7 +1,7 @@
 <template>
   <v-card flat>
     <v-layout align-center wrap>
-      <v-flex xs2 lg1>
+      <v-flex xs2 md1>
         <v-layout pr-1 justify-center>
           <CountryFlag :_country="_stage.country"/>
         </v-layout>
@@ -34,13 +34,13 @@
           <v-date-picker v-model="_stage.date" @input="dateMenu = false"></v-date-picker>
         </v-menu>
       </v-flex>
-      <v-flex xs12 md3>
+      <v-flex xs12 md2>
         <v-menu
           ref="menu"
           :close-on-content-click="false"
           v-model="timeMenu"
           :nudge-right="40"
-          :return-value.sync="time"
+          :return-value.sync="_stage.time"
           lazy
           transition="scale-transition"
           offset-y
@@ -59,18 +59,18 @@
             readonly
           ></v-text-field>
           <v-time-picker
-            v-model="time"
-            @change="$refs.menu.save(time)"
+            v-model="_stage.time"
+            @change="$refs.menu.save(_stage.time)"
             header-color="primary"
             color="blue"
           >
             <v-spacer></v-spacer>
             <v-btn flat color="primary" @click="timeMenu = false">Cancel</v-btn>
-            <v-btn flat color="primary" @click="$refs.menu.save(time)">OK</v-btn>
+            <v-btn flat color="primary" @click="$refs.menu.save(_stage.time)">OK</v-btn>
           </v-time-picker>
         </v-menu>
       </v-flex>
-      <v-flex xs12 md2>
+      <v-flex xs12 md3>
         <v-layout>
           <!-- <v-spacer></v-spacer> -->
           <v-btn small flat depressed fab color="red" dark @click="removeStage()">
@@ -98,7 +98,6 @@ export default {
       track: '',
       trackId: '',
       date: null,
-      time: null,
       stageCountry: '',
       isValidated: false
     }
@@ -113,9 +112,6 @@ export default {
       this.updateStage()
     },
     date() {
-      this.updateStage()
-    },
-    time() {
       this.updateStage()
     }
   },
@@ -141,7 +137,7 @@ export default {
         country: this.stageCountry,
         documentId: this.trackId,
         date: this._stage.date || this.date,
-        time: this.time,
+        time: this._stage.time,
         index: this._index
       }
       this.$emit('updateStage', stage)
