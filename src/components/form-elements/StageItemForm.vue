@@ -1,7 +1,7 @@
 <template>
   <v-card flat>
     <v-layout align-center wrap>
-      <v-flex xs2 lg1>
+      <v-flex xs2 md1>
         <v-layout pr-1 justify-center>
           <CountryFlag :_country="_stage.country"/>
         </v-layout>
@@ -34,7 +34,7 @@
           <v-date-picker v-model="_stage.date" @input="dateMenu = false"></v-date-picker>
         </v-menu>
       </v-flex>
-      <v-flex xs12 md3>
+      <v-flex xs12 md2>
         <v-menu
           ref="menu"
           :close-on-content-click="false"
@@ -70,7 +70,7 @@
           </v-time-picker>
         </v-menu>
       </v-flex>
-      <v-flex xs12 md2>
+      <v-flex xs12 md3>
         <v-layout>
           <!-- <v-spacer></v-spacer> -->
           <v-btn small flat depressed fab color="red" dark @click="removeStage()">
