@@ -35,6 +35,11 @@ export default {
       championship: null
     }
   },
+  watch: {
+    $route() {
+      this.getChampionship()
+    }
+  },
   created() {
     this.getChampionship()
   },

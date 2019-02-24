@@ -14,10 +14,11 @@ export default {
         }
       })
     },
-    getChampionship() {
+    getChampionship(name) {
+      let champName = name ? name : this.$route.params.id
       this.$store.commit('set', { type: 'loading', val: true })
       fb.champsCollection
-        .where('info.name', '==', this.$route.params.id)
+        .where('info.name', '==', champName)
         .get()
         .then(querySnapshot => {
           if (!querySnapshot.empty) {
@@ -25,7 +26,7 @@ export default {
               this.championship = doc.data()
               this.championship.documentId = doc.id
             })
-            this.realtimeUpdate()
+            // this.realtimeUpdate()
           } else {
             this.$router.push('/404')
           }
@@ -39,7 +40,7 @@ export default {
             if (type === 'set') {
               this.setQuery()
             } else if (type === 'update') {
-              this.updateQuery()
+              this.updateQuery(documentId)
             }
           })
         } else {
@@ -79,7 +80,11 @@ export default {
           settings: this.championship.settings,
           calendar: this.championship.calendar
         })
-        .then(this.getChampionship())
+        .then(() => {
+          this.$router.push(
+            '/championships/' + this.championship.data.info.name
+          )
+        })
     },
     uploadImage(id) {
       return new Promise(resolve => {
