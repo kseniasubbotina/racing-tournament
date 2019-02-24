@@ -1,6 +1,11 @@
 import fb from '@/firebase/config.js'
 
 export default {
+  watch: {
+    $route() {
+      this.getGame()
+    }
+  },
   methods: {
     addGame() {
       this.$validator.validate().then(result => {
@@ -61,7 +66,12 @@ export default {
           coverImageUrl: gameData.coverImageUrl,
           webSite: gameData.webSite
         })
-        .then(this.closeWindow(), this.$emit('updateGames'))
+        .then(() => {
+          if (this.$route.params.id) {
+            this.$router.push('/games/' + gameData.name)
+          }
+          this.closeWindow(), this.$emit('updateGames')
+        })
     },
     uploadImage(id) {
       return new Promise(resolve => {
