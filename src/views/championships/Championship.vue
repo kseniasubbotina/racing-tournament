@@ -18,6 +18,7 @@
       <ChampionshipActions :_championship="championship" :_isAdmin="isAdmin" :_isAuthor="isAuthor"/>
       <v-container>
         <ChampionshipInfo :_championship="championship"/>
+        <ChampionshipCalendar :_championship="championship"/>
       </v-container>
     </v-card>
   </div>
@@ -25,6 +26,7 @@
 
 <script>
 import ChampionshipInfo from '@/components/championship/ChampionshipInfo.vue'
+import ChampionshipCalendar from '@/components/championship/ChampionshipCalendar.vue'
 import ChampionshipActions from '@/components/championship/ChampionshipActions.vue'
 import championship from '@/mixins/championship/championship.js'
 import fb from '@/firebase/config.js'
@@ -66,7 +68,8 @@ export default {
   mixins: [championship],
   components: {
     ChampionshipActions,
-    ChampionshipInfo
+    ChampionshipInfo,
+    ChampionshipCalendar
   }
 }
 </script>

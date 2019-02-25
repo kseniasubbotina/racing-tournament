@@ -12,10 +12,6 @@
       {{_championship.info.description}}
       Drivers: {{_championship.drivers.length}}/{{_championship.info.playersCount}}
     </v-layout>
-    <div
-      v-for="stage in _championship.calendar"
-      :key="stage.documentId"
-    >{{stage.country}} - {{stage.time}}</div>
     <div>Author:
       <router-link :to="'/user_' + _championship.author.username">{{_championship.author.username}}</router-link>
     </div>
