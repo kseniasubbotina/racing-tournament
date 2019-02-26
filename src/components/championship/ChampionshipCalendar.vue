@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>Calendar</h2>
     <div
       v-for="stage in _championship.calendar"
       :key="stage.documentId"

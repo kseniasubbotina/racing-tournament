@@ -10,7 +10,7 @@
     <v-layout column>
       <h3>{{_championship.info.game.name}}</h3>
       {{_championship.info.description}}
-      Drivers: {{_championship.drivers.length}}/{{_championship.info.playersCount}}
+      <div>Drivers: {{_championship.drivers.length}}/{{_championship.info.playersCount}}</div>
     </v-layout>
     <div>Author:
       <router-link :to="'/user_' + _championship.author.username">{{_championship.author.username}}</router-link>

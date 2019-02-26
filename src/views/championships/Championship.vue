@@ -19,12 +19,17 @@
       <v-container>
         <ChampionshipInfo :_championship="championship"/>
         <ChampionshipCalendar :_championship="championship"/>
+        <v-btn dark color="green" @click="selectTeam" depressed>Join championship</v-btn>
+        <v-dialog v-model="joinDialog" max-width="500">
+          <component :is="joinDialogComponent"></component>
+        </v-dialog>
       </v-container>
     </v-card>
   </div>
 </template>
 
 <script>
+import TeamSelectForm from '@/components/championship/TeamSelectForm.vue'
 import ChampionshipInfo from '@/components/championship/ChampionshipInfo.vue'
 import ChampionshipCalendar from '@/components/championship/ChampionshipCalendar.vue'
 import ChampionshipActions from '@/components/championship/ChampionshipActions.vue'
@@ -34,7 +39,9 @@ export default {
   name: 'Championship',
   data() {
     return {
-      championship: null
+      championship: null,
+      joinDialog: false,
+      joinDialogComponent: ''
     }
   },
   watch: {
@@ -46,6 +53,10 @@ export default {
     this.getChampionship()
   },
   computed: {
+    isLoggedIn() {
+      var isLoggedIn = this.$store.getters.user ? true : false
+      return isLoggedIn
+    },
     loading() {
       return this.$store.getters.loading
     },
@@ -65,8 +76,15 @@ export default {
       return this.championship ? this.championship.approved : false
     }
   },
+  methods: {
+    selectTeam() {
+      this.joinDialog = true
+      this.joinDialogComponent = this.isLoggedIn ? 'TeamSelectForm' : ''
+    }
+  },
   mixins: [championship],
   components: {
+    TeamSelectForm,
     ChampionshipActions,
     ChampionshipInfo,
     ChampionshipCalendar
