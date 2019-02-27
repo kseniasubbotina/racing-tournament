@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import Login from '@/views/user/Login.vue'
 import TeamSelectForm from '@/components/championship/TeamSelectForm.vue'
 import ChampionshipInfo from '@/components/championship/ChampionshipInfo.vue'
 import ChampionshipCalendar from '@/components/championship/ChampionshipCalendar.vue'
@@ -79,11 +80,12 @@ export default {
   methods: {
     selectTeam() {
       this.joinDialog = true
-      this.joinDialogComponent = this.isLoggedIn ? 'TeamSelectForm' : ''
+      this.joinDialogComponent = this.isLoggedIn ? 'TeamSelectForm' : 'Login'
     }
   },
   mixins: [championship],
   components: {
+    Login,
     TeamSelectForm,
     ChampionshipActions,
     ChampionshipInfo,
