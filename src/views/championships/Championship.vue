@@ -21,7 +21,7 @@
         <ChampionshipCalendar :_championship="championship"/>
         <v-btn dark color="green" @click="selectTeam" depressed>Join championship</v-btn>
         <v-dialog v-model="joinDialog" max-width="500">
-          <component :is="joinDialogComponent"></component>
+          <component v-if="joinDialog" :is="joinDialogComponent" :_championship="championship"></component>
         </v-dialog>
       </v-container>
     </v-card>
@@ -35,14 +35,12 @@ import ChampionshipInfo from '@/components/championship/ChampionshipInfo.vue'
 import ChampionshipCalendar from '@/components/championship/ChampionshipCalendar.vue'
 import ChampionshipActions from '@/components/championship/ChampionshipActions.vue'
 import championship from '@/mixins/championship/championship.js'
-import fb from '@/firebase/config.js'
 export default {
   name: 'Championship',
   data() {
     return {
       championship: null,
-      joinDialog: false,
-      joinDialogComponent: ''
+      joinDialog: false
     }
   },
   watch: {
@@ -54,6 +52,11 @@ export default {
     this.getChampionship()
   },
   computed: {
+    joinDialogComponent() {
+      return (this.joinDialogComponent = this.isLoggedIn
+        ? 'TeamSelectForm'
+        : 'Login')
+    },
     isLoggedIn() {
       var isLoggedIn = this.$store.getters.user ? true : false
       return isLoggedIn
@@ -80,7 +83,6 @@ export default {
   methods: {
     selectTeam() {
       this.joinDialog = true
-      this.joinDialogComponent = this.isLoggedIn ? 'TeamSelectForm' : 'Login'
     }
   },
   mixins: [championship],

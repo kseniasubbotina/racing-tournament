@@ -26,7 +26,7 @@ export default {
               this.championship = doc.data()
               this.championship.documentId = doc.id
             })
-            // this.realtimeUpdate()
+            this.realtimeUpdate()
           } else {
             this.$router.push('/404')
           }
