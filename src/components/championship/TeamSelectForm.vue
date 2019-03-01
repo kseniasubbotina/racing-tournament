@@ -56,9 +56,9 @@ export default {
             }
           }
         })
-        .then(
-          this.$router.push('/championship/' + this._championship.info.name)
-        )
+        .then
+        // this.$router.push('/championship/' + this._championship.info.name)
+        ()
     }
   },
   components: {
