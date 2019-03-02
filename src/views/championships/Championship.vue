@@ -19,9 +19,14 @@
       <v-container>
         <ChampionshipInfo :_championship="championship"/>
         <ChampionshipCalendar :_championship="championship"/>
-        <v-btn dark color="green" @click="selectTeam" depressed>Join championship</v-btn>
+        <v-btn v-if="isParticipant" flat @click="leaveChampionship">Leave championship</v-btn>
+        <v-btn v-else dark color="green" @click="selectTeam" depressed>Join championship</v-btn>
         <v-dialog v-model="joinDialog" max-width="500">
-          <component v-if="joinDialog" :is="joinDialogComponent" :_championship="championship"></component>
+          <component
+            v-if="joinDialogComponent"
+            :is="joinDialogComponent"
+            :_championship="championship"
+          ></component>
         </v-dialog>
       </v-container>
     </v-card>
@@ -46,16 +51,32 @@ export default {
   watch: {
     $route() {
       this.getChampionship()
+    },
+    isParticipant() {
+      this.joinDialog = false
     }
   },
   created() {
     this.getChampionship()
   },
   computed: {
+    userId() {
+      if (this.isLoggedIn) {
+        return this.$store.getters.user.id
+      }
+    },
+    isParticipant() {
+      let userId = this.userId
+      debugger
+      if (this.championship && this.championship.drivers[userId]) {
+        return true
+      } else {
+        return false
+      }
+    },
     joinDialogComponent() {
-      return (this.joinDialogComponent = this.isLoggedIn
-        ? 'TeamSelectForm'
-        : 'Login')
+      let joinDialogComponent = this.isLoggedIn ? 'TeamSelectForm' : 'Login'
+      return joinDialogComponent
     },
     isLoggedIn() {
       var isLoggedIn = this.$store.getters.user ? true : false
@@ -74,13 +95,16 @@ export default {
     },
     isAuthor() {
       if (this.$store.getters.user && this.championship)
-        return this.$store.getters.user.id == this.championship.author.id
+        return this.userId == this.championship.author.id
     },
     isApproved() {
       return this.championship ? this.championship.approved : false
     }
   },
   methods: {
+    leaveChampionship() {
+      //
+    },
     selectTeam() {
       this.joinDialog = true
     }

@@ -45,20 +45,16 @@ export default {
       let username = this.$store.getters.userData.username
       let team = this.team
       let userId = this.userId
-      fb.champsCollection
-        .doc(this._championship.documentId)
-        .update({
-          drivers: {
-            [username]: {
-              userId: userId,
-              username: this.$store.getters.userData.username,
-              team: team
-            }
+      fb.champsCollection.doc(this._championship.documentId).update({
+        drivers: {
+          [userId]: {
+            userId: userId,
+            username: this.$store.getters.userData.username,
+            team: team
           }
-        })
-        .then
-        // this.$router.push('/championship/' + this._championship.info.name)
-        ()
+        }
+      }).then
+      this.$router.push('/championships/' + this._championship.info.name)
     }
   },
   components: {
