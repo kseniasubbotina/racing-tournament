@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12 sm6>
+  <v-flex xs12>
     <v-card>
       <v-card-title class="py-4 title">Login</v-card-title>
       <v-container grid-list-sm class="pa-4">
@@ -33,7 +33,7 @@
         <message/>
       </v-container>
       <v-card-actions>
-        <v-btn to="register" color="red darken-2" flat>Create account</v-btn>
+        <v-btn to="/register" color="red darken-2" flat>Create account</v-btn>
         <v-spacer></v-spacer>
         <v-btn color="red darken-2" dark @click="submit">submit</v-btn>
       </v-card-actions>
