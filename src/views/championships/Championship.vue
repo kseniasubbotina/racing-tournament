@@ -67,7 +67,6 @@ export default {
     },
     isParticipant() {
       let userId = this.userId
-      debugger
       if (this.championship && this.championship.drivers[userId]) {
         return true
       } else {
