@@ -10,7 +10,7 @@
     <v-layout column>
       <h3>{{_championship.info.game.name}}</h3>
       {{_championship.info.description}}
-      <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div>
+      <div>Drivers: {{_championship.drivers.length}}/{{_championship.info.playersCount}}</div>
     </v-layout>
     <div>Author:
       <router-link :to="'/user_' + _championship.author.username">{{_championship.author.username}}</router-link>
@@ -23,16 +23,6 @@ export default {
   name: 'ChampionshipInfo',
   props: {
     _championship: Object
-  },
-  computed: {
-    driversCount() {
-      let drivers = this._championship.drivers
-      if (drivers) {
-        return Object.keys(drivers).length
-      } else {
-        return 0
-      }
-    }
   }
 }
 </script>
