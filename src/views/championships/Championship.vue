@@ -19,7 +19,11 @@
       <v-container>
         <ChampionshipInfo :_championship="championship"/>
         <ChampionshipCalendar :_championship="championship"/>
-        <v-btn v-if="isParticipant" flat @click="leaveChampionship">Leave championship</v-btn>
+        <v-btn
+          v-if="isParticipant"
+          flat
+          @click="leaveChampionship(championship, userId)"
+        >Leave championship</v-btn>
         <v-btn v-else dark color="green" @click="selectTeam" depressed>Join championship</v-btn>
         <v-dialog v-model="joinDialog" max-width="500">
           <component
@@ -67,7 +71,11 @@ export default {
     },
     isParticipant() {
       let userId = this.userId
-      if (this.championship && this.championship.drivers[userId]) {
+      if (
+        this.championship &&
+        this.championship.drivers &&
+        this.championship.drivers[userId]
+      ) {
         return true
       } else {
         return false
@@ -98,14 +106,6 @@ export default {
     },
     isApproved() {
       return this.championship ? this.championship.approved : false
-    }
-  },
-  methods: {
-    leaveChampionship() {
-      //
-    },
-    selectTeam() {
-      this.joinDialog = true
     }
   },
   mixins: [championship],
