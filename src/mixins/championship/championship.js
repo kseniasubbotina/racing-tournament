@@ -4,10 +4,15 @@ import idGenerator from '@/mixins/generateId.js'
 export default {
   methods: {
     leaveChampionship(championship, userId) {
-      let docRef = fb.champsCollection.doc(championship.documentId)
-      let removedDriver = docRef.update({
-        drivers: fb.firestore.FieldValue.delete()
-      })
+      delete championship.drivers[userId]
+      fb.champsCollection
+        .doc(championship.documentId)
+        .update({
+          drivers: championship.drivers
+        })
+        .then({
+          //
+        })
     },
     selectTeam() {
       this.joinDialog = true
