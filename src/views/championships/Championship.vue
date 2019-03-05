@@ -26,7 +26,7 @@
           @click="leaveChampionship(championship, userId)"
         >Leave championship</v-btn>
         <v-btn v-else dark color="green" @click="selectTeam" depressed>Join championship</v-btn>
-        <ChampionshipTabs/>
+        <ChampionshipTabs :_championship="championship"/>
         <v-dialog v-model="joinDialog" max-width="500">
           <component
             v-if="joinDialogComponent"

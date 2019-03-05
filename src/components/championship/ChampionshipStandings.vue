@@ -3,7 +3,7 @@
     <v-layout column>
       <v-data-table
         :headers="headers"
-        :items="_drivers"
+        :items="drivers"
         :loading="false"
         :rows-per-page-items="[10, 20]"
         :search="search"
@@ -16,15 +16,11 @@
             <td class="text-xs-left">
               <span class="font-weight-bold">{{ props.item.username }}</span>
             </td>
-            <td class="text-xs-right">{{ props.item.country }}</td>
-            <td class="text-xs-right">
-              <div v-if="props.item.role == '1'">Administrator</div>
-              <div v-if="props.item.role == '0'">Subscriber</div>
-            </td>
+            <td class="text-xs-left">{{ props.item.team.name }}</td>
           </tr>
         </template>
         <template slot="expand" slot-scope="props">
-          <v-card flat dark>
+          <v-card flat>
             <v-layout>
               <v-flex>
                 <v-card-text class="text-xs-left">Choose the action with {{ props.item.username }}</v-card-text>
@@ -33,9 +29,6 @@
                 <v-card-text class="text-xs-right">
                   <v-btn flat @click="$router.push('/user_'+props.item.username)">
                     <v-icon>account_circle</v-icon>View
-                  </v-btn>
-                  <v-btn flat>
-                    <v-icon>edit</v-icon>Edit
                   </v-btn>
                 </v-card-text>
               </v-flex>
@@ -68,7 +61,7 @@ export default {
         },
         {
           text: 'Team',
-          align: 'right',
+          align: 'left',
           sortable: true,
           value: 'team'
         }
@@ -76,7 +69,16 @@ export default {
     }
   },
   props: {
-    _drivers: Object
+    _championship: Object
+  },
+  computed: {
+    drivers() {
+      let drivers = []
+      for (let driver in this._championship.drivers) {
+        drivers.push(this._championship.drivers[driver])
+      }
+      return drivers
+    }
   }
 }
 // results: {
