@@ -22,9 +22,11 @@
         <v-btn
           v-if="isParticipant"
           flat
+          color="red"
           @click="leaveChampionship(championship, userId)"
         >Leave championship</v-btn>
         <v-btn v-else dark color="green" @click="selectTeam" depressed>Join championship</v-btn>
+        <ChampionshipTabs/>
         <v-dialog v-model="joinDialog" max-width="500">
           <component
             v-if="joinDialogComponent"
@@ -38,6 +40,7 @@
 </template>
 
 <script>
+import ChampionshipTabs from '@/components/championship/ChampionshipTabs'
 import Login from '@/views/user/Login.vue'
 import TeamSelectForm from '@/components/championship/TeamSelectForm.vue'
 import ChampionshipInfo from '@/components/championship/ChampionshipInfo.vue'
@@ -114,7 +117,8 @@ export default {
     TeamSelectForm,
     ChampionshipActions,
     ChampionshipInfo,
-    ChampionshipCalendar
+    ChampionshipCalendar,
+    ChampionshipTabs
   }
 }
 </script>
