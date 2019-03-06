@@ -13,10 +13,10 @@
         <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
         <template slot="items" slot-scope="props">
           <tr @click="props.expanded = !props.expanded">
-            <td class="text-xs-left">
+            <td class="text-xs-center">
               <span class="font-weight-bold">{{ props.item.username }}</span>
             </td>
-            <td class="text-xs-left">{{ props.item.team.name }}</td>
+            <td class="text-xs-center">{{ props.item.team.name }}</td>
           </tr>
         </template>
         <template slot="expand" slot-scope="props">
@@ -51,21 +51,7 @@ export default {
   name: 'ChampionshipStandings',
   data() {
     return {
-      search: '',
-      headers: [
-        {
-          text: 'Username',
-          align: 'left',
-          sortable: true,
-          value: 'username'
-        },
-        {
-          text: 'Team',
-          align: 'left',
-          sortable: true,
-          value: 'team'
-        }
-      ]
+      search: ''
     }
   },
   props: {
@@ -78,6 +64,32 @@ export default {
         drivers.push(this._championship.drivers[driver])
       }
       return drivers
+    },
+    headers() {
+      let headers = [
+        {
+          text: 'Username',
+          align: 'center',
+          sortable: false,
+          value: 'username'
+        },
+        {
+          text: 'Team',
+          align: 'center',
+          sortable: false,
+          value: 'team'
+        }
+      ]
+      for (let i = 0; i < this._championship.calendar.length; i++) {
+        let calendarHeaderItem = {
+          text: this._championship.calendar[i].country,
+          align: 'center',
+          sortable: false,
+          value: 'country'
+        }
+        headers.push(calendarHeaderItem)
+      }
+      return headers
     }
   }
 }
