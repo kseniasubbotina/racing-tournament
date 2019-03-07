@@ -17,6 +17,12 @@
               <span class="font-weight-bold">{{ props.item.username }}</span>
             </td>
             <td class="text-xs-center">{{ props.item.team.name }}</td>
+            <td class="text-xs-center" v-for="stage in _championship.calendar" :key="stage.id">
+              results.
+              username.
+              Track
+            </td>
+            <td class="text-xs-center">-</td>
           </tr>
         </template>
         <template slot="expand" slot-scope="props">
@@ -89,6 +95,13 @@ export default {
         }
         headers.push(calendarHeaderItem)
       }
+      let totalColumnHeader = {
+        text: 'Total',
+        align: 'center',
+        sortable: true,
+        value: 'total'
+      }
+      headers.push(totalColumnHeader)
       return headers
     }
   }

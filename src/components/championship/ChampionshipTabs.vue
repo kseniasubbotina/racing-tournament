@@ -25,17 +25,17 @@ export default {
           name: 'Standings',
           componentName: 'ChampionshipStandings',
           public: true
+        },
+        {
+          name: 'Calendar',
+          componentName: '',
+          public: true
+        },
+        {
+          name: 'Statistic',
+          componentName: '',
+          public: true
         }
-        // {
-        //   name: 'News',
-        //   componentName: 'News',
-        //   public: true
-        // },
-        // {
-        //   name: 'Statistic',
-        //   componentName: 'Statistic',
-        //   public: true
-        // }
       ]
     }
   },
