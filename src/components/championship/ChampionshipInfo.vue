@@ -5,7 +5,6 @@
         <h1>{{_championship.info.name}}</h1>
         <v-spacer></v-spacer>
       </v-flex>
-      <v-flex>Approved: {{_championship.approved}}</v-flex>
     </v-layout>
     <v-layout column>
       <h3>{{_championship.info.game.name}}</h3>
