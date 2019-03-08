@@ -18,7 +18,7 @@
       <ChampionshipActions :_championship="championship" :_isAdmin="isAdmin" :_isAuthor="isAuthor"/>
       <v-container>
         <ChampionshipInfo :_championship="championship"/>
-        <ChampionshipCalendar :_championship="championship"/>
+        <!-- <ChampionshipCalendar :_championship="championship"/> -->
         <v-btn
           v-if="isParticipant"
           flat

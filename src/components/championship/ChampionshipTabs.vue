@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import ChampionshipCalendar from '@/components/championship/ChampionshipCalendar.vue'
 import ChampionshipStandings from '@/components/championship/ChampionshipStandings.vue'
 export default {
   name: 'ChampionshipTabs',
@@ -28,7 +29,7 @@ export default {
         },
         {
           name: 'Calendar',
-          componentName: '',
+          componentName: 'ChampionshipCalendar',
           public: true
         },
         {
@@ -43,6 +44,7 @@ export default {
     _championship: Object
   },
   components: {
+    ChampionshipCalendar,
     ChampionshipStandings
   }
 }

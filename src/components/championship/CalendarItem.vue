@@ -1,12 +1,14 @@
 <template>
   <v-layout justify-center column align-center>
-    <v-card @click.stop="stageResults = true">
+    <v-card flat>
       <v-container>
-        <v-layout justify-center column align-center>
-          <CountryFlag :_country="_stage.country" :_width="60"/>
-          <div>{{_stage.date}}</div>
-          <div>{{_stage.time}}</div>
-        </v-layout>
+        <a>
+          <v-layout @click.stop="stageResults = true" justify-center column align-center>
+            <CountryFlag :_country="_stage.country" :_width="60"/>
+            <div>{{_stage.date}}</div>
+            <div>{{_stage.time}}</div>
+          </v-layout>
+        </a>
       </v-container>
     </v-card>
     <v-dialog v-model="stageResults" width="800px">
