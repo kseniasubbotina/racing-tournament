@@ -9,6 +9,7 @@
     <v-layout column>
       <h3>{{_championship.info.game.name}}</h3>
       {{_championship.info.description}}
+      <div>Platform: {{_championship.info.platform}}</div>
       <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div>
     </v-layout>
     <div>Author:

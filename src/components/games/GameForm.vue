@@ -138,6 +138,9 @@ export default {
       val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
     }
   },
+  created() {
+    this.getPlatforms()
+  },
   mounted() {
     this.$root.$on('openGameDialog', this.openDialog)
   },
@@ -157,6 +160,17 @@ export default {
       this.$store.commit('set', {
         type: 'message',
         val: { error: '', success: '' }
+      })
+    },
+    getPlatforms() {
+      var platformsArr = []
+      fb.platformsCollection.get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          var data = doc.data()
+          data.id = doc.id
+          platformsArr.push(data.name)
+        })
+        this.platformItems = platformsArr
       })
     }
   },
