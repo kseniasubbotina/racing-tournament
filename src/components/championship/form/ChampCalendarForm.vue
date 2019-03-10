@@ -1,6 +1,9 @@
 <template>
   <div>
     <v-label>Add Stages</v-label>
+    <v-alert type="info" :value="true">
+      <div>Just set time of races in your time, it will adjust for other users timezones.</div>
+    </v-alert>
     <StageItemForm
       v-for="(stage, i) in stages"
       :key="i"
