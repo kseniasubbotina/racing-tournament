@@ -1,5 +1,6 @@
 <template>
   <v-card flat>
+    {{utcDateTime}}
     <v-layout align-center wrap>
       <v-flex xs2 md1>
         <v-layout pr-1 justify-center>
@@ -88,6 +89,7 @@
 <script>
 import TrackSelect from '@/components/form-elements/TrackSelect.vue'
 import CountryFlag from '@/components/CountryFlag.vue'
+import moment from 'moment'
 
 export default {
   name: 'StageItemForm',
@@ -97,7 +99,7 @@ export default {
       dateMenu: false,
       track: '',
       trackId: '',
-      date: null,
+      date: '',
       stageCountry: '',
       isValidated: false
     }
@@ -113,6 +115,19 @@ export default {
     },
     date() {
       this.updateStage()
+    },
+    time() {
+      this.updateStage()
+    }
+  },
+  computed: {
+    utcDateTime () {
+      if(this._stage.date && this._stage.time) {
+      let date = this._stage.date.split('-')
+      let time = this._stage.time.split(':')
+      let localStageDateTIme = new Date(date[0], date[1]-1, date[2], time[0], time[1])
+      return localStageDateTIme.getUTCFullYear() + ', ' + localStageDateTIme.getUTCMonth() + ', ' + localStageDateTIme.getUTCDate() + ', ' + localStageDateTIme.getUTCHours() + ', ' + localStageDateTIme.getUTCMinutes()
+      }
     }
   },
   methods: {
@@ -138,7 +153,8 @@ export default {
         documentId: this.trackId,
         date: this._stage.date || this.date,
         time: this._stage.time,
-        index: this._index
+        index: this._index,
+        utcDateTime: this.utcDateTime
       }
       this.$emit('updateStage', stage)
     },
