@@ -54,7 +54,7 @@
 </template>
  <script>
 import fb from '@/firebase/config.js'
-import SeriaSelect from '@/components/SeriaSelect.vue'
+import SeriaSelect from '@/components/form-elements/SeriaSelect.vue'
 import ImageInput from '@/components/form-elements/ImageInput.vue'
 import teams from '@/mixins/teams/teams.js'
 export default {

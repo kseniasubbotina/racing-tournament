@@ -18,10 +18,9 @@
     <v-card-text>
       <div>
         <span class="grey--text">{{_championship.info.game.name}}</span>
-        <br>
-        <span>Start: {{_championship.calendar[0].date}}</span>
-        <br>
-        <span>Drivers: {{_championship.drivers.length}}/{{_championship.info.playersCount}}</span>
+        <div>Platform: {{_championship.info.platform}}</div>
+        <div>Start: {{_championship.calendar[0].date}}</div>
+        <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div>
       </div>
     </v-card-text>
     <v-card-actions>
@@ -49,6 +48,16 @@ export default {
   name: 'ChampionshipItem',
   props: {
     _championship: Object
+  },
+  computed: {
+    driversCount() {
+      let drivers = this._championship.drivers
+      if (drivers) {
+        return Object.keys(drivers).length
+      } else {
+        return 0
+      }
+    }
   }
 }
 </script>

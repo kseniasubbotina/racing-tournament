@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-layout wrap>
-      <v-flex xs12>
+      <v-flex xs12 sm9>
         <v-text-field
           label="Championship Name"
           v-model="champName"
@@ -12,20 +12,25 @@
           :error-messages="errors.collect('Name')"
         ></v-text-field>
       </v-flex>
+      <v-flex xs12 sm3>
+        <v-text-field
+          v-validate="'required|min:1|numeric'"
+          name="players"
+          type="number"
+          :error-messages="errors.collect('players')"
+          label="Maximum Drivers"
+          v-model="playersCount"
+        ></v-text-field>
+      </v-flex>
       <v-flex>
         <GameSelect :_disabled="true" :_selectedGame="game.name" @changeGame="onChangeGame"/>
       </v-flex>
       <v-flex>
+        <PlatformSelect :_selectedPlatform="platform" @changePlatform="onChangePlatform"/>
+      </v-flex>
+      <v-flex>
         <SeriaSelect :_disabled="true" :_selectedSeria="seria" @changeSeria="onChangeSeria"/>
       </v-flex>
-      <v-text-field
-        v-validate="'required|min:1|numeric'"
-        name="players"
-        type="number"
-        :error-messages="errors.collect('players')"
-        label="Maximum Drivers"
-        v-model="playersCount"
-      ></v-text-field>
     </v-layout>
     <v-layout wrap>
       <v-flex xs12>
@@ -50,7 +55,8 @@
 </template>
 
 <script>
-import SeriaSelect from '@/components/SeriaSelect.vue'
+import SeriaSelect from '@/components/form-elements/SeriaSelect.vue'
+import PlatformSelect from '@/components/form-elements/PlatformSelect.vue'
 import GameSelect from '@/components/form-elements/GameSelect.vue'
 import ImageInput from '@/components/form-elements/ImageInput.vue'
 
@@ -62,6 +68,7 @@ export default {
       seria: 'F1',
       description: '',
       game: 'F1 2018',
+      platform: '',
       playersCount: 20,
       champImage: '',
       selectedFile: null,
@@ -86,6 +93,7 @@ export default {
         this.champName = this._champInfo.name
         this.description = this._champInfo.description
         this.champImage = this._champInfo.champImage
+        this.platform = this._champInfo.platform
         if (this._champInfo.name.length > 4) this.isValid = true
       }
     },
@@ -98,6 +106,7 @@ export default {
               seria: this.seria,
               description: this.description,
               game: this.game,
+              platform: this.platform,
               playersCount: this.playersCount,
               champImage: this.champImage,
               createdDate: new Date()
@@ -107,6 +116,9 @@ export default {
           this.$emit('nextStep', data, 'data')
         }
       })
+    },
+    onChangePlatform(val) {
+      this.platform = val
     },
     onChangeSeria(val) {
       this.seria = val
@@ -132,6 +144,7 @@ export default {
   },
   components: {
     SeriaSelect,
+    PlatformSelect,
     GameSelect,
     ImageInput
   }

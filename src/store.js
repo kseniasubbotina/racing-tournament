@@ -54,7 +54,7 @@ export default new Vuex.Store({
               this.dispatch('fetchUserData')
             }
           },
-          function(error) {
+          function (error) {
             commit('set', { type: 'loading', val: false })
             commit('setMessage', { type: 'error', text: error.message })
           }
@@ -74,7 +74,7 @@ export default new Vuex.Store({
             commit('set', { type: 'loading', val: false })
             this.dispatch('fetchUserData')
           },
-          function(error) {
+          function (error) {
             commit('setMessage', { type: 'error', text: error.message })
             commit('set', { type: 'loading', val: false })
           }
@@ -93,11 +93,11 @@ export default new Vuex.Store({
     signOut({ commit }) {
       fb.auth
         .signOut()
-        .then(function() {
+        .then(function () {
           commit('set', { type: 'user', val: null })
           commit('set', { type: 'userData', val: null })
         })
-        .catch(function(error) {
+        .catch(function (error) {
           commit('setMessage', { type: 'error', text: error })
         })
     },
@@ -106,8 +106,8 @@ export default new Vuex.Store({
       fb.usersCollection
         .where('id', '==', this.state.user.id)
         .get()
-        .then(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
+        .then(function (querySnapshot) {
+          querySnapshot.forEach(function (doc) {
             commit('set', { type: 'userData', val: doc.data() })
             commit('set', { type: 'loading', val: false })
           })
@@ -127,14 +127,14 @@ export default new Vuex.Store({
           avatarURL: newDetails.avatarURL,
           role: newDetails.role
         })
-        .then(function() {
+        .then(function () {
           commit('setMessage', {
             type: 'success',
             text: 'Information successfully updated!'
           })
           commit('set', { type: 'loading', val: false })
         })
-        .catch(function(error) {
+        .catch(function (error) {
           commit('setMessage', { type: 'error', text: error })
           commit('set', { type: 'loading', val: false })
         })

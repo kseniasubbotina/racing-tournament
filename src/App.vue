@@ -95,7 +95,7 @@ export default {
       this.isDarkColorTheme = val
       if (this.isLoggedIn) {
         fb.usersCollection
-          .doc(this.$store.getters.userData.username)
+          .doc(this.$store.getters.user.id)
           .update({
             isDarkColorTheme: val
           })

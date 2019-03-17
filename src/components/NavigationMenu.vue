@@ -98,8 +98,8 @@ export default {
         this.$store.getters.userData &&
         this.$store.getters.userData.isDarkColorTheme
       ) {
-        this.isDarkColorTheme = isDarkColorTheme
-        return isDarkColorTheme
+        this.isDarkColorTheme = this.$store.getters.userData.isDarkColorTheme
+        return this.$store.getters.userData.isDarkColorTheme
       } else {
         this.isDarkColorTheme = window.localStorage.isDarkColorTheme == 'true'
         return window.localStorage.isDarkColorTheme == 'true'
