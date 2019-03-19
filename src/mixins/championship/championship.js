@@ -167,7 +167,7 @@ export default {
               })
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.error('Error removing document: ', error)
         })
     }
