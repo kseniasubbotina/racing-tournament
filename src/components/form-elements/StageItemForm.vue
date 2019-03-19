@@ -126,7 +126,13 @@ export default {
       let date = this._stage.date.split('-')
       let time = this._stage.time.split(':')
       let localStageDateTIme = new Date(date[0], date[1]-1, date[2], time[0], time[1])
-      return localStageDateTIme.getUTCFullYear() + ', ' + localStageDateTIme.getUTCMonth() + ', ' + localStageDateTIme.getUTCDate() + ', ' + localStageDateTIme.getUTCHours() + ', ' + localStageDateTIme.getUTCMinutes()
+      let year = localStageDateTIme.getUTCFullYear()
+      let month = localStageDateTIme.getUTCMonth()
+      let day = localStageDateTIme.getUTCDate()
+      let hours = localStageDateTIme.getUTCHours()
+      let minutes = localStageDateTIme.getUTCMinutes()
+      let utcDateTime = year + ', ' + month + ', ' + day + ', ' + hours + ', ' + minutes
+      return utcDateTime.toString()
       }
     }
   },
