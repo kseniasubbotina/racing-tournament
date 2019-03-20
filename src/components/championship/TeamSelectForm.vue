@@ -45,13 +45,14 @@ export default {
       let username = this.$store.getters.userData.username
       let team = this.team
       let userId = this.userId
-      this._championship.drivers[userId] = {
+      let drivers = this._championship.drivers || {}
+      drivers[userId] = {
         userId: userId,
         username: this.$store.getters.userData.username,
         team: team
       }
       fb.champsCollection.doc(this._championship.documentId).update({
-        drivers: this._championship.drivers
+        drivers: drivers
       }).then
       this.$router.push('/championships/' + this._championship.info.name)
     }
