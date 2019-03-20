@@ -76,7 +76,6 @@ export default {
             username: this.$store.getters.userData.username,
             id: this.$store.getters.user.id
           },
-          drivers: [],
           approved: false,
           moderators: [],
           info: this.championship.data.info,
