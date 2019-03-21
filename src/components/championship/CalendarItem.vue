@@ -1,24 +1,24 @@
 <template>
-  <v-layout justify-center column align-center>
-    <v-card flat>
-      <v-container>
-        <a>
-          <v-layout @click.stop="stageResults = true" justify-center column align-center>
-            <CountryFlag :_country="_stage.country" :_width="60"/>
-            <!-- <div>{{_stage.date}}</div>
-            <div>{{_stage.time}}</div>-->
-            <div>GMT +0: {{utcStageTimeConverted}}</div>
-            <div>Your: {{browserStageTimeFormatted}}</div>
+  <div class="ma-2">
+    <a>
+      <v-card>
+        <v-card-text @click="stageResults = true">
+          <v-layout align-center>
+            <CountryFlag class="pr-2" :_country="_stage.country" :_width="60"/>
+            <v-flex>
+              <div>Your: {{browserStageTimeFormatted}}</div>
+              <div>GMT +0: {{utcStageTimeConverted}}</div>
+            </v-flex>
           </v-layout>
-        </a>
-      </v-container>
-    </v-card>
+        </v-card-text>
+      </v-card>
+    </a>
     <v-dialog v-model="stageResults" width="800px">
       <v-card>
         <v-card-title>stage results</v-card-title>
       </v-card>
     </v-dialog>
-  </v-layout>
+  </div>
 </template>
 
 <script>
@@ -38,32 +38,39 @@ export default {
   },
   computed: {
     browserStageTimeFormatted () {
-      let browserStageTime = this._stage.utcDateTime.split(',')
-      let convertedDate = new Date(Date.UTC(browserStageTime[0], browserStageTime[1], browserStageTime[2], browserStageTime[3], browserStageTime[4]))
-      var options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        timezone: 'UTC',
-        hour: 'numeric',
-        minute: 'numeric'
+      if (this._stage.utcDateTime) {
+        let browserStageTime = this._stage.utcDateTime.split(',')
+        let convertedDate = new Date(Date.UTC(browserStageTime[0], browserStageTime[1], browserStageTime[2], browserStageTime[3], browserStageTime[4]))
+        var options = {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          timezone: 'UTC',
+          hour: 'numeric',
+          minute: 'numeric'
+        }
+      return convertedDate.toLocaleString("en", options)
+      } else {
+        return ''
       }
       
-      return convertedDate.toLocaleString("en", options)
     },
     utcStageTimeConverted () {
-      let browserStageTime = this._stage.utcDateTime.split(',')
-      let convertedDate = new Date(browserStageTime[0], browserStageTime[1], browserStageTime[2], browserStageTime[3], browserStageTime[4])
-      var options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        timezone: 'UTC',
-        hour: 'numeric',
-        minute: 'numeric'
+      if (this._stage.utcDateTime) {
+        let browserStageTime = this._stage.utcDateTime.split(',')
+        let convertedDate = new Date(browserStageTime[0], browserStageTime[1], browserStageTime[2], browserStageTime[3], browserStageTime[4])
+        var options = {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          timezone: 'UTC',
+          hour: 'numeric',
+          minute: 'numeric'
+        }
+        return convertedDate.toLocaleString("en", options)
+      } else {
+        return ''
       }
-      
-      return convertedDate.toLocaleString("en", options)
     }
   },
   components: {
