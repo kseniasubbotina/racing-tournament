@@ -2,7 +2,7 @@
   <div>
     <v-layout>
       <v-flex>
-        <h1>{{_championship.info.name}}</h1>
+        <!-- <h1>{{_championship.info.name}}</h1> -->
         <v-spacer></v-spacer>
       </v-flex>
     </v-layout>
