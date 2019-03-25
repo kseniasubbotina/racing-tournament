@@ -4,28 +4,43 @@
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
     <v-card :key="championship.documentId" v-else-if="championship">
-      <v-alert
-        class="black--text"
-        v-if="!championship.approved && (isAdmin || isAuthor)"
-        :value="championship"
-        type="warning"
-      >
-        <div
-          v-if="championship.rejectComment && !championship.approved"
-        >{{championship.rejectComment}}</div>
-        <div v-else>Waiting for moderation</div>
-      </v-alert>
-      <ChampionshipActions :_championship="championship" :_isAdmin="isAdmin" :_isAuthor="isAuthor"/>
       <v-container>
+        <v-alert
+          class="black--text"
+          v-if="!championship.approved && (isAdmin || isAuthor)"
+          :value="championship"
+          type="warning"
+        >
+          <div
+            v-if="championship.rejectComment && !championship.approved"
+          >{{championship.rejectComment}}</div>
+          <div v-else>Waiting for moderation</div>
+        </v-alert>
+        <ChampionshipActions
+          :_championship="championship"
+          :_isAdmin="isAdmin"
+          :_isAuthor="isAuthor"
+        />
+        <v-layout align-center justify-space-between>
+          <v-flex>
+            <h1>{{championship.info.name}}</h1>
+          </v-flex>
+          <v-flex shrink>
+            <v-btn
+              v-if="isParticipant"
+              flat
+              color="error"
+              @click="leaveChampionship(championship, userId)"
+            >
+              <v-icon>exit_to_app</v-icon>Leave championship
+            </v-btn>
+            <v-btn v-else dark color="green" @click="selectTeam" depressed>
+              <v-icon>assignment_turned_in</v-icon>Join championship
+            </v-btn>
+          </v-flex>
+        </v-layout>
         <ChampionshipInfo :_championship="championship"/>
         <!-- <ChampionshipCalendar :_championship="championship"/> -->
-        <v-btn
-          v-if="isParticipant"
-          flat
-          color="red"
-          @click="leaveChampionship(championship, userId)"
-        >Leave championship</v-btn>
-        <v-btn v-else dark color="green" @click="selectTeam" depressed>Join championship</v-btn>
         <ChampionshipTabs :_championship="championship"/>
         <v-dialog v-model="joinDialog" max-width="500">
           <component
