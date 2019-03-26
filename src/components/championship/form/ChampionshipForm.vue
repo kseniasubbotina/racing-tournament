@@ -93,7 +93,9 @@ export default {
       return this._championship ? this._championship.settings : null
     },
     calendarProp() {
-      return this._championship ? this._championship.calendar : null
+      debugger
+      let calendar = this._championship.calendar
+      return calendar
     },
     externalInfoProp() {
       return this._championship ? this._championship.externalInfo : null

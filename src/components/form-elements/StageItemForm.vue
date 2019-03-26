@@ -1,9 +1,9 @@
 <template>
   <v-card flat>
-    {{utcDateTime}}
     <v-layout align-center wrap>
       <v-flex xs2 md1>
         <v-layout pr-1 justify-center>
+          {{_stage.country}}
           <CountryFlag :_country="_stage.country"/>
         </v-layout>
       </v-flex>
@@ -41,7 +41,7 @@
           :close-on-content-click="false"
           v-model="timeMenu"
           :nudge-right="40"
-          :return-value.sync="_stage.time"
+          :return-value.sync="time"
           lazy
           transition="scale-transition"
           offset-y
@@ -55,19 +55,19 @@
             :error-messages="errors.collect('time')"
             prepend-icon="access_time"
             slot="activator"
-            v-model="_stage.time"
+            v-model="time"
             label="Race Time"
             readonly
           ></v-text-field>
           <v-time-picker
-            v-model="_stage.time"
-            @change="$refs.menu.save(_stage.time)"
+            v-model="time"
+            @change="$refs.menu.save(time)"
             header-color="primary"
             color="blue"
           >
             <v-spacer></v-spacer>
             <v-btn flat color="primary" @click="timeMenu = false">Cancel</v-btn>
-            <v-btn flat color="primary" @click="$refs.menu.save(_stage.time)">OK</v-btn>
+            <v-btn flat color="primary" @click="$refs.menu.save(time)">OK</v-btn>
           </v-time-picker>
         </v-menu>
       </v-flex>
@@ -87,6 +87,7 @@
 </template>
 
 <script>
+import idGenerator from '@/mixins/generateId'
 import TrackSelect from '@/components/form-elements/TrackSelect.vue'
 import CountryFlag from '@/components/CountryFlag.vue'
 import moment from 'moment'
@@ -100,6 +101,7 @@ export default {
       track: '',
       trackId: '',
       date: '',
+      time: null,
       stageCountry: '',
       isValidated: false
     }
@@ -110,9 +112,9 @@ export default {
     _stage: Object
   },
   watch: {
-    track() {
-      this.updateStage()
-    },
+    // track() {
+    //   this.updateStage()
+    // },
     date() {
       this.updateStage()
     },
@@ -120,21 +122,8 @@ export default {
       this.updateStage()
     }
   },
-  computed: {
-    utcDateTime () {
-      if(this._stage.date && this._stage.time) {
-      let date = this._stage.date.split('-')
-      let time = this._stage.time.split(':')
-      let localStageDateTIme = new Date(date[0], date[1]-1, date[2], time[0], time[1])
-      let year = localStageDateTIme.getUTCFullYear()
-      let month = localStageDateTIme.getUTCMonth()
-      let day = localStageDateTIme.getUTCDate()
-      let hours = localStageDateTIme.getUTCHours()
-      let minutes = localStageDateTIme.getUTCMinutes()
-      let utcDateTime = year + ', ' + month + ', ' + day + ', ' + hours + ', ' + minutes
-      return utcDateTime.toString()
-      }
-    }
+  mounted () {
+    this.time = this._stage.time
   },
   methods: {
     addStage() {
@@ -154,13 +143,13 @@ export default {
     },
     updateStage() {
       var stage = {
+        id: idGenerator.generateId(),
         track: this.track,
         country: this.stageCountry,
-        documentId: this.trackId,
+        trackId: this.trackId,
         date: this._stage.date || this.date,
-        time: this._stage.time,
-        index: this._index,
-        utcDateTime: this.utcDateTime
+        time: this.time,
+        index: this._index
       }
       this.$emit('updateStage', stage)
     },
@@ -178,6 +167,9 @@ export default {
       this.trackId = data.id
     }
   },
+  mixins: [
+    idGenerator
+  ],
   components: {
     TrackSelect,
     CountryFlag

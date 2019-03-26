@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div v-for="(stage, i) in stages">stage.track</div>
     <v-label>Add Stages</v-label>
     <v-alert type="info" :value="true">
       <div>Just set time of races in your time, it will adjust for other users timezones.</div>
@@ -30,7 +31,7 @@ export default {
       stages: [
         {
           track: '',
-          date: null,
+          date: '',
           time: null,
           index: Math.random()
         }
@@ -40,7 +41,7 @@ export default {
   props: {
     _calendar: Array
   },
-  mounted() {
+  created() {
     this.fetchCalendar()
   },
   computed: {
@@ -61,6 +62,7 @@ export default {
   },
   methods: {
     fetchCalendar() {
+      debugger
       if (this._calendar) this.stages = this._calendar
     },
     nextStep() {
@@ -70,14 +72,17 @@ export default {
       var stage = {
         track: '',
         country: '',
-        date: null,
-        time: this.stages.time,
+        date: '',
+        time: null,
         index: Math.random()
       }
       this.stages.push(stage)
     },
     updateStage(stage) {
       let arayIndex = null
+      // Пихать это в этап при отправке на сервер а не тут
+      // stage.date = this.dateTimeToUtc(stage.date, stage.time, 'date')
+      // stage.time = this.dateTimeToUtc(stage.date, stage.time, 'time')
       this.stages.forEach((item, i, arr) => {
         if (item.index == stage.index) {
           arayIndex = i
@@ -89,11 +94,32 @@ export default {
       if (this.stages.length !== 1) {
         let index = null
         this.stages.forEach((item, i, arr) => {
-          if (item.id == id) {
+          if (item.index == id) {
             index = i
           }
         })
         this.stages.splice(index, 1)
+      }
+    },
+    dateTimeToUtc (date, time, type) {
+      if(date && time) {
+        let dateArr = date.split('-')
+        let timeArr = time.split(':')
+        let localStageDateTIme = new Date(dateArr[0], dateArr[1]-1, dateArr[2], timeArr[0], timeArr[1])
+        let year = localStageDateTIme.getUTCFullYear()
+        let month = localStageDateTIme.getUTCMonth()
+        let day = localStageDateTIme.getUTCDate()
+        let hours = localStageDateTIme.getUTCHours()
+        let minutes = localStageDateTIme.getUTCMinutes()
+        // let utcDateTime = year + ', ' + month + ', ' + day + ', ' + hours + ', ' + minutes
+        if(type == 'date') {
+          return year + '-' + month + '-' + day
+        } else if(type == 'time') {
+          return hours + ':' + minutes
+        }
+        // return utcDateTime.toString()
+      } else {
+        return ''
       }
     }
   },
