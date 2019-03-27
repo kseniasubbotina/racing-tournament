@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div v-for="(stage, i) in stages">stage.track</div>
     <v-label>Add Stages</v-label>
     <v-alert type="info" :value="true">
       <div>Just set time of races in your time, it will adjust for other users timezones.</div>
@@ -62,8 +61,8 @@ export default {
   },
   methods: {
     fetchCalendar() {
-      debugger
       if (this._calendar) this.stages = this._calendar
+      // if (this._calendar) this.stages.splice(0, this.stages.length, this._calendar)
     },
     nextStep() {
       this.$emit('nextStep', this.stages, 'calendar')

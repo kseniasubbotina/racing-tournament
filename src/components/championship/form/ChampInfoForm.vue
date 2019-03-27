@@ -83,7 +83,6 @@ export default {
   },
   // watch: {
   //   champName(val) {
-  //     debugger
   //     this.validate()
   //   }
   // },

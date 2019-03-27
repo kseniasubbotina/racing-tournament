@@ -1,14 +1,14 @@
 <template>
   <v-card flat>
+    {{_stage.track}}
     <v-layout align-center wrap>
       <v-flex xs2 md1>
         <v-layout pr-1 justify-center>
-          {{_stage.country}}
-          <CountryFlag :_country="_stage.country"/>
+          <CountryFlag :_country="stage.stageCountry"/>
         </v-layout>
       </v-flex>
       <v-flex xs10 lg3 md3>
-        <TrackSelect @changeTrack="onchangeTrack" :_selectedTrack="_stage.track || ''"/>
+        <TrackSelect @changeTrack="onchangeTrack" :_selectedTrack="stage.track || ''"/>
       </v-flex>
       <v-flex xs12 md3>
         <v-menu
@@ -41,7 +41,7 @@
           :close-on-content-click="false"
           v-model="timeMenu"
           :nudge-right="40"
-          :return-value.sync="time"
+          :return-value.sync="stage.time"
           lazy
           transition="scale-transition"
           offset-y
@@ -55,19 +55,19 @@
             :error-messages="errors.collect('time')"
             prepend-icon="access_time"
             slot="activator"
-            v-model="time"
+            v-model="stage.time"
             label="Race Time"
             readonly
           ></v-text-field>
           <v-time-picker
-            v-model="time"
-            @change="$refs.menu.save(time)"
+            v-model="stage.time"
+            @change="$refs.menu.save(stage.time)"
             header-color="primary"
             color="blue"
           >
             <v-spacer></v-spacer>
             <v-btn flat color="primary" @click="timeMenu = false">Cancel</v-btn>
-            <v-btn flat color="primary" @click="$refs.menu.save(time)">OK</v-btn>
+            <v-btn flat color="primary" @click="$refs.menu.save(stage.time)">OK</v-btn>
           </v-time-picker>
         </v-menu>
       </v-flex>
@@ -96,13 +96,20 @@ export default {
   name: 'StageItemForm',
   data() {
     return {
+      stage: {
+        track: '',
+        trackId: '',
+        date: '',
+        time: null,
+        stageCountry: ''
+      },
       timeMenu: false,
       dateMenu: false,
-      track: '',
-      trackId: '',
-      date: '',
-      time: null,
-      stageCountry: '',
+      // track: '',
+      // trackId: '',
+      // date: '',
+      // time: null,
+      // stageCountry: '',
       isValidated: false
     }
   },
@@ -112,9 +119,9 @@ export default {
     _stage: Object
   },
   watch: {
-    // track() {
-    //   this.updateStage()
-    // },
+    track() {
+      this.updateStage()
+    },
     date() {
       this.updateStage()
     },
@@ -123,6 +130,7 @@ export default {
     }
   },
   mounted () {
+    this.stage = this._stage
     this.time = this._stage.time
   },
   methods: {
@@ -144,11 +152,11 @@ export default {
     updateStage() {
       var stage = {
         id: idGenerator.generateId(),
-        track: this.track,
-        country: this.stageCountry,
-        trackId: this.trackId,
-        date: this._stage.date || this.date,
-        time: this.time,
+        track: this.stage.track,
+        country: this.stage.stageCountry,
+        trackId: this.stage.trackId,
+        date: this._stage.date || this.stage.date,
+        time: this.stage.time,
         index: this._index
       }
       this.$emit('updateStage', stage)
@@ -162,9 +170,9 @@ export default {
       })
     },
     onchangeTrack(data) {
-      this.track = data.name
-      this.stageCountry = data.country
-      this.trackId = data.id
+      this.stage.track = data.name
+      this.stage.stageCountry = data.country
+      this.stage.trackId = data.id
     }
   },
   mixins: [

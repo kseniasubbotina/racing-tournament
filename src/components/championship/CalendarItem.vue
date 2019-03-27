@@ -4,7 +4,7 @@
       <v-card>
         <v-card-text @click="stageResults = true">
           <v-layout align-center>
-            <CountryFlag class="pr-2" :_country="_stage.country" :_width="60"/>
+            <CountryFlag class="pr-2" :_country="_stage.stageCountry" :_width="60"/>
             <v-flex>
               <div>Your: {{browserStageTimeFormatted}}</div>
               <div>GMT +0: {{utcStageTimeConverted}}</div>
