@@ -1,14 +1,14 @@
 <template>
   <v-card flat>
-    {{utcDateTime}}
+    {{_stage.track}}
     <v-layout align-center wrap>
       <v-flex xs2 md1>
         <v-layout pr-1 justify-center>
-          <CountryFlag :_country="_stage.country"/>
+          <CountryFlag :_country="stage.stageCountry"/>
         </v-layout>
       </v-flex>
       <v-flex xs10 lg3 md3>
-        <TrackSelect @changeTrack="onchangeTrack" :_selectedTrack="_stage.track || ''"/>
+        <TrackSelect @changeTrack="onchangeTrack" :_selectedTrack="stage.track || ''"/>
       </v-flex>
       <v-flex xs12 md3>
         <v-menu
@@ -41,7 +41,7 @@
           :close-on-content-click="false"
           v-model="timeMenu"
           :nudge-right="40"
-          :return-value.sync="_stage.time"
+          :return-value.sync="stage.time"
           lazy
           transition="scale-transition"
           offset-y
@@ -55,19 +55,19 @@
             :error-messages="errors.collect('time')"
             prepend-icon="access_time"
             slot="activator"
-            v-model="_stage.time"
+            v-model="stage.time"
             label="Race Time"
             readonly
           ></v-text-field>
           <v-time-picker
-            v-model="_stage.time"
-            @change="$refs.menu.save(_stage.time)"
+            v-model="stage.time"
+            @change="$refs.menu.save(stage.time)"
             header-color="primary"
             color="blue"
           >
             <v-spacer></v-spacer>
             <v-btn flat color="primary" @click="timeMenu = false">Cancel</v-btn>
-            <v-btn flat color="primary" @click="$refs.menu.save(_stage.time)">OK</v-btn>
+            <v-btn flat color="primary" @click="$refs.menu.save(stage.time)">OK</v-btn>
           </v-time-picker>
         </v-menu>
       </v-flex>
@@ -87,6 +87,7 @@
 </template>
 
 <script>
+import idGenerator from '@/mixins/generateId'
 import TrackSelect from '@/components/form-elements/TrackSelect.vue'
 import CountryFlag from '@/components/CountryFlag.vue'
 import moment from 'moment'
@@ -95,12 +96,20 @@ export default {
   name: 'StageItemForm',
   data() {
     return {
+      stage: {
+        track: '',
+        trackId: '',
+        date: '',
+        time: null,
+        stageCountry: ''
+      },
       timeMenu: false,
       dateMenu: false,
-      track: '',
-      trackId: '',
-      date: '',
-      stageCountry: '',
+      // track: '',
+      // trackId: '',
+      // date: '',
+      // time: null,
+      // stageCountry: '',
       isValidated: false
     }
   },
@@ -120,21 +129,9 @@ export default {
       this.updateStage()
     }
   },
-  computed: {
-    utcDateTime () {
-      if(this._stage.date && this._stage.time) {
-      let date = this._stage.date.split('-')
-      let time = this._stage.time.split(':')
-      let localStageDateTIme = new Date(date[0], date[1]-1, date[2], time[0], time[1])
-      let year = localStageDateTIme.getUTCFullYear()
-      let month = localStageDateTIme.getUTCMonth()
-      let day = localStageDateTIme.getUTCDate()
-      let hours = localStageDateTIme.getUTCHours()
-      let minutes = localStageDateTIme.getUTCMinutes()
-      let utcDateTime = year + ', ' + month + ', ' + day + ', ' + hours + ', ' + minutes
-      return utcDateTime.toString()
-      }
-    }
+  mounted () {
+    this.stage = this._stage
+    this.time = this._stage.time
   },
   methods: {
     addStage() {
@@ -154,13 +151,13 @@ export default {
     },
     updateStage() {
       var stage = {
-        track: this.track,
-        country: this.stageCountry,
-        documentId: this.trackId,
-        date: this._stage.date || this.date,
-        time: this._stage.time,
-        index: this._index,
-        utcDateTime: this.utcDateTime
+        id: idGenerator.generateId(),
+        track: this.stage.track,
+        country: this.stage.stageCountry,
+        trackId: this.stage.trackId,
+        date: this._stage.date || this.stage.date,
+        time: this.stage.time,
+        index: this._index
       }
       this.$emit('updateStage', stage)
     },
@@ -173,11 +170,14 @@ export default {
       })
     },
     onchangeTrack(data) {
-      this.track = data.name
-      this.stageCountry = data.country
-      this.trackId = data.id
+      this.stage.track = data.name
+      this.stage.stageCountry = data.country
+      this.stage.trackId = data.id
     }
   },
+  mixins: [
+    idGenerator
+  ],
   components: {
     TrackSelect,
     CountryFlag

@@ -1,12 +1,10 @@
 <template>
   <div>
     <h2>Calendar</h2>
-    <v-layout wrap justify-center>
-      <CalendarItem
-        v-for="stage in _championship.calendar"
-        :key="stage.documentId"
-        :_stage="stage"
-      />
+    <v-layout wrap>
+      <v-flex v-for="stage in _championship.calendar" :key="stage.id">
+        <CalendarItem :_stage="stage"/>
+      </v-flex>
     </v-layout>
   </div>
 </template>

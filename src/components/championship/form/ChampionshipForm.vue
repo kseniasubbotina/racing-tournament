@@ -56,7 +56,7 @@
             :loading="imageLoading"
             dark
             color="green"
-            @click="submit('update', _championship.documentId)"
+            @click="submit('update', championship.documentId)"
           >Update</v-btn>
         </v-layout>
       </v-stepper-content>
@@ -85,18 +85,21 @@ export default {
       default: false
     }
   },
+  created () {
+    this.championship = this._championship
+  },
   computed: {
     champInfo() {
-      return this._championship ? this._championship.info : null
+      return this.championship ? this.championship.info : null
     },
     champSettingsProp() {
-      return this._championship ? this._championship.settings : null
-    },
-    calendarProp() {
-      return this._championship ? this._championship.calendar : null
+      return this.championship ? this.championship.settings : null
     },
     externalInfoProp() {
-      return this._championship ? this._championship.externalInfo : null
+      return this.championship ? this.championship.externalInfo : null
+    },
+    calendarProp () {
+      return this.championship ? this.championship.calendar : []
     },
     isLoggedIn() {
       var isLoggedIn = this.$store.getters.user ? true : false
