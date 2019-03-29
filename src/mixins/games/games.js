@@ -1,4 +1,5 @@
 import fb from '@/firebase/config.js'
+import idGenerator from '@/mixins/generateId'
 
 export default {
   watch: {
@@ -44,7 +45,7 @@ export default {
         .doc()
         .set({
           name: this.gameData.name,
-          id: this.gameData.name,
+          id: this.gameData.name + '_' + idGenerator.generateId(),
           releaseDate: this.gameData.releaseDate,
           platforms: this.gameData.platforms,
           developer: this.gameData.developer,
