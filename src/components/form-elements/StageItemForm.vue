@@ -73,10 +73,19 @@
       <v-flex xs12 md3>
         <v-layout>
           <!-- <v-spacer></v-spacer> -->
-          <v-btn small flat depressed fab color="red" dark @click="removeStage()">
+          <v-btn small flat depressed fab color="red" dark @click.stop="removeStage()">
             <v-icon>remove</v-icon>
           </v-btn>
-          <v-btn v-if="_isLast" small fab flat depressed color="success" dark @click="addStage">
+          <v-btn
+            v-if="_isLast"
+            small
+            fab
+            flat
+            depressed
+            color="success"
+            dark
+            @click.stop="addStage"
+          >
             <v-icon>add</v-icon>
           </v-btn>
         </v-layout>
@@ -104,11 +113,6 @@ export default {
       },
       timeMenu: false,
       dateMenu: false,
-      // track: '',
-      // trackId: '',
-      // date: '',
-      // time: null,
-      // stageCountry: '',
       isValidated: false
     }
   },
