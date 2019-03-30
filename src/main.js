@@ -6,6 +6,7 @@ import Vuetify from 'vuetify'
 import moment from 'moment'
 import 'vuetify/src/stylus/main.styl'
 import './styles/main.css'
+import './styles/layout.css'
 import VeeValidate from 'vee-validate'
 import fb from './firebase/config'
 

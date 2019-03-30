@@ -157,7 +157,8 @@ export default {
         id: idGenerator.generateId(),
         track: this.stage.track,
         country: this.stage.stageCountry,
-        trackId: this.stage.trackId,
+        trackDocumentId: this.stage.trackId,
+        // trackId: this.stage.id,
         date: this._stage.date || this.stage.date,
         time: this.stage.time,
         index: this._index
@@ -175,7 +176,7 @@ export default {
     onchangeTrack(data) {
       this.stage.track = data.name
       this.stage.stageCountry = data.country
-      this.stage.trackId = data.id
+      this.stage.trackDocumentId = data.id
     }
   },
   mixins: [
