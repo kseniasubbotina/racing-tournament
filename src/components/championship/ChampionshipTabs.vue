@@ -28,7 +28,7 @@ export default {
           public: true
         },
         {
-          name: 'Calendar',
+          name: 'Results',
           componentName: 'ChampionshipCalendar',
           public: true
         },
