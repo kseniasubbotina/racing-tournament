@@ -1,14 +1,13 @@
 <template>
   <v-card flat>
-    {{_stage.track}}
     <v-layout align-center wrap>
       <v-flex xs2 md1>
         <v-layout pr-1 justify-center>
-          <CountryFlag :_country="stage.stageCountry"/>
+          <CountryFlag :_country="_stage.stageCountry"/>
         </v-layout>
       </v-flex>
       <v-flex xs10 lg3 md3>
-        <TrackSelect @changeTrack="onchangeTrack" :_selectedTrack="stage.track || ''"/>
+        <TrackSelect @changeTrack="onchangeTrack" :_selectedTrack="_stage.track || ''"/>
       </v-flex>
       <v-flex xs12 md3>
         <v-menu
@@ -41,7 +40,7 @@
           :close-on-content-click="false"
           v-model="timeMenu"
           :nudge-right="40"
-          :return-value.sync="stage.time"
+          :return-value.sync="_stage.time"
           lazy
           transition="scale-transition"
           offset-y
@@ -55,29 +54,38 @@
             :error-messages="errors.collect('time')"
             prepend-icon="access_time"
             slot="activator"
-            v-model="stage.time"
+            v-model="_stage.time"
             label="Race Time"
             readonly
           ></v-text-field>
           <v-time-picker
-            v-model="stage.time"
-            @change="$refs.menu.save(stage.time)"
+            v-model="_stage.time"
+            @change="$refs.menu.save(_stage.time)"
             header-color="primary"
             color="blue"
           >
             <v-spacer></v-spacer>
             <v-btn flat color="primary" @click="timeMenu = false">Cancel</v-btn>
-            <v-btn flat color="primary" @click="$refs.menu.save(stage.time)">OK</v-btn>
+            <v-btn flat color="primary" @click="$refs.menu.save(_stage.time)">OK</v-btn>
           </v-time-picker>
         </v-menu>
       </v-flex>
       <v-flex xs12 md3>
         <v-layout>
           <!-- <v-spacer></v-spacer> -->
-          <v-btn small flat depressed fab color="red" dark @click="removeStage()">
+          <v-btn small flat depressed fab color="red" dark @click.stop="removeStage()">
             <v-icon>remove</v-icon>
           </v-btn>
-          <v-btn v-if="_isLast" small fab flat depressed color="success" dark @click="addStage">
+          <v-btn
+            v-if="_isLast"
+            small
+            fab
+            flat
+            depressed
+            color="success"
+            dark
+            @click.stop="addStage"
+          >
             <v-icon>add</v-icon>
           </v-btn>
         </v-layout>
@@ -105,11 +113,6 @@ export default {
       },
       timeMenu: false,
       dateMenu: false,
-      // track: '',
-      // trackId: '',
-      // date: '',
-      // time: null,
-      // stageCountry: '',
       isValidated: false
     }
   },
@@ -154,7 +157,8 @@ export default {
         id: idGenerator.generateId(),
         track: this.stage.track,
         country: this.stage.stageCountry,
-        trackId: this.stage.trackId,
+        trackDocumentId: this.stage.trackId,
+        // trackId: this.stage.id,
         date: this._stage.date || this.stage.date,
         time: this.stage.time,
         index: this._index
@@ -172,7 +176,7 @@ export default {
     onchangeTrack(data) {
       this.stage.track = data.name
       this.stage.stageCountry = data.country
-      this.stage.trackId = data.id
+      this.stage.trackDocumentId = data.id
     }
   },
   mixins: [

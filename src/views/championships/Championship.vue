@@ -5,7 +5,6 @@
     </div>
     <v-card :key="championship.documentId" v-else-if="championship">
       <v-container>
-        <div v-for="(stage, i) in championship.calendar">{{stage.track}}</div>
         <v-alert
           class="black--text"
           v-if="!championship.approved && (isAdmin || isAuthor)"

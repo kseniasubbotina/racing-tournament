@@ -86,7 +86,9 @@ export default {
     }
   },
   created () {
-    this.championship = this._championship
+    if(this._championship) {
+      this.championship = this._championship
+    }
   },
   computed: {
     champInfo() {

@@ -31,6 +31,7 @@ export default {
         {
           track: '',
           date: '',
+          stageCountry: '',
           time: null,
           index: Math.random()
         }
@@ -62,7 +63,6 @@ export default {
   methods: {
     fetchCalendar() {
       if (this._calendar) this.stages = this._calendar
-      // if (this._calendar) this.stages.splice(0, this.stages.length, this._calendar)
     },
     nextStep() {
       this.$emit('nextStep', this.stages, 'calendar')
@@ -70,7 +70,6 @@ export default {
     addStage() {
       var stage = {
         track: '',
-        country: '',
         date: '',
         time: null,
         index: Math.random()

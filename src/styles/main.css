@@ -9,10 +9,10 @@
   font-weight: 700;
 }
 
-.application,
 .title,
-.headline,
-#app {
+h1,
+.v-card__title,
+.headline {
   font-family: 'f1font', sans-serif !important;
 }
 #app {

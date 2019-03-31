@@ -1,4 +1,5 @@
 import fb from '@/firebase/config.js'
+import idGenerator from '@/mixins/generateId'
 
 export default {
   watch: {
@@ -63,7 +64,7 @@ export default {
         .doc()
         .set({
           name: this.trackData.name,
-          id: this.trackData.name,
+          id: this.trackData.name + '_' + idGenerator.generateId(),
           country: this.trackData.country,
           firstGP: this.trackData.firstGP,
           length: this.trackData.length,

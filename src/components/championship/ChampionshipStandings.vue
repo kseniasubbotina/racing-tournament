@@ -14,6 +14,9 @@
         <template slot="items" slot-scope="props">
           <tr @click="props.expanded = !props.expanded">
             <td class="text-xs-center">
+              <span class="font-weight-bold">1</span>
+            </td>
+            <td class="text-xs-center">
               <span class="font-weight-bold">{{ props.item.username }}</span>
             </td>
             <td class="text-xs-center">{{ props.item.team.name }}</td>
@@ -72,7 +75,14 @@ export default {
       return drivers
     },
     headers() {
+      debugger
       let headers = [
+        {
+          text: 'Pos',
+          align: 'center',
+          sortable: true,
+          value: 'pos'
+        },
         {
           text: 'Username',
           align: 'center',
@@ -88,7 +98,7 @@ export default {
       ]
       for (let i = 0; i < this._championship.calendar.length; i++) {
         let calendarHeaderItem = {
-          text: this._championship.calendar[i].country,
+          text: this._championship.calendar[i].stageCountry,
           align: 'center',
           sortable: false,
           value: 'country'
