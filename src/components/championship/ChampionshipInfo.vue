@@ -6,15 +6,17 @@
         <v-spacer></v-spacer>
       </v-flex>
     </v-layout>
-    <v-layout column>
-      <h3>{{_championship.info.game.name}}</h3>
-      {{_championship.info.description}}
-      <div>Platform: {{_championship.info.platform}}</div>
-      <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div>
+    <h3>{{_championship.info.game.name}}</h3>
+    {{_championship.info.description}}
+    <v-layout>
+      <v-flex>Platform: {{_championship.info.platform}}</v-flex>
+      <v-flex>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</v-flex>
+      <v-flex>Author:
+        <router-link
+          :to="'/user_' + _championship.author.username"
+        >{{_championship.author.username}}</router-link>
+      </v-flex>
     </v-layout>
-    <div>Author:
-      <router-link :to="'/user_' + _championship.author.username">{{_championship.author.username}}</router-link>
-    </div>
   </div>
 </template>
 
