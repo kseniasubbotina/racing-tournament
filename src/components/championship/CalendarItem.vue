@@ -9,6 +9,7 @@
               <div>Your: {{browserStageTimeFormatted}}</div>
               <div>GMT +0: {{utcStageTimeConverted}}</div>
             </v-flex>
+            <v-btn>Add results</v-btn>
           </v-layout>
         </v-card-text>
       </v-card>
