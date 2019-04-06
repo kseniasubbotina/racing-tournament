@@ -1,5 +1,6 @@
 import fb from '@/firebase/config.js'
 import idGenerator from '@/mixins/generateId.js'
+import convertDateTime from '@/mixins/convertDateTime.js'
 
 export default {
   methods: {
@@ -38,8 +39,15 @@ export default {
         .then(querySnapshot => {
           if (!querySnapshot.empty) {
             querySnapshot.forEach(doc => {
-              this.championship = doc.data()
-              this.championship.documentId = doc.id
+              let championship = doc.data()
+              championship.documentId = doc.id
+              let calendar = championship.calendar
+              for (let i in calendar) {
+                let stage = calendar[i]
+                championship.calendar[i].date = this.dateTimeToBrowser(stage.date, stage.time, 'date')
+                championship.calendar[i].time = this.dateTimeToBrowser(stage.date, stage.time, 'time')
+              }
+              this.championship = championship
             })
             this.realtimeUpdate()
           } else {
@@ -170,5 +178,8 @@ export default {
           console.error('Error removing document: ', error)
         })
     }
-  }
+  },
+  mixins: [
+    convertDateTime
+  ]
 }

@@ -6,8 +6,10 @@
           <v-layout align-center>
             <CountryFlag class="pr-2" :_country="_stage.stageCountry" :_width="60"/>
             <v-flex>
-              <div>Your: {{browserStageTimeFormatted}}</div>
-              <div>GMT +0: {{utcStageTimeConverted}}</div>
+              <div>
+                <h3>{{_stage.date + ', ' + _stage.time}}</h3>
+              </div>
+              <div>Your local time</div>
             </v-flex>
             <v-btn>Add results</v-btn>
           </v-layout>
@@ -53,8 +55,7 @@ export default {
       return convertedDate.toLocaleString("en", options)
       } else {
         return ''
-      }
-      
+      } 
     },
     utcStageTimeConverted () {
       if (this._stage.utcDateTime) {
