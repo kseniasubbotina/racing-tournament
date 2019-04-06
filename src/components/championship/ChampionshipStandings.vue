@@ -75,7 +75,6 @@ export default {
       return drivers
     },
     headers() {
-      debugger
       let headers = [
         {
           text: 'Pos',
