@@ -16,7 +16,7 @@
         <h3>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</h3>
       </v-flex>
       <v-flex>
-        <h3>Author
+        <h3>Author:
           <router-link
             :to="'/user_' + _championship.author.username"
           >{{_championship.author.username}}</router-link>
