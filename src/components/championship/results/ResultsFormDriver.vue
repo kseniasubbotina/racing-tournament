@@ -1,5 +1,5 @@
 <template>
-  <v-layout>
+  <v-layout align-center>
     <v-flex>{{_driver.username}}</v-flex>
     <v-flex>
       <v-text-field
@@ -21,8 +21,8 @@
         v-model="finish"
       ></v-text-field>
     </v-flex>
-    <v-flex>Gain</v-flex>
-    <v-flex>
+    <v-flex>Gain: {{start - finish}}</v-flex>
+    <!-- <v-flex>
       <v-text-field
         v-validate="{required: true }"
         name="time"
@@ -31,8 +31,17 @@
         label="Best time"
         v-model="bestTime"
       ></v-text-field>
+    </v-flex>-->
+    <v-flex>
+      <v-text-field
+        v-validate="{required: true }"
+        name="stops"
+        type="number"
+        :error-messages="errors.collect('Pit stops')"
+        label="Pit stops"
+        v-model="stops"
+      ></v-text-field>
     </v-flex>
-    <v-flex>Stops</v-flex>
   </v-layout>
 </template>
 
@@ -43,7 +52,8 @@ export default {
     return {
       start: null,
       finish: null,
-      bestTime: null
+      stops: null
+      // bestTime: null
     }
   },
   props: {
