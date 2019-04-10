@@ -1,8 +1,13 @@
 <template>
   <v-card>
     <v-container>
-      <v-card-title>Add results</v-card-title>
+      <v-card-title>Add results for {{_stage.stageCountry}} Grand Prix - {{_stage.date}} - {{_stage.time}}</v-card-title>
       <ResultsFormDriver v-for="driver in _drivers" :key="driver.id" :_driver="driver"/>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn flat color="error">Cancel</v-btn>
+        <v-btn depressed dark color="green">Save</v-btn>
+      </v-card-actions>
     </v-container>
   </v-card>
 </template>
@@ -13,7 +18,8 @@ import ResultsFormDriver from '@/components/championship/results/ResultsFormDriv
 export default {
   name: 'ResultsForm',
   props: {
-    _drivers: Object
+    _drivers: Object,
+    _stage: Object
   },
   components: {
     ResultsFormDriver

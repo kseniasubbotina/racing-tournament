@@ -17,7 +17,7 @@
       </v-card>
     </a>
     <v-dialog v-model="stageResults" width="800px">
-      <component :is="component" :_drivers="_drivers"/>
+      <component :is="component" :_drivers="_drivers" :_stage="_stage"/>
     </v-dialog>
   </div>
 </template>
