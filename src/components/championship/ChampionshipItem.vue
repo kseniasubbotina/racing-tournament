@@ -19,7 +19,7 @@
       <div>
         <span class="grey--text">{{_championship.info.game.name}}</span>
         <div>Platform: {{_championship.info.platform}}</div>
-        <div>Start: {{_championship.calendar[0].date}}</div>
+        <div>Start: {{dateTimeToBrowser(_championship.calendar[0].date, _championship.calendar[0].time, 'date')}}</div>
         <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div>
       </div>
     </v-card-text>
@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import convertDateTime from '@/mixins/convertDateTime.js'
+
 export default {
   name: 'ChampionshipItem',
   props: {
@@ -58,6 +60,9 @@ export default {
         return 0
       }
     }
-  }
+  },
+  mixins: [
+    convertDateTime
+  ]
 }
 </script>

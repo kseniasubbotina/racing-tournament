@@ -31,7 +31,7 @@ export default {
         let hours = convertedDate.getHours()
         let browserDateTime = new Date(convertedDate.setHours(hours - offset))
         let year = browserDateTime.getFullYear()
-        let month = browserDateTime.getMonth()
+        let month = browserDateTime.getMonth() + 1
         let day = browserDateTime.getDate()
         hours = browserDateTime.getHours()
         let minutes = browserDateTime.getMinutes()

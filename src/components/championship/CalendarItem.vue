@@ -24,7 +24,6 @@
 
 <script>
 import CountryFlag from '@/components/CountryFlag.vue'
-import moment from 'moment'
 import ResultsForm from '@/components/championship/results/ResultsForm.vue'
 export default {
   name: 'CalendarItem',
