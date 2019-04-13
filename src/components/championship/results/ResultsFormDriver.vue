@@ -2,10 +2,40 @@
   <v-card class="mb-1">
     <v-form>
       <v-container>
-        <v-layout align-center wrap>
-          <v-flex class="subheading" xs12>{{_driver.username}}</v-flex>
+        <v-layout align-center justify-center wrap>
+          <v-flex class="subheading" xs12 sm3>{{_driver.username}}</v-flex>
+          <v-flex sm9>
+            <v-layout>
+              <v-checkbox
+                :disabled="dnf"
+                v-model="dns"
+                label="DNS"
+                color="blue"
+                :value="false"
+                hide-details
+              ></v-checkbox>
+              <v-checkbox
+                :disabled="dns"
+                v-model="dnf"
+                label="DNF"
+                color="blue"
+                :value="false"
+                hide-details
+              ></v-checkbox>
+              <v-checkbox
+                :disabled="dns"
+                v-model="dq"
+                label="DQ"
+                color="red"
+                :value="false"
+                hide-details
+              ></v-checkbox>
+            </v-layout>
+          </v-flex>
+
           <v-flex xs12 sm3>
             <v-text-field
+              :disabled="dns"
               v-validate="{required: true }"
               name="start"
               type="number"
@@ -16,6 +46,7 @@
           </v-flex>
           <v-flex xs10 sm3>
             <v-text-field
+              :disabled="dns || dnf"
               v-validate="{required: true }"
               name="Finish"
               type="number"
@@ -29,6 +60,7 @@
           </v-flex>
           <v-flex xs5 sm2>
             <v-text-field
+              :disabled="dns"
               v-validate="{required: true }"
               name="stops"
               type="number"
@@ -39,6 +71,7 @@
           </v-flex>
           <v-flex xs7 sm3>
             <v-text-field
+              :disabled="dns"
               name="time"
               mask="#:##:###"
               :error-messages="errors.collect('Time')"
@@ -62,7 +95,10 @@ export default {
       start: null,
       finish: null,
       stops: null,
-      bestTime: null
+      bestTime: null,
+      dq: false,
+      dnf: false,
+      dns: false
     }
   },
   props: {

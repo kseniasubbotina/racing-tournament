@@ -20,7 +20,7 @@
         </v-layout>
       </v-card-text>
     </v-card>
-    <v-dialog scrollable fullscreen v-model="stageResultsWindow" width="900px">
+    <v-dialog scrollable v-model="stageResultsWindow" width="900px">
       <component
         @closeWindow="stageResultsWindow=false"
         :is="component"
