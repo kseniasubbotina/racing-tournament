@@ -1,26 +1,20 @@
 <template>
   <div>
-    <v-layout>
-      <v-flex>
-        <!-- <h1>{{_championship.info.name}}</h1> -->
-        <v-spacer></v-spacer>
-      </v-flex>
-    </v-layout>
     <h3>{{_championship.info.game}}</h3>
     {{_championship.info.description}}
-    <v-layout>
-      <v-flex>
-        <h3>Platform: {{_championship.info.platform}}</h3>
+    <v-layout wrap>
+      <v-flex xs12 sm4>
+        <div>Platform: {{_championship.info.platform}}</div>
       </v-flex>
-      <v-flex>
-        <h3>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</h3>
+      <v-flex xs12 sm4>
+        <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div>
       </v-flex>
-      <v-flex>
-        <h3>Author:
+      <v-flex xs12 sm4>
+        <div>Author:
           <router-link
             :to="'/user_' + _championship.author.username"
           >{{_championship.author.username}}</router-link>
-        </h3>
+        </div>
       </v-flex>
     </v-layout>
   </div>

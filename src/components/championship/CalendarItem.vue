@@ -1,23 +1,32 @@
 <template>
   <div class="ma-2">
-    <a>
-      <v-card>
-        <v-card-text>
-          <v-layout align-center>
-            <CountryFlag class="pr-3" :_country="_stage.stageCountry" :_width="60"/>
-            <v-flex>
-              <div>
-                <h3>{{_stage.date + ', ' + _stage.time}}</h3>
-              </div>
-              <div>Your local time</div>
-            </v-flex>
-            <v-btn @click="stageResults = true">Add results</v-btn>
-          </v-layout>
-        </v-card-text>
-      </v-card>
-    </a>
-    <v-dialog v-model="stageResults" width="800px">
-      <component :is="component" :_drivers="_drivers" :_stage="_stage"/>
+    <v-card>
+      <v-card-text>
+        <v-layout align-center wrap>
+          <v-flex>
+            <v-layout align-start>
+              <v-flex>
+                <CountryFlag class="pr-3" :_country="_stage.stageCountry" :_width="60"/>
+              </v-flex>
+              <v-flex>
+                <div class="subheading">{{_stage.date + ', ' + _stage.time}}</div>
+                <div class="caption">Your local time</div>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+          <v-flex>
+            <v-btn @click="stageResultsWindow = true">Add results</v-btn>
+          </v-flex>
+        </v-layout>
+      </v-card-text>
+    </v-card>
+    <v-dialog scrollable fullscreen v-model="stageResultsWindow" width="900px">
+      <component
+        @closeWindow="stageResultsWindow=false"
+        :is="component"
+        :_drivers="_drivers"
+        :_stage="_stage"
+      />
     </v-dialog>
   </div>
 </template>
@@ -29,7 +38,7 @@ export default {
   name: 'CalendarItem',
   data() {
     return {
-      stageResults: false,
+      stageResultsWindow: false,
       component: 'ResultsForm'
     }
   },
