@@ -14,7 +14,10 @@
           </v-btn>
         </div>
         <EditTrackForm :_trackData="trackData"/>
-        <div>{{trackData.name}}</div>
+        <div>
+          <h1>{{trackData.name}}</h1>
+        </div>
+        <h3>Track info:</h3>
         <div>{{trackData.country}}</div>
         <div>length: {{trackData.length}}</div>
         <div>First GP: {{trackData.firstGP}}</div>

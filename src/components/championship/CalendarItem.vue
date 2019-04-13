@@ -1,82 +1,57 @@
 <template>
   <div class="ma-2">
-    <a>
-      <v-card>
-        <v-card-text @click="stageResults = true">
-          <v-layout align-center>
-            <CountryFlag class="pr-2" :_country="_stage.stageCountry" :_width="60"/>
-            <v-flex>
-              <div>
-                <h3>{{_stage.date + ', ' + _stage.time}}</h3>
-              </div>
-              <div>Your local time</div>
-            </v-flex>
-            <v-btn>Add results</v-btn>
-          </v-layout>
-        </v-card-text>
-      </v-card>
-    </a>
-    <v-dialog v-model="stageResults" width="800px">
-      <v-card>
-        <v-card-title>stage results</v-card-title>
-      </v-card>
+    <v-card>
+      <v-card-text>
+        <v-layout align-center wrap>
+          <v-flex>
+            <v-layout align-start>
+              <v-flex>
+                <CountryFlag class="pr-3" :_country="_stage.stageCountry" :_width="60"/>
+              </v-flex>
+              <v-flex>
+                <div class="subheading">{{_stage.date + ', ' + _stage.time}}</div>
+                <div class="caption">Your local time</div>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+          <v-flex>
+            <v-btn @click="stageResultsWindow = true">Add results</v-btn>
+          </v-flex>
+        </v-layout>
+      </v-card-text>
+    </v-card>
+    <v-dialog scrollable fullscreen v-model="stageResultsWindow" width="900px">
+      <component
+        @closeWindow="stageResultsWindow=false"
+        :is="component"
+        :_drivers="_drivers"
+        :_stage="_stage"
+      />
     </v-dialog>
   </div>
 </template>
 
 <script>
 import CountryFlag from '@/components/CountryFlag.vue'
-import moment from 'moment'
+import ResultsForm from '@/components/championship/results/ResultsForm.vue'
 export default {
   name: 'CalendarItem',
   data() {
     return {
-      stageResults: false
+      stageResultsWindow: false,
+      component: 'ResultsForm'
     }
   },
   props: {
     _results: Object,
     _country: String,
-    _stage: Object
-  },
-  computed: {
-    browserStageTimeFormatted () {
-      if (this._stage.utcDateTime) {
-        let browserStageTime = this._stage.utcDateTime.split(',')
-        let convertedDate = new Date(Date.UTC(browserStageTime[0], browserStageTime[1], browserStageTime[2], browserStageTime[3], browserStageTime[4]))
-        var options = {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          timezone: 'UTC',
-          hour: 'numeric',
-          minute: 'numeric'
-        }
-      return convertedDate.toLocaleString("en", options)
-      } else {
-        return ''
-      } 
-    },
-    utcStageTimeConverted () {
-      if (this._stage.utcDateTime) {
-        let browserStageTime = this._stage.utcDateTime.split(',')
-        let convertedDate = new Date(browserStageTime[0], browserStageTime[1], browserStageTime[2], browserStageTime[3], browserStageTime[4])
-        var options = {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          timezone: 'UTC',
-          hour: 'numeric',
-          minute: 'numeric'
-        }
-        return convertedDate.toLocaleString("en", options)
-      } else {
-        return ''
-      }
-    }
+    _stage: Object,
+    _drivers: Object
+
   },
   components: {
-    CountryFlag
+    CountryFlag,
+    ResultsForm
   }
 }
 </script>

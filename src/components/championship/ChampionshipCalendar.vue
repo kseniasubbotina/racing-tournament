@@ -1,9 +1,8 @@
 <template>
   <div>
-    <h2>Calendar</h2>
     <v-layout wrap>
       <v-flex xs12 v-for="stage in _championship.calendar" :key="stage.id">
-        <CalendarItem :_stage="stage"/>
+        <CalendarItem :_stage="stage" :_drivers="_championship.drivers"/>
       </v-flex>
     </v-layout>
   </div>

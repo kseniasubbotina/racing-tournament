@@ -6,9 +6,9 @@
     <v-layout v-else wrap>
       <h1>Available Championships</h1>
       <v-spacer></v-spacer>
-      <v-btn v-if="isLoggedIn" :to="'/create'" depressed color="success">
+      <!-- <v-btn v-if="isLoggedIn" :to="'/create'" depressed color="success">
         <v-icon>add</v-icon>Create Championship
-      </v-btn>
+      </v-btn>-->
     </v-layout>
     <v-layout wrap>
       <v-flex
@@ -24,22 +24,14 @@
       </v-flex>
       <v-layout>
         <v-flex sx12>
-          <v-btn
-            @click.stop="showCreateForm = true"
-            color="red darken-2"
-            dark
-            fixed
-            bottom
-            right
-            fab
-          >
+          <v-btn v-if="isLoggedIn" :to="'/create'" color="green" dark fixed bottom right fab>
             <v-icon>add</v-icon>
           </v-btn>
         </v-flex>
       </v-layout>
-      <v-dialog v-model="showCreateForm" max-width="950px">
+      <!-- <v-dialog v-model="showCreateForm" max-width="950px">
         <ChampionshipForm :_isNew="true" v-if="showCreateForm"/>
-      </v-dialog>
+      </v-dialog>-->
     </v-layout>
   </v-container>
 </template>

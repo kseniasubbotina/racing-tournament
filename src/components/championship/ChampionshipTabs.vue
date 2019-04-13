@@ -1,6 +1,6 @@
 <template>
   <v-flex xs12>
-    <v-tabs show-arrows>
+    <v-tabs touchless show-arrows>
       <v-tabs-slider color="red"></v-tabs-slider>
       <v-tab v-for="item in tabs" :key="item.name">{{ item.name }}</v-tab>
       <v-tabs-items>
