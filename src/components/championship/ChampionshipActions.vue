@@ -26,8 +26,9 @@
       >
         <v-icon>exit_to_app</v-icon>Leave championship
       </v-btn>-->
+      <v-spacer></v-spacer>
       <v-menu v-if="_isAdmin || isParticipant">
-        <v-btn color="grey" dark icon slot="activator">
+        <v-btn icon slot="activator">
           <v-icon>more_vert</v-icon>
         </v-btn>
         <v-list>

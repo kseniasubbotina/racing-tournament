@@ -3,7 +3,7 @@
     <div v-if="loading" class="text-xs-center">
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
-    <v-card :key="championship.documentId" v-else-if="championship">
+    <v-card flat :key="championship.documentId" v-else-if="championship">
       <v-container>
         <v-alert
           class="black--text"
@@ -19,7 +19,7 @@
 
         <v-layout align-center justify-space-between wrap>
           <v-flex xs10 lg7>
-            <h2>{{championship.info.name}}</h2>
+            <div class="display-1">{{championship.info.name}}</div>
           </v-flex>
           <v-spacer></v-spacer>
           <v-flex xs2 shrink>
@@ -29,13 +29,13 @@
               :_isAuthor="isAuthor"
             />
           </v-flex>
-          <v-flex shrink>
-            <v-btn v-if="!isParticipant" dark color="green" @click="selectTeam" depressed>
-              <v-icon>assignment_turned_in</v-icon>Join championship
-            </v-btn>
-          </v-flex>
         </v-layout>
         <ChampionshipInfo :_championship="championship"/>
+        <v-layout justify-center class="my-3">
+          <v-btn v-if="!isParticipant" dark color="green" @click="selectTeam" depressed>
+            <v-icon>assignment_turned_in</v-icon>Join championship
+          </v-btn>
+        </v-layout>
         <!-- <ChampionshipCalendar :_championship="championship"/> -->
         <ChampionshipTabs :_championship="championship"/>
         <v-dialog v-model="joinDialog" max-width="500">

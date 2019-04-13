@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h3>{{_championship.info.game}}</h3>
-    {{_championship.info.description}}
+    <div class="subheading">{{_championship.info.game}}</div>
     <v-layout wrap>
       <v-flex xs12 sm4>
         <div>Platform: {{_championship.info.platform}}</div>
@@ -17,6 +16,7 @@
         </div>
       </v-flex>
     </v-layout>
+    {{_championship.info.description}}
   </div>
 </template>
 
