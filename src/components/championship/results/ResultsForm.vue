@@ -4,7 +4,13 @@
       <v-card-title
         class="title"
       >Add results for {{_stage.stageCountry}} Grand Prix - {{_stage.date}} - {{_stage.time}}</v-card-title>
-      <ResultsFormDriver v-for="driver in _drivers" :key="driver.id" :_driver="driver"/>
+      {{raceResults}}
+      <ResultsFormDriver
+        v-for="driver in _drivers"
+        :key="driver.id"
+        :_driver="driver"
+        @driverResultUpdate="onDriverResultUpdate"
+      />
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn flat color="error" @click="closeWindow">Cancel</v-btn>
@@ -19,6 +25,11 @@ import ResultsFormDriver from '@/components/championship/results/ResultsFormDriv
 
 export default {
   name: 'ResultsForm',
+  data () {
+    return {
+      raceResults: {}
+    }
+  },
   props: {
     _drivers: Object,
     _stage: Object
@@ -27,6 +38,10 @@ export default {
     ResultsFormDriver
   },
   methods: {
+    onDriverResultUpdate (result) {
+      debugger
+      this.$set(this.raceResults, result.driver.userId, result.data)
+    },
     closeWindow () {
       this.$emit('closeWindow')
     }
