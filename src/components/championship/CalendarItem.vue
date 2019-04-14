@@ -4,8 +4,8 @@
       <v-card-text>
         <v-layout align-center wrap>
           <v-flex>
-            <v-layout align-start>
-              <v-flex>
+            <v-layout align-center justify-start>
+              <v-flex shrink>
                 <CountryFlag class="pr-3" :_country="_stage.stageCountry" :_width="60"/>
               </v-flex>
               <v-flex>
@@ -14,8 +14,8 @@
               </v-flex>
             </v-layout>
           </v-flex>
-          <v-flex>
-            <v-btn @click="stageResultsWindow = true">Add results</v-btn>
+          <v-flex shrink>
+            <v-btn depressed @click="stageResultsWindow = true">Add results</v-btn>
           </v-flex>
         </v-layout>
       </v-card-text>
