@@ -4,7 +4,7 @@
       <v-container>
         <v-layout align-center justify-center wrap>
           <v-flex class="subheading" xs12 sm3>{{_driver.username}}</v-flex>
-          <v-flex sm9>
+          <v-flex sm7>
             <v-layout>
               <v-checkbox
                 :disabled="result.dnf"
@@ -31,6 +31,9 @@
                 hide-details
               ></v-checkbox>
             </v-layout>
+          </v-flex>
+          <v-flex sm2>
+            <BestLapIndicator v-if="_isBestLap"/>
           </v-flex>
 
           <v-flex xs12 sm3>
@@ -88,6 +91,7 @@
 
 <script>
 import PositionDiff from '@/components/championship/results/PositionDiff.vue'
+import BestLapIndicator from '@/components/championship/results/BestLapIndicator.vue'
 import pointsSystem from '@/config/points-systems.js'
 
 export default {
@@ -106,7 +110,8 @@ export default {
     }
   },
   props: {
-    _driver: Object
+    _driver: Object,
+    _isBestLap: Boolean
   },
   watch: {
     result: {
@@ -132,7 +137,8 @@ export default {
     }
   },
   components: {
-    PositionDiff
+    PositionDiff,
+    BestLapIndicator
   }
 }
 </script>

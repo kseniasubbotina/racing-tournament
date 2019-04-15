@@ -7,6 +7,7 @@
       {{raceResults}}
       <ResultsFormDriver
         v-for="driver in _drivers"
+        :_isBestLap="isBestLap(driver)"
         :key="driver.id"
         :_driver="driver"
         @driverResultUpdate="onDriverResultUpdate"
@@ -39,12 +40,29 @@ export default {
   },
   methods: {
     onDriverResultUpdate (result) {
-      debugger
       this.$set(this.raceResults, result.driver.userId, result.data)
     },
-    // isBestLap (lapTIme) {
-
-    // },
+    isBestLap (driver) {
+      // debugger
+      if(this.raceResults[driver.userId]) {
+        let resultsArr = Object.values(this.raceResults)
+        function compare(a, b) {
+          if (a.bestLapTime < b.bestLapTime)
+            return -1
+          if (a.bestLapTime > b.bestLapTime)
+            return 1
+          return 0
+        }
+        resultsArr.sort(compare)
+        if(resultsArr[0].bestLapTime === this.raceResults[driver.userId].bestLapTime) {
+          return true
+        } else {
+          return false
+        }
+      } else {
+        return false
+      }
+    },
     closeWindow () {
       this.$emit('closeWindow')
     }
