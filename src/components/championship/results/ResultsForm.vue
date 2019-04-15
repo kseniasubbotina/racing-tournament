@@ -42,6 +42,9 @@ export default {
       debugger
       this.$set(this.raceResults, result.driver.userId, result.data)
     },
+    // isBestLap (lapTIme) {
+
+    // },
     closeWindow () {
       this.$emit('closeWindow')
     }
