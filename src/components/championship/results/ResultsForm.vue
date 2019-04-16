@@ -43,7 +43,6 @@ export default {
       this.$set(this.raceResults, result.driver.userId, result.data)
     },
     isBestLap (driver) {
-      // debugger
       if(this.raceResults[driver.userId]) {
         let resultsArr = Object.values(this.raceResults)
         function compare(a, b) {
@@ -54,7 +53,7 @@ export default {
           return 0
         }
         resultsArr.sort(compare)
-        if(resultsArr[0].bestLapTime === this.raceResults[driver.userId].bestLapTime) {
+        if(resultsArr[0].bestLapTime && resultsArr[0].bestLapTime === this.raceResults[driver.userId].bestLapTime) {
           return true
         } else {
           return false

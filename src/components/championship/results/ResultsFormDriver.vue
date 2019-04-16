@@ -119,10 +119,15 @@ export default {
         let result = {}
         result.driver = this._driver
         result.data = newResult
-        this.$set(result.data, 'points', this.points)
-        this.$emit('driverResultUpdate', result)
+        this.updateResult(this._isBestLap, result)
       },
       deep: true
+    },
+    _isBestLap (isBestLap) {
+      let result = {}
+      result.driver = this._driver
+      result.data = this.result
+      this.updateResult(isBestLap, result)
     }
   },
   computed: {
@@ -134,6 +139,13 @@ export default {
       } else {
         return '0'
       }
+    }
+  },
+  methods: {
+    updateResult (isBestLap, result) {
+      this.$set(result.data, 'isBestLap', isBestLap)
+      this.$set(result.data, 'points', this.points)
+      this.$emit('driverResultUpdate', result)
     }
   },
   components: {
