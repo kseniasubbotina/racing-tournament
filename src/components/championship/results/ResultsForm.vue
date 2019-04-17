@@ -6,7 +6,7 @@
       >Add results for {{_stage.stageCountry}} Grand Prix - {{_stage.date}} - {{_stage.time}}</v-card-title>
       {{raceResults}}
       <ResultsFormDriver
-        v-for="driver in _drivers"
+        v-for="driver in _championship.drivers"
         :_isBestLap="isBestLap(driver)"
         :key="driver.id"
         :_driver="driver"
@@ -15,13 +15,14 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn flat color="error" @click="closeWindow">Cancel</v-btn>
-        <v-btn depressed dark color="green">Save</v-btn>
+        <v-btn depressed dark color="green" @click="submit">Save</v-btn>
       </v-card-actions>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
+import results from '@/mixins/results/results.js'
 import ResultsFormDriver from '@/components/championship/results/ResultsFormDriver.vue'
 
 export default {
@@ -32,11 +33,8 @@ export default {
     }
   },
   props: {
-    _drivers: Object,
+    _championship: Object,
     _stage: Object
-  },
-  components: {
-    ResultsFormDriver
   },
   methods: {
     onDriverResultUpdate (result) {
@@ -62,9 +60,18 @@ export default {
         return false
       }
     },
+    submit () {
+      this.addResult(this._championship, this._stage, this.raceResults)
+    },
     closeWindow () {
       this.$emit('closeWindow')
     }
-  }
+  },
+  mixins: [
+    results
+  ],
+  components: {
+    ResultsFormDriver
+  },
 }
 </script>

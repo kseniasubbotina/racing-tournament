@@ -24,7 +24,7 @@
       <component
         @closeWindow="stageResultsWindow=false"
         :is="component"
-        :_drivers="_drivers"
+        :_championship="_championship"
         :_stage="_stage"
       />
     </v-dialog>
@@ -43,10 +43,10 @@ export default {
     }
   },
   props: {
+    _championship: Object,
     _results: Object,
     _country: String,
-    _stage: Object,
-    _drivers: Object
+    _stage: Object
 
   },
   components: {
