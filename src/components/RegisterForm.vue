@@ -47,12 +47,25 @@
             </v-flex>
           </v-layout>
         </form>
+        <vue-recaptcha
+          ref="recaptcha"
+          class="captcha-container"
+          :sitekey="sitekey"
+          @verify="onCaptchaSuccess"
+          @expired="onCaptchaExpired"
+        />
         <message/>
       </v-container>
       <v-card-actions>
         <v-btn flat color="error" @click="clear">clear</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="red darken-2" dark @click="submit">submit</v-btn>
+        <v-btn 
+          color="red darken-2"
+          :dark="!isSubmitDisabled"
+          :disabled="isSubmitDisabled"
+          @click="submit">
+            submit
+        </v-btn>
       </v-card-actions>
       <v-flex v-if="loading">
         <v-progress-linear ma-0 :indeterminate="true"></v-progress-linear>
@@ -70,12 +83,16 @@
 .progress-linear {
   margin: 0 !important;
 }
+.captcha-container {
+  margin-top: 20px;
+}
 </style>
 
 <script>
 import CountrySelect from '@/components/CountrySelect.vue'
 import message from '@/components/Message.vue'
 import fb from '@/firebase/config.js'
+import VueRecaptcha from 'vue-recaptcha'
 
 export default {
   name: 'RegisterForm',
@@ -87,7 +104,9 @@ export default {
     show: false,
     confirmPassword: '',
     name: '',
-    country: ''
+    country: '',
+    sitekey: '6Lev1Z4UAAAAAGPygpI3kfg-qT8giGp0xw97gzXC',
+    isSubmitDisabled: true
   }),
   computed: {
     user() {
@@ -108,6 +127,12 @@ export default {
     }
   },
   methods: {
+    onCaptchaExpired () {
+      this.$refs.recaptcha.reset()
+    },
+    onCaptchaSuccess () {
+      this.isSubmitDisabled = false
+    },
     onChangeCountry(val) {
       this.country = val
     },
@@ -157,7 +182,8 @@ export default {
   },
   components: {
     CountrySelect,
-    message
+    message,
+    VueRecaptcha
   }
 }
 </script>
