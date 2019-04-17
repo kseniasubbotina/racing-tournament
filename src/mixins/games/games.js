@@ -41,11 +41,12 @@ export default {
       })
     },
     setQuery() {
+      var id = this.gameData.name + '_' + idGenerator.generateId()
       fb.gamesCollection
-        .doc()
+        .doc(id)
         .set({
           name: this.gameData.name,
-          id: this.gameData.name + '_' + idGenerator.generateId(),
+          id: id,
           releaseDate: this.gameData.releaseDate,
           platforms: this.gameData.platforms,
           developer: this.gameData.developer,
