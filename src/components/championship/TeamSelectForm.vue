@@ -10,7 +10,7 @@
       <div>You will not be able to change a team after joining the championship</div>
     </v-alert>
     <v-card-actions>
-      <v-btn @click="join">Confirm</v-btn>
+      <v-btn :disabled="isDisabled" @click="join">Confirm</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -35,6 +35,9 @@ export default {
     },
     userId() {
       return this.$store.getters.user.id
+    },
+    isDisabled () {
+      return this.team ? false : true
     }
   },
   methods: {

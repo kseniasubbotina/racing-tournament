@@ -2,7 +2,8 @@
   <v-layout>
     <v-flex>
       <v-card>
-        <v-card-title justify-end class="py-2 title">All teams
+        <v-card-title justify-end class="py-2 title">
+          All teams
           <v-btn color="success" flat @click.stop="openTeamFormDialog">
             <i class="material-icons">add</i>Add new
           </v-btn>
@@ -38,7 +39,7 @@
                       align="middle"
                       style="margin-right: 5px"
                     >
-                    <span class="font-weight-bold">{{ props.item.name }}</span>
+                    <span class="subheading">{{ props.item.name }}</span>
                   </v-layout>
                 </td>
                 <td class="text-xs-right">
@@ -52,25 +53,6 @@
                 </td>
               </tr>
             </template>
-            <!-- <template slot="expand" slot-scope="props">
-              <v-card flat dark>
-                <v-layout>
-                  <v-flex>
-                    <v-card-text class="text-xs-left">Choose the action with {{ props.item.name }}</v-card-text>
-                  </v-flex>
-                  <v-flex>
-                    <v-card-text class="text-xs-right">
-                      <v-btn flat @click.stop="openTeamFormDialog(props.item)">
-                        <v-icon>edit</v-icon>Edit
-                      </v-btn>
-                      <v-btn color="red" flat @click.stop="deleteTeam(props.item)">
-                        <v-icon>delete</v-icon>Delete
-                      </v-btn>
-                    </v-card-text>
-                  </v-flex>
-                </v-layout>
-              </v-card>
-            </template>-->
             <v-alert
               slot="no-results"
               :value="true"
