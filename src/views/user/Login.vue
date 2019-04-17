@@ -32,7 +32,6 @@
         </v-form>
         <vue-recaptcha
           ref="recaptcha"
-          class="captcha-container"
           :sitekey="sitekey"
           @verify="onCaptchaSuccess"
           @expired="onCaptchaExpired"

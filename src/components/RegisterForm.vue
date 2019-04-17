@@ -49,7 +49,7 @@
         </form>
         <vue-recaptcha
           ref="recaptcha"
-          class="captcha-container"
+          class="mt-3"
           :sitekey="sitekey"
           @verify="onCaptchaSuccess"
           @expired="onCaptchaExpired"
@@ -82,9 +82,6 @@
 <style>
 .progress-linear {
   margin: 0 !important;
-}
-.captcha-container {
-  margin-top: 20px;
 }
 </style>
 
