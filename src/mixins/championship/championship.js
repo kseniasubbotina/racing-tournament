@@ -76,10 +76,11 @@ export default {
       }
     },
     setQuery() {
+      var id = 'championship_' + idGenerator.generateId()
       fb.champsCollection
-        .doc()
+        .doc(id)
         .set({
-          id: idGenerator.generateId(),
+          id: id,
           author: {
             username: this.$store.getters.userData.username,
             id: this.$store.getters.user.id

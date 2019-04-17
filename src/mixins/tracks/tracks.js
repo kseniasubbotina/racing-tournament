@@ -60,11 +60,12 @@ export default {
       })
     },
     setQuery() {
+      var id = this.trackData.name + '_' + idGenerator.generateId()
       fb.tracksCollection
-        .doc()
+        .doc(id)
         .set({
           name: this.trackData.name,
-          id: this.trackData.name + '_' + idGenerator.generateId(),
+          id: id,
           country: this.trackData.country,
           firstGP: this.trackData.firstGP,
           length: this.trackData.length,

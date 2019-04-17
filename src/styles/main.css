@@ -56,3 +56,10 @@ h1, h2 {
   border: 1px dashed #b9b9b9;
   margin: 10px;
 }
+.best-lap-indicator {
+  padding: 2px 4px;
+  background: #c002c0;
+  color: #fff;
+  border-radius: 100px;
+  text-align: center;
+}

@@ -4,8 +4,8 @@
       <v-card-text>
         <v-layout align-center wrap>
           <v-flex>
-            <v-layout align-start>
-              <v-flex>
+            <v-layout align-center justify-start>
+              <v-flex shrink>
                 <CountryFlag class="pr-3" :_country="_stage.stageCountry" :_width="60"/>
               </v-flex>
               <v-flex>
@@ -14,17 +14,17 @@
               </v-flex>
             </v-layout>
           </v-flex>
-          <v-flex>
-            <v-btn @click="stageResultsWindow = true">Add results</v-btn>
+          <v-flex shrink>
+            <v-btn depressed @click="stageResultsWindow = true">Add results</v-btn>
           </v-flex>
         </v-layout>
       </v-card-text>
     </v-card>
-    <v-dialog scrollable fullscreen v-model="stageResultsWindow" width="900px">
+    <v-dialog scrollable v-model="stageResultsWindow" width="900px">
       <component
         @closeWindow="stageResultsWindow=false"
         :is="component"
-        :_drivers="_drivers"
+        :_championship="_championship"
         :_stage="_stage"
       />
     </v-dialog>
@@ -43,10 +43,10 @@ export default {
     }
   },
   props: {
+    _championship: Object,
     _results: Object,
     _country: String,
-    _stage: Object,
-    _drivers: Object
+    _stage: Object
 
   },
   components: {

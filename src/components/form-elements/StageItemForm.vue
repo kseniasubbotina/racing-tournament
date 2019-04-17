@@ -98,7 +98,6 @@
 import idGenerator from '@/mixins/generateId'
 import TrackSelect from '@/components/form-elements/TrackSelect.vue'
 import CountryFlag from '@/components/CountryFlag.vue'
-import moment from 'moment'
 
 export default {
   name: 'StageItemForm',
