@@ -15,7 +15,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn flat color="error" @click="closeWindow">Cancel</v-btn>
-        <v-btn depressed dark color="green" @click="submit">Save</v-btn>
+        <v-btn :loading="isLoading" depressed dark color="green" @click="submit">Save</v-btn>
       </v-card-actions>
     </v-card-text>
   </v-card>
@@ -29,7 +29,8 @@ export default {
   name: 'ResultsForm',
   data () {
     return {
-      raceResults: {}
+      raceResults: {},
+      isLoading: false
     }
   },
   props: {
@@ -38,7 +39,7 @@ export default {
   },
   methods: {
     onDriverResultUpdate (result) {
-      this.$set(this.raceResults, result.driver.userId, result.data)
+      this.$set(this.raceResults, result.driver.userId, result)
     },
     isBestLap (driver) {
       if(this.raceResults[driver.userId]) {

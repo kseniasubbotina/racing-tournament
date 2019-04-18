@@ -117,16 +117,16 @@ export default {
     result: {
       handler: function(newResult) {
         let result = {}
+        result = newResult
         result.driver = this._driver
-        result.data = newResult
         this.updateResult(this._isBestLap, result)
       },
       deep: true
     },
     _isBestLap (isBestLap) {
       let result = {}
+      result = this.result
       result.driver = this._driver
-      result.data = this.result
       this.updateResult(isBestLap, result)
     }
   },
@@ -143,8 +143,8 @@ export default {
   },
   methods: {
     updateResult (isBestLap, result) {
-      this.$set(result.data, 'isBestLap', isBestLap)
-      this.$set(result.data, 'points', this.points)
+      this.$set(result, 'isBestLap', isBestLap)
+      this.$set(result, 'points', this.points)
       this.$emit('driverResultUpdate', result)
     }
   },
