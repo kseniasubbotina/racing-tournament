@@ -15,7 +15,7 @@
             </v-layout>
           </v-flex>
           <v-flex shrink>
-            <v-btn depressed @click="stageResultsWindow = true">Add results</v-btn>
+            <v-btn v-if="isAuthor" depressed @click="stageResultsWindow = true">Add results</v-btn>
           </v-flex>
         </v-layout>
       </v-card-text>
@@ -47,7 +47,17 @@ export default {
     _results: Object,
     _country: String,
     _stage: Object
-
+  },
+  computed: {
+    userId() {
+      if (this.$store.getters.user) {
+        return this.$store.getters.user.id
+      }
+    },
+    isAuthor() {
+    if (this.$store.getters.user && this._championship)
+      return this.userId == this._championship.author.id
+    },
   },
   components: {
     CountryFlag,

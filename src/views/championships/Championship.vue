@@ -62,8 +62,11 @@ export default {
   name: 'Championship',
   data() {
     return {
-      championship: null,
-      joinDialog: false
+      championship: {
+        results: {}
+      },
+      joinDialog: false,
+      results: null
     }
   },
   watch: {

@@ -48,10 +48,12 @@ export default {
                 championship.calendar[i].time = this.dateTimeToBrowser(stage.date, stage.time, 'time')
               }
               this.championship = championship
+              // this.getResults()
             })
             this.realtimeUpdate()
           } else {
             this.$router.push('/404')
+            this.$store.commit('set', { type: 'loading', val: false })
           }
           this.$store.commit('set', { type: 'loading', val: false })
         })
@@ -177,6 +179,19 @@ export default {
         })
         .catch(function (error) {
           console.error('Error removing document: ', error)
+        })
+    },
+    getResults() {
+      this.$store.commit('set', { type: 'loading', val: true })
+      fb.resultsCollection
+        .doc(this.championship.id)
+        .get()
+        .then(doc => {
+          this.$set(this.championship, 'results', doc.data())
+          this.$store.commit('set', { type: 'loading', val: false })
+        }).catch(error => {
+          console.log('error with getting results')
+          this.$store.commit('set', { type: 'loading', val: false })
         })
     }
   },
