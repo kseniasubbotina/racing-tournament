@@ -64,15 +64,14 @@ export default {
     }
   },
   props: {
-    _championship: Object
+    _championship: Object,
+    _drivers: Object
   },
   computed: {
     drivers() {
-      let drivers = []
-      for (let driver in this._championship.drivers) {
-        drivers.push(this._championship.drivers[driver])
+      if (this._drivers) {
+        return Object.values(this._drivers)
       }
-      return drivers
     },
     headers() {
       let headers = [

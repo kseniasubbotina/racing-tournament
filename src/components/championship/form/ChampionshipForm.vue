@@ -5,7 +5,8 @@
       <h1 v-else>Update a championship</h1>
     </v-container>
     <v-stepper v-model="step" vertical>
-      <v-stepper-step color="success" :complete="step > 1" step="1">Championship information
+      <v-stepper-step color="success" :complete="step > 1" step="1">
+        Championship information
         <!-- <small>Summarize if needed</small> -->
       </v-stepper-step>
 

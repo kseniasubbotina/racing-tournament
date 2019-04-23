@@ -25,7 +25,9 @@
           <v-flex xs2 shrink>
             <ChampionshipActions
               :_championship="championship"
+              :_drivers="drivers"
               :_isAdmin="isAdmin"
+              :_isParticipant="isParticipant"
               :_isAuthor="isAuthor"
             />
           </v-flex>
@@ -36,12 +38,12 @@
             <v-icon>assignment_turned_in</v-icon>Join championship
           </v-btn>
         </v-layout>
-        <!-- <ChampionshipCalendar :_championship="championship"/> -->
-        <ChampionshipTabs :_championship="championship"/>
+        <ChampionshipTabs :_drivers="drivers" :_championship="championship"/>
         <v-dialog v-model="joinDialog" max-width="500">
           <component
             v-if="joinDialogComponent"
             :is="joinDialogComponent"
+            :_drivers="drivers"
             :_championship="championship"
           ></component>
         </v-dialog>
@@ -62,11 +64,10 @@ export default {
   name: 'Championship',
   data() {
     return {
-      championship: {
-        results: {}
-      },
-      joinDialog: false,
-      results: null
+      championship: null,
+      results: null,
+      drivers: null,
+      joinDialog: false
     }
   },
   watch: {
@@ -81,21 +82,17 @@ export default {
     this.getChampionship()
   },
   computed: {
-    userId() {
-      if (this.isLoggedIn) {
-        return this.$store.getters.user.id
-      }
-    },
     isParticipant() {
       let userId = this.userId
-      if (
-        this.championship &&
-        this.championship.drivers &&
-        this.championship.drivers[userId]
-      ) {
+      if (this.drivers && this.drivers[userId]) {
         return true
       } else {
         return false
+      }
+    },
+    userId() {
+      if (this.isLoggedIn) {
+        return this.$store.getters.user.id
       }
     },
     joinDialogComponent() {

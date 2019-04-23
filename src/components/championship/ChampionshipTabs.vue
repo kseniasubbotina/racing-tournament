@@ -6,7 +6,11 @@
       <v-tabs-items>
         <v-tab-item v-for="item in tabs" :id="item.name" :key="item.name">
           <v-card flat class="pa-1">
-            <component :is="item.componentName" :_championship="_championship"/>
+            <component
+              :is="item.componentName"
+              :_drivers="_drivers"
+              :_championship="_championship"
+            />
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -41,7 +45,8 @@ export default {
     }
   },
   props: {
-    _championship: Object
+    _championship: Object,
+    _drivers: Object
   },
   components: {
     ChampionshipCalendar,

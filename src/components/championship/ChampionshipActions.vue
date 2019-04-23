@@ -9,14 +9,14 @@
         <v-list>
           <v-list-tile
             v-if="_championship && _isAdmin && !approved"
-            @click="approveChampionship(_championship.documentId)"
+            @click="approveChampionship(_championship)"
           >
             <v-list-tile-title>Approve</v-list-tile-title>
           </v-list-tile>
           <v-list-tile v-if="_isAdmin || _isAuthor" @click.stop="showChampForm=true">
             <v-list-tile-title>Edit</v-list-tile-title>
           </v-list-tile>
-          <v-list-tile v-if="_isAdmin" @click="showRejectDialog = !showRejectDialog">
+          <v-list-tile v-if="_isAdmin && approved" @click="showRejectDialog = !showRejectDialog">
             <v-list-tile-title>Block</v-list-tile-title>
           </v-list-tile>
           <v-list-tile
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     sendReject(message) {
-      this.rejectChampionship(this._championship.documentId, message)
+      this.rejectChampionship(this._championship, message)
     },
     openConfirmation() {
       this.$root.$emit('confirm')
