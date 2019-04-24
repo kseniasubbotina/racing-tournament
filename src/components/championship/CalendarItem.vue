@@ -46,7 +46,8 @@ export default {
     _championship: Object,
     _results: Object,
     _country: String,
-    _stage: Object
+    _stage: Object,
+    _driver: Object,
   },
   computed: {
     userId() {
