@@ -4,9 +4,8 @@
       <v-card-title
         class="title"
       >Add results for {{_stage.stageCountry}} Grand Prix - {{_stage.date}} - {{_stage.time}}</v-card-title>
-      {{raceResults}}
       <ResultsFormDriver
-        v-for="driver in _championship.drivers"
+        v-for="driver in _drivers"
         :_isBestLap="isBestLap(driver)"
         :key="driver.id"
         :_driver="driver"
@@ -35,7 +34,8 @@ export default {
   },
   props: {
     _championship: Object,
-    _stage: Object
+    _stage: Object,
+    _drivers: Object
   },
   methods: {
     onDriverResultUpdate (result) {

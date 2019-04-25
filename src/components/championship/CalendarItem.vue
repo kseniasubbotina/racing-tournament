@@ -26,6 +26,7 @@
         :is="component"
         :_championship="_championship"
         :_stage="_stage"
+        :_drivers="_drivers"
       />
     </v-dialog>
   </div>
@@ -47,7 +48,7 @@ export default {
     _results: Object,
     _country: String,
     _stage: Object,
-    _driver: Object,
+    _drivers: Object,
   },
   computed: {
     userId() {
