@@ -4,7 +4,7 @@ export default {
   methods: {
     addResult(championship, stage, results) {
       this.isLoading = true
-      fb.resultsCollection
+      fb.champsCollection
         .doc(championship.documentId)
         .update({
           results: {
