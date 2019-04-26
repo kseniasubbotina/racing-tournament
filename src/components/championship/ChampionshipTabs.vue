@@ -10,6 +10,7 @@
               :is="item.componentName"
               :_drivers="_drivers"
               :_championship="_championship"
+              :_results="_results"
             />
           </v-card>
         </v-tab-item>
@@ -45,6 +46,7 @@ export default {
     }
   },
   props: {
+    _results: Object,
     _championship: Object,
     _drivers: Object
   },

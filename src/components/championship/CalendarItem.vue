@@ -12,6 +12,10 @@
                 <div class="subheading">{{_stage.date + ', ' + _stage.time}}</div>
                 <div class="caption">Your local time</div>
               </v-flex>
+              <v-flex v-if="userResult">
+                <div>Finish: {{userResult.finish}}</div>
+                Points: {{userResult.points}}
+              </v-flex>
             </v-layout>
           </v-flex>
           <v-flex shrink>
@@ -49,6 +53,7 @@ export default {
     _country: String,
     _stage: Object,
     _drivers: Object,
+    _results: Object
   },
   computed: {
     userId() {
@@ -60,6 +65,13 @@ export default {
     if (this.$store.getters.user && this._championship)
       return this.userId == this._championship.author.id
     },
+    userResult () {
+      if (this._results[this._stage.trackDocumentId]) {
+        return this._results[this._stage.trackDocumentId][this.userId]
+      } else {
+        return false
+      }
+    }
   },
   components: {
     CountryFlag,
