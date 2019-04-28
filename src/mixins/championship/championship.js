@@ -114,8 +114,8 @@ export default {
               username: this.$store.getters.userData.username,
               id: this.$store.getters.user.id
             },
-            approved: false,
-            moderators: [],
+            approved: this.championship.approved,
+            moderators: this.championship.moderators,
             info: this.championship.data.info,
             externalInfo: this.championship.externalInfo,
             settings: this.championship.settings,
