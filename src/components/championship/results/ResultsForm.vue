@@ -7,8 +7,10 @@
       <ResultsFormDriver
         v-for="driver in _drivers"
         :_isBestLap="isBestLap(driver)"
-        :key="driver.id"
+        :key="driver.userId"
         :_driver="driver"
+        :_results="_results"
+        :_stage="_stage"
         @driverResultUpdate="onDriverResultUpdate"
       />
       <v-card-actions>
@@ -28,22 +30,23 @@ export default {
   name: 'ResultsForm',
   data () {
     return {
-      raceResults: {},
+      results: {},
       isLoading: false
     }
   },
   props: {
     _championship: Object,
     _stage: Object,
-    _drivers: Object
+    _drivers: Object,
+    _results: Object
   },
   methods: {
     onDriverResultUpdate (result) {
-      this.$set(this.raceResults, result.driver.userId, result)
+      this.$set(this.results, result.driver.userId, result)
     },
     isBestLap (driver) {
-      if(this.raceResults[driver.userId]) {
-        let resultsArr = Object.values(this.raceResults)
+      if(this.results[driver.userId]) {
+        let resultsArr = Object.values(this.results)
         function compare(a, b) {
           if (a.bestLapTime < b.bestLapTime)
             return -1
@@ -52,7 +55,7 @@ export default {
           return 0
         }
         resultsArr.sort(compare)
-        if(resultsArr[0].bestLapTime && resultsArr[0].bestLapTime === this.raceResults[driver.userId].bestLapTime) {
+        if(resultsArr[0].bestLapTime && resultsArr[0].bestLapTime === this.results[driver.userId].bestLapTime) {
           return true
         } else {
           return false
@@ -62,7 +65,7 @@ export default {
       }
     },
     submit () {
-      this.addResult(this._championship, this._stage, this.raceResults)
+      this.addResult(this._championship, this._stage, this.results)
     },
     closeWindow () {
       this.$emit('closeWindow')

@@ -31,6 +31,7 @@
         :_championship="_championship"
         :_stage="_stage"
         :_drivers="_drivers"
+        :_results="_results"
       />
     </v-dialog>
   </div>
