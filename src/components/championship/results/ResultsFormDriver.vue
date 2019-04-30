@@ -2,7 +2,7 @@
   <v-card class="mb-1">
     <v-form>
       <v-container v-if="_driver.userId">
-        {{_results[this._stage.trackDocumentId][this._driver.userId]}}
+        <!-- {{_results[this._stage.trackDocumentId][this._driver.userId]}} -->
         <!-- <div>{{this._driver.userId}}</div> -->
         <v-layout align-center justify-center wrap>
           <v-flex class="subheading" xs12 sm3>{{_driver.username}}</v-flex>

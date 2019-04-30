@@ -30,7 +30,7 @@ export default {
   name: 'ResultsForm',
   data () {
     return {
-      results: {},
+      result: {},
       isLoading: false
     }
   },
@@ -42,11 +42,11 @@ export default {
   },
   methods: {
     onDriverResultUpdate (result) {
-      this.$set(this.results, result.driver.userId, result)
+      this.$set(this.result, result.driver.userId, result)
     },
     isBestLap (driver) {
-      if(this.results[driver.userId]) {
-        let resultsArr = Object.values(this.results)
+      if(this.result[driver.userId]) {
+        let resultsArr = Object.values(this.result)
         function compare(a, b) {
           if (a.bestLapTime < b.bestLapTime)
             return -1
@@ -55,7 +55,7 @@ export default {
           return 0
         }
         resultsArr.sort(compare)
-        if(resultsArr[0].bestLapTime && resultsArr[0].bestLapTime === this.results[driver.userId].bestLapTime) {
+        if(resultsArr[0].bestLapTime && resultsArr[0].bestLapTime === this.result[driver.userId].bestLapTime) {
           return true
         } else {
           return false
@@ -65,7 +65,10 @@ export default {
       }
     },
     submit () {
-      this.addResult(this._championship, this._stage, this.results)
+      let results = this._results
+      results.championshipInfo = this._championship.info
+      results[this._stage.trackDocumentId] = this.result
+      this.addResult(this._championship, this._stage, results)
     },
     closeWindow () {
       this.$emit('closeWindow')

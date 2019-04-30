@@ -7,10 +7,7 @@ export default {
       fb.champsCollection
         .doc(championship.documentId)
         .update({
-          results: {
-            championshipInfo: championship.info,
-            [stage.trackDocumentId]: results
-          }
+          results: results
         })
         .then(
           this.isLoading = false,
