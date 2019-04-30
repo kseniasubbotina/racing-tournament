@@ -2,8 +2,7 @@
   <v-card class="mb-1">
     <v-form>
       <v-container v-if="_driver.userId">
-        <!-- {{_results[this._stage.trackDocumentId][this._driver.userId]}} -->
-        <!-- <div>{{this._driver.userId}}</div> -->
+        {{_results[this._stage.trackDocumentId][this._driver.userId]}}
         <v-layout align-center justify-center wrap>
           <v-flex class="subheading" xs12 sm3>{{_driver.username}}</v-flex>
           <v-flex sm7>
@@ -118,7 +117,7 @@ export default {
     _stage: Object
   },
   mounted () {
-    // this.fillForm()
+    this.fillForm()
   },
   watch: {
     result: {
@@ -149,12 +148,11 @@ export default {
     }
   },
   methods: {
-    // fillForm () {
-    //   if(this._results && this._stage && this._driver) {
-    //     debugger
-    //     this.result = this._results[this._stage.trackDocumentId][this._driver.userId]
-    //   }
-    // },
+    fillForm () {
+      if(this._results && this._stage && this._driver) {
+        this.result = this._results[this._stage.trackDocumentId][this._driver.userId]
+      }
+    },
     updateResult (isBestLap, result) {
       this.$set(result, 'isBestLap', isBestLap)
       this.$set(result, 'points', this.points)
