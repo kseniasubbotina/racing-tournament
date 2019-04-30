@@ -12,7 +12,10 @@ export default {
         .then(
           this.isLoading = false,
           console.log('updated'),
-          this.closeWindow()
+          this.closeWindow(),
+          this.$router.push(
+            '/championships/' + championship.info.name
+          )
         ).catch(function (error) {
           console.log(error)
         })
