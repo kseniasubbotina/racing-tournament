@@ -7,7 +7,7 @@
       class="game-item_title"
       pointer
       primary-title
-      @click="$router.push({name: 'Championship', params: {id: _championship.info.name}})"
+      @click="$router.push({name: 'Championship', params: {id: path}})"
     >
       <v-layout fill-height>
         <v-flex xs12 align-end flexbox>
@@ -24,10 +24,7 @@
       </div>
     </v-card-text>
     <v-card-actions>
-      <v-btn
-        depressed
-        @click="$router.push({name: 'Championship', params: {id: _championship.info.name}})"
-      >Details</v-btn>
+      <v-btn depressed @click="$router.push({name: 'Championship', params: {id: path}})">Details</v-btn>
       <v-spacer></v-spacer>
       <v-layout align-center justify-end>
         <template v-if="_championship.approved">
@@ -52,6 +49,9 @@ export default {
     _championship: Object
   },
   computed: {
+    path () {
+      return this._championship.info.name
+    },
     driversCount() {
       let drivers = this._championship.drivers
       if (drivers) {

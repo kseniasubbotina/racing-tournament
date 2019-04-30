@@ -1,50 +1,28 @@
 <template>
   <div>
     <v-layout wrap>
-      <!-- <v-btn @click.stop="showChampForm=true" v-if="_isAdmin || _isAuthor" flat>
-        <v-icon>edit</v-icon>Edit
-      </v-btn>-->
-      <!-- <v-btn
-        v-if="_championship && _isAdmin && !approved"
-        color="success"
-        flat
-        @click="approveChampionship(_championship.documentId)"
-      >
-        <v-icon>check</v-icon>Approve
-      </v-btn>-->
-      <!-- <v-btn @click="showRejectDialog = !showRejectDialog" v-if="_isAdmin" color="orange" flat>
-        <v-icon>block</v-icon>Block
-      </v-btn>-->
-      <!-- <v-btn v-if="_isAdmin || _isAuthor" color="error" flat @click="openConfirmation">
-        <v-icon>delete</v-icon>Delete
-      </v-btn>-->
-      <!-- <v-btn
-        v-if="isParticipant"
-        flat
-        color="error"
-        @click="leaveChampionship(_championship, userId)"
-      >
-        <v-icon>exit_to_app</v-icon>Leave championship
-      </v-btn>-->
       <v-spacer></v-spacer>
-      <v-menu v-if="_isAdmin || isParticipant">
+      <v-menu v-if="_isAdmin || _isParticipant">
         <v-btn icon slot="activator">
           <v-icon>more_vert</v-icon>
         </v-btn>
         <v-list>
           <v-list-tile
             v-if="_championship && _isAdmin && !approved"
-            @click="approveChampionship(_championship.documentId)"
+            @click="approveChampionship(_championship)"
           >
             <v-list-tile-title>Approve</v-list-tile-title>
           </v-list-tile>
           <v-list-tile v-if="_isAdmin || _isAuthor" @click.stop="showChampForm=true">
             <v-list-tile-title>Edit</v-list-tile-title>
           </v-list-tile>
-          <v-list-tile v-if="_isAdmin" @click="showRejectDialog = !showRejectDialog">
+          <v-list-tile v-if="_isAdmin && approved" @click="showRejectDialog = !showRejectDialog">
             <v-list-tile-title>Block</v-list-tile-title>
           </v-list-tile>
-          <v-list-tile v-if="isParticipant" @click="leaveChampionship(_championship, userId)">
+          <v-list-tile
+            v-if="_isParticipant"
+            @click="leaveChampionship(_championship, _drivers, userId)"
+          >
             <v-list-tile-title>Leave</v-list-tile-title>
           </v-list-tile>
           <v-list-tile v-if="_isAdmin || _isAuthor" @click="openConfirmation">
@@ -88,7 +66,9 @@ export default {
   props: {
     _isAdmin: Boolean,
     _isAuthor: Boolean,
-    _championship: Object
+    _isParticipant: Boolean,
+    _championship: Object,
+    _drivers: Object
   },
   computed: {
     isLoggedIn() {
@@ -100,25 +80,13 @@ export default {
         return this.$store.getters.user.id
       }
     },
-    isParticipant() {
-      let userId = this.userId
-      if (
-        this._championship &&
-        this._championship.drivers &&
-        this._championship.drivers[userId]
-      ) {
-        return true
-      } else {
-        return false
-      }
-    },
     approved() {
       return this._championship ? this._championship.approved : false
     }
   },
   methods: {
     sendReject(message) {
-      this.rejectChampionship(this._championship.documentId, message)
+      this.rejectChampionship(this._championship, message)
     },
     openConfirmation() {
       this.$root.$emit('confirm')

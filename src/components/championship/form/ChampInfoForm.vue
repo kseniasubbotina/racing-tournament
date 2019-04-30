@@ -44,7 +44,8 @@
           counter="50"
         ></v-textarea>
       </v-flex>
-      <v-flex>Championship image
+      <v-flex>
+        Championship image
         <ImageInput :_url="champImage" @fileSelected="onfileSelected"/>
       </v-flex>
     </v-layout>
@@ -81,11 +82,6 @@ export default {
   mounted() {
     this.fetchInfo()
   },
-  // watch: {
-  //   champName(val) {
-  //     this.validate()
-  //   }
-  // },
   methods: {
     fetchInfo() {
       if (this._champInfo) {

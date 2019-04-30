@@ -4,15 +4,16 @@ import convertDateTime from '@/mixins/convertDateTime.js'
 
 export default {
   methods: {
-    leaveChampionship(championship, userId) {
-      delete championship.drivers[userId]
+    leaveChampionship(championship, drivers, userId) {
+      delete drivers[userId]
       fb.champsCollection
         .doc(championship.documentId)
         .update({
-          drivers: championship.drivers
+          drivers: drivers
         })
-        .then({
-          //
+        .then(() => {
+          this.$router.push('/championships/' + championship.info.name)
+          // this.getChampionship()
         })
     },
     selectTeam() {
@@ -20,11 +21,12 @@ export default {
     },
     realtimeUpdate() {
       fb.champsCollection.doc(this.championship.documentId).onSnapshot(doc => {
-        let data = doc.data()
+        let data = doc.data().championship
+        let drivers = doc.data().drivers
         if (data) {
           this.championship.approved = data.approved
           this.championship.rejectComment = data.rejectComment
-          this.championship.drivers = data.drivers
+          this.drivers = drivers
         } else {
           return
         }
@@ -34,12 +36,14 @@ export default {
       let champName = name ? name : this.$route.params.id
       this.$store.commit('set', { type: 'loading', val: true })
       fb.champsCollection
-        .where('info.name', '==', champName)
+        .where('championship.info.name', '==', champName)
         .get()
         .then(querySnapshot => {
           if (!querySnapshot.empty) {
             querySnapshot.forEach(doc => {
-              let championship = doc.data()
+              let championship = doc.data().championship
+              let drivers = doc.data().drivers
+              let results = doc.data().results
               championship.documentId = doc.id
               let calendar = championship.calendar
               for (let i in calendar) {
@@ -47,11 +51,14 @@ export default {
                 championship.calendar[i].date = this.dateTimeToBrowser(stage.date, stage.time, 'date')
                 championship.calendar[i].time = this.dateTimeToBrowser(stage.date, stage.time, 'time')
               }
-              this.championship = championship
+              this.drivers = drivers
+              this.championship = championship || null
+              this.results = results
             })
             this.realtimeUpdate()
           } else {
             this.$router.push('/404')
+            this.$store.commit('set', { type: 'loading', val: false })
           }
           this.$store.commit('set', { type: 'loading', val: false })
         })
@@ -80,17 +87,20 @@ export default {
       fb.champsCollection
         .doc(id)
         .set({
-          id: id,
-          author: {
-            username: this.$store.getters.userData.username,
-            id: this.$store.getters.user.id
+          championship: {
+            id: id,
+            author: {
+              username: this.$store.getters.userData.username,
+              id: this.$store.getters.user.id
+            },
+            approved: false,
+            moderators: [],
+            info: this.championship.data.info,
+            externalInfo: this.championship.externalInfo,
+            settings: this.championship.settings,
+            calendar: this.championship.calendar
           },
-          approved: false,
-          moderators: [],
-          info: this.championship.data.info,
-          externalInfo: this.championship.externalInfo,
-          settings: this.championship.settings,
-          calendar: this.championship.calendar
+          results: {}
         })
         .then(this.$router.push('/championships'))
     },
@@ -98,10 +108,19 @@ export default {
       fb.champsCollection
         .doc(documentId)
         .update({
-          info: this.championship.data.info,
-          externalInfo: this.championship.externalInfo,
-          settings: this.championship.settings,
-          calendar: this.championship.calendar
+          championship: {
+            id: this.championship.id,
+            author: {
+              username: this.$store.getters.userData.username,
+              id: this.$store.getters.user.id
+            },
+            approved: this.championship.approved,
+            moderators: this.championship.moderators,
+            info: this.championship.data.info,
+            externalInfo: this.championship.externalInfo,
+            settings: this.championship.settings,
+            calendar: this.championship.calendar
+          }
         })
         .then(() => {
           this.$router.push(
@@ -129,28 +148,32 @@ export default {
         })
       })
     },
-    approveChampionship(documentId) {
+    approveChampionship(championship) {
+      this.$set(championship, 'approved', true)
+      this.$set(championship, 'rejectComment', '')
       fb.champsCollection
-        .doc(documentId)
+        .doc(championship.documentId)
         .update({
-          approved: true,
-          rejectComment: ''
+          championship: championship
         })
         .then()
     },
-    rejectChampionship(documentId, comment) {
+    rejectChampionship(championship, comment) {
+      this.$set(championship, 'approved', false)
+      this.$set(championship, 'rejectComment', comment)
       fb.champsCollection
-        .doc(documentId)
+        .doc(championship.documentId)
         .update({
-          approved: false,
-          rejectComment: comment
+          championship: championship
         })
         .then((this.showRejectDialog = false))
     },
     deleteChampionship(championship) {
       fb.champsCollection
         .doc(championship.documentId)
-        .delete()
+        .update({
+          championship: fb.firestore.FieldValue.delete()
+        })
         .then(() => {
           console.log('Document successfully deleted!')
           this.$router.push('/championships')
@@ -177,6 +200,19 @@ export default {
         })
         .catch(function (error) {
           console.error('Error removing document: ', error)
+        })
+    },
+    getResults() {
+      this.$store.commit('set', { type: 'loading', val: true })
+      fb.resultsCollection
+        .doc(this.championship.id)
+        .get()
+        .then(doc => {
+          this.$set(this.championship, 'results', doc.data())
+          this.$store.commit('set', { type: 'loading', val: false })
+        }).catch(error => {
+          console.log('error with getting results')
+          this.$store.commit('set', { type: 'loading', val: false })
         })
     }
   },

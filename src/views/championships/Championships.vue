@@ -78,9 +78,11 @@ export default {
       var championships = []
       fb.champsCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          var data = doc.data()
-          data.id = doc.id
-          championships.push(data)
+          var data = doc.data().championship
+          if (data) {
+            data.id = doc.id
+            championships.push(data)
+          }
         })
         this.$store.commit('set', { type: 'loading', val: false })
         this.championships = championships

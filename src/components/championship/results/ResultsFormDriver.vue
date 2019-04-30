@@ -1,7 +1,8 @@
 <template>
   <v-card class="mb-1">
     <v-form>
-      <v-container>
+      <v-container v-if="_driver.userId">
+        {{_results[this._stage.trackDocumentId][this._driver.userId]}}
         <v-layout align-center justify-center wrap>
           <v-flex class="subheading" xs12 sm3>{{_driver.username}}</v-flex>
           <v-flex sm7>
@@ -111,22 +112,27 @@ export default {
   },
   props: {
     _driver: Object,
-    _isBestLap: Boolean
+    _isBestLap: Boolean,
+    _results: Object,
+    _stage: Object
+  },
+  mounted () {
+    this.fillForm()
   },
   watch: {
     result: {
       handler: function(newResult) {
         let result = {}
+        result = newResult
         result.driver = this._driver
-        result.data = newResult
         this.updateResult(this._isBestLap, result)
       },
       deep: true
     },
     _isBestLap (isBestLap) {
       let result = {}
+      result = this.result
       result.driver = this._driver
-      result.data = this.result
       this.updateResult(isBestLap, result)
     }
   },
@@ -142,9 +148,14 @@ export default {
     }
   },
   methods: {
+    fillForm () {
+      if(this._results && this._stage && this._driver) {
+        this.result = this._results[this._stage.trackDocumentId][this._driver.userId]
+      }
+    },
     updateResult (isBestLap, result) {
-      this.$set(result.data, 'isBestLap', isBestLap)
-      this.$set(result.data, 'points', this.points)
+      this.$set(result, 'isBestLap', isBestLap)
+      this.$set(result, 'points', this.points)
       this.$emit('driverResultUpdate', result)
     }
   },

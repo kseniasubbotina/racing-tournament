@@ -3,12 +3,22 @@ import fb from '@/firebase/config.js'
 export default {
   methods: {
     addResult(championship, stage, results) {
-      fb.resultsCollection
+      this.isLoading = true
+      fb.champsCollection
         .doc(championship.documentId)
-        .set({
-          [stage.trackDocumentId]: results
+        .update({
+          results: results
         })
-        .then(console.log('updated'))
+        .then(
+          this.isLoading = false,
+          console.log('updated'),
+          this.closeWindow(),
+          this.$router.push(
+            '/championships/' + championship.info.name
+          )
+        ).catch(function (error) {
+          console.log(error)
+        })
     }
   }
 }

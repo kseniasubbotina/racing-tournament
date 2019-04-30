@@ -1,4 +1,5 @@
 export default {
+  // Refactoring is needed
   methods: {
     dateTimeToUtc(date, time, type) {
       if (date && time) {

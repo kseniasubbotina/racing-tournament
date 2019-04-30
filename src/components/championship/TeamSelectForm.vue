@@ -27,7 +27,8 @@ export default {
   },
   props: {
     _seria: String,
-    _championship: Object
+    _championship: Object,
+    _drivers: Object
   },
   computed: {
     username() {
@@ -48,7 +49,7 @@ export default {
       let username = this.$store.getters.userData.username
       let team = this.team
       let userId = this.userId
-      let drivers = this._championship.drivers || {}
+      let drivers = this._drivers || {}
       drivers[userId] = {
         userId: userId,
         username: this.$store.getters.userData.username,
@@ -56,8 +57,9 @@ export default {
       }
       fb.champsCollection.doc(this._championship.documentId).update({
         drivers: drivers
-      }).then
-      this.$router.push('/championships/' + this._championship.info.name)
+      }).then(() => {
+        this.$router.push('/championships/' + this._championship.info.name)
+      })
     }
   },
   components: {
