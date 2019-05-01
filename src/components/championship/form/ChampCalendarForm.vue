@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import convertDateTime from '@/mixins/convertDateTime.js'
 import StageItemForm from '@/components/form-elements/StageItemForm.vue'
 export default {
   name: 'ChampCalendarForm',
@@ -84,9 +85,6 @@ export default {
     },
     updateStage(stage) {
       let arayIndex = null
-      // Пихать это в этап при отправке на сервер а не тут
-      // stage.date = this.dateTimeToUtc(stage.date, stage.time, 'date')
-      // stage.time = this.dateTimeToUtc(stage.date, stage.time, 'time')
       this.stages.forEach((item, i, arr) => {
         if (item.index == stage.index) {
           arayIndex = i
@@ -106,6 +104,9 @@ export default {
       }
     }
   },
+  mixins: [
+    convertDateTime
+  ],
   components: {
     StageItemForm
   }
