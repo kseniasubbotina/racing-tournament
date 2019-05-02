@@ -67,11 +67,6 @@ export default {
     },
     nextStep() {
       let stages = this.stages
-      for (let i in stages) {
-        let stage = stages[i]
-        stage.date = this.dateTimeToUtc(stage.date, stage.time, 'date')
-        stage.time = this.dateTimeToUtc(stage.date, stage.time, 'time')
-      }
       this.$emit('nextStep', stages, 'calendar')
     },
     addStage() {
