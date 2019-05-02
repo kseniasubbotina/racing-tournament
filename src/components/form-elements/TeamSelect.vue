@@ -56,7 +56,11 @@ export default {
         querySnapshot.forEach(doc => {
           let data = doc.data()
           teamsArr.push(data.name)
-          keys.push({ id: doc.id, name: data.name })
+          keys.push({ 
+            id: data.id, 
+            name: data.name, 
+            teamLogo: data.teamLogo
+          })
         })
         this.teams = teamsArr
         this.keys = keys

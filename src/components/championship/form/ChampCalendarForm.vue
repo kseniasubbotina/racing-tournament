@@ -67,11 +67,6 @@ export default {
     },
     nextStep() {
       let stages = this.stages
-      for (let i in stages) {
-        let stage = stages[i]
-        stage.date = this.dateTimeToUtc(stage.date, stage.time, 'date')
-        stage.time = this.dateTimeToUtc(stage.date, stage.time, 'time')
-      }
       this.$emit('nextStep', stages, 'calendar')
     },
     addStage() {
@@ -85,9 +80,6 @@ export default {
     },
     updateStage(stage) {
       let arayIndex = null
-      // Пихать это в этап при отправке на сервер а не тут
-      // stage.date = this.dateTimeToUtc(stage.date, stage.time, 'date')
-      // stage.time = this.dateTimeToUtc(stage.date, stage.time, 'time')
       this.stages.forEach((item, i, arr) => {
         if (item.index == stage.index) {
           arayIndex = i
@@ -106,27 +98,6 @@ export default {
         this.stages.splice(index, 1)
       }
     }
-    // dateTimeToUtc (date, time, type) {
-    //   if(date && time) {
-    //     let dateArr = date.split('-')
-    //     let timeArr = time.split(':')
-    //     let localStageDateTIme = new Date(dateArr[0], dateArr[1]-1, dateArr[2], timeArr[0], timeArr[1])
-    //     let year = localStageDateTIme.getUTCFullYear()
-    //     let month = localStageDateTIme.getUTCMonth()
-    //     let day = localStageDateTIme.getUTCDate()
-    //     let hours = localStageDateTIme.getUTCHours()
-    //     let minutes = localStageDateTIme.getUTCMinutes()
-    //     // let utcDateTime = year + ', ' + month + ', ' + day + ', ' + hours + ', ' + minutes
-    //     if(type == 'date') {
-    //       return year + '-' + month + '-' + day
-    //     } else if(type == 'time') {
-    //       return hours + ':' + minutes
-    //     }
-    //     // return utcDateTime.toString()
-    //   } else {
-    //     return ''
-    //   }
-    // }
   },
   mixins: [
     convertDateTime
