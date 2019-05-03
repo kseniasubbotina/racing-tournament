@@ -65,6 +65,12 @@ export default {
     },
     submit(type, documentId) {
       if (this.isLoggedIn) {
+        let calendar = this.championship.calendar
+        for (let i in calendar) {
+          let stage = calendar[i]
+          stage.date = this.dateTimeToUtc(stage.date, stage.time, 'date')
+          stage.time = this.dateTimeToUtc(stage.date, stage.time, 'time')
+        }
         if (this.championship.data.selectedFile) {
           this.uploadImage(this.championship.data.info.name).then(() => {
             if (type === 'set') {
