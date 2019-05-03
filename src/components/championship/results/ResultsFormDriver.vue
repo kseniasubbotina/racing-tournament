@@ -2,10 +2,6 @@
   <v-card class="mb-1">
     <v-form>
       <v-container v-if="_driver.userId">
-        <<<<<<< HEAD
-        <!-- {{_results[this._stage.trackDocumentId][this._driver.userId]}} -->
-        =======
-        >>>>>>> develop
         <v-layout align-center justify-center wrap>
           <v-flex class="subheading" xs12 sm3>{{_driver.username}}</v-flex>
           <v-flex sm7>
