@@ -2,13 +2,13 @@
   <v-card class="mb-1">
     <v-form>
       <v-container v-if="_driver.userId">
-        {{_results[this._stage.trackDocumentId][this._driver.userId]}}
+        <!-- {{_results[this._stage.trackDocumentId][this._driver.userId]}} -->
         <v-layout align-center justify-center wrap>
           <v-flex class="subheading" xs12 sm3>{{_driver.username}}</v-flex>
           <v-flex sm7>
             <v-layout>
               <v-checkbox
-                :disabled="result.dnf"
+                :disabled="isDnf"
                 v-model="result.dns"
                 label="DNS"
                 color="blue"
@@ -16,7 +16,7 @@
                 hide-details
               ></v-checkbox>
               <v-checkbox
-                :disabled="result.dns"
+                :disabled="isDns"
                 v-model="result.dnf"
                 label="DNF"
                 color="blue"
@@ -24,7 +24,7 @@
                 hide-details
               ></v-checkbox>
               <v-checkbox
-                :disabled="result.dns"
+                :disabled="isDns"
                 v-model="result.dq"
                 label="DQ"
                 color="red"
@@ -39,7 +39,7 @@
 
           <v-flex xs12 sm3>
             <v-text-field
-              :disabled="result.dns"
+              :disabled="isDns"
               v-validate="{required: true }"
               name="start"
               type="number"
@@ -50,7 +50,7 @@
           </v-flex>
           <v-flex xs10 sm3>
             <v-text-field
-              :disabled="result.dns || result.dnf"
+              :disabled="isDns || isDnf"
               v-validate="{required: true }"
               name="Finish"
               type="number"
@@ -64,7 +64,7 @@
           </v-flex>
           <v-flex xs5 sm2>
             <v-text-field
-              :disabled="result.dns"
+              :disabled="isDns"
               v-validate="{required: true }"
               name="stops"
               type="number"
@@ -75,7 +75,7 @@
           </v-flex>
           <v-flex xs7 sm2>
             <v-text-field
-              :disabled="result.dns"
+              :disabled="isDns"
               name="time"
               mask="#:##:###"
               :error-messages="errors.collect('Time')"
@@ -122,10 +122,12 @@ export default {
   watch: {
     result: {
       handler: function(newResult) {
-        let result = {}
-        result = newResult
-        result.driver = this._driver
-        this.updateResult(this._isBestLap, result)
+        if (newResult) {
+          let result = {}
+          result = newResult
+          result.driver = this._driver
+          this.updateResult(this._isBestLap, result)
+        }
       },
       deep: true
     },
@@ -145,12 +147,26 @@ export default {
       } else {
         return '0'
       }
+    },
+    isDnf () {
+      if (this.result) {
+        return this.result.dnf
+      } else {
+        return false
+      }
+    },
+    isDns () {
+      if (this.result) {
+        return this.result.dns
+      } else {
+        return false
+      }
     }
   },
   methods: {
     fillForm () {
       if(this._results && this._stage && this._driver) {
-        this.result = this._results[this._stage.trackDocumentId][this._driver.userId]
+        this.result = this._results[this._stage.trackDocumentId][this._driver.userId] || this.result
       }
     },
     updateResult (isBestLap, result) {

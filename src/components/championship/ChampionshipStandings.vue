@@ -21,11 +21,11 @@
             </td>
             <td class="text-xs-center">{{ props.item.team.name }}</td>
             <td class="text-xs-center" v-for="stage in _championship.calendar" :key="stage.id">
-              results.
-              username.
-              Track
+              <span
+                v-if="_results[stage.trackDocumentId][props.item.userId]"
+              >{{_results[stage.trackDocumentId][props.item.userId].points}}</span>
             </td>
-            <td class="text-xs-center">-</td>
+            <td class="text-xs-center">total pts</td>
           </tr>
         </template>
         <template slot="expand" slot-scope="props">
@@ -65,7 +65,8 @@ export default {
   },
   props: {
     _championship: Object,
-    _drivers: Object
+    _drivers: Object,
+    _results: Object
   },
   computed: {
     drivers() {
