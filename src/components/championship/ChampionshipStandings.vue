@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-layout column>
-      <v-data-table
+      <!-- <v-data-table
         :headers="headers"
         :items="drivers"
         :loading="false"
@@ -50,12 +50,33 @@
           color="error"
           icon="warning"
         >Your search for "{{ search }}" found no results.</v-alert>
-      </v-data-table>
+      </v-data-table>-->
+      <v-layout align-center>
+        <v-flex xs1>Position</v-flex>
+        <v-flex xs2>Username</v-flex>
+        <v-flex xs2>Team</v-flex>
+        <v-flex xs1 v-for="header in headers" :key="header.id">
+          <CountryFlag v-if="header.value === 'country'" :_country="header.text" :_width="30"/>
+          {{header.text}}
+        </v-flex>
+      </v-layout>
+      <v-layout v-for="driver in _drivers" :key="driver.id">
+        <v-flex xs1>1</v-flex>
+        <v-flex xs2>{{driver.username}}</v-flex>
+        <v-flex xs2>{{driver.team.name}}</v-flex>
+        <v-flex
+          xs1
+          v-if="result[driver.userId]"
+          v-for="result in _results"
+          :key="result.id"
+        >{{result[driver.userId]['points']}}</v-flex>
+      </v-layout>
     </v-layout>
   </div>
 </template>
 
 <script>
+import CountryFlag from '@/components/CountryFlag.vue'
 export default {
   name: 'ChampionshipStandings',
   data() {
@@ -76,24 +97,24 @@ export default {
     },
     headers() {
       let headers = [
-        {
-          text: 'Pos',
-          align: 'center',
-          sortable: true,
-          value: 'pos'
-        },
-        {
-          text: 'Username',
-          align: 'center',
-          sortable: false,
-          value: 'username'
-        },
-        {
-          text: 'Team',
-          align: 'center',
-          sortable: false,
-          value: 'team'
-        }
+        // {
+        //   text: 'Pos',
+        //   align: 'center',
+        //   sortable: true,
+        //   value: 'pos'
+        // },
+        // {
+        //   text: 'Username',
+        //   align: 'center',
+        //   sortable: false,
+        //   value: 'username'
+        // },
+        // {
+        //   text: 'Team',
+        //   align: 'center',
+        //   sortable: false,
+        //   value: 'team'
+        // }
       ]
       for (let i = 0; i < this._championship.calendar.length; i++) {
         let calendarHeaderItem = {
@@ -112,29 +133,13 @@ export default {
       }
       headers.push(totalColumnHeader)
       return headers
+    },
+    items () {
+      // 
     }
+  },
+  components: {
+    CountryFlag
   }
 }
-// results: {
-//   championship1: {
-//     brazil: {
-//       suvorkin: {
-//         start: 1,
-//         finish: 2,
-//         time: 1:21:14,
-//         points: 18,
-//         team: Ferrari
-//       },
-//       maxons: {
-
-//       }
-//     },
-//     USA: {
-
-//     }
-//   },
-//   championship1: {
-
-//   }
-// }
 </script>

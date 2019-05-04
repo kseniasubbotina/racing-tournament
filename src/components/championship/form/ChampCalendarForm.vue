@@ -14,6 +14,7 @@
       @updateStage="updateStage"
       @removeStage="removeStage"
     />
+    <message/>
     <v-layout justify-end>
       <v-btn flat @click="$emit('backStep')">Back</v-btn>
       <v-btn :disabled="!isValid" depressed color="green white--text" @click="nextStep">Continue</v-btn>
@@ -22,6 +23,7 @@
 </template>
 
 <script>
+import message from '@/components/Message.vue'
 import convertDateTime from '@/mixins/convertDateTime.js'
 import StageItemForm from '@/components/form-elements/StageItemForm.vue'
 export default {
@@ -52,7 +54,7 @@ export default {
     isValid() {
       var isValid = false
       this.stages.forEach((stage, i) => {
-        if (!stage.track || !stage.date || !stage.time) {
+        if (!stage.track || !stage.date || !stage.time || !this.checkForDuplicatedStages()) {
           isValid = false
         } else {
           isValid = true
@@ -64,6 +66,31 @@ export default {
   methods: {
     fetchCalendar() {
       if (this._calendar) this.stages = this._calendar
+    },
+    checkForDuplicatedStages () {
+      let stages = this.stages
+      var occurrences = {}
+
+      var filteredStages = stages.filter(function(x) {
+        if (occurrences[x.track]) {
+          return false;
+        }
+        occurrences[x.track] = true;
+        return true;
+      })
+      if(stages.length > Object.values(occurrences).length) {
+        this.$store.commit('setMessage', {
+          type: 'error',
+          text: 'Duplicated stages not allowed'
+        })
+        return false
+      } else {
+        this.$store.commit('setMessage', {
+          type: 'error',
+          text: ''
+        })
+        return true
+      }
     },
     nextStep() {
       let stages = this.stages
@@ -103,7 +130,8 @@ export default {
     convertDateTime
   ],
   components: {
-    StageItemForm
+    StageItemForm,
+    message
   }
 }
 </script>

@@ -18,13 +18,13 @@
               </v-flex>
             </v-layout>
           </v-flex>
-          <v-flex shrink>
-            <v-btn v-if="isAuthor" depressed @click="stageResultsWindow = true">Add results</v-btn>
-          </v-flex>
+        </v-layout>
+        <v-layout justify-center align-center>
+          <v-btn v-if="isAuthor" flat color="green" @click="stageResultsWindow = true">Edit results</v-btn>
         </v-layout>
       </v-card-text>
     </v-card>
-    <v-dialog scrollable v-model="stageResultsWindow" width="900px">
+    <v-dialog v-if="stageResultsWindow" scrollable v-model="stageResultsWindow" width="900px">
       <component
         @closeWindow="stageResultsWindow=false"
         :is="component"
