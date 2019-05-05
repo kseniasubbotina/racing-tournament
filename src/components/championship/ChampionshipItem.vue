@@ -46,14 +46,15 @@ import convertDateTime from '@/mixins/convertDateTime.js'
 export default {
   name: 'ChampionshipItem',
   props: {
-    _championship: Object
+    _championship: Object,
+    _drivers: Object
   },
   computed: {
     path () {
       return this._championship.info.name
     },
     driversCount() {
-      let drivers = this._championship.drivers
+      let drivers = this._drivers
       if (drivers) {
         return Object.keys(drivers).length
       } else {
