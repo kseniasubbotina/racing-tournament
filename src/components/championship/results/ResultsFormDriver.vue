@@ -164,7 +164,7 @@ export default {
   },
   methods: {
     fillForm () {
-      if(this._results && this._stage && this._driver) {
+      if(this._results[this._stage.trackDocumentId] && this._stage && this._driver) {
         this.result = this._results[this._stage.trackDocumentId][this._driver.userId] || this.result
       }
     },
