@@ -2,7 +2,7 @@ import fb from '@/firebase/config.js'
 
 export default {
   methods: {
-    addResult(championship, stage, results) {
+    addResult(championship, results) {
       this.isLoading = true
       fb.champsCollection
         .doc(championship.documentId)
