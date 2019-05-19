@@ -1,58 +1,8 @@
 <template>
   <div>
     <v-layout column>
-      <!-- <v-data-table
-        :headers="headers"
-        :items="drivers"
-        :loading="false"
-        :rows-per-page-items="[10, 20]"
-        :search="search"
-        class="elevation-1"
-        item-key="username"
-      >
-        <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
-        <template slot="items" slot-scope="props">
-          <tr @click="props.expanded = !props.expanded">
-            <td class="text-xs-center">
-              <span class="font-weight-bold">1</span>
-            </td>
-            <td class="text-xs-center">
-              <span class="font-weight-bold">{{ props.item.username }}</span>
-            </td>
-            <td class="text-xs-center">{{ props.item.team.name }}</td>
-            <td class="text-xs-center" v-for="stage in _championship.calendar" :key="stage.id">
-              <span
-                v-if="_results[stage.trackDocumentId][props.item.userId]"
-              >{{_results[stage.trackDocumentId][props.item.userId].points}}</span>
-            </td>
-            <td class="text-xs-center">total pts</td>
-          </tr>
-        </template>
-        <template slot="expand" slot-scope="props">
-          <v-card flat>
-            <v-layout>
-              <v-flex>
-                <v-card-text class="text-xs-left">Choose the action with {{ props.item.username }}</v-card-text>
-              </v-flex>
-              <v-flex>
-                <v-card-text class="text-xs-right">
-                  <v-btn flat @click="$router.push('/user_'+props.item.username)">
-                    <v-icon>account_circle</v-icon>View
-                  </v-btn>
-                </v-card-text>
-              </v-flex>
-            </v-layout>
-          </v-card>
-        </template>
-        <v-alert
-          slot="no-results"
-          :value="true"
-          color="error"
-          icon="warning"
-        >Your search for "{{ search }}" found no results.</v-alert>
-      </v-data-table>-->
       <v-layout align-center>
-        <v-flex xs1>Position</v-flex>
+        <v-flex xs1>Pos.</v-flex>
         <v-flex xs2>Username</v-flex>
         <v-flex xs2>Team</v-flex>
         <v-flex xs1 v-for="header in headers" :key="header.id">
@@ -60,16 +10,14 @@
           {{header.text}}
         </v-flex>
       </v-layout>
-      <v-layout v-for="driver in _drivers" :key="driver.id">
-        <v-flex xs1>1</v-flex>
-        <v-flex xs2>{{driver.username}}</v-flex>
-        <v-flex xs2>{{driver.team.name}}</v-flex>
-        <v-flex
-          xs1
-          v-if="result[driver.userId]"
-          v-for="result in _results"
-          :key="result.id"
-        >{{result[driver.userId]['points']}}</v-flex>
+      <v-layout v-if="_drivers" v-for="(user, index) in sortedResults" :key="user.id">
+        <template v-if="Object.values(user)[0].driver">
+          <v-flex xs1>{{index+1}}</v-flex>
+          <v-flex xs2>{{Object.values(user)[0].driver.username}}</v-flex>
+          <v-flex xs2>{{Object.values(user)[0].driver.team.name}}</v-flex>
+          <v-flex xs1 v-if="stage.points" v-for="stage in user" :key="stage.id">{{stage.points}}</v-flex>
+          <v-flex xs1>{{user.totalPts}}</v-flex>
+        </template>
       </v-layout>
     </v-layout>
   </div>
@@ -96,26 +44,7 @@ export default {
       }
     },
     headers() {
-      let headers = [
-        // {
-        //   text: 'Pos',
-        //   align: 'center',
-        //   sortable: true,
-        //   value: 'pos'
-        // },
-        // {
-        //   text: 'Username',
-        //   align: 'center',
-        //   sortable: false,
-        //   value: 'username'
-        // },
-        // {
-        //   text: 'Team',
-        //   align: 'center',
-        //   sortable: false,
-        //   value: 'team'
-        // }
-      ]
+      let headers = []
       for (let i = 0; i < this._championship.calendar.length; i++) {
         let calendarHeaderItem = {
           text: this._championship.calendar[i].stageCountry,
@@ -134,8 +63,36 @@ export default {
       headers.push(totalColumnHeader)
       return headers
     },
-    items () {
-      // 
+    sortedResults () {
+      let resultsArr = Object.values(this._results)
+
+      // sum all stages points and add it to the 'totalPts' property
+      resultsArr.forEach(function(user) {
+        let stagesArr = Object.values(user)
+        let totalPts = 0
+        stagesArr.forEach(function(stage) {
+          if(stage.points) {
+            totalPts += Number(stage.points)
+          }
+        })
+        user.totalPts = totalPts
+      })
+      // sort by total pts
+      resultsArr.sort(this.compare)
+
+      console.log(resultsArr)
+      return resultsArr
+    }
+  },
+  methods: {
+    compare(a, b) {
+      if (a.totalPts && b.totalPts) {
+        if (a.totalPts > b.totalPts)
+          return -1
+        if (a.totalPts < b.totalPts)
+          return 1
+        return 0
+      }
     }
   },
   components: {

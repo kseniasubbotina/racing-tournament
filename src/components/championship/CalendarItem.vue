@@ -67,8 +67,8 @@ export default {
       return this.userId == this._championship.author.id
     },
     userResult () {
-      if (this._results[this._stage.trackDocumentId]) {
-        return this._results[this._stage.trackDocumentId][this.userId]
+      if (this._results && this._results[this.userId]) {
+        return this._results[this.userId][this._stage.trackDocumentId]
       } else {
         return false
       }
