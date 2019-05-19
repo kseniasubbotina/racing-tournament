@@ -15,7 +15,7 @@
           <CountryFlag :_country="header.text" :_width="30"/>
           {{header.text}}
         </v-flex>
-        <v-else v-else>{{header.text}}</v-else>
+        <v-flex v-else>{{header.text}}</v-flex>
       </v-layout>
       <v-layout v-if="_drivers" v-for="(user, index) in sortedResults" :key="user.id">
         <template v-if="Object.values(user)[0].driver">
@@ -24,15 +24,12 @@
           <v-flex xs5 md2>
             <img :src="Object.values(user)[0].driver.team.teamLogo" width="100" alt>
           </v-flex>
-          <v-flex
-            class="hidden-xs"
-            xs1
-            v-if="stage.points !== undefined"
-            v-for="stage in user"
-            :key="stage.id"
-          >{{stage.points}}</v-flex>
-          <v-flex class="hidden-xs" xs1 v-else>-</v-flex>
-          <v-flex xs1>{{user.totalPts}}</v-flex>
+          <v-flex xs1 v-for="stage in user" :key="stage.id">
+            <!-- <div class="hidden-xs" xs1 v-if="stage.bestLapTime == undefined">-</div> -->
+            <div class="hidden-xs" xs1 v-if="stage.bestLapTime !== undefined">{{stage.points}}</div>
+          </v-flex>
+
+          <v-flex xs1 class="championship-standings_total-value">{{user.totalPts}}</v-flex>
         </template>
       </v-layout>
     </v-layout>
@@ -97,6 +94,7 @@ export default {
       // sort by total pts
       resultsArr.sort(this.compare)
 
+      console.log(resultsArr)
       return resultsArr
     }
   },
