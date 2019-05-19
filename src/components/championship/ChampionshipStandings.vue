@@ -1,21 +1,37 @@
 <template>
-  <div>
+  <div class="championship-standings">
     <v-layout column>
       <v-layout align-center>
         <v-flex xs1>Pos.</v-flex>
-        <v-flex xs2>Username</v-flex>
-        <v-flex xs2>Team</v-flex>
-        <v-flex xs1 v-for="header in headers" :key="header.id">
-          <CountryFlag v-if="header.value === 'country'" :_country="header.text" :_width="30"/>
+        <v-flex xs5 md2>Username</v-flex>
+        <v-flex xs5 md2>Team</v-flex>
+        <v-flex
+          xs1
+          class="championship-standings_country hidden-xs"
+          v-if="header.value === 'country'"
+          v-for="header in headers"
+          :key="header.id"
+        >
+          <CountryFlag :_country="header.text" :_width="30"/>
           {{header.text}}
         </v-flex>
+        <v-else v-else>{{header.text}}</v-else>
       </v-layout>
       <v-layout v-if="_drivers" v-for="(user, index) in sortedResults" :key="user.id">
         <template v-if="Object.values(user)[0].driver">
           <v-flex xs1>{{index+1}}</v-flex>
-          <v-flex xs2>{{Object.values(user)[0].driver.username}}</v-flex>
-          <v-flex xs2>{{Object.values(user)[0].driver.team.name}}</v-flex>
-          <v-flex xs1 v-if="stage.points" v-for="stage in user" :key="stage.id">{{stage.points}}</v-flex>
+          <v-flex xs5 md2>{{Object.values(user)[0].driver.username}}</v-flex>
+          <v-flex xs5 md2>
+            <img :src="Object.values(user)[0].driver.team.teamLogo" width="100" alt>
+          </v-flex>
+          <v-flex
+            class="hidden-xs"
+            xs1
+            v-if="stage.points !== undefined"
+            v-for="stage in user"
+            :key="stage.id"
+          >{{stage.points}}</v-flex>
+          <v-flex class="hidden-xs" xs1 v-else>-</v-flex>
           <v-flex xs1>{{user.totalPts}}</v-flex>
         </template>
       </v-layout>
@@ -77,10 +93,10 @@ export default {
         })
         user.totalPts = totalPts
       })
+      resultsArr = resultsArr.filter(user => Object.values(user)[0].bestLapTime !== undefined)
       // sort by total pts
       resultsArr.sort(this.compare)
 
-      console.log(resultsArr)
       return resultsArr
     }
   },

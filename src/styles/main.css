@@ -1,3 +1,5 @@
+@import "standings.css";
+
 @font-face {
   font-family: 'f1font-reg';
   src: url('../assets/fonts/Formula1-Regular.otf') format('opentype');

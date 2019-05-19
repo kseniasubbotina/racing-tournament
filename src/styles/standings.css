@@ -1,0 +1,16 @@
+.championship-standings {
+  font-family: 'f1font-reg', sans-serif !important;
+  font-size: 12px;
+  text-align: center;
+}
+.championship-standings_country {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media screen and (max-width: 768px) {
+  .hidden-xs {
+    display: none;
+  }
+}
