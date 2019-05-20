@@ -17,7 +17,24 @@
     display: none;
   }
 }
-
+.championship-standings .position-1 {
+  color: #000;
+  background: #ffc200;
+  border-radius: 5px;
+  padding: 4px;
+}
+.championship-standings .position-2 {
+  color: #000;
+  background: rgb(208, 208, 208);
+  border-radius: 5px;
+  padding: 4px;
+}
+.championship-standings .position-3 {
+  color: #fff;
+  background: #bb6c00;
+  border-radius: 5px;
+  padding: 4px;
+}
 .championship-standings_row {
   /*  */
 }

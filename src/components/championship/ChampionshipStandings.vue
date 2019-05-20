@@ -31,11 +31,15 @@
             <img :src="Object.values(user)[0].driver.team.teamLogo" width="100" alt>
           </v-flex>
           <v-flex xs1 v-for="stage in _championship.calendar" :key="stage.id">
-            <div
-              v-if="user[stage.trackDocumentId] !== undefined"
-              class="hidden-xs"
-              xs1
-            >{{user[stage.trackDocumentId].points}}</div>
+            <div v-if="user[stage.trackDocumentId] !== undefined" class="hidden-xs" xs1>
+              <span v-if="user[stage.trackDocumentId].dnf">DNF</span>
+              <span v-else-if="user[stage.trackDocumentId].dns">DNS</span>
+              <span class="red--text" v-else-if="user[stage.trackDocumentId].dq">DQ</span>
+              <span
+                :class="'position-' + user[stage.trackDocumentId].finish"
+                v-else
+              >{{user[stage.trackDocumentId].points}}</span>
+            </div>
             <div v-else class="hidden-xs" xs1>-</div>
           </v-flex>
           <v-flex xs1 class="championship-standings_total-value">{{user.totalPts}}</v-flex>
