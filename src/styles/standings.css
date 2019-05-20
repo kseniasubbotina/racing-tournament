@@ -1,0 +1,40 @@
+.championship-standings {
+  font-family: 'f1font-reg', sans-serif !important;
+  font-size: 12px;
+  text-align: center;
+}
+.championship-standings_country {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.championship-standings_total-value {
+  flex-shrink: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .hidden-xs {
+    display: none;
+  }
+}
+.championship-standings .position-1 {
+  color: #000;
+  background: #ffc200;
+  border-radius: 5px;
+  padding: 4px;
+}
+.championship-standings .position-2 {
+  color: #000;
+  background: rgb(208, 208, 208);
+  border-radius: 5px;
+  padding: 4px;
+}
+.championship-standings .position-3 {
+  color: #fff;
+  background: #bb6c00;
+  border-radius: 5px;
+  padding: 4px;
+}
+.championship-standings_row {
+  /*  */
+}

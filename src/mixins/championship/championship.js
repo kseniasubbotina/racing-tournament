@@ -32,6 +32,19 @@ export default {
         }
       })
     },
+    queryTest() {
+      // let userId = 'PwB8F0BqTvZ6qnVf7tCv1ES5uEX2'
+      let champId = 'championship_yhRmKbmwnCFhsl'
+      fb.champsCollection
+        .doc(champId)
+        .get()
+        .then(doc => {
+          console.log(doc.data())
+          // querySnapshot.forEach(doc => {
+          //   debugger
+          // })
+        })
+    },
     getChampionship(name) {
       let champName = name ? name : this.$route.params.id
       this.$store.commit('set', { type: 'loading', val: true })

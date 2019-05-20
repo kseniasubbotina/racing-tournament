@@ -13,7 +13,7 @@
           >
             <v-list-tile-title>Approve</v-list-tile-title>
           </v-list-tile>
-          <v-list-tile v-if="_isAdmin || _isAuthor" @click.stop="showChampForm=true">
+          <v-list-tile v-if="_isAdmin || _isAuthor" @click="showChampForm=true">
             <v-list-tile-title>Edit</v-list-tile-title>
           </v-list-tile>
           <v-list-tile v-if="_isAdmin && approved" @click="showRejectDialog = !showRejectDialog">

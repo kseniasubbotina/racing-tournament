@@ -20,7 +20,7 @@
         v-for="champ in championships"
         :key="champ.id"
       >
-        <ChampionshipItem :_championship="champ"/>
+        <ChampionshipItem :_drivers="drivers" :_championship="champ"/>
       </v-flex>
       <v-layout>
         <v-flex sx12>
@@ -46,7 +46,8 @@ export default {
   data() {
     return {
       championships: [],
-      showCreateForm: false
+      showCreateForm: false,
+      drivers: {}
     }
   },
   created() {
@@ -76,8 +77,10 @@ export default {
     getChampionships() {
       this.$store.commit('set', { type: 'loading', val: true })
       var championships = []
+      var drivers = {}
       fb.champsCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
+          drivers = doc.data().drivers
           var data = doc.data().championship
           if (data) {
             data.id = doc.id
@@ -86,6 +89,7 @@ export default {
         })
         this.$store.commit('set', { type: 'loading', val: false })
         this.championships = championships
+        this.drivers = drivers
       })
     }
   },

@@ -6,7 +6,6 @@
       >Add results for {{_stage.stageCountry}} Grand Prix - {{_stage.date}} - {{_stage.time}}</v-card-title>
       <ResultsFormDriver
         v-for="driver in _drivers"
-        :_isBestLap="isBestLap(driver)"
         :key="driver.userId"
         :_driver="driver"
         :_results="_results"
@@ -31,7 +30,8 @@ export default {
   data () {
     return {
       result: {},
-      isLoading: false
+      isLoading: false,
+      results: {}
     }
   },
   props: {
@@ -42,33 +42,35 @@ export default {
   },
   methods: {
     onDriverResultUpdate (result) {
-      this.$set(this.result, result.driver.userId, result)
-    },
-    isBestLap (driver) {
-      if(this.result[driver.userId]) {
-        let resultsArr = Object.values(this.result)
-        function compare(a, b) {
-          if (a.bestLapTime < b.bestLapTime)
-            return -1
-          if (a.bestLapTime > b.bestLapTime)
-            return 1
-          return 0
-        }
-        resultsArr.sort(compare)
-        if(resultsArr[0].bestLapTime && resultsArr[0].bestLapTime === this.result[driver.userId].bestLapTime) {
-          return true
-        } else {
-          return false
-        }
-      } else {
-        return false
+      let stageId = this._stage.trackDocumentId
+      let stageUserResult = {
+        [stageId]: result
       }
+      this.result = stageUserResult
+
+      let results = this._results
+      if(!results[result.driver.userId]) {
+        results[result.driver.userId] = {}
+      }
+
+      if (!results.drivers) {
+        results.drivers = []
+      }
+      // Add all users with results in this champ to Array
+      // It will help us to find users results even if they has quit the championship
+      const matchedUser = results.drivers.filter(driver => driver.indexOf(result.driver.userId) > -1)
+      if(!matchedUser.length) {
+        results.drivers.push(result.driver.userId)
+      }
+
+      results[result.driver.userId][stageId] = result
+      this.results = results
     },
     submit () {
-      let results = this._results
+      let results = this.results
       results.championshipInfo = this._championship.info
-      results[this._stage.trackDocumentId] = this.result
-      this.addResult(this._championship, this._stage, results)
+
+      this.addResult(this._championship, results)
     },
     closeWindow () {
       this.$emit('closeWindow')

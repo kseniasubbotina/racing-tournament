@@ -9,7 +9,8 @@
         <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div>
       </v-flex>
       <v-flex xs12 sm4>
-        <div>Author:
+        <div>
+          Author:
           <router-link
             :to="'/user_' + _championship.author.username"
           >{{_championship.author.username}}</router-link>
@@ -24,11 +25,12 @@
 export default {
   name: 'ChampionshipInfo',
   props: {
-    _championship: Object
+    _championship: Object,
+    _drivers: Object
   },
   computed: {
     driversCount() {
-      let drivers = this._championship.drivers
+      let drivers = this._drivers
       if (drivers) {
         return Object.keys(drivers).length
       } else {

@@ -2,10 +2,6 @@
   <v-card class="mb-1">
     <v-form>
       <v-container v-if="_driver.userId">
-        <<<<<<< HEAD
-        <!-- {{_results[this._stage.trackDocumentId][this._driver.userId]}} -->
-        =======
-        >>>>>>> develop
         <v-layout align-center justify-center wrap>
           <v-flex class="subheading" xs12 sm3>{{_driver.username}}</v-flex>
           <v-flex sm7>
@@ -37,13 +33,12 @@
             </v-layout>
           </v-flex>
           <v-flex sm2>
-            <BestLapIndicator v-if="_isBestLap"/>
+            <BestLapIndicator v-if="isBestLap"/>
           </v-flex>
 
           <v-flex xs12 sm3>
             <v-text-field
               :disabled="isDns"
-              v-validate="{required: true }"
               name="start"
               type="number"
               :error-messages="errors.collect('start')"
@@ -54,7 +49,6 @@
           <v-flex xs10 sm3>
             <v-text-field
               :disabled="isDns || isDnf"
-              v-validate="{required: true }"
               name="Finish"
               type="number"
               :error-messages="errors.collect('Finish')"
@@ -68,7 +62,6 @@
           <v-flex xs5 sm2>
             <v-text-field
               :disabled="isDns"
-              v-validate="{required: true }"
               name="stops"
               type="number"
               :error-messages="errors.collect('Pit stops')"
@@ -128,20 +121,44 @@ export default {
         if (newResult) {
           let result = {}
           result = newResult
+          if(result.dq) {
+            result.finish = 0
+          }
           result.driver = this._driver
-          this.updateResult(this._isBestLap, result)
+          this.updateResult(this.isBestLap, result)
         }
       },
       deep: true
-    },
-    _isBestLap (isBestLap) {
-      let result = {}
-      result = this.result
-      result.driver = this._driver
-      this.updateResult(isBestLap, result)
     }
   },
   computed: {
+    isBestLap () {
+      let trackDocumentId = this._stage.trackDocumentId
+      let results = this._results
+      let stageResult = this.result
+      if(stageResult.bestLapTime) {
+        let resultsArr = Object.values(results)
+        function compare(a, b) {
+          if (a[trackDocumentId] && b[trackDocumentId]) {
+            if (a[trackDocumentId].bestLapTime < b[trackDocumentId].bestLapTime)
+              return -1
+            if (a[trackDocumentId].bestLapTime > b[trackDocumentId].bestLapTime)
+              return 1
+            return 0
+          } else {
+            return 0
+          }
+        }
+        resultsArr.sort(compare)
+        if(resultsArr[0][trackDocumentId] && resultsArr[0][trackDocumentId].bestLapTime && resultsArr[0][trackDocumentId].bestLapTime === stageResult.bestLapTime) {
+          return true
+        } else {
+          return false
+        }
+      } else {
+        return false
+      }
+    },
     points () {
       let finish = this.result.finish || ''
       let points = pointsSystem.f1()[finish]
@@ -168,8 +185,8 @@ export default {
   },
   methods: {
     fillForm () {
-      if(this._results && this._stage && this._driver) {
-        this.result = this._results[this._stage.trackDocumentId][this._driver.userId] || this.result
+      if(this._results[this._driver.userId] && this._stage && this._driver) {
+        this.result = this._results[this._driver.userId][this._stage.trackDocumentId] || this.result
       }
     },
     updateResult (isBestLap, result) {
