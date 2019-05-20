@@ -145,10 +145,12 @@ export default {
             if (a[trackDocumentId].bestLapTime > b[trackDocumentId].bestLapTime)
               return 1
             return 0
+          } else {
+            return 0
           }
         }
         resultsArr.sort(compare)
-        if(resultsArr[0][trackDocumentId].bestLapTime && resultsArr[0][trackDocumentId].bestLapTime === stageResult.bestLapTime) {
+        if(resultsArr[0][trackDocumentId] && resultsArr[0][trackDocumentId].bestLapTime && resultsArr[0][trackDocumentId].bestLapTime === stageResult.bestLapTime) {
           return true
         } else {
           return false

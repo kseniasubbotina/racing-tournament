@@ -26,11 +26,20 @@
           </v-flex>
           <v-flex xs1 v-for="stage in user" :key="stage.id">
             <!-- <div class="hidden-xs" xs1 v-if="stage.bestLapTime == undefined">-</div> -->
-            <div class="hidden-xs" xs1 v-if="stage.bestLapTime !== undefined">{{stage.points}}</div>
+            <div class="hidden-xs" xs1>{{stage.points}}</div>
           </v-flex>
 
-          <v-flex xs1 class="championship-standings_total-value">{{user.totalPts}}</v-flex>
+          <v-flex xs1 class="championship-standings_total-value">Total - {{user.totalPts}}</v-flex>
         </template>
+      </v-layout>
+      <v-layout v-if="!_results[driver.userId]" v-for="driver in _drivers" :key="driver.id">
+        <v-flex xs1>-</v-flex>
+        <v-flex xs5 md2>{{driver.username}}</v-flex>
+        <v-flex xs5 md2>
+          <img :src="driver.team.teamLogo" width="100" alt>
+        </v-flex>
+        <v-flex xs1 v-for="stage in _championship.calendar"></v-flex>
+        <v-flex xs1>0</v-flex>
       </v-layout>
     </v-layout>
   </div>
@@ -78,7 +87,6 @@ export default {
     },
     sortedResults () {
       let resultsArr = Object.values(this._results)
-
       // sum all stages points and add it to the 'totalPts' property
       resultsArr.forEach(function(user) {
         let stagesArr = Object.values(user)
@@ -93,7 +101,7 @@ export default {
       resultsArr = resultsArr.filter(user => Object.values(user)[0].bestLapTime !== undefined)
       // sort by total pts
       resultsArr.sort(this.compare)
-
+      
       console.log(resultsArr)
       return resultsArr
     }
