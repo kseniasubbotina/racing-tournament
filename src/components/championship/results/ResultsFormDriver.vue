@@ -39,7 +39,6 @@
           <v-flex xs12 sm3>
             <v-text-field
               :disabled="isDns"
-              v-validate="{required: true }"
               name="start"
               type="number"
               :error-messages="errors.collect('start')"
@@ -50,7 +49,6 @@
           <v-flex xs10 sm3>
             <v-text-field
               :disabled="isDns || isDnf"
-              v-validate="{required: true }"
               name="Finish"
               type="number"
               :error-messages="errors.collect('Finish')"
@@ -64,7 +62,6 @@
           <v-flex xs5 sm2>
             <v-text-field
               :disabled="isDns"
-              v-validate="{required: true }"
               name="stops"
               type="number"
               :error-messages="errors.collect('Pit stops')"

@@ -4,7 +4,7 @@
       <v-navigation-drawer fixed :clipped="$vuetify.breakpoint.lgAndUp" app v-model="drawer">
         <navigationMenu @colorThemeChanged="onColorThemeChanged"/>
       </v-navigation-drawer>
-      <v-toolbar color="red darken-2" dark app :clipped-left="$vuetify.breakpoint.lgAndUp" fixed>
+      <v-toolbar color="#e10600" dark app :clipped-left="$vuetify.breakpoint.lgAndUp" fixed>
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-toolbar-title style="width: auto" class="ml-0 mr-2 pl-3">
           <img width="70" src="./assets/logo1.png" alt>

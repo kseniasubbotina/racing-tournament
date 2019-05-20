@@ -1,7 +1,7 @@
 <template>
   <div class="championship-standings">
     <v-layout column>
-      <v-layout align-center>
+      <v-layout class="hidden-xs" align-center>
         <v-flex xs1>Pos.</v-flex>
         <v-flex xs5 md2>Username</v-flex>
         <v-flex xs5 md2>Team</v-flex>
@@ -28,7 +28,7 @@
           <v-flex xs1>{{index+1}}</v-flex>
           <v-flex xs5 md2>{{Object.values(user)[0].driver.username}}</v-flex>
           <v-flex xs5 md2>
-            <img :src="Object.values(user)[0].driver.team.teamLogo" width="80" alt>
+            <img :src="Object.values(user)[0].driver.team.teamLogo" width="100" alt>
           </v-flex>
           <v-flex xs1 v-for="stage in _championship.calendar" :key="stage.id">
             <div
@@ -44,7 +44,6 @@
       <v-layout
         class="championship-standings_row py-1"
         align-center
-        justify-center
         v-if="!_results[driver.userId]"
         v-for="driver in _drivers"
         :key="driver.id"
@@ -54,7 +53,7 @@
         <v-flex xs5 md2>
           <img :src="driver.team.teamLogo" width="100" alt>
         </v-flex>
-        <v-flex xs1 v-for="stage in _championship.calendar"></v-flex>
+        <v-flex xs1 v-for="stage in _championship.calendar">-</v-flex>
         <v-flex xs1>0</v-flex>
       </v-layout>
     </v-layout>
