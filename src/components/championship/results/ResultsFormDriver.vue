@@ -121,6 +121,9 @@ export default {
         if (newResult) {
           let result = {}
           result = newResult
+          if(result.dq) {
+            result.finish = 0
+          }
           result.driver = this._driver
           this.updateResult(this.isBestLap, result)
         }
