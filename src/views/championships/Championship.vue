@@ -5,6 +5,7 @@
     </div>
     <v-card flat :key="championship.documentId" v-else-if="championship">
       <v-container>
+        <!-- <v-btn @click="queryTest">Query</v-btn> -->
         <v-alert
           class="black--text"
           v-if="!championship.approved && (isAdmin || isAuthor)"
