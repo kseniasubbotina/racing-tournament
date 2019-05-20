@@ -15,24 +15,40 @@
           <CountryFlag :_country="header.text" :_width="30"/>
           {{header.text}}
         </v-flex>
-        <v-flex v-else>{{header.text}}</v-flex>
+        <v-flex xs1 v-else>{{header.text}}</v-flex>
       </v-layout>
-      <v-layout v-if="_drivers" v-for="(user, index) in sortedResults" :key="user.id">
+      <v-layout
+        align-center
+        class="championship-standings_row py-1"
+        v-if="_drivers"
+        v-for="(user, index) in sortedResults"
+        :key="user.id"
+      >
         <template v-if="Object.values(user)[0].driver">
           <v-flex xs1>{{index+1}}</v-flex>
           <v-flex xs5 md2>{{Object.values(user)[0].driver.username}}</v-flex>
           <v-flex xs5 md2>
-            <img :src="Object.values(user)[0].driver.team.teamLogo" width="100" alt>
+            <img :src="Object.values(user)[0].driver.team.teamLogo" width="80" alt>
           </v-flex>
-          <v-flex xs1 v-for="stage in user" :key="stage.id">
-            <!-- <div class="hidden-xs" xs1 v-if="stage.bestLapTime == undefined">-</div> -->
-            <div class="hidden-xs" xs1>{{stage.points}}</div>
+          <v-flex xs1 v-for="stage in _championship.calendar" :key="stage.id">
+            <div
+              v-if="user[stage.trackDocumentId] !== undefined"
+              class="hidden-xs"
+              xs1
+            >{{user[stage.trackDocumentId].points}}</div>
+            <div v-else class="hidden-xs" xs1>-</div>
           </v-flex>
-
-          <v-flex xs1 class="championship-standings_total-value">Total - {{user.totalPts}}</v-flex>
+          <v-flex xs1 class="championship-standings_total-value">{{user.totalPts}}</v-flex>
         </template>
       </v-layout>
-      <v-layout v-if="!_results[driver.userId]" v-for="driver in _drivers" :key="driver.id">
+      <v-layout
+        class="championship-standings_row py-1"
+        align-center
+        justify-center
+        v-if="!_results[driver.userId]"
+        v-for="driver in _drivers"
+        :key="driver.id"
+      >
         <v-flex xs1>-</v-flex>
         <v-flex xs5 md2>{{driver.username}}</v-flex>
         <v-flex xs5 md2>
