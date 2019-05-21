@@ -31,7 +31,7 @@
       <div>You will not be able to change a team after joining the championship</div>
     </v-alert>-->
     <v-card-actions>
-      <v-btn flat color="error" @click>Cancel</v-btn>
+      <v-btn flat color="error" @click="$emit('close')">Cancel</v-btn>
       <v-spacer></v-spacer>
       <v-btn :disabled="isteamFulfilled" @click="join">Confirm</v-btn>
     </v-card-actions>
@@ -56,7 +56,6 @@ export default {
   computed: {
     isteamFulfilled () {
       if(this.team) {
-        debugger
         if(this.selectedTeamDrivers.length < this.team.places) {
           return false
         } else {
