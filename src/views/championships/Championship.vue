@@ -46,6 +46,7 @@
             :is="joinDialogComponent"
             :_drivers="drivers"
             :_championship="championship"
+            @close="joinDialog = false"
           ></component>
         </v-dialog>
       </v-container>

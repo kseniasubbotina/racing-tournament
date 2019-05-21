@@ -1,14 +1,16 @@
 <template>
-  <v-autocomplete
-    :disabled="_disabled"
-    v-validate="'required'"
-    type="text"
-    name="Team"
-    :error-messages="errors.collect('Team')"
-    :items="teams"
-    label="Team"
-    v-model="team"
-  ></v-autocomplete>
+  <div>
+    <v-autocomplete
+      :disabled="_disabled"
+      v-validate="'required'"
+      type="text"
+      name="Team"
+      :error-messages="errors.collect('Team')"
+      :items="teams"
+      label="Team"
+      v-model="team"
+    ></v-autocomplete>
+  </div>
 </template>
 
 <script>
@@ -59,7 +61,8 @@ export default {
           keys.push({ 
             id: data.id, 
             name: data.name, 
-            teamLogo: data.teamLogo
+            teamLogo: data.teamLogo,
+            places: data.places
           })
         })
         this.teams = teamsArr
