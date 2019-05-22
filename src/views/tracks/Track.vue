@@ -21,7 +21,7 @@
         <div>{{trackData.country}}</div>
         <div>length: {{trackData.length}}</div>
         <div>First GP: {{trackData.firstGP}}</div>
-        <div>{{trackData.description}}</div>
+        <div v-html="trackData.description"></div>
         <img :src="trackData.trackPhoto" width="50%" alt>
         <img :src="trackData.trackScheme" width="50%" alt>
       </v-container>

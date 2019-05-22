@@ -17,7 +17,7 @@
         </div>
       </v-flex>
     </v-layout>
-    {{_championship.info.description}}
+    <div v-html="_championship.info.description"></div>
   </div>
 </template>
 

@@ -17,6 +17,7 @@
     "vue-recaptcha": "^1.1.1",
     "vue-router": "^3.0.1",
     "vue-the-mask": "^0.11.1",
+    "vue2-editor": "^2.6.6",
     "vuelidate": "^0.6.2",
     "vuetify": "^1.2.7",
     "vuex": "^3.0.1"
