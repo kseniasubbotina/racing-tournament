@@ -14,16 +14,27 @@
           </v-btn>
         </div>
         <EditTrackForm :_trackData="trackData"/>
-        <div>
-          <h1>{{trackData.name}}</h1>
-        </div>
-        <h3>Track info:</h3>
-        <div>{{trackData.country}}</div>
-        <div>length: {{trackData.length}}</div>
-        <div>First GP: {{trackData.firstGP}}</div>
-        <div v-html="trackData.description"></div>
-        <img :src="trackData.trackPhoto" width="50%" alt>
-        <img :src="trackData.trackScheme" width="50%" alt>
+        <v-layout>
+          <v-flex>
+            <div>
+              <h1>{{trackData.name}}</h1>
+            </div>
+            <h3>Track info:</h3>
+            <div>{{trackData.country}}</div>
+            <div>length: {{trackData.length}}</div>
+            <div>First GP: {{trackData.firstGP}}</div>
+          </v-flex>
+          <!-- <v-flex sm4 xs12>
+            <img :src="trackData.trackPhoto" width="100%" alt>
+          </v-flex>-->
+        </v-layout>
+        <v-layout>
+          <v-flex>
+            <div v-html="trackData.description"></div>
+          </v-flex>
+        </v-layout>
+
+        <img :src="trackData.trackScheme" width="100%" alt>
       </v-container>
       <Confirmation @confirmed="deleteTrack" _message="Delete this track?"/>
     </div>

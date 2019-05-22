@@ -29,9 +29,6 @@
           </v-btn>
         </v-flex>
       </v-layout>
-      <!-- <v-dialog v-model="showCreateForm" max-width="950px">
-        <ChampionshipForm :_isNew="true" v-if="showCreateForm"/>
-      </v-dialog>-->
     </v-layout>
   </v-container>
 </template>
