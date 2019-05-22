@@ -11,12 +11,12 @@
           <span class="hidden-sm-and-down font-weight-bold">Esport (&#945;)</span>
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon>
+        <!-- <v-btn icon>
           <v-icon>apps</v-icon>
         </v-btn>
         <v-btn icon>
           <v-icon>notifications</v-icon>
-        </v-btn>
+        </v-btn>-->
         <template v-if="!isLoggedIn">
           <v-btn to="/register" flat>Register</v-btn>
           <v-btn to="/login" flat>Login</v-btn>
@@ -37,8 +37,8 @@
         </v-container>
       </v-content>
       <v-footer color="grey darken-3" app>
-        <v-layout>
-          <v-flex align-center class="text-xs-center white--text">&copy; 2018</v-flex>
+        <v-layout align-center justify-center class="px-2">
+          <v-flex class="grey--text text-xs-center">f1-esport.com &copy; | 2019 | Work in progress</v-flex>
         </v-layout>
       </v-footer>
     </v-app>

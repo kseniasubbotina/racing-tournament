@@ -15,7 +15,7 @@
         v-if="champ.approved || champ.currentUserId == champ.author.id || isAdmin"
         xs12
         sm6
-        md4
+        md6
         pa-1
         v-for="champ in championships"
         :key="champ.id"
