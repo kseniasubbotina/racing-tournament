@@ -1,13 +1,15 @@
 <template>
   <div class="home">
-    Home Page
+    <championships/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-
+import championships from '@/views/championships/Championships'
 export default {
-  name: 'home'
+  name: 'home',
+  components: {
+    championships
+  }
 }
 </script>
