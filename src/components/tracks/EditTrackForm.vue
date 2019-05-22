@@ -67,7 +67,8 @@
               />
             </v-flex>
             <v-flex>
-              <v-textarea v-model="trackData.description" label="Track Description"></v-textarea>
+              <span>Track Description</span>
+              <vue-editor v-model="trackData.description" :editorToolbar="customToolbar"></vue-editor>
             </v-flex>
           </v-layout>
         </form>
@@ -104,7 +105,11 @@ export default {
       selectedFile: null,
       selectedFiles: [],
       imageLoading: false,
-      trackDialog: false
+      trackDialog: false,
+      customToolbar: [
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }]
+      ]
     }
   },
   props: {

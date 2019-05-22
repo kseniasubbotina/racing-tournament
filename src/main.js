@@ -9,10 +9,12 @@ import './styles/layout.css'
 import VeeValidate from 'vee-validate'
 import fb from './firebase/config'
 import VueTheMask from 'vue-the-mask'
+import VueEditor from 'vue2-editor'
 
 Vue.use(VeeValidate)
 Vue.use(Vuetify)
 Vue.use(VueTheMask)
+Vue.use(VueEditor)
 
 Vue.config.productionTip = false
 
