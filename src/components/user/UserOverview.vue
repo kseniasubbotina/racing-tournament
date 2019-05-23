@@ -1,15 +1,15 @@
 <template>
   <div>
-    <CurrentChampionships/>
+    <ActiveChampionships/>
   </div>
 </template>
 
 <script>
-import CurrentChampionships from '@/widgets/CurrentChampionships.vue'
+import ActiveChampionships from '@/widgets/ActiveChampionships.vue'
 export default {
   name: 'user-overview',
   components: {
-    CurrentChampionships
+    ActiveChampionships
   }
 }
 </script>
