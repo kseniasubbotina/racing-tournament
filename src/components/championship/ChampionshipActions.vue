@@ -68,7 +68,8 @@ export default {
     _isAuthor: Boolean,
     _isParticipant: Boolean,
     _championship: Object,
-    _drivers: Object
+    _drivers: Object,
+    _driversIds: Array
   },
   computed: {
     isLoggedIn() {
