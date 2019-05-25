@@ -6,7 +6,7 @@ export default {
   methods: {
     leaveChampionship(championship, drivers, userId) {
       delete drivers[userId]
-      let driversIds = this._driversIds
+      let driversIds = this._driversIds || []
       let indexToRemove = driversIds.indexOf(userId)
       driversIds.splice(indexToRemove, 1)
       fb.champsCollection

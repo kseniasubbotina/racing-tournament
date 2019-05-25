@@ -121,7 +121,6 @@ export default {
       // sort by total pts
       resultsArr.sort(this.compare)
       
-      console.log(resultsArr)
       return resultsArr
     }
   },
