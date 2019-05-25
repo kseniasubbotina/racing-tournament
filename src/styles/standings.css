@@ -35,6 +35,13 @@
   border-radius: 5px;
   padding: 4px;
 }
-.championship-standings_row {
-  /*  */
+.championship-standings_row:hover {
+  background-color: rgba(148, 148, 148, 0.26);
+}
+.championship-standings_username {
+  /* text-decoration: underline; */
+  cursor: pointer;
+}
+.championship-standings_username a {
+  color: inherit;
 }

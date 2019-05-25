@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ActiveChampionships/>
+    <ActiveChampionships :userId="userId"/>
   </div>
 </template>
 
@@ -8,6 +8,9 @@
 import ActiveChampionships from '@/widgets/active-championships/ActiveChampionships.vue'
 export default {
   name: 'user-overview',
+  props: {
+    userId: String
+  },
   components: {
     ActiveChampionships
   }

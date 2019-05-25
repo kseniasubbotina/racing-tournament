@@ -26,7 +26,11 @@
       >
         <template v-if="Object.values(user)[0].driver">
           <v-flex xs1>{{index+1}}</v-flex>
-          <v-flex xs5 md2>{{Object.values(user)[0].driver.username}}</v-flex>
+          <v-flex class="championship-standings_username" xs5 md2>
+            <router-link
+              :to="'/user_' + Object.values(user)[0].driver.username"
+            >{{Object.values(user)[0].driver.username}}</router-link>
+          </v-flex>
           <v-flex xs5 md2>
             <img :src="Object.values(user)[0].driver.team.teamLogo" width="100" alt>
           </v-flex>
@@ -45,6 +49,7 @@
           <v-flex xs1 class="championship-standings_total-value">{{user.totalPts}}</v-flex>
         </template>
       </v-layout>
+
       <v-layout
         class="championship-standings_row py-1"
         align-center
