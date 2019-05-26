@@ -1,5 +1,7 @@
 <template>
   <div class="championship-standings">
+    <!-- Headers below -->
+
     <v-layout column>
       <v-layout class="hidden-xs" align-center>
         <v-flex xs1>Pos.</v-flex>
@@ -17,6 +19,11 @@
         </v-flex>
         <v-flex xs1 v-else>{{header.text}}</v-flex>
       </v-layout>
+
+      <!-- Headers above -->
+
+      <!-- Drivers below -->
+
       <v-layout
         align-center
         class="championship-standings_row py-1"
@@ -50,6 +57,10 @@
         </template>
       </v-layout>
 
+      <!-- Drivers above -->
+
+      <!-- Drivers with no results below -->
+
       <v-layout
         class="championship-standings_row py-1"
         align-center
@@ -65,6 +76,8 @@
         <v-flex xs1 v-for="stage in _championship.calendar">-</v-flex>
         <v-flex xs1>0</v-flex>
       </v-layout>
+
+      <!-- Drivers with no results above -->
     </v-layout>
   </div>
 </template>
