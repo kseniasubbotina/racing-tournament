@@ -8,7 +8,7 @@
           </v-flex>
         </v-layout>
         <!-- <v-layout column justify-center align-center> -->
-        <v-flex>User image</v-flex>
+        <v-flex>Avatar</v-flex>
         <ImageInput
           :_url="_userData.avatarURL"
           @fileSelected="onfileSelected"

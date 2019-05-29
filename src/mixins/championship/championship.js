@@ -6,10 +6,14 @@ export default {
   methods: {
     leaveChampionship(championship, drivers, userId) {
       delete drivers[userId]
+      let driversIds = this._driversIds || []
+      let indexToRemove = driversIds.indexOf(userId)
+      driversIds.splice(indexToRemove, 1)
       fb.champsCollection
         .doc(championship.documentId)
         .update({
-          drivers: drivers
+          drivers: drivers,
+          driversIds: driversIds
         })
         .then(() => {
           this.$router.push('/championships/' + championship.info.name)
@@ -23,10 +27,12 @@ export default {
       fb.champsCollection.doc(this.championship.documentId).onSnapshot(doc => {
         let data = doc.data().championship
         let drivers = doc.data().drivers
+        let driversIds = doc.data().driversIds
         if (data) {
           this.championship.approved = data.approved
           this.championship.rejectComment = data.rejectComment
           this.drivers = drivers
+          this.driversIds = driversIds
         } else {
           return
         }
@@ -56,6 +62,7 @@ export default {
             querySnapshot.forEach(doc => {
               let championship = doc.data().championship
               let drivers = doc.data().drivers
+              let driversIds = doc.data().driversIds
               let results = doc.data().results
               championship.documentId = doc.id
               let calendar = championship.calendar
@@ -65,6 +72,7 @@ export default {
                 championship.calendar[i].time = this.dateTimeToBrowser(stage.date, stage.time, 'time')
               }
               this.drivers = drivers
+              this.driversIds = driversIds
               this.championship = championship || null
               this.results = results
             })

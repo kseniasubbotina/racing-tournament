@@ -1,9 +1,9 @@
 <template>
   <v-card width="100%">
-    <!-- <div v-if="loading" class="text-xs-center">
+    <div v-if="loading" class="text-xs-center">
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
-    </div>-->
-    <v-container grid-list-sm class="pa-4">
+    </div>
+    <v-container v-else grid-list-sm class="pa-4">
       <v-layout row wrap>
         <v-flex xs12 sm3 class="text-xs-center">
           <v-layout d-block pa-1>
@@ -36,7 +36,7 @@
             <v-tabs-items>
               <v-tab-item v-for="item in tabs" :id="item.name" :key="item.name">
                 <v-card flat class="pa-1">
-                  <component :is="item.componentName" :_userData="userData"></component>
+                  <component v-if="userData.id" :is="item.componentName" :_userData="userData"></component>
                 </v-card>
               </v-tab-item>
             </v-tabs-items>
@@ -92,9 +92,9 @@ export default {
         return this.$store.getters.user.id
       }
     },
-    visitedUserId() {
-      return this.$route.params.id
-    },
+    // visitedUserId() {
+    //   return this.$route.params.id
+    // },
     isGuest() {
       return this.authenticatedUserId !== this.userData.id
     },

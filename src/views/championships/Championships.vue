@@ -4,7 +4,7 @@
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
     <v-layout v-else wrap>
-      <h1>Available Championships</h1>
+      <div class="display-1 my-3">Available Championships</div>
       <v-spacer></v-spacer>
       <!-- <v-btn v-if="isLoggedIn" :to="'/create'" depressed color="success">
         <v-icon>add</v-icon>Create Championship

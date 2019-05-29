@@ -51,7 +51,8 @@ export default {
   props: {
     _seria: String,
     _championship: Object,
-    _drivers: Object
+    _drivers: Object,
+    driversIds: Array
   },
   computed: {
     isteamFulfilled () {
@@ -89,13 +90,21 @@ export default {
       let team = this.team
       let userId = this.userId
       let drivers = this._drivers || {}
+      let driversIds = this.driversIds || []
+      
+      const matchedUser = driversIds.filter(driver => driver.indexOf(userId) > -1)
+      if(!matchedUser.length) {
+        driversIds.push(userId)
+      }
+
       drivers[userId] = {
         userId: userId,
         username: this.$store.getters.userData.username,
         team: team
       }
       fb.champsCollection.doc(this._championship.documentId).update({
-        drivers: drivers
+        drivers: drivers,
+        driversIds: driversIds
       }).then(() => {
         this.$router.push('/championships/' + this._championship.info.name)
       })

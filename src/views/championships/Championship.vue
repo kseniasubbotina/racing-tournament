@@ -30,6 +30,7 @@
               :_isAdmin="isAdmin"
               :_isParticipant="isParticipant"
               :_isAuthor="isAuthor"
+              :_driversIds="driversIds"
             />
           </v-flex>
         </v-layout>
@@ -45,6 +46,7 @@
             v-if="joinDialogComponent"
             :is="joinDialogComponent"
             :_drivers="drivers"
+            :driversIds="driversIds"
             :_championship="championship"
             @close="joinDialog = false"
           ></component>
@@ -69,6 +71,7 @@ export default {
       championship: null,
       results: null,
       drivers: null,
+      driversIds: null,
       joinDialog: false
     }
   },

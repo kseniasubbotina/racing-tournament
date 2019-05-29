@@ -5,7 +5,7 @@
     </div>
     <div v-else>
       <v-layout wrap>
-        <h1>Tracks</h1>
+        <div class="display-1 my-3">Tracks</div>
         <v-spacer></v-spacer>
         <v-btn depressed color="success" v-if="isAdmin" @click="openForm">
           <v-icon>add</v-icon>Add new
