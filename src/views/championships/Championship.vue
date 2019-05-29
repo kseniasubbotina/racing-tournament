@@ -46,6 +46,7 @@
             v-if="joinDialogComponent"
             :is="joinDialogComponent"
             :_drivers="drivers"
+            :driversIds="driversIds"
             :_championship="championship"
             @close="joinDialog = false"
           ></component>
