@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ActiveChampionships :userId="userId"/>
+    <ActiveChampionships :userData="_userData"/>
   </div>
 </template>
 
@@ -9,7 +9,7 @@ import ActiveChampionships from '@/widgets/active-championships/ActiveChampionsh
 export default {
   name: 'user-overview',
   props: {
-    userId: String
+    _userData: Object
   },
   components: {
     ActiveChampionships

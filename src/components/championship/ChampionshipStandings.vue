@@ -39,7 +39,7 @@
             >{{Object.values(user)[0].driver.username}}</router-link>
           </v-flex>
           <v-flex xs5 md2>
-            <img :src="Object.values(user)[0].driver.team.teamLogo" width="100" alt>
+            <img :src="findDriverTeam(user).teamLogo" width="100" alt>
           </v-flex>
           <v-flex xs1 v-for="stage in _championship.calendar" :key="stage.id">
             <div v-if="user[stage.trackDocumentId] !== undefined" class="hidden-xs" xs1>
@@ -143,6 +143,12 @@ export default {
     }
   },
   methods: {
+    findDriverTeam (user) {
+      let resultsLength = Object.values(user).length
+      let userId = Object.values(user)[0].driver.userId
+      let team = this._drivers[userId] ? this._drivers[userId].team : Object.values(user)[resultsLength-2].driver.team
+      return team
+    },
     compare(a, b) {
       if (a.totalPts && b.totalPts) {
         if (a.totalPts > b.totalPts)

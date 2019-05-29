@@ -3,20 +3,24 @@
     <div v-if="loading" class="text-xs-center">
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
-    <activeChampionship
-      class="my-2"
-      v-else-if="championships.length"
-      v-for="championship in championships"
-      :key="championship.id"
-      :championship="championship"
-      :userId="userId"
-    />
+    <div v-else>
+      <v-flex class="my-3">
+        <span class="title">Active championships:</span>
+      </v-flex>
+      <ActiveChampionship
+        class="my-2"
+        v-for="championship in championships"
+        :key="championship.id"
+        :data="championship"
+        :userData="userData"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import fb from '@/firebase/config.js'
-import activeChampionship from '@/widgets/active-championships/activeChampionship.vue'
+import ActiveChampionship from '@/widgets/active-championships/ActiveChampionship.vue'
 
 export default {
   name: 'ActiveChampionships',
@@ -27,7 +31,7 @@ export default {
     }
   },
   props: {
-    userId: String
+    userData: Object
   },
   created () {
     this.getActiveChampionships ()
@@ -36,7 +40,7 @@ export default {
     getActiveChampionships () {
       this.loading = true
       // championship which has not ended
-      let activeChampionships = fb.champsCollection.where("driversIds", "array-contains", this.userId)
+      let activeChampionships = fb.champsCollection.where("driversIds", "array-contains", this.userData.id)
       activeChampionships.get().then(querySnapshot => {
         if(!querySnapshot.empty) {
           querySnapshot.forEach(doc => {
@@ -49,7 +53,7 @@ export default {
     }
   },
   components: {
-    activeChampionship
+    ActiveChampionship
   }
 }
 </script>

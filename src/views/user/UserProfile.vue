@@ -36,12 +36,7 @@
             <v-tabs-items>
               <v-tab-item v-for="item in tabs" :id="item.name" :key="item.name">
                 <v-card flat class="pa-1">
-                  <component
-                    v-if="userData.id"
-                    :is="item.componentName"
-                    :_userData="userData"
-                    :userId="userData.id"
-                  ></component>
+                  <component v-if="userData.id" :is="item.componentName" :_userData="userData"></component>
                 </v-card>
               </v-tab-item>
             </v-tabs-items>

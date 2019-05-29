@@ -27,10 +27,12 @@ export default {
       fb.champsCollection.doc(this.championship.documentId).onSnapshot(doc => {
         let data = doc.data().championship
         let drivers = doc.data().drivers
+        let driversIds = doc.data().driversIds
         if (data) {
           this.championship.approved = data.approved
           this.championship.rejectComment = data.rejectComment
           this.drivers = drivers
+          this.driversIds = driversIds
         } else {
           return
         }

@@ -121,7 +121,7 @@ export default {
         if (newResult) {
           let result = {}
           result = newResult
-          if(result.dq) {
+          if(result.dq || result.dnf || result.dns) {
             result.finish = 0
           }
           result.driver = this._driver
