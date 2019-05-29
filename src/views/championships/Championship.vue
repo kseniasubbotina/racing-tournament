@@ -40,12 +40,14 @@
             <v-icon>assignment_turned_in</v-icon>Join championship
           </v-btn>
         </v-layout>
+        {{driversIds}}
         <ChampionshipTabs :_results="results" :_drivers="drivers" :_championship="championship"/>
         <v-dialog v-model="joinDialog" max-width="500">
           <component
             v-if="joinDialogComponent"
             :is="joinDialogComponent"
             :_drivers="drivers"
+            :driversIds="driversIds"
             :_championship="championship"
             @close="joinDialog = false"
           ></component>
