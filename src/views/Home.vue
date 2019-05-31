@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <ActiveChampionships :userData="currentUser"/>
-    <championships/>
+    <championships :showAddButton="false"/>
   </div>
 </template>
 
