@@ -84,6 +84,7 @@
 
 <script>
 import CountryFlag from '@/components/CountryFlag.vue'
+import sortStandings from '@/mixins/championship/sortStandings.js'
 export default {
   name: 'ChampionshipStandings',
   data() {
@@ -123,23 +124,7 @@ export default {
       return headers
     },
     sortedResults () {
-      let resultsArr = Object.values(this._results)
-      // sum all stages points and add it to the 'totalPts' property
-      resultsArr.forEach(function(user) {
-        let stagesArr = Object.values(user)
-        let totalPts = 0
-        stagesArr.forEach(function(stage) {
-          if(stage.points) {
-            totalPts += Number(stage.points)
-          }
-        })
-        user.totalPts = totalPts
-      })
-      resultsArr = resultsArr.filter(user => Object.values(user)[0].bestLapTime !== undefined)
-      // sort by total pts
-      resultsArr.sort(this.compare)
-      
-      return resultsArr
+      return this.sortStandings(Object.values(this._results))
     }
   },
   methods: {
@@ -148,17 +133,11 @@ export default {
       let userId = Object.values(user)[0].driver.userId
       let team = this._drivers[userId] ? this._drivers[userId].team : Object.values(user)[resultsLength-2].driver.team
       return team
-    },
-    compare(a, b) {
-      if (a.totalPts && b.totalPts) {
-        if (a.totalPts > b.totalPts)
-          return -1
-        if (a.totalPts < b.totalPts)
-          return 1
-        return 0
-      }
     }
   },
+  mixins: [
+    sortStandings
+  ],
   components: {
     CountryFlag
   }
