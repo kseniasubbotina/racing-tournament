@@ -23,7 +23,7 @@
       >
         <ChampionshipItem :_drivers="drivers" :_championship="champ"/>
       </v-flex>
-      <v-layout>
+      <v-layout v-if="showAddButton">
         <v-flex sx12>
           <v-btn v-if="isLoggedIn" :to="'/create'" color="green" dark fixed bottom right fab>
             <v-icon>add</v-icon>
@@ -47,6 +47,12 @@ export default {
       championships: [],
       showCreateForm: false,
       drivers: {}
+    }
+  },
+  props: {
+    showAddButton: {
+      default: true,
+      type: Boolean
     }
   },
   created() {
