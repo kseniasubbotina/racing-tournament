@@ -9,7 +9,6 @@
         flat
       >More</v-btn>
     </v-layout>
-
     <v-card-text>
       <v-layout>
         <v-flex>
