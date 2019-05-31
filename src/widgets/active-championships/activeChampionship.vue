@@ -5,7 +5,7 @@
       <v-spacer></v-spacer>
       <v-btn
         @click="$router.push({name: 'Championship', params: {id: championshipName}})"
-        color="primary"
+        color="red"
         flat
       >More</v-btn>
     </v-layout>
@@ -17,15 +17,15 @@
         </v-flex>
         <v-flex>
           <span class="caption">Position:</span>
-          <h2>1st</h2>
+          <h3>1st</h3>
         </v-flex>
         <v-flex>
           <span class="caption">Points:</span>
-          <h2>{{points}}</h2>
+          <h3>{{points}}</h3>
         </v-flex>
         <v-flex>
           <span class="caption">Teammate:</span>
-          <div>{{teammate.username}}</div>
+          <h3>{{teammate.username}}</h3>
         </v-flex>
       </v-layout>
     </v-card-text>
