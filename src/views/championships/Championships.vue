@@ -1,10 +1,11 @@
 <template>
-  <v-container>
+  <!-- <v-container> -->
+  <div>
     <div v-if="loading" class="text-xs-center">
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
     <v-layout v-else wrap>
-      <div class="display-1 my-3">Available Championships</div>
+      <div class="headline my-3">Available Championships</div>
       <v-spacer></v-spacer>
       <!-- <v-btn v-if="isLoggedIn" :to="'/create'" depressed color="success">
         <v-icon>add</v-icon>Create Championship
@@ -30,7 +31,8 @@
         </v-flex>
       </v-layout>
     </v-layout>
-  </v-container>
+    <!-- </v-container> -->
+  </div>
 </template>
 
 <script>

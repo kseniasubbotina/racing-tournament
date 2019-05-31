@@ -1,13 +1,14 @@
 <template>
-  <div>
+  <div v-if="championships.length">
     <div v-if="loading" class="text-xs-center">
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
-    <div v-else>
+    <div>
       <v-flex class="my-3">
-        <span class="title">Active championships:</span>
+        <span class="headline">Active championships:</span>
       </v-flex>
       <ActiveChampionship
+        lg6
         class="my-2"
         v-for="championship in championships"
         :key="championship.id"
