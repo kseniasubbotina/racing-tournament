@@ -1,5 +1,4 @@
 <template>
-  <!-- <v-container> -->
   <div>
     <div v-if="loading" class="text-xs-center">
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
@@ -31,7 +30,6 @@
         </v-flex>
       </v-layout>
     </v-layout>
-    <!-- </v-container> -->
   </div>
 </template>
 
