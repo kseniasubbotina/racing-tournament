@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ActiveChampionships :userData="_userData"/>
+    <ActiveChampionships :isGuest="isGuest" :userData="_userData"/>
   </div>
 </template>
 
@@ -9,7 +9,11 @@ import ActiveChampionships from '@/widgets/active-championships/ActiveChampionsh
 export default {
   name: 'user-overview',
   props: {
-    _userData: Object
+    _userData: Object,
+    isGuest: {
+      type: Boolean,
+      default: false
+    }
   },
   components: {
     ActiveChampionships

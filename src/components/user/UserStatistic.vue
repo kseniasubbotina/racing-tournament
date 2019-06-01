@@ -1,7 +1,5 @@
 <template>
-  <div>
-    Statistic
-  </div>
+  <div>Work in progress</div>
 </template>
 
 <script>

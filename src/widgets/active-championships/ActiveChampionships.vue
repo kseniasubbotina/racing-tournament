@@ -1,9 +1,9 @@
 <template>
-  <div v-if="championships.length">
-    <div v-if="loading" class="text-xs-center">
+  <div v-if="userData.username">
+    <div v-if="loading" class="text-xs-center my-2">
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
-    <div>
+    <template v-else-if="championships.length">
       <v-flex class="my-3">
         <span class="headline">Active championships:</span>
       </v-flex>
@@ -15,7 +15,26 @@
         :data="championship"
         :userData="userData"
       />
-    </div>
+    </template>
+
+    <template v-else-if="!loading">
+      <v-card>
+        <v-card-title class="text-xs-center">
+          <v-layout column>
+            <v-flex>
+              <v-icon>block</v-icon>
+            </v-flex>
+            <v-flex v-if="isGuest" justify-center>User has no active championships</v-flex>
+            <v-flex v-else justify-center>You have no active championships</v-flex>
+          </v-layout>
+        </v-card-title>
+        <v-card-text v-if="!isGuest">
+          <v-layout justify-center>
+            <v-btn color="green" dark to="/championships">Select a championships</v-btn>
+          </v-layout>
+        </v-card-text>
+      </v-card>
+    </template>
   </div>
 </template>
 
@@ -32,25 +51,43 @@ export default {
     }
   },
   props: {
-    userData: Object
+    userData: Object,
+    isGuest: {
+      default: false,
+      type: Boolean
+    }
   },
   created () {
     this.getActiveChampionships ()
+  },
+  watch: {
+    userData: {
+      handler () {
+        this.getActiveChampionships()
+      },
+      deep: true
+    }
   },
   methods: {
     getActiveChampionships () {
       this.loading = true
       // championship which has not ended
-      let activeChampionships = fb.champsCollection.where("driversIds", "array-contains", this.userData.id)
-      activeChampionships.get().then(querySnapshot => {
-        if(!querySnapshot.empty) {
-          querySnapshot.forEach(doc => {
-            this.championships.push(doc.data())
+      if(this.userData.id) {
+        let activeChampionships = fb.champsCollection.where("driversIds", "array-contains", this.userData.id)
+        activeChampionships.get().then(querySnapshot => {
+          if(!querySnapshot.empty) {
+            querySnapshot.forEach(doc => {
+              this.championships.push(doc.data())
+              this.loading = false
+            })
+          } else {
             this.loading = false
-          })
-        }
-      })
-      this.loading = false
+          }
+        }).catch(e => {
+          this.loading = false
+        })
+      }
+
     }
   },
   components: {

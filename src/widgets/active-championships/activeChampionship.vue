@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card v-if="userData">
     <v-layout>
       <v-card-title class="subheading">{{championshipName}}</v-card-title>
       <v-spacer></v-spacer>
@@ -11,19 +11,19 @@
     </v-layout>
     <v-card-text>
       <v-layout wrap>
-        <v-flex xs12 sm12 lg3>
+        <v-flex xs6 lg3>
           <div class="caption">Team:</div>
           <img :src="team.teamLogo" alt width="150">
         </v-flex>
-        <v-flex xs12 sm4 lg3>
+        <v-flex xs6 lg3>
           <span class="caption">Position:</span>
           <h4>{{userPosition}}</h4>
         </v-flex>
-        <v-flex xs12 sm4 lg3>
+        <v-flex xs6 lg3>
           <span class="caption">Points:</span>
           <h4>{{points}}</h4>
         </v-flex>
-        <v-flex xs12 sm4 lg3>
+        <v-flex xs6 lg3>
           <span class="caption">Teammate:</span>
           <h4>{{teammate.username}}&nbsp;({{teammatePosition}})</h4>
         </v-flex>
