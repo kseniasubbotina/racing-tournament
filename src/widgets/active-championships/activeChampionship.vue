@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card v-if="userData">
     <v-layout>
       <v-card-title class="subheading">{{championshipName}}</v-card-title>
       <v-spacer></v-spacer>

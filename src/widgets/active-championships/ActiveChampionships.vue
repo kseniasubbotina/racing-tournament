@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="userData.username">
     <div v-if="loading" class="text-xs-center my-2">
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
@@ -51,7 +51,11 @@ export default {
     }
   },
   props: {
-    userData: Object
+    userData: Object,
+    isGuest: {
+      default: false,
+      type: Boolean
+    }
   },
   created () {
     this.getActiveChampionships ()
@@ -62,11 +66,6 @@ export default {
         this.getActiveChampionships()
       },
       deep: true
-    }
-  },
-  computed: {
-    isGuest() {
-      return this.userData.username !== this.$store.getters.userData.username
     }
   },
   methods: {
@@ -81,6 +80,8 @@ export default {
               this.championships.push(doc.data())
               this.loading = false
             })
+          } else {
+            this.loading = false
           }
         }).catch(e => {
           this.loading = false
