@@ -69,7 +69,9 @@
         :key="driver.id"
       >
         <v-flex xs1>-</v-flex>
-        <v-flex xs5 md2>{{driver.username}}</v-flex>
+        <v-flex class="championship-standings_username" xs5 md2>
+          <router-link :to="'/user_' + driver.username">{{driver.username}}</router-link>
+        </v-flex>
         <v-flex xs5 md2>
           <img :src="driver.team.teamLogo" width="100" alt>
         </v-flex>
