@@ -18,7 +18,7 @@
       <v-layout wrap>
         <v-flex xs6 lg4>
           <div class="caption">Team:</div>
-          <img :src="team.teamLogo" alt width="150">
+          <img :src="team.teamLogo" alt width="100">
         </v-flex>
         <v-flex xs6 lg2>
           <span class="caption">Position:</span>

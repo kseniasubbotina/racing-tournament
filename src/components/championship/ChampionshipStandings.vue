@@ -23,39 +23,52 @@
       <!-- Headers above -->
 
       <!-- Drivers below -->
-
-      <v-layout
-        align-center
-        class="championship-standings_row py-1"
-        v-if="_drivers"
-        v-for="(user, index) in sortedResults"
-        :key="user.id"
-      >
-        <template v-if="Object.values(user)[0].driver">
-          <v-flex xs1>{{index+1}}</v-flex>
-          <v-flex class="championship-standings_username" xs5 md2>
-            <router-link
-              :to="'/user_' + Object.values(user)[0].driver.username"
-            >{{Object.values(user)[0].driver.username}}</router-link>
-          </v-flex>
-          <v-flex xs5 md2>
-            <img :src="findDriverTeam(user).teamLogo" width="100" alt>
-          </v-flex>
-          <v-flex xs1 v-for="stage in _championship.calendar" :key="stage.id">
-            <div v-if="user[stage.trackDocumentId] !== undefined" class="hidden-xs" xs1>
-              <span v-if="user[stage.trackDocumentId].dnf">DNF</span>
-              <span v-else-if="user[stage.trackDocumentId].dns">DNS</span>
-              <span class="red--text" v-else-if="user[stage.trackDocumentId].dq">DQ</span>
-              <span
-                :class="'position-' + user[stage.trackDocumentId].finish"
-                v-else
-              >{{user[stage.trackDocumentId].points}}</span>
-            </div>
-            <div v-else class="hidden-xs" xs1>-</div>
-          </v-flex>
-          <v-flex xs1 class="championship-standings_total-value">{{user.totalPts}}</v-flex>
-        </template>
-      </v-layout>
+      <template v-if="drivers.length">
+        <v-layout
+          align-center
+          class="championship-standings_row py-1"
+          v-if="_drivers"
+          v-for="(user, index) in sortedResults"
+          :key="user.id"
+        >
+          <template v-if="Object.values(user)[0].driver">
+            <v-flex xs1>{{index+1}}</v-flex>
+            <v-flex class="championship-standings_username" xs5 md2>
+              <router-link
+                :to="'/user_' + Object.values(user)[0].driver.username"
+              >{{Object.values(user)[0].driver.username}}</router-link>
+            </v-flex>
+            <v-flex xs5 md2>
+              <img :src="findDriverTeam(user).teamLogo" width="100" alt>
+            </v-flex>
+            <v-flex xs1 v-for="stage in _championship.calendar" :key="stage.id">
+              <div v-if="user[stage.trackDocumentId] !== undefined" class="hidden-xs" xs1>
+                <span v-if="user[stage.trackDocumentId].dnf">DNF</span>
+                <span v-else-if="user[stage.trackDocumentId].dns">DNS</span>
+                <span class="red--text" v-else-if="user[stage.trackDocumentId].dq">DQ</span>
+                <span
+                  :class="'position-' + user[stage.trackDocumentId].finish"
+                  v-else
+                >{{user[stage.trackDocumentId].points}}</span>
+              </div>
+              <div v-else class="hidden-xs" xs1>-</div>
+            </v-flex>
+            <v-flex xs1 class="championship-standings_total-value">{{user.totalPts}}</v-flex>
+          </template>
+        </v-layout>
+      </template>
+      <template v-else>
+        <v-card>
+          <v-card-text>
+            <v-layout column>
+              <v-flex>
+                <v-icon>block</v-icon>
+              </v-flex>
+              <v-flex class="subheading" justify-cenxtr>No drivers in championship</v-flex>
+            </v-layout>
+          </v-card-text>
+        </v-card>
+      </template>
 
       <!-- Drivers above -->
 

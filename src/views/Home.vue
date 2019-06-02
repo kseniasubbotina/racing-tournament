@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <ActiveChampionships :userData="currentUser"/>
+    <ActiveChampionships v-if="currentUser" :userData="currentUser"/>
     <championships :showAddButton="false"/>
   </div>
 </template>

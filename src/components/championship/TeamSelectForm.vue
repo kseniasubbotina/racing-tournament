@@ -56,7 +56,7 @@ export default {
   },
   computed: {
     isteamFulfilled () {
-      if(this.team) {
+      if(this.team && this.selectedTeamDrivers) {
         if(this.selectedTeamDrivers.length < this.team.places) {
           return false
         } else {
@@ -65,7 +65,7 @@ export default {
       }
     },
     selectedTeamDrivers () {
-      if(this.team) {
+      if(this.team && this._drivers) {
         let drivers = Object.values(this._drivers)
         let selectedTeamDrivers = drivers.filter(driver => driver.team.name === this.team.name)
         return selectedTeamDrivers
