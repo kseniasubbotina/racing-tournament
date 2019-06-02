@@ -20,9 +20,6 @@
               <CountryFlag :_country="userData.country" :_width="30"/>
               {{userData.country}}
             </v-layout>
-            <v-flex v-if="!isGuest">
-              <v-btn @click="logOut">Log out</v-btn>
-            </v-flex>
           </v-layout>
         </v-flex>
         <v-flex xs12 sm8 justify-space-between>

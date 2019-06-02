@@ -1,31 +1,36 @@
 <template>
   <v-card v-if="userData">
     <v-layout>
-      <v-card-title class="subheading">{{championshipName}}</v-card-title>
+      <v-card-title>
+        <span
+          @click="$router.push({name: 'Championship', params: {id: championshipName}})"
+          class="pointer subheading"
+        >{{championshipName}}</span>
+        <v-btn
+          @click="$router.push({name: 'Championship', params: {id: championshipName}})"
+          color="green"
+          flat
+        >Open</v-btn>
+      </v-card-title>
       <v-spacer></v-spacer>
-      <v-btn
-        @click="$router.push({name: 'Championship', params: {id: championshipName}})"
-        color="red"
-        flat
-      >More</v-btn>
     </v-layout>
     <v-card-text>
       <v-layout wrap>
-        <v-flex xs6 lg3>
+        <v-flex xs6 lg4>
           <div class="caption">Team:</div>
           <img :src="team.teamLogo" alt width="150">
         </v-flex>
-        <v-flex xs6 lg3>
+        <v-flex xs6 lg2>
           <span class="caption">Position:</span>
-          <h4>{{userPosition}}</h4>
+          <h3>{{userPosition}}</h3>
         </v-flex>
         <v-flex xs6 lg3>
           <span class="caption">Points:</span>
-          <h4>{{points}}</h4>
+          <h3>{{points}}</h3>
         </v-flex>
         <v-flex xs6 lg3>
           <span class="caption">Teammate:</span>
-          <h4>{{teammate.username}}&nbsp;({{teammatePosition}})</h4>
+          <h3>{{teammate.username}}&nbsp;({{teammatePosition}})</h3>
         </v-flex>
       </v-layout>
     </v-card-text>
