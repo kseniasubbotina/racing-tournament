@@ -1,5 +1,5 @@
 <template>
-  <div v-if="userData.username">
+  <div v-if="userData && userData.username">
     <div v-if="loading" class="text-xs-center my-2">
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
@@ -7,14 +7,11 @@
       <v-flex class="my-3">
         <span class="headline">Active championships:</span>
       </v-flex>
-      <ActiveChampionship
-        lg6
-        class="my-2"
-        v-for="championship in championships"
-        :key="championship.id"
-        :data="championship"
-        :userData="userData"
-      />
+      <v-layout wrap>
+        <v-flex v-for="championship in championships" :key="championship.id">
+          <ActiveChampionship class="ma-2" :data="championship" :userData="userData"/>
+        </v-flex>
+      </v-layout>
     </template>
 
     <template v-else-if="!loading">
@@ -29,7 +26,7 @@
           </v-layout>
         </v-card-title>
         <v-card-text v-if="!isGuest">
-          <v-layout justify-center>
+          <v-layout column justify-center>
             <v-btn color="green" dark to="/championships">Select a championships</v-btn>
           </v-layout>
         </v-card-text>
@@ -72,7 +69,7 @@ export default {
     getActiveChampionships () {
       this.loading = true
       // championship which has not ended
-      if(this.userData.id) {
+      if(this.userData && this.userData.id) {
         let activeChampionships = fb.champsCollection.where("driversIds", "array-contains", this.userData.id)
         activeChampionships.get().then(querySnapshot => {
           if(!querySnapshot.empty) {

@@ -14,7 +14,7 @@
 .title,
 h1, h2, h3, h4,
 .v-card__title,
-.headline, .subheading, .display-1 {
+.headline, .subheading, .display-1, .display-3 {
   font-family: 'f1font-reg', sans-serif !important;
 }
 h1, h2 {
@@ -26,6 +26,9 @@ h1, h2 {
   text-align: left;
   color: #2c3e50;
 }
+/* a {
+  color: inherit !important;
+} */
 #nav {
   padding: 30px;
 }
@@ -36,7 +39,9 @@ h1, h2 {
 #nav a .router-link-exact-active {
   color: #42b983;
 }
-
+.pointer {
+  cursor: pointer;
+}
 /* BREADCRUMBS */
 .v-breadcrumbs.theme--dark a {
   color: #fff;
