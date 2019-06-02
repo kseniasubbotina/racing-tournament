@@ -16,9 +16,9 @@
             <v-flex>
               <h2>{{userData.username}}</h2>
             </v-flex>
-            <v-layout align-center justify-center column>
-              <CountryFlag :_country="userData.country" :_width="30"/>
-              {{userData.country}}
+            <v-layout align-center justify-center>
+              <CountryFlag class="mx-2" :_country="userData.country" :_width="30"/>
+              <span class="subheading">{{userData.country}}</span>
             </v-layout>
           </v-layout>
         </v-flex>
