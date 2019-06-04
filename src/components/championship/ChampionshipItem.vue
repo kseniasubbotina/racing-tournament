@@ -9,6 +9,7 @@
       primary-title
       @click="$router.push({name: 'Championship', params: {id: path}})"
     >
+      <!--  -->
       <v-layout fill-height>
         <v-flex xs12 align-end flexbox>
           <span class="headline">{{_championship.info.name}}</span>
