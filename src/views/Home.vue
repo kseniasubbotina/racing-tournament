@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+    <template>
+      <Intro/>
+    </template>
     <ActiveChampionships v-if="currentUser" :userData="currentUser"/>
     <championships :showAddButton="false"/>
   </div>
@@ -8,6 +11,7 @@
 <script>
 import championships from '@/views/championships/Championships'
 import ActiveChampionships from '@/widgets/active-championships/ActiveChampionships'
+import Intro from '@/components/Intro.vue'
 export default {
   name: 'home',
   computed: {
@@ -17,7 +21,8 @@ export default {
   },
   components: {
     championships,
-    ActiveChampionships
+    ActiveChampionships,
+    Intro
   }
 }
 </script>
