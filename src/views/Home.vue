@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <template>
-      <Intro/>
+      <Intro v-if="!currentUser"/>
     </template>
     <ActiveChampionships v-if="currentUser" :userData="currentUser"/>
     <championships :showAddButton="false"/>
