@@ -23,7 +23,7 @@
       <!-- Headers above -->
 
       <!-- Drivers below -->
-      <template v-if="drivers.length">
+      <template v-if="drivers && drivers.length">
         <v-layout
           align-center
           class="championship-standings_row py-1"

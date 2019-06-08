@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <template>
-      <Intro/>
+      <Intro v-if="!isLoggedIn"/>
     </template>
-    <ActiveChampionships v-if="currentUser" :userData="currentUser"/>
+    <ActiveChampionships v-if="isLoggedIn && currentUser" :userData="currentUser"/>
     <championships :showAddButton="false"/>
   </div>
 </template>
@@ -17,6 +17,10 @@ export default {
   computed: {
     currentUser () {
       return this.$store.getters.userData
+    },
+    isLoggedIn () {
+      var isLoggedIn = this.$store.getters.user ? true : false
+      return isLoggedIn
     }
   },
   components: {

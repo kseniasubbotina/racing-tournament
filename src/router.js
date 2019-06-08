@@ -14,6 +14,7 @@ import Tracks from './views/tracks/Tracks.vue'
 import Track from './views/tracks/Track.vue'
 import Games from './views/games/Games.vue'
 import Game from './views/games/Game.vue'
+import About from './views/About.vue'
 
 Vue.use(Router)
 
@@ -26,6 +27,14 @@ const router = new Router({
       component: Home,
       meta: {
         breadcrumbs: [{ name: 'Home' }]
+      }
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: About,
+      meta: {
+        breadcrumbs: [{ name: 'About' }]
       }
     },
     {
