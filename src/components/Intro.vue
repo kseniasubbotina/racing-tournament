@@ -11,7 +11,7 @@
           <v-btn @click="$router.push('/register')" dark color="red">Register</v-btn>
         </v-flex>
         <v-flex>
-          <v-btn flat>About the project</v-btn>
+          <v-btn @click="$router.push('/about')" flat>About the project</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
