@@ -7,11 +7,14 @@
       <v-layout align-center justify-center>
         <v-flex class="pl-3">
           <v-layout column class="mb-3">
-            <div class="caption">Drivers: {{selectedTeamDrivers.length}}/{{team.places}}</div>
+            <div
+              v-if="selectedTeamDrivers"
+              class="caption"
+            >Drivers: {{selectedTeamDrivers.length}}/{{team.places}}</div>
             <v-flex v-for="(teamDriver, index) in selectedTeamDrivers" :key="teamDriver.id">
               <div class="subheading">{{index+1}} - {{teamDriver.username}}</div>
             </v-flex>
-            <div v-if="!selectedTeamDrivers.length">No drivers yet</div>
+            <div v-if="!selectedTeamDrivers || !selectedTeamDrivers.length">No drivers yet</div>
           </v-layout>
         </v-flex>
         <v-flex>
