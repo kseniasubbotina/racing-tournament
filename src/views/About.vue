@@ -1,8 +1,11 @@
 <template>
-  <v-card flat>
-    <v-card-title>
-      <H1>Welcome to F1-esport.com</H1>
-    </v-card-title>
+  <v-card flat class="text-xs-center">
+    <v-layout justify-center>
+      <v-card-title>
+        <h1>Welcome to F1-esport.com</h1>
+      </v-card-title>
+    </v-layout>
+
     <v-card-text>
       <div class="subtitle">
         We are pleased to welcome you on f1-esport.com web-site.
@@ -14,17 +17,40 @@
         <br>Good luck in the race!
       </div>
     </v-card-text>
-    <v-card-title>
-      <h2>Meet the team</h2>
-    </v-card-title>
+    <v-layout justify-center>
+      <v-card-title>
+        <h2>Meet the team</h2>
+      </v-card-title>
+    </v-layout>
+
     <v-card-text>
-      <v-card></v-card>
+      <v-layout>
+        <v-flex xs6>
+          <TeamMember v-for="member in members" :key="member.name" :data="member"/>
+        </v-flex>
+      </v-layout>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
+import TeamMember from '@/components/about/TeamMember.vue'
 export default {
-  name: 'About'
+  name: 'About',
+  data () {
+    return {
+      members: [
+        {
+          name: 'Andrey Suvorkin',
+          image: './assets/team/suvorkin.JPG',
+          email: 'andrejwest@mail.ru',
+          about: 'Text about'
+        }
+      ]
+    }
+  },
+  components: {
+    TeamMember
+  }
 }
 </script>
