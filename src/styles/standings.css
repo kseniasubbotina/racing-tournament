@@ -45,6 +45,9 @@
   /* text-decoration: underline; */
   cursor: pointer;
 }
+.championship-standings_team {
+  min-width: 100px;
+}
 .championship-standings_username a {
   color: inherit;
 }

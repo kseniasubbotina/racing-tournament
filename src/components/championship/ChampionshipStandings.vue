@@ -33,18 +33,19 @@
           :key="user.id"
         >
           <template v-if="Object.values(user)[0].driver">
-            <v-btn fab flat dark small color="red">
-              <v-icon dark>remove</v-icon>
-            </v-btn>
             <v-flex xs1>{{index+1}}</v-flex>
             <v-flex class="championship-standings_username" xs5 md2>
               <router-link
                 :to="'/user_' + Object.values(user)[0].driver.username"
               >{{Object.values(user)[0].driver.username}}</router-link>
             </v-flex>
-            <v-flex xs5 md2>
-              <img :src="findDriverTeam(user).teamLogo" width="100" alt>
+            <v-flex class="championship-standings_team">
+              <div v-if="!isDriverRemoved(user)" xs5 md2>
+                <img :src="findDriverTeam(user).teamLogo" width="100" alt>
+              </div>
+              <div v-else></div>
             </v-flex>
+
             <v-flex xs1 v-for="stage in _championship.calendar" :key="stage.id">
               <div v-if="user[stage.trackDocumentId] !== undefined" class="hidden-xs" xs1>
                 <span v-if="user[stage.trackDocumentId].dnf">DNF</span>
@@ -154,7 +155,6 @@ export default {
       return team
     },
     isDriverRemoved(user) {
-      debugger
       if(user) {
         let userId = Object.values(user)[0].driver.userId
         if(userId) {

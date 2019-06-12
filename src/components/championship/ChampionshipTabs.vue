@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import DriversManager from '@/components/championship/DriversManager.vue'
 import ChampionshipCalendar from '@/components/championship/ChampionshipCalendar.vue'
 import ChampionshipStandings from '@/components/championship/ChampionshipStandings.vue'
 export default {
@@ -41,6 +42,11 @@ export default {
           name: 'Statistic',
           componentName: '',
           public: true
+        },
+        {
+          name: 'Manage drivers',
+          componentName: 'DriversManager',
+          public: true
         }
       ]
     }
@@ -52,7 +58,8 @@ export default {
   },
   components: {
     ChampionshipCalendar,
-    ChampionshipStandings
+    ChampionshipStandings,
+    DriversManager
   }
 }
 </script>
