@@ -20,11 +20,7 @@ export default new Vuex.Store({
     },
     setMessage(state, { type, text }) {
       state.message[type] = text
-      if (type === 'success') {
-        state.message.error = ''
-      } else {
-        state.message.success = ''
-      }
+      type === 'success' ? state.message.error = '' : state.message.success = ''
     }
   },
   actions: {
