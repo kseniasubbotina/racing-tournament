@@ -12,7 +12,7 @@
         <v-flex>E-mail: {{data.mail}}</v-flex>
         <v-flex>
           GitHub:
-          <a :href="data.github">{{data.github}}</a>
+          <a target="new_blank" :href="data.github">{{data.github}}</a>
         </v-flex>
       </v-card-text>
     </v-layout>
