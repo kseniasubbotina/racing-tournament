@@ -17,6 +17,7 @@
         <v-btn icon>
           <v-icon>notifications</v-icon>
         </v-btn>-->
+        <v-btn to="/about" flat>About</v-btn>
         <template v-if="!isLoggedIn">
           <v-btn to="/register" flat>Register</v-btn>
           <v-btn to="/login" flat>Login</v-btn>
