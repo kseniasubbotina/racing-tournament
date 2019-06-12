@@ -38,6 +38,9 @@
 .championship-standings_row:hover {
   background-color: rgba(148, 148, 148, 0.26);
 }
+.championship-standings_row.removed {
+  opacity: 0.5;
+}
 .championship-standings_username {
   /* text-decoration: underline; */
   cursor: pointer;

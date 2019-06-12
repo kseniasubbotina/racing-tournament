@@ -27,11 +27,15 @@
         <v-layout
           align-center
           class="championship-standings_row py-1"
+          :class="{'removed':isDriverRemoved(user)}"
           v-if="_drivers"
           v-for="(user, index) in sortedResults"
           :key="user.id"
         >
           <template v-if="Object.values(user)[0].driver">
+            <v-btn fab flat dark small color="red">
+              <v-icon dark>remove</v-icon>
+            </v-btn>
             <v-flex xs1>{{index+1}}</v-flex>
             <v-flex class="championship-standings_username" xs5 md2>
               <router-link
@@ -64,7 +68,7 @@
               <v-flex>
                 <v-icon>block</v-icon>
               </v-flex>
-              <v-flex class="subheading" justify-cenxtr>No drivers in championship</v-flex>
+              <v-flex class="subheading" justify-center>No drivers in championship</v-flex>
             </v-layout>
           </v-card-text>
         </v-card>
@@ -148,6 +152,21 @@ export default {
       let userId = Object.values(user)[0].driver.userId
       let team = this._drivers[userId] ? this._drivers[userId].team : Object.values(user)[resultsLength-2].driver.team
       return team
+    },
+    isDriverRemoved(user) {
+      debugger
+      if(user) {
+        let userId = Object.values(user)[0].driver.userId
+        if(userId) {
+          const result = this.drivers.filter(driver => driver.userId === userId)
+          if (!result.length) {
+            return true
+          } else {
+            return false
+          }
+        }
+        return false
+      }
     }
   },
   mixins: [
