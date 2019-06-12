@@ -27,7 +27,7 @@
         </tr>
       </template>
       <template slot="expand" slot-scope="props">
-        <v-card flat dark>
+        <v-card flat>
           <v-layout>
             <v-flex>
               <v-card-text class="text-xs-left">Choose the action with {{ props.item.username }}</v-card-text>
@@ -42,6 +42,7 @@
                   flat
                   @click="leaveChampionship(_championship, _drivers, props.item.userId)"
                 >
+                  <!-- openConfirmation -->
                   <v-icon>remove</v-icon>Remove
                 </v-btn>
               </v-card-text>
@@ -56,10 +57,16 @@
         icon="warning"
       >Your search for "{{ search }}" found no results.</v-alert>
     </v-data-table>
+    <!-- <Confirmation
+      v-if="_drivers"
+      @confirmed="leaveChampionship(_championship, _drivers, props.item.userId)"
+      _message="Remove driver from the championship?"
+    />-->
   </v-layout>
 </template>
 
 <script>
+// import Confirmation from '@/components/Confirmation.vue'
 import champinship from '@/mixins/championship/championship.js' 
 export default {
   name: 'DriversManager',
@@ -91,8 +98,16 @@ export default {
       return Object.values(this._drivers)
     }
   },
+  methods: {
+    openConfirmation() {
+      this.$root.$emit('confirm')
+    }
+  },
   mixins: [
     champinship
-  ]
+  ],
+  components: {
+    // Confirmation
+  }
 }
 </script>
