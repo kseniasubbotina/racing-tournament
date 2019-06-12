@@ -24,9 +24,9 @@
     </v-layout>
 
     <v-card-text>
-      <v-layout>
-        <v-flex xs6>
-          <TeamMember v-for="member in members" :key="member.name" :data="member"/>
+      <v-layout wrap>
+        <v-flex xs12 md6 v-for="member in members" :key="member.name">
+          <TeamMember :data="member"/>
         </v-flex>
       </v-layout>
     </v-card-text>
@@ -42,9 +42,18 @@ export default {
       members: [
         {
           name: 'Andrey Suvorkin',
-          image: './assets/team/suvorkin.JPG',
+          image: require('../assets/team/suvrokin.jpg'),
           email: 'andrejwest@mail.ru',
-          about: 'Text about'
+          about: 'Founder of f1-esport.com, creative director, frontend developer.',
+          github: 'https://github.com/SUVORKIN',
+          mail: 'formula1esport@gmail.com'
+        },
+        {
+          name: 'Max Ivanov',
+          image: require('../assets/team/ivanov.jpg'),
+          email: '',
+          about: 'Frontend developer.',
+          github: 'https://github.com/splincool'
         }
       ]
     }
