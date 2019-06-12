@@ -14,7 +14,19 @@
         <v-list-tile-title>{{link.label}}</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
-    <v-divider dark class="my-3"></v-divider>
+    <v-divider dark></v-divider>
+    <v-list-tile
+      v-if="isLoggedIn"
+      @click="$router.push('/user_' + $store.getters.userData.username)"
+    >
+      <v-list-tile-action>
+        <v-icon>account_circle</v-icon>
+      </v-list-tile-action>
+      <v-list-tile-content>
+        <v-list-tile-title>Profile</v-list-tile-title>
+      </v-list-tile-content>
+    </v-list-tile>
+    <v-divider dark class="mb-3"></v-divider>
     <template>
       <!-- v-if="isLoggedIn" -->
       <v-subheader>Settings</v-subheader>

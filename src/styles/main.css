@@ -1,3 +1,5 @@
+@import "standings.css";
+
 @font-face {
   font-family: 'f1font-reg';
   src: url('../assets/fonts/Formula1-Regular.otf') format('opentype');
@@ -12,7 +14,7 @@
 .title,
 h1, h2, h3, h4,
 .v-card__title,
-.headline, .subheading, .display-1 {
+.headline, .subheading, .display-1, .display-3 {
   font-family: 'f1font-reg', sans-serif !important;
 }
 h1, h2 {
@@ -24,6 +26,9 @@ h1, h2 {
   text-align: left;
   color: #2c3e50;
 }
+/* a {
+  color: inherit !important;
+} */
 #nav {
   padding: 30px;
 }
@@ -34,7 +39,9 @@ h1, h2 {
 #nav a .router-link-exact-active {
   color: #42b983;
 }
-
+.pointer {
+  cursor: pointer;
+}
 /* BREADCRUMBS */
 .v-breadcrumbs.theme--dark a {
   color: #fff;
@@ -55,4 +62,11 @@ h1, h2 {
   padding: 10px;
   border: 1px dashed #b9b9b9;
   margin: 10px;
+}
+.best-lap-indicator {
+  padding: 2px 4px;
+  background: #c002c0;
+  color: #fff;
+  border-radius: 100px;
+  text-align: center;
 }

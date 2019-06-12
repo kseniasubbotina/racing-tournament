@@ -7,8 +7,9 @@
       class="game-item_title"
       pointer
       primary-title
-      @click="$router.push({name: 'Championship', params: {id: _championship.info.name}})"
+      @click="$router.push({name: 'Championship', params: {id: path}})"
     >
+      <!--  -->
       <v-layout fill-height>
         <v-flex xs12 align-end flexbox>
           <span class="headline">{{_championship.info.name}}</span>
@@ -20,14 +21,11 @@
         <span class="grey--text">{{_championship.info.game.name}}</span>
         <div>Platform: {{_championship.info.platform}}</div>
         <div>Start: {{dateTimeToBrowser(_championship.calendar[0].date, _championship.calendar[0].time, 'date')}}</div>
-        <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div>
+        <!-- <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div> -->
       </div>
     </v-card-text>
     <v-card-actions>
-      <v-btn
-        depressed
-        @click="$router.push({name: 'Championship', params: {id: _championship.info.name}})"
-      >Details</v-btn>
+      <v-btn depressed @click="$router.push({name: 'Championship', params: {id: path}})">Details</v-btn>
       <v-spacer></v-spacer>
       <v-layout align-center justify-end>
         <template v-if="_championship.approved">
@@ -49,11 +47,15 @@ import convertDateTime from '@/mixins/convertDateTime.js'
 export default {
   name: 'ChampionshipItem',
   props: {
-    _championship: Object
+    _championship: Object,
+    _drivers: Object
   },
   computed: {
+    path () {
+      return this._championship.info.name
+    },
     driversCount() {
-      let drivers = this._championship.drivers
+      let drivers = this._drivers
       if (drivers) {
         return Object.keys(drivers).length
       } else {

@@ -14,6 +14,7 @@
       @updateStage="updateStage"
       @removeStage="removeStage"
     />
+    <message/>
     <v-layout justify-end>
       <v-btn flat @click="$emit('backStep')">Back</v-btn>
       <v-btn :disabled="!isValid" depressed color="green white--text" @click="nextStep">Continue</v-btn>
@@ -22,6 +23,7 @@
 </template>
 
 <script>
+import message from '@/components/Message.vue'
 import convertDateTime from '@/mixins/convertDateTime.js'
 import StageItemForm from '@/components/form-elements/StageItemForm.vue'
 export default {
@@ -52,7 +54,7 @@ export default {
     isValid() {
       var isValid = false
       this.stages.forEach((stage, i) => {
-        if (!stage.track || !stage.date || !stage.time) {
+        if (!stage.track || !stage.date || !stage.time || !this.checkForDuplicatedStages()) {
           isValid = false
         } else {
           isValid = true
@@ -65,13 +67,33 @@ export default {
     fetchCalendar() {
       if (this._calendar) this.stages = this._calendar
     },
+    checkForDuplicatedStages () {
+      let stages = this.stages
+      var occurrences = {}
+
+      var filteredStages = stages.filter(function(x) {
+        if (occurrences[x.track]) {
+          return false;
+        }
+        occurrences[x.track] = true;
+        return true;
+      })
+      if(stages.length > Object.values(occurrences).length) {
+        this.$store.commit('setMessage', {
+          type: 'error',
+          text: 'Duplicated stages not allowed'
+        })
+        return false
+      } else {
+        this.$store.commit('setMessage', {
+          type: 'error',
+          text: ''
+        })
+        return true
+      }
+    },
     nextStep() {
       let stages = this.stages
-      for (let i in stages) {
-        let stage = stages[i]
-        stage.date = this.dateTimeToUtc(stage.date, stage.time, 'date')
-        stage.time = this.dateTimeToUtc(stage.date, stage.time, 'time')
-      }
       this.$emit('nextStep', stages, 'calendar')
     },
     addStage() {
@@ -85,9 +107,6 @@ export default {
     },
     updateStage(stage) {
       let arayIndex = null
-      // Пихать это в этап при отправке на сервер а не тут
-      // stage.date = this.dateTimeToUtc(stage.date, stage.time, 'date')
-      // stage.time = this.dateTimeToUtc(stage.date, stage.time, 'time')
       this.stages.forEach((item, i, arr) => {
         if (item.index == stage.index) {
           arayIndex = i
@@ -106,33 +125,13 @@ export default {
         this.stages.splice(index, 1)
       }
     }
-    // dateTimeToUtc (date, time, type) {
-    //   if(date && time) {
-    //     let dateArr = date.split('-')
-    //     let timeArr = time.split(':')
-    //     let localStageDateTIme = new Date(dateArr[0], dateArr[1]-1, dateArr[2], timeArr[0], timeArr[1])
-    //     let year = localStageDateTIme.getUTCFullYear()
-    //     let month = localStageDateTIme.getUTCMonth()
-    //     let day = localStageDateTIme.getUTCDate()
-    //     let hours = localStageDateTIme.getUTCHours()
-    //     let minutes = localStageDateTIme.getUTCMinutes()
-    //     // let utcDateTime = year + ', ' + month + ', ' + day + ', ' + hours + ', ' + minutes
-    //     if(type == 'date') {
-    //       return year + '-' + month + '-' + day
-    //     } else if(type == 'time') {
-    //       return hours + ':' + minutes
-    //     }
-    //     // return utcDateTime.toString()
-    //   } else {
-    //     return ''
-    //   }
-    // }
   },
   mixins: [
     convertDateTime
   ],
   components: {
-    StageItemForm
+    StageItemForm,
+    message
   }
 }
 </script>

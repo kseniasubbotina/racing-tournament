@@ -5,6 +5,7 @@
     </div>
     <v-card flat :key="championship.documentId" v-else-if="championship">
       <v-container>
+        <!-- <v-btn @click="queryTest">Query</v-btn> -->
         <v-alert
           class="black--text"
           v-if="!championship.approved && (isAdmin || isAuthor)"
@@ -25,24 +26,29 @@
           <v-flex xs2 shrink>
             <ChampionshipActions
               :_championship="championship"
+              :_drivers="drivers"
               :_isAdmin="isAdmin"
+              :_isParticipant="isParticipant"
               :_isAuthor="isAuthor"
+              :_driversIds="driversIds"
             />
           </v-flex>
         </v-layout>
-        <ChampionshipInfo :_championship="championship"/>
+        <ChampionshipInfo :_championship="championship" :_drivers="drivers"/>
         <v-layout justify-center class="my-3">
           <v-btn v-if="!isParticipant" dark color="green" @click="selectTeam" depressed>
             <v-icon>assignment_turned_in</v-icon>Join championship
           </v-btn>
         </v-layout>
-        <!-- <ChampionshipCalendar :_championship="championship"/> -->
-        <ChampionshipTabs :_championship="championship"/>
+        <ChampionshipTabs :_results="results" :_drivers="drivers" :_championship="championship"/>
         <v-dialog v-model="joinDialog" max-width="500">
           <component
             v-if="joinDialogComponent"
             :is="joinDialogComponent"
+            :_drivers="drivers"
+            :driversIds="driversIds"
             :_championship="championship"
+            @close="joinDialog = false"
           ></component>
         </v-dialog>
       </v-container>
@@ -63,6 +69,9 @@ export default {
   data() {
     return {
       championship: null,
+      results: null,
+      drivers: null,
+      driversIds: null,
       joinDialog: false
     }
   },
@@ -78,21 +87,17 @@ export default {
     this.getChampionship()
   },
   computed: {
-    userId() {
-      if (this.isLoggedIn) {
-        return this.$store.getters.user.id
-      }
-    },
     isParticipant() {
       let userId = this.userId
-      if (
-        this.championship &&
-        this.championship.drivers &&
-        this.championship.drivers[userId]
-      ) {
+      if (this.drivers && this.drivers[userId]) {
         return true
       } else {
         return false
+      }
+    },
+    userId() {
+      if (this.isLoggedIn) {
+        return this.$store.getters.user.id
       }
     },
     joinDialogComponent() {

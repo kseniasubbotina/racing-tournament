@@ -14,20 +14,40 @@
           </v-btn>
         </div>
         <v-layout>
+          <v-flex pa-1 xs12 lg8>
+            <div class="headline">{{gameData.name}}</div>
+            <div>
+              <div>
+                <span class="body-2">Release date:</span>
+                {{gameData.releaseDate}}
+              </div>
+              <div>
+                <span class="body-2">Platforms:</span>
+                <span v-for="platform in gameData.platforms" :key="platform.id">{{platform}}</span>
+              </div>
+              <div>
+                <span class="body-2">Developer:</span>
+                {{gameData.developer}}
+              </div>
+              <div>
+                <span class="body-2">Publisher:</span>
+                {{gameData.publisher}}
+              </div>
+              <div>
+                <span class="body-2">Website:</span>
+                <a :href="gameData.webSite">{{gameData.webSite}}</a>
+              </div>
+            </div>
+          </v-flex>
           <v-flex pa-1 xs12 lg4>
             <img :src="gameData.coverImageUrl" width="100%" alt>
           </v-flex>
-          <v-flex pa-1 xs12 lg8>
-            <div class="headline">{{gameData.name}}</div>
-            <div>Release date: {{gameData.releaseDate}}</div>
-            <div>Platforms: {{gameData.platforms}}</div>
-            <div>Developer: {{gameData.developer}}</div>
-            <div>Publisher: {{gameData.publisher}}</div>
-            <div>
-              <a :href="gameData.webSite">{{gameData.webSite}}</a>
-            </div>
-          </v-flex>
         </v-layout>
+        <v-divider></v-divider>
+        <v-layout justify-center>
+          <span class="subheading grey--text">Work in progress</span>
+        </v-layout>
+
         <GameForm :_gameData="gameData" @imageDeleted="gameData.coverImageUrl=''"/>
       </v-container>
       <Confirmation @confirmed="deleteGame(gameData)" _message="Delete this game?"/>

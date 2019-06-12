@@ -1,9 +1,9 @@
 <template>
   <v-card width="100%">
-    <!-- <div v-if="loading" class="text-xs-center">
+    <div v-if="loading" class="text-xs-center">
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
-    </div>-->
-    <v-container grid-list-sm class="pa-4">
+    </div>
+    <v-container v-else grid-list-sm class="pa-4">
       <v-layout row wrap>
         <v-flex xs12 sm3 class="text-xs-center">
           <v-layout d-block pa-1>
@@ -16,13 +16,10 @@
             <v-flex>
               <h2>{{userData.username}}</h2>
             </v-flex>
-            <v-layout align-center justify-center column>
-              <CountryFlag :_country="userData.country" :_width="30"/>
-              {{userData.country}}
+            <v-layout align-center justify-center>
+              <CountryFlag class="mx-2" :_country="userData.country" :_width="30"/>
+              <span class="subheading">{{userData.country}}</span>
             </v-layout>
-            <v-flex v-if="!isGuest">
-              <v-btn @click="logOut">Log out</v-btn>
-            </v-flex>
           </v-layout>
         </v-flex>
         <v-flex xs12 sm8 justify-space-between>
@@ -36,7 +33,13 @@
             <v-tabs-items>
               <v-tab-item v-for="item in tabs" :id="item.name" :key="item.name">
                 <v-card flat class="pa-1">
-                  <component :is="item.componentName" :_userData="userData"></component>
+                  <component
+                    v-if="userData.id"
+                    :is="item.componentName"
+                    :isGuest="isGuest"
+                    :_userData="userData"
+                    @logOut="logOut"
+                  ></component>
                 </v-card>
               </v-tab-item>
             </v-tabs-items>
@@ -92,9 +95,9 @@ export default {
         return this.$store.getters.user.id
       }
     },
-    visitedUserId() {
-      return this.$route.params.id
-    },
+    // visitedUserId() {
+    //   return this.$route.params.id
+    // },
     isGuest() {
       return this.authenticatedUserId !== this.userData.id
     },

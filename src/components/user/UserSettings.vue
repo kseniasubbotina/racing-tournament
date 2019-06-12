@@ -8,7 +8,7 @@
           </v-flex>
         </v-layout>
         <!-- <v-layout column justify-center align-center> -->
-        <v-flex>User image</v-flex>
+        <v-flex>Avatar</v-flex>
         <ImageInput
           :_url="_userData.avatarURL"
           @fileSelected="onfileSelected"
@@ -17,7 +17,7 @@
         <!-- </v-layout> -->
         <v-card-actions>
           <!-- <v-spacer></v-spacer> -->
-          <v-layout column wrap>
+          <v-layout align-end column wrap>
             <v-flex>
               <v-btn
                 class="white--text"
@@ -28,6 +28,12 @@
               >Save</v-btn>
             </v-flex>
           </v-layout>
+        </v-card-actions>
+        <v-divider/>
+        <v-card-actions>
+          <v-flex v-if="!isGuest">
+            <v-btn @click="$emit('logOut')">Log out</v-btn>
+          </v-flex>
         </v-card-actions>
         <v-flex>
           <message/>
@@ -53,7 +59,8 @@ export default {
     }
   },
   props: {
-    _userData: Object
+    _userData: Object,
+    isGuest: Boolean
   },
   watch: {
     _userData(val) {

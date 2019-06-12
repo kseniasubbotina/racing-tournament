@@ -34,17 +34,11 @@
     </v-layout>
     <v-layout wrap>
       <v-flex xs12>
-        <v-textarea
-          name="Description"
-          label="Description"
-          v-model="description"
-          hint="Not required"
-          v-validate="'max:50'"
-          :error-messages="errors.collect('Description')"
-          counter="50"
-        ></v-textarea>
+        <div>Description</div>
+        <vue-editor v-model="description" :editorToolbar="customToolbar"></vue-editor>
       </v-flex>
-      <v-flex>Championship image
+      <v-flex>
+        Championship image
         <ImageInput :_url="champImage" @fileSelected="onfileSelected"/>
       </v-flex>
     </v-layout>
@@ -72,7 +66,11 @@ export default {
       playersCount: 20,
       champImage: '',
       selectedFile: null,
-      isValid: true
+      isValid: true,
+      customToolbar: [
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }]
+      ]
     }
   },
   props: {
@@ -81,11 +79,6 @@ export default {
   mounted() {
     this.fetchInfo()
   },
-  // watch: {
-  //   champName(val) {
-  //     this.validate()
-  //   }
-  // },
   methods: {
     fetchInfo() {
       if (this._champInfo) {
