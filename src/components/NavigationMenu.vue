@@ -1,19 +1,20 @@
 <template>
   <v-list>
     <v-subheader>Menu</v-subheader>
-    <v-list-tile
-      v-if="link.role <= userRole"
-      v-for="(link, idx) in links"
-      :key="idx"
-      @click="onMenuItemClick(link)"
-    >
-      <v-list-tile-action>
-        <v-icon>{{link.icon}}</v-icon>
-      </v-list-tile-action>
-      <v-list-tile-content>
-        <v-list-tile-title>{{link.label}}</v-list-tile-title>
-      </v-list-tile-content>
-    </v-list-tile>
+    <template v-for="(link, idx) in links">
+      <v-list-tile
+        v-if="link.role <= userRole"
+        :key="idx"
+        @click="onMenuItemClick(link)"
+      >
+        <v-list-tile-action>
+          <v-icon>{{link.icon}}</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>{{link.label}}</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+    </template>
     <v-divider dark></v-divider>
     <v-list-tile
       v-if="isLoggedIn"
