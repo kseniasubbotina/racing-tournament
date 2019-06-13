@@ -40,8 +40,8 @@
                   :to="'/user_' + Object.values(user)[0].driver.username"
                 >{{Object.values(user)[0].driver.username}}</router-link>
               </v-flex>
-              <v-flex class="championship-standings_team">
-                <div v-if="!isDriverRemoved(user)" xs5 md2>
+              <v-flex xs5 md2 class="championship-standings_team">
+                <div v-if="!isDriverRemoved(user)">
                   <img :src="findDriverTeam(user).teamLogo" width="100" alt>
                 </div>
                 <div v-else></div>
