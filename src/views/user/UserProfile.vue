@@ -25,11 +25,12 @@
         <v-flex xs12 sm8 justify-space-between>
           <v-tabs show-arrows>
             <v-tabs-slider color="red"></v-tabs-slider>
-            <v-tab
-              v-if="item.public || !isGuest && !item.public"
-              v-for="item in tabs"
-              :key="item.name"
-            >{{ item.name }}</v-tab>
+            <template v-for="(item, index) in tabs">
+              <v-tab
+                v-if="item.public || !isGuest && !item.public"
+                :key="index"
+              >{{ item.name }}</v-tab>
+            </template>
             <v-tabs-items>
               <v-tab-item v-for="item in tabs" :id="item.name" :key="item.name">
                 <v-card flat class="pa-1">

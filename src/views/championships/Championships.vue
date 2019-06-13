@@ -11,17 +11,18 @@
       </v-btn>-->
     </v-layout>
     <v-layout wrap>
-      <v-flex
-        v-if="champ.approved || champ.currentUserId == champ.author.id || isAdmin"
-        xs12
-        sm6
-        md6
-        pa-1
-        v-for="champ in championships"
-        :key="champ.id"
-      >
-        <ChampionshipItem :_drivers="drivers" :_championship="champ"/>
-      </v-flex>
+      <template v-for="(champ, index) in championships">
+        <v-flex
+          v-if="champ.approved || champ.currentUserId == champ.author.id || isAdmin"
+          xs12
+          sm6
+          md6
+          pa-1
+          :key="index"
+        >
+          <ChampionshipItem :_drivers="drivers" :_championship="champ"/>
+        </v-flex>
+      </template>
       <v-layout v-if="showAddButton">
         <v-flex sx12>
           <v-btn v-if="isLoggedIn" :to="'/create'" color="green" dark fixed bottom right fab>
