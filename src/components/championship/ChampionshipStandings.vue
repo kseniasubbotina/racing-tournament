@@ -27,10 +27,11 @@
       <template v-if="drivers && drivers.length">
         <template v-for="(user, index) in sortedResults">
           <v-layout
-            v-if="_drivers"
-            :key="index"
             align-center
             class="championship-standings_row py-1"
+            :class="{'removed':isDriverRemoved(user)}"
+            v-if="_drivers"
+            :key="index"
           >
             <template v-if="Object.values(user)[0].driver">
               <v-flex xs1>{{index+1}}</v-flex>
@@ -39,9 +40,13 @@
                   :to="'/user_' + Object.values(user)[0].driver.username"
                 >{{Object.values(user)[0].driver.username}}</router-link>
               </v-flex>
-              <v-flex xs5 md2>
-                <img :src="findDriverTeam(user).teamLogo" width="100" alt>
+              <v-flex class="championship-standings_team">
+                <div v-if="!isDriverRemoved(user)" xs5 md2>
+                  <img :src="findDriverTeam(user).teamLogo" width="100" alt>
+                </div>
+                <div v-else></div>
               </v-flex>
+
               <v-flex xs1 v-for="stage in _championship.calendar" :key="stage.id">
                 <div v-if="user[stage.trackDocumentId] !== undefined" class="hidden-xs" xs1>
                   <span v-if="user[stage.trackDocumentId].dnf">DNF</span>
@@ -66,7 +71,7 @@
               <v-flex>
                 <v-icon>block</v-icon>
               </v-flex>
-              <v-flex class="subheading" justify-cenxtr>No drivers in championship</v-flex>
+              <v-flex class="subheading" justify-center>No drivers in championship</v-flex>
             </v-layout>
           </v-card-text>
         </v-card>
@@ -149,6 +154,20 @@ export default {
       let userId = Object.values(user)[0].driver.userId
       let team = this._drivers[userId] ? this._drivers[userId].team : Object.values(user)[resultsLength-2].driver.team
       return team
+    },
+    isDriverRemoved(user) {
+      if(user) {
+        let userId = Object.values(user)[0].driver.userId
+        if(userId) {
+          const result = this.drivers.filter(driver => driver.userId === userId)
+          if (!result.length) {
+            return true
+          } else {
+            return false
+          }
+        }
+        return false
+      }
     }
   },
   mixins: [
