@@ -2,7 +2,9 @@
   <v-flex xs12>
     <v-tabs touchless show-arrows>
       <v-tabs-slider color="red"></v-tabs-slider>
-      <v-tab v-for="item in tabs" :key="item.name">{{ item.name }}</v-tab>
+      <template v-for="item in tabs">
+        <v-tab v-if="isTabVisible(item.public)" :key="item.name">{{ item.name }}</v-tab>
+      </template>
       <v-tabs-items>
         <v-tab-item v-for="item in tabs" :id="item.name" :key="item.name">
           <v-card flat class="pa-1">
@@ -46,7 +48,7 @@ export default {
         {
           name: 'Manage drivers',
           componentName: 'DriversManager',
-          public: true
+          public: false
         }
       ]
     }
@@ -54,7 +56,20 @@ export default {
   props: {
     _results: Object,
     _championship: Object,
-    _drivers: Object
+    _drivers: Object,
+    isAdmin: Boolean,
+    isAuthor: Boolean
+  },
+  methods: {
+    isTabVisible (isPublic) {
+      if(isPublic) {
+        return true
+      } else if(this.isAdmin || this.isAuthor) {
+        return true
+      } else {
+        return false
+      }
+    }
   },
   components: {
     ChampionshipCalendar,

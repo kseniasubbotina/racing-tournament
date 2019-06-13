@@ -74,7 +74,9 @@ export default {
         activeChampionships.get().then(querySnapshot => {
           if(!querySnapshot.empty) {
             querySnapshot.forEach(doc => {
-              this.championships.push(doc.data())
+              if(doc.data().championship) {
+                this.championships.push(doc.data())
+              }
               this.loading = false
             })
           } else {
