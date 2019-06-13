@@ -1,13 +1,5 @@
 <template>
   <v-layout column>
-    <!-- <v-flex v-for="driver in _drivers" :key="driver.userId">
-      <v-card class="my-1">
-        <v-layout>
-          <v-card-text>{{driver.username}} - {{driver.team.name}}</v-card-text>
-          <v-btn dark flat color="red">remove</v-btn>
-        </v-layout>
-      </v-card>
-    </v-flex>-->
     <v-data-table
       :headers="headers"
       :items="driversArray"
