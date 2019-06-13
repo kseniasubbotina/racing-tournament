@@ -41,7 +41,7 @@
           </v-btn>
         </v-layout>
         <ChampionshipTabs :_results="results" :_drivers="drivers" :_championship="championship"/>
-        <v-dialog v-model="joinDialog" max-width="500">
+        <v-dialog v-if="joinDialog" v-model="joinDialog" max-width="500">
           <component
             v-if="joinDialogComponent"
             :is="joinDialogComponent"
