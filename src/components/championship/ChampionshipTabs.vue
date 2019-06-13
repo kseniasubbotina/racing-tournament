@@ -40,11 +40,11 @@ export default {
           componentName: 'ChampionshipCalendar',
           public: true
         },
-        {
-          name: 'Statistic',
-          componentName: '',
-          public: true
-        },
+        // {
+        //   name: 'Statistic',
+        //   componentName: '',
+        //   public: true
+        // },
         {
           name: 'Manage drivers',
           componentName: 'DriversManager',
