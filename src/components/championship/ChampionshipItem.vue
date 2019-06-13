@@ -55,12 +55,7 @@ export default {
       return this._championship.info.name
     },
     driversCount() {
-      let drivers = this._drivers
-      if (drivers) {
-        return Object.keys(drivers).length
-      } else {
-        return 0
-      }
+      return this._drivers ? Object.keys(this._drivers).length : 0
     }
   },
   mixins: [
