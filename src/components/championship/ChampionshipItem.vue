@@ -1,8 +1,6 @@
 <template>
   <v-card>
-    <v-img class="white--text" height="200px" :src="_championship.info.champImage">
-      <v-container fill-height fluid></v-container>
-    </v-img>
+    <div :style="champImageStyles"></div>
     <v-card-title
       class="game-item_title"
       pointer
@@ -56,6 +54,14 @@ export default {
     },
     driversCount() {
       return this._drivers ? Object.keys(this._drivers).length : 0
+    },
+    champImageStyles() {
+      return {
+        backgroundImage: 'url(' + this._championship.info.champImage + ')',
+        height: '200px',
+        backgroundPosition: 'center center',
+        backgroundSize: 'cover'
+      }
     }
   },
   mixins: [
