@@ -1,9 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-import Championships from './views/championships/Championships.vue'
-import Users from './views/user/Users.vue'
-import Game from './views/games/Game.vue'
 
 Vue.use(Router)
 
@@ -13,7 +9,7 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: () => import('./views/Home.vue'),
       meta: {
         breadcrumbs: [{ name: 'Home' }]
       }
@@ -29,7 +25,7 @@ const router = new Router({
     {
       path: '/championships',
       name: 'championships',
-      component: Championships,
+      component: () => import('./views/championships/Championships.vue'),
       meta: {
         breadcrumbs: [{ name: 'Championships' }]
       }
@@ -95,7 +91,7 @@ const router = new Router({
     {
       path: '/users',
       name: 'Users',
-      component: Users,
+      component: () => import('./views/user/Users.vue'),
       meta: {
         breadcrumbs: [
           {
@@ -160,7 +156,7 @@ const router = new Router({
     {
       path: '/games/:id',
       name: 'Game',
-      component: Game,
+      component: () => import('./views/games/Game.vue'),
       meta: {
         breadcrumbs: [
           {
