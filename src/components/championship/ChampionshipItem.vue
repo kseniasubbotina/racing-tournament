@@ -12,7 +12,7 @@
       <!--  -->
       <v-layout fill-height>
         <v-flex xs12 align-end flexbox>
-          <span class="headline">{{_championship.info.name}}</span>
+          <span class="subheading">{{_championship.info.name}}</span>
         </v-flex>
       </v-layout>
     </v-card-title>
@@ -21,7 +21,7 @@
         <span class="grey--text">{{_championship.info.game.name}}</span>
         <div>Platform: {{_championship.info.platform}}</div>
         <div>Start: {{dateTimeToBrowser(_championship.calendar[0].date, _championship.calendar[0].time, 'date')}}</div>
-        <!-- <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div> -->
+        <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div>
       </div>
     </v-card-text>
     <v-card-actions>
@@ -55,6 +55,7 @@ export default {
       return this._championship.info.name
     },
     driversCount() {
+      debugger
       return this._drivers ? Object.keys(this._drivers).length : 0
     }
   },

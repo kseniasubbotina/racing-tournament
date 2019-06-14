@@ -5,14 +5,14 @@
     </div>
     <div v-else>
       <v-layout wrap>
-        <div class="display-1 my-3">Tracks</div>
+        <div class="headline my-3">Tracks</div>
         <v-spacer></v-spacer>
         <v-btn depressed color="success" v-if="isAdmin" @click="openForm">
           <v-icon>add</v-icon>Add new
         </v-btn>
       </v-layout>
       <v-layout wrap>
-        <v-flex xs12 md6 pa-1 v-for="track in tracks" :key="track.id">
+        <v-flex xs12 md4 pa-1 v-for="track in tracks" :key="track.id">
           <TrackItem :_track="track" @editTrack="openForm" @deleteTrack="openConfirmation"/>
         </v-flex>
         <EditTrackForm :_isNew="isNew" @updateTracks="getTracks"/>

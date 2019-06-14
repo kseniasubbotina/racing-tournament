@@ -20,7 +20,7 @@
 
         <v-layout align-center justify-space-between wrap>
           <v-flex xs10 lg7>
-            <div class="display-1">{{championship.info.name}}</div>
+            <h1>{{championship.info.name}}</h1>
           </v-flex>
           <v-spacer></v-spacer>
           <v-flex xs2 shrink>

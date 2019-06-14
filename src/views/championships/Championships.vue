@@ -4,7 +4,7 @@
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
     <v-layout v-else wrap>
-      <div class="headline my-3">Available Championships</div>
+      <h3 class="my-3">Available Championships</h3>
       <v-spacer></v-spacer>
       <!-- <v-btn v-if="isLoggedIn" :to="'/create'" depressed color="success">
         <v-icon>add</v-icon>Create Championship
@@ -15,12 +15,12 @@
         <v-flex
           v-if="champ.approved || champ.currentUserId == champ.author.id || isAdmin"
           xs12
-          sm6
-          md6
+          sm4
+          md4
           pa-1
           :key="index"
         >
-          <ChampionshipItem :_drivers="drivers" :_championship="champ"/>
+          <ChampionshipItem :_drivers="champ.drivers" :_championship="champ"/>
         </v-flex>
       </template>
       <v-layout v-if="showAddButton">
@@ -84,16 +84,18 @@ export default {
       var drivers = {}
       fb.champsCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
+          debugger
           drivers = doc.data().drivers
           var data = doc.data().championship
           if (data) {
             data.id = doc.id
+            data.drivers = drivers
             championships.push(data)
           }
         })
         this.$store.commit('set', { type: 'loading', val: false })
         this.championships = championships
-        this.drivers = drivers
+        // this.drivers = drivers
       })
     }
   },

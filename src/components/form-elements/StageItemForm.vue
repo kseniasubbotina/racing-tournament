@@ -9,7 +9,7 @@
       <v-flex xs10 lg3 md3>
         <TrackSelect @changeTrack="onchangeTrack" :_selectedTrack="_stage.track || ''"/>
       </v-flex>
-      <v-flex xs12 md3>
+      <v-flex xs6 md3>
         <v-menu
           :close-on-content-click="false"
           v-model="dateMenu"
@@ -34,7 +34,7 @@
           <v-date-picker v-model="_stage.date" @input="dateMenu = false"></v-date-picker>
         </v-menu>
       </v-flex>
-      <v-flex xs12 md2>
+      <v-flex xs6 md2>
         <v-menu
           ref="menu"
           :close-on-content-click="false"
@@ -73,19 +73,10 @@
       <v-flex xs12 md3>
         <v-layout>
           <!-- <v-spacer></v-spacer> -->
-          <v-btn small flat depressed fab color="red" dark @click.stop="removeStage()">
+          <v-btn small fab color="red" dark @click.stop="removeStage()">
             <v-icon>remove</v-icon>
           </v-btn>
-          <v-btn
-            v-if="_isLast"
-            small
-            fab
-            flat
-            depressed
-            color="success"
-            dark
-            @click.stop="addStage"
-          >
+          <v-btn v-if="_isLast" small fab color="success" dark @click.stop="addStage">
             <v-icon>add</v-icon>
           </v-btn>
         </v-layout>
