@@ -25,12 +25,12 @@
       primary-title
       @click="$router.push({name: 'Track', params: {id: _track.name}})"
     >
-      <v-layout fill-height>
+      <v-layout fill-height align-center>
         <v-flex pr-2>
           <CountryFlag :_country="_track.country"/>
         </v-flex>
         <v-flex xs12 align-end flexbox>
-          <span class="headline">{{_track.name}}</span>
+          <span class="subheading">{{_track.name}}</span>
         </v-flex>
       </v-layout>
     </v-card-title>

@@ -5,7 +5,7 @@
     </div>
     <template v-else-if="championships.length">
       <v-flex class="my-3">
-        <span class="headline">Active championships:</span>
+        <h3>Active championships</h3>
       </v-flex>
       <v-layout wrap>
         <v-flex v-for="championship in championships" :key="championship.id">

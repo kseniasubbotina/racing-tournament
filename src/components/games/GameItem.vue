@@ -27,7 +27,7 @@
     >
       <v-layout fill-height>
         <v-flex xs12 align-end flexbox>
-          <span class="headline">{{_game.name}}</span>
+          <span class="subheading">{{_game.name}}</span>
         </v-flex>
       </v-layout>
     </v-card-title>

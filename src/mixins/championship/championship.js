@@ -121,6 +121,7 @@ export default {
               id: this.$store.getters.user.id
             },
             approved: false,
+            status: 'In progress',
             moderators: [],
             info: this.championship.data.info,
             externalInfo: this.championship.externalInfo,
@@ -142,6 +143,7 @@ export default {
               id: this.$store.getters.user.id
             },
             approved: this.championship.approved,
+            status: this.championship.status,
             moderators: this.championship.moderators,
             info: this.championship.data.info,
             externalInfo: this.championship.externalInfo,
