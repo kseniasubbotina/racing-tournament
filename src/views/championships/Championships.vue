@@ -84,7 +84,6 @@ export default {
       var drivers = {}
       fb.champsCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          debugger
           drivers = doc.data().drivers
           var data = doc.data().championship
           if (data) {
