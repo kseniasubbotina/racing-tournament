@@ -4,6 +4,7 @@
     <v-layout wrap>
       <v-flex xs12 sm4>
         <div>Platform: {{_championship.info.platform}}</div>
+        <div>Status: {{_championship.status}}</div>
       </v-flex>
       <v-flex xs12 sm4>
         <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div>
@@ -17,7 +18,7 @@
         </div>
       </v-flex>
     </v-layout>
-    <div v-html="_championship.info.description"></div>
+    <div class="mt-3" v-html="_championship.info.description"></div>
   </div>
 </template>
 
