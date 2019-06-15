@@ -1,6 +1,12 @@
 <template>
   <v-breadcrumbs v-if="items.length > 1">
-    <v-breadcrumbs-item v-for="(item, i) in items" :key="i" @click.native="routeTo(i)">{{item.name}}</v-breadcrumbs-item>
+    <v-breadcrumbs-item 
+      v-for="(item, i) in items" 
+      :key="i" 
+      @click.native="routeTo(i)"
+    >
+      {{item && item.name}}
+    </v-breadcrumbs-item>
   </v-breadcrumbs>
 </template>
 
