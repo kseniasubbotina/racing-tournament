@@ -18,6 +18,13 @@
         </div>
       </v-flex>
     </v-layout>
+    <div class="mt-3">Session settings</div>
+    <v-layout>
+      <v-flex>Race distance: {{_championship.settings.distance}}</v-flex>
+      <v-flex>Qualification format: {{_championship.settings.qFormat}}</v-flex>
+      <v-flex>Weather: {{_championship.settings.weather}}</v-flex>
+      <v-flex>AI difficulty: {{_championship.settings.aiDifficulty}}</v-flex>
+    </v-layout>
     <div class="mt-3" v-html="_championship.info.description"></div>
   </div>
 </template>
