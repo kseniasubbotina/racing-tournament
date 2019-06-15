@@ -53,7 +53,6 @@ export default {
       return this._championship.info.name
     },
     driversCount() {
-      debugger
       return this._drivers ? Object.keys(this._drivers).length : 0
     },
     champImageStyles() {
