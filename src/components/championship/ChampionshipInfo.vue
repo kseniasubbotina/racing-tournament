@@ -70,6 +70,7 @@
         </v-layout>
       </v-flex>
     </v-layout>
+    <div class="subheading mt-3">Description:</div>
     <div class="mt-3" v-html="_championship.info.description"></div>
   </div>
 </template>
