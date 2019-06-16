@@ -1,9 +1,23 @@
 <template>
   <div>
-    <div class="subheading">{{_championship.info.game}}</div>
-    <v-layout wrap>
+    <v-layout align-center row>
+      <v-flex>
+        <div class="subheading">
+          {{_championship.info.game}}
+          <span>- {{_championship.info.platform}}</span>
+        </div>
+      </v-flex>
+      <v-flex></v-flex>
+    </v-layout>
+
+    <v-layout justify-center align-center class="mt-3" subheading wrap>
       <v-flex xs12 sm4>
-        <div>Platform: {{_championship.info.platform}}</div>
+        <v-chip
+          class="subheading"
+          color="success"
+          disabled
+          text-color="white"
+        >{{_championship.status}}</v-chip>
       </v-flex>
       <v-flex xs12 sm4>
         <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div>
@@ -17,7 +31,46 @@
         </div>
       </v-flex>
     </v-layout>
-    <div v-html="_championship.info.description"></div>
+
+    <v-layout wrap>
+      <v-flex xs12 sm6>
+        <div class="subheading mt-3">Session settings:</div>
+        <v-layout column>
+          <v-flex xs12>Race distance: {{_championship.settings.distance}}</v-flex>
+          <v-flex xs12>Qualification format: {{_championship.settings.qFormat}}</v-flex>
+          <v-flex xs12>Weather: {{_championship.settings.weather}}</v-flex>
+          <v-flex xs12>AI difficulty: {{_championship.settings.aiDifficulty}}</v-flex>
+        </v-layout>
+      </v-flex>
+      <v-flex xs12 sm6>
+        <div class="subheading mt-3">Assists settings:</div>
+        <v-layout column>
+          <v-flex xs12>
+            <v-chip outline :color="assistColor(isTractionAllowed)">
+              <v-icon :color="assistColor(isTractionAllowed)" v-if="isTractionAllowed" left>check</v-icon>
+              <v-icon :color="assistColor(isTractionAllowed)" v-else left>close</v-icon>Traction Control
+            </v-chip>
+            <v-chip outline :color="assistColor(isABSAllowed)">
+              <v-icon :color="assistColor(isABSAllowed)" v-if="isABSAllowed" left>check</v-icon>
+              <v-icon :color="assistColor(isABSAllowed)" v-else left>close</v-icon>ABS
+            </v-chip>
+            <v-chip outline :color="assistColor(isRacingLineAllowed)">
+              <v-icon
+                :color="assistColor(isRacingLineAllowed)"
+                v-if="isRacingLineAllowed"
+                left
+              >check</v-icon>
+              <v-icon :color="assistColor(isRacingLineAllowed)" v-else left>close</v-icon>Racing line
+            </v-chip>
+            <v-chip outline>
+              <v-icon left>settings</v-icon>
+              {{gearbox}}
+            </v-chip>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+    </v-layout>
+    <div class="mt-3" v-html="_championship.info.description"></div>
   </div>
 </template>
 
@@ -36,6 +89,24 @@ export default {
       } else {
         return 0
       }
+    },
+    isTractionAllowed () {
+      return this._championship.settings.assists.tractionControl
+    },
+    isABSAllowed () {
+      return this._championship.settings.assists.antiLockBrakes
+    },
+    isRacingLineAllowed () {
+      return this._championship.settings.assists.racingLine
+    },
+    gearbox () {
+      return this._championship.settings.assists.gearboxManual ? 'Manual' : 'Automatic'
+    }
+  },
+  methods: {
+    assistColor (val) {
+      let color = val ? 'green' : 'red'
+      return color
     }
   }
 }
