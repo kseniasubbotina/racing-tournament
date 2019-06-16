@@ -46,15 +46,15 @@
         <div class="subheading mt-3">Assists settings:</div>
         <v-layout column>
           <v-flex xs12>
-            <v-chip outline :color="assistColor(isTractionAllowed)">
+            <v-chip disabled outline :color="assistColor(isTractionAllowed)">
               <v-icon :color="assistColor(isTractionAllowed)" v-if="isTractionAllowed" left>check</v-icon>
               <v-icon :color="assistColor(isTractionAllowed)" v-else left>close</v-icon>Traction Control
             </v-chip>
-            <v-chip outline :color="assistColor(isABSAllowed)">
+            <v-chip disabled outline :color="assistColor(isABSAllowed)">
               <v-icon :color="assistColor(isABSAllowed)" v-if="isABSAllowed" left>check</v-icon>
               <v-icon :color="assistColor(isABSAllowed)" v-else left>close</v-icon>ABS
             </v-chip>
-            <v-chip outline :color="assistColor(isRacingLineAllowed)">
+            <v-chip disabled outline :color="assistColor(isRacingLineAllowed)">
               <v-icon
                 :color="assistColor(isRacingLineAllowed)"
                 v-if="isRacingLineAllowed"
@@ -62,7 +62,7 @@
               >check</v-icon>
               <v-icon :color="assistColor(isRacingLineAllowed)" v-else left>close</v-icon>Racing line
             </v-chip>
-            <v-chip outline>
+            <v-chip disabled outline>
               <v-icon left>settings</v-icon>
               {{gearbox}}
             </v-chip>
