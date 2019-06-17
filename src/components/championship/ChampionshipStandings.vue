@@ -150,7 +150,7 @@ export default {
   },
   methods: {
     cellClass (driverResult) {
-      let className = 'position-' + driverResult.finish
+      let className = 'result-cell position-' + driverResult.finish
       if (driverResult.isBestLap)
       className = className + ' best-lap'
       return className
