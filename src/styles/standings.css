@@ -35,6 +35,9 @@
   border-radius: 5px;
   padding: 4px;
 }
+.championship-standings .best-lap {
+  border: 2px solid #c002c0;
+}
 .championship-standings_row:hover {
   background-color: rgba(148, 148, 148, 0.26);
 }

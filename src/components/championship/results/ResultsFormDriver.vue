@@ -79,6 +79,7 @@
               v-model="result.bestLapTime"
             ></v-text-field>
           </v-flex>
+
           <v-flex sm1>PTS: {{points}}</v-flex>
         </v-layout>
       </v-container>
@@ -102,7 +103,8 @@ export default {
         bestLapTime: null,
         dq: false,
         dnf: false,
-        dns: false
+        dns: false,
+        isBestLap: false
       }
     }
   },
@@ -110,7 +112,8 @@ export default {
     _driver: Object,
     _isBestLap: Boolean,
     _results: Object,
-    _stage: Object
+    _stage: Object,
+    _fastestLapPoint: Boolean
   },
   created () {
     this.fillForm()
@@ -163,9 +166,12 @@ export default {
       let finish = this.result.finish || ''
       let points = pointsSystem.f1()[finish]
       if(points) {
+        if(this._fastestLapPoint && Number(finish) <= 10 && this.isBestLap) {
+          points = points + 1
+        }
         return points
       } else {
-        return '0'
+        return 0
       }
     },
     isDnf () {
