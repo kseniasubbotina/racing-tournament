@@ -53,7 +53,7 @@
                   <span v-else-if="user[stage.trackDocumentId].dns">DNS</span>
                   <span class="red--text" v-else-if="user[stage.trackDocumentId].dq">DQ</span>
                   <span
-                    :class="'position-' + user[stage.trackDocumentId].finish"
+                    :class="cellClass(user[stage.trackDocumentId])"
                     v-else
                   >{{user[stage.trackDocumentId].points}}</span>
                 </div>
@@ -149,6 +149,12 @@ export default {
     }
   },
   methods: {
+    cellClass (driverResult) {
+      let className = 'result-cell position-' + driverResult.finish
+      if (driverResult.isBestLap)
+      className = className + ' best-lap'
+      return className
+    },
     findDriverTeam (user) {
       let resultsLength = Object.values(user).length
       let userId = Object.values(user)[0].driver.userId

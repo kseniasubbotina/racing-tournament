@@ -7,6 +7,7 @@
       <ResultsFormDriver
         v-for="driver in _drivers"
         :key="driver.userId"
+        :_fastestLapPoint="_championship.info.fastestLapPoint"
         :_driver="driver"
         :_results="_results"
         :_stage="_stage"
