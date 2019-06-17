@@ -32,9 +32,23 @@
         <SeriaSelect :_disabled="true" :_selectedSeria="seria" @changeSeria="onChangeSeria"/>
       </v-flex>
     </v-layout>
+    <v-layout justify-center align-center v-if="seria === 'F1'">
+      <v-flex
+        shrink
+        class="px-3 champ-info-form_fastest-lap"
+        :class="{'selected' : fastestLapPoint}"
+      >
+        <v-checkbox
+          width="500px"
+          color="#c002c0"
+          v-model="fastestLapPoint"
+          label="Award extra point to driver who sets fastest lap in a grand prix"
+        ></v-checkbox>
+      </v-flex>
+    </v-layout>
     <v-layout wrap>
       <v-flex xs12>
-        <div>Description</div>
+        <div class="mt-2">Description</div>
         <vue-editor v-model="description" :editorToolbar="customToolbar"></vue-editor>
       </v-flex>
       <v-flex>
@@ -67,6 +81,7 @@ export default {
       champImage: '',
       selectedFile: null,
       isValid: true,
+      fastestLapPoint: false,
       customToolbar: [
         ['bold', 'italic', 'underline'],
         [{ 'list': 'ordered'}, { 'list': 'bullet' }]
@@ -86,6 +101,7 @@ export default {
         this.description = this._champInfo.description
         this.champImage = this._champInfo.champImage
         this.platform = this._champInfo.platform
+        this.fastestLapPoint = this._champInfo.fastestLapPoint
         if (this._champInfo.name.length > 4) this.isValid = true
       }
     },
@@ -101,6 +117,7 @@ export default {
               platform: this.platform,
               playersCount: this.playersCount,
               champImage: this.champImage,
+              fastestLapPoint: this.fastestLapPoint,
               createdDate: new Date()
             },
             selectedFile: this.selectedFile
