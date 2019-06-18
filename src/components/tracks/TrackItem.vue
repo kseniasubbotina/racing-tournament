@@ -49,22 +49,14 @@
 
 <script>
 import CountryFlag from '@/components/CountryFlag.vue'
+import isAdmin from '@/mixins/isAdmin.js'
 
 export default {
   name: 'TrackItem',
   props: {
     _track: Object
   },
-  computed: {
-    isAdmin() {
-      if (
-        this.$store.getters.user &&
-        this.$store.getters.userData.role == '1'
-      ) {
-        return true
-      } else return 0
-    }
-  },
+  mixins: [isAdmin],
   components: {
     CountryFlag
   }

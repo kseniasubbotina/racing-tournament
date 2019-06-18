@@ -45,6 +45,7 @@ import fb from '@/firebase/config.js'
 import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
 import Confirmation from '@/components/Confirmation.vue'
 import tracks from '@/mixins/tracks/tracks.js'
+import isAdmin from '@/mixins/isAdmin.js'
 
 export default {
   name: 'trackPage',
@@ -60,14 +61,6 @@ export default {
   computed: {
     loading() {
       return this.$store.getters.loading
-    },
-    isAdmin() {
-      if (
-        this.$store.getters.user &&
-        this.$store.getters.userData.role == '1'
-      ) {
-        return true
-      } else return 0
     }
   },
   methods: {
@@ -105,7 +98,7 @@ export default {
         })
     }
   },
-  mixins: [tracks],
+  mixins: [tracks, isAdmin],
   components: {
     EditTrackForm,
     Confirmation

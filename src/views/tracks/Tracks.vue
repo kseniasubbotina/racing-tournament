@@ -29,6 +29,7 @@ import message from '@/components/Message.vue'
 import CountryFlag from '@/components/CountryFlag.vue'
 import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
 import TrackItem from '@/components/tracks/TrackItem.vue'
+import isAdmin from '@/mixins/isAdmin.js'
 
 export default {
   data() {
@@ -41,14 +42,6 @@ export default {
     }
   },
   computed: {
-    isAdmin() {
-      if (
-        this.$store.getters.user &&
-        this.$store.getters.userData.role == '1'
-      ) {
-        return true
-      } else return 0
-    },
     loading() {
       return this.$store.getters.loading
     },
@@ -126,6 +119,7 @@ export default {
         })
     }
   },
+  mixins: [isAdmin],
   components: {
     TrackItem,
     message,
