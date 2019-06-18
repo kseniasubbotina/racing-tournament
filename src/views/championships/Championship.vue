@@ -70,6 +70,8 @@ import ChampionshipInfo from '@/components/championship/ChampionshipInfo.vue'
 import ChampionshipCalendar from '@/components/championship/ChampionshipCalendar.vue'
 import ChampionshipActions from '@/components/championship/ChampionshipActions.vue'
 import championship from '@/mixins/championship/championship.js'
+import isAdmin from '@/mixins/isAdmin.js'
+
 export default {
   name: 'Championship',
   data() {
@@ -95,11 +97,7 @@ export default {
   computed: {
     isParticipant() {
       let userId = this.userId
-      if (this.drivers && this.drivers[userId]) {
-        return true
-      } else {
-        return false
-      }
+      return this.drivers && this.drivers[userId] ? true : false
     },
     userId() {
       if (this.isLoggedIn) {
@@ -117,14 +115,6 @@ export default {
     loading() {
       return this.$store.getters.loading
     },
-    isAdmin() {
-      if (
-        this.$store.getters.user &&
-        this.$store.getters.userData.role == '1'
-      ) {
-        return true
-      } else return false
-    },
     isAuthor() {
       if (this.$store.getters.user && this.championship)
         return this.userId == this.championship.author.id
@@ -133,7 +123,7 @@ export default {
       return this.championship ? this.championship.approved : false
     }
   },
-  mixins: [championship],
+  mixins: [championship, isAdmin],
   components: {
     Login,
     TeamSelectForm,

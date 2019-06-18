@@ -62,6 +62,7 @@ import fb from '@/firebase/config.js'
 import GameForm from '@/components/games/GameForm.vue'
 import Confirmation from '@/components/Confirmation.vue'
 import games from '@/mixins/games/games.js'
+import isAdmin from '@/mixins/isAdmin.js'
 
 export default {
   name: 'Game',
@@ -77,14 +78,6 @@ export default {
   computed: {
     loading() {
       return this.$store.getters.loading
-    },
-    isAdmin() {
-      if (
-        this.$store.getters.user &&
-        this.$store.getters.userData.role == '1'
-      ) {
-        return true
-      } else return 0
     }
   },
   methods: {
@@ -142,7 +135,7 @@ export default {
         })
     }
   },
-  mixins: [games],
+  mixins: [games, isAdmin],
   components: {
     GameForm,
     Confirmation

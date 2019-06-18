@@ -28,6 +28,7 @@ import GameForm from '@/components/games/GameForm.vue'
 import GameItem from '@/components/games/GameItem.vue'
 import Confirmation from '@/components/Confirmation.vue'
 import games from '@/mixins/games/games.js'
+import isAdmin from '@/mixins/isAdmin.js'
 
 export default {
   name: 'games',
@@ -38,14 +39,6 @@ export default {
     }
   },
   computed: {
-    isAdmin() {
-      if (
-        this.$store.getters.user &&
-        this.$store.getters.userData.role == '1'
-      ) {
-        return true
-      } else return 0
-    },
     loading() {
       return this.$store.getters.loading
     },
@@ -123,7 +116,7 @@ export default {
         })
     }
   },
-  mixins: [games],
+  mixins: [games, isAdmin],
   components: {
     GameForm,
     GameItem,

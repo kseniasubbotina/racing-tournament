@@ -38,6 +38,7 @@
 import ChampionshipForm from '@/components/championship/form/ChampionshipForm'
 import fb from '@/firebase/config.js'
 import ChampionshipItem from '@/components/championship/ChampionshipItem'
+import isAdmin from '@/mixins/isAdmin.js'
 
 export default {
   name: 'Championships',
@@ -68,14 +69,6 @@ export default {
     currentUserId() {
       return this.$store.getters.user.id
     },
-    isAdmin() {
-      if (
-        this.$store.getters.user &&
-        this.$store.getters.userData.role == '1'
-      ) {
-        return true
-      } else return false
-    }
   },
   methods: {
     getChampionships() {
@@ -98,6 +91,7 @@ export default {
       })
     }
   },
+  mixins: [isAdmin],
   components: {
     ChampionshipItem,
     ChampionshipForm
