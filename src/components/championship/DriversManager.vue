@@ -87,7 +87,9 @@ export default {
   },
   computed: {
     driversArray () {
-      return Object.values(this._drivers)
+      if(this._drivers) {
+        return Object.values(this._drivers)
+      }
     }
   },
   methods: {
