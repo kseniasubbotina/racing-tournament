@@ -11,9 +11,9 @@
       <v-card-actions>
         <v-layout>
           <v-spacer></v-spacer>
-          <v-btn flat @click.stop="confirmDialog=false">Close</v-btn>
+          <v-btn flat @click.stop="confirmDialog=false">Cancel</v-btn>
           <v-btn flat color="red" @click="confirm">
-            <v-icon>delete</v-icon>Delete
+            <v-icon>check</v-icon>Confirm
           </v-btn>
         </v-layout>
       </v-card-actions>
