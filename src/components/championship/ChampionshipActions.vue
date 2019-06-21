@@ -25,16 +25,22 @@
           >
             <v-list-tile-title>Leave</v-list-tile-title>
           </v-list-tile>
-          <v-list-tile v-if="_isAdmin || _isAuthor" @click="openConfirmation">
+          <!-- <v-list-tile v-if="_isAdmin || _isAuthor" @click="openConfirmation">
             <v-list-tile-title>Delete</v-list-tile-title>
+          </v-list-tile>-->
+          <v-list-tile v-if="_isAdmin || _isAuthor" @click="status='Closed'">
+            <v-list-tile-title>Close championship</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile v-if="_isAdmin || _isAuthor" @click="status='Active'">
+            <v-list-tile-title>Open championship</v-list-tile-title>
           </v-list-tile>
         </v-list>
       </v-menu>
     </v-layout>
 
     <Confirmation
-      @confirmed="deleteChampionship(_championship)"
-      _message="Delete this championship?"
+      @confirmed="switchStatus()"
+      _message="Close this championship? You will be able to reopen it anytime."
     />
     <v-dialog v-model="showRejectDialog" max-width="500px">
       <RejectChampionship @close="showRejectDialog=false" @sendReject="sendReject"/>
@@ -60,7 +66,8 @@ export default {
     return {
       showRejectDialog: false,
       showChampForm: false,
-      fab: false
+      fab: false,
+      status: ''
     }
   },
   props: {
@@ -70,6 +77,11 @@ export default {
     _championship: Object,
     _drivers: Object,
     _driversIds: Array
+  },
+  watch: {
+    status (val) {
+      this.switchStatus(val)
+    }
   },
   computed: {
     isLoggedIn() {
