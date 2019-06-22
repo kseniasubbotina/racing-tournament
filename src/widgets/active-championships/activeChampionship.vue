@@ -4,15 +4,22 @@
       <v-card-title>
         <span
           @click="$router.push({name: 'Championship', params: {id: championshipName}})"
-          class="pointer subheading"
+          class="pointer subheading mr-1"
         >{{championshipName}}</span>
-        <v-btn
-          @click="$router.push({name: 'Championship', params: {id: championshipName}})"
-          color="green"
-          flat
-        >Open</v-btn>
+        <v-chip
+          small
+          class="subheading"
+          :color="statusColor"
+          disabled
+          text-color="white"
+        >{{data.championship.status}}</v-chip>
       </v-card-title>
       <v-spacer></v-spacer>
+      <v-btn
+        @click="$router.push({name: 'Championship', params: {id: championshipName}})"
+        color="green"
+        flat
+      >Details</v-btn>
     </v-layout>
     <v-card-text>
       <v-layout wrap>
@@ -48,6 +55,12 @@ export default {
     userData: Object
   },
   computed: {
+        isClosed () {
+      return this.data.championship.status === 'Closed' ? true : false
+    },
+        statusColor () {
+      return this.isClosed ? 'red' : 'green'
+    },
     championshipName () {
       return this.data.championship.info.name
     },
