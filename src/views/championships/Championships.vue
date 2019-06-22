@@ -75,7 +75,7 @@ export default {
       this.$store.commit('set', { type: 'loading', val: true })
       var championships = []
       var drivers = {}
-      fb.champsCollection.get().then(querySnapshot => {
+      fb.champsCollection.where('championship.status', '==', 'Active').get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           drivers = doc.data().drivers
           var data = doc.data().championship

@@ -14,7 +14,7 @@
       <v-flex xs12 sm4>
         <v-chip
           class="subheading"
-          color="success"
+          :color="statusColor"
           disabled
           text-color="white"
         >{{_championship.status}}</v-chip>
@@ -83,6 +83,12 @@ export default {
     _drivers: Object
   },
   computed: {
+    isClosed () {
+      return this._championship.status === 'Closed' ? true : false
+    },
+    statusColor () {
+      return this.isClosed ? 'red' : 'green'
+    },
     driversCount() {
       let drivers = this._drivers
       if (drivers) {

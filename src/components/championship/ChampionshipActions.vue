@@ -28,11 +28,11 @@
           <!-- <v-list-tile v-if="_isAdmin || _isAuthor" @click="openConfirmation">
             <v-list-tile-title>Delete</v-list-tile-title>
           </v-list-tile>-->
-          <v-list-tile v-if="_isAdmin || _isAuthor" @click="status='Closed'">
-            <v-list-tile-title>Close championship</v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile v-if="_isAdmin || _isAuthor" @click="status='Active'">
+          <v-list-tile v-if="(_isAdmin || _isAuthor) && isClosed" @click="status='Active'">
             <v-list-tile-title>Open championship</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile v-else-if="_isAdmin || _isAuthor" @click="status='Closed'">
+            <v-list-tile-title>Close championship</v-list-tile-title>
           </v-list-tile>
         </v-list>
       </v-menu>
@@ -87,6 +87,9 @@ export default {
     isLoggedIn() {
       var isLoggedIn = this.$store.getters.user ? true : false
       return isLoggedIn
+    },
+    isClosed () {
+      return this._championship.status === 'Closed' ? true : false
     },
     userId() {
       if (this.isLoggedIn) {
