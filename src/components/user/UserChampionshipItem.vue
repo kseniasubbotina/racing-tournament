@@ -13,15 +13,16 @@
           disabled
           text-color="white"
         >{{data.championship.status}}</v-chip>
+        <v-btn
+          @click="$router.push({name: 'Championship', params: {id: championshipName}})"
+          color="primary"
+          flat
+          small
+        >Details</v-btn>
       </v-card-title>
       <v-spacer></v-spacer>
-      <v-btn
-        @click="$router.push({name: 'Championship', params: {id: championshipName}})"
-        color="green"
-        flat
-      >Details</v-btn>
     </v-layout>
-    <v-card-text>
+    <v-card-text v-if="full">
       <v-layout wrap>
         <v-flex xs6 lg4>
           <div class="caption">Team:</div>
@@ -49,10 +50,14 @@
 import sortStandings from '@/mixins/championship/sortStandings.js'
 
 export default {
-  name: 'ActiveChampionship',
+  name: 'UserChampionshipItem',
   props: {
     data: Object,
-    userData: Object
+    userData: Object,
+    full: {
+      type: Boolean,
+      default: true
+    }
   },
   computed: {
         isClosed () {

@@ -26,10 +26,7 @@
           <v-tabs show-arrows>
             <v-tabs-slider color="red"></v-tabs-slider>
             <template v-for="(item, index) in tabs">
-              <v-tab
-                v-if="item.public || !isGuest && !item.public"
-                :key="index"
-              >{{ item.name }}</v-tab>
+              <v-tab v-if="item.public || !isGuest && !item.public" :key="index">{{ item.name }}</v-tab>
             </template>
             <v-tabs-items>
               <v-tab-item v-for="item in tabs" :id="item.name" :key="item.name">
@@ -57,6 +54,7 @@ import userOverview from '@/components/user/UserOverview.vue'
 import userSettings from '@/components/user/UserSettings.vue'
 import userStatistic from '@/components/user/UserStatistic.vue'
 import CountryFlag from '@/components/CountryFlag.vue'
+import UserChampionships from '@/components/user/UserChampionships.vue'
 
 export default {
   name: 'UserProfile',
@@ -70,6 +68,11 @@ export default {
         {
           name: 'Overview',
           componentName: 'userOverview',
+          public: true
+        },
+        {
+          name: 'Championships',
+          componentName: 'UserChampionships',
           public: true
         },
         {
@@ -152,6 +155,7 @@ export default {
     userSettings,
     userOverview,
     userStatistic,
+    UserChampionships,
     CountryFlag
   }
 }

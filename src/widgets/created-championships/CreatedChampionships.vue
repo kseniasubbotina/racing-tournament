@@ -1,15 +1,18 @@
 <template>
   <div v-if="userData && userData.username">
+    <h3 class="my-3">Created championships</h3>
     <div v-if="loading" class="text-xs-center my-2">
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
     <template v-else-if="championships.length">
-      <v-flex class="my-3">
-        <h3>Active championships</h3>
-      </v-flex>
       <v-layout wrap>
         <v-flex v-for="championship in championships" :key="championship.id">
-          <UserChampionshipItem class="ma-2" :data="championship" :userData="userData"/>
+          <UserChampionshipItem
+            class="ma-2"
+            :full="false"
+            :data="championship"
+            :userData="userData"
+          />
         </v-flex>
       </v-layout>
     </template>
@@ -21,13 +24,13 @@
             <v-flex>
               <v-icon>block</v-icon>
             </v-flex>
-            <v-flex v-if="isGuest" justify-center>User has no active championships</v-flex>
-            <v-flex v-else justify-center>You have no active championships</v-flex>
+            <v-flex v-if="isGuest" justify-center>User has not yet created a championship</v-flex>
+            <v-flex v-else justify-center>You have not created a championship</v-flex>
           </v-layout>
         </v-card-title>
         <v-card-text v-if="!isGuest">
           <v-layout column justify-center>
-            <v-btn color="green" dark to="/championships">Select a championships</v-btn>
+            <v-btn color="green" dark to="/create">Create a championship</v-btn>
           </v-layout>
         </v-card-text>
       </v-card>
@@ -55,22 +58,22 @@ export default {
     }
   },
   created () {
-    this.getActiveChampionships ()
+    this.getCreatedChampionships ()
   },
   watch: {
     userData: {
       handler () {
-        this.getActiveChampionships()
+        this.getCreatedChampionships()
       },
       deep: true
     }
   },
   methods: {
-    getActiveChampionships () {
+    getCreatedChampionships () {
       this.loading = true
       // championship which has not ended
       if(this.userData && this.userData.id) {
-        let activeChampionships = fb.champsCollection.where("driversIds", "array-contains", this.userData.id).where('championship.status', '==', 'Active')
+        let activeChampionships = fb.champsCollection.where('championship.author.id', '==', this.userData.id).where('championship.approved', '==', true)
         activeChampionships.get().then(querySnapshot => {
           if(!querySnapshot.empty) {
             querySnapshot.forEach(doc => {
