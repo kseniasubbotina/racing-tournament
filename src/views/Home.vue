@@ -3,7 +3,11 @@
     <template>
       <Intro v-if="!isLoggedIn"/>
     </template>
-    <ActiveChampionships v-if="isLoggedIn && currentUser" :userData="currentUser"/>
+    <ActiveChampionships
+      v-if="isLoggedIn && currentUser"
+      :showMessage="false"
+      :userData="currentUser"
+    />
     <championships :showAddButton="false"/>
   </div>
 </template>
