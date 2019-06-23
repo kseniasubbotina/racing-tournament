@@ -73,7 +73,7 @@ export default {
       this.loading = true
       // championship which has not ended
       if(this.userData && this.userData.id) {
-        let activeChampionships = fb.champsCollection.where('championship.author.id', '==', this.userData.id).where('championship.approved', '==', true)
+        let activeChampionships = fb.champsCollection.where('championship.author.id', '==', this.userData.id)
         activeChampionships.get().then(querySnapshot => {
           if(!querySnapshot.empty) {
             querySnapshot.forEach(doc => {

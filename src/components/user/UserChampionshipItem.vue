@@ -7,12 +7,21 @@
           class="pointer subheading mr-1"
         >{{championshipName}}</span>
         <v-chip
+          v-if="data.championship.approved"
           small
           class="subheading"
           :color="statusColor"
           disabled
           text-color="white"
         >{{data.championship.status}}</v-chip>
+        <v-chip
+          v-else
+          small
+          class="subheading"
+          color="orange"
+          disabled
+          text-color="white"
+        >Moderation</v-chip>
         <v-btn
           @click="$router.push({name: 'Championship', params: {id: championshipName}})"
           color="primary"

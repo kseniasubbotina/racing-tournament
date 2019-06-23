@@ -13,11 +13,20 @@
     <v-layout justify-center align-center class="mt-3" subheading wrap>
       <v-flex xs12 sm4>
         <v-chip
+          v-if="_championship.approved"
           class="subheading"
           :color="statusColor"
           disabled
           text-color="white"
         >{{_championship.status}}</v-chip>
+        <v-chip
+          v-else
+          small
+          class="subheading"
+          color="orange"
+          disabled
+          text-color="white"
+        >Moderation</v-chip>
       </v-flex>
       <v-flex xs12 sm4>
         <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div>
