@@ -1,10 +1,11 @@
 <template>
   <div>
+    <h3 class="my-3">Available Championships</h3>
     <div v-if="loading" class="text-xs-center">
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
+
     <v-layout v-else wrap>
-      <h3 class="my-3">Available Championships</h3>
       <v-layout wrap>
         <template v-if="championships.length">
           <template v-for="(champ, index) in championships">
