@@ -14,7 +14,7 @@
       </v-layout>
     </template>
 
-    <template v-else-if="!loading">
+    <template v-else-if="!loading && showMessage">
       <v-card>
         <v-card-title class="text-xs-center">
           <v-layout column>
@@ -48,6 +48,10 @@ export default {
     }
   },
   props: {
+    showMessage: {
+      type: Boolean,
+      default: true
+    },
     userData: Object,
     isGuest: {
       default: false,
