@@ -4,17 +4,34 @@
       <v-card-title>
         <span
           @click="$router.push({name: 'Championship', params: {id: championshipName}})"
-          class="pointer subheading"
+          class="pointer subheading mr-1"
         >{{championshipName}}</span>
+        <v-chip
+          v-if="data.championship.approved"
+          small
+          class="subheading"
+          :color="statusColor"
+          disabled
+          text-color="white"
+        >{{data.championship.status}}</v-chip>
+        <v-chip
+          v-else
+          small
+          class="subheading"
+          color="orange"
+          disabled
+          text-color="white"
+        >Moderation</v-chip>
         <v-btn
           @click="$router.push({name: 'Championship', params: {id: championshipName}})"
-          color="green"
+          color="primary"
           flat
-        >Open</v-btn>
+          small
+        >Details</v-btn>
       </v-card-title>
       <v-spacer></v-spacer>
     </v-layout>
-    <v-card-text>
+    <v-card-text v-if="full">
       <v-layout wrap>
         <v-flex xs6 lg4>
           <div class="caption">Team:</div>
@@ -42,12 +59,22 @@
 import sortStandings from '@/mixins/championship/sortStandings.js'
 
 export default {
-  name: 'ActiveChampionship',
+  name: 'UserChampionshipItem',
   props: {
     data: Object,
-    userData: Object
+    userData: Object,
+    full: {
+      type: Boolean,
+      default: true
+    }
   },
   computed: {
+        isClosed () {
+      return this.data.championship.status === 'Closed' ? true : false
+    },
+        statusColor () {
+      return this.isClosed ? 'red' : 'green'
+    },
     championshipName () {
       return this.data.championship.info.name
     },
