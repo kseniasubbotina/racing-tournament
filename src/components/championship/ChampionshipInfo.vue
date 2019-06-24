@@ -32,12 +32,13 @@
         <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div>
       </v-flex>
       <v-flex xs12 sm4>
-        <div>
+        <v-layout justify-start>
           Author:
+          <UserAvatar :width="30" :userData="_championship.author"/>
           <router-link
             :to="'/user_' + _championship.author.username"
           >{{_championship.author.username}}</router-link>
-        </div>
+        </v-layout justify-start>
       </v-flex>
     </v-layout>
 
@@ -85,6 +86,8 @@
 </template>
 
 <script>
+import UserAvatar from '@/components/user/UserAvatar.vue'
+
 export default {
   name: 'ChampionshipInfo',
   props: {
@@ -124,6 +127,9 @@ export default {
       let color = val ? 'green' : 'red'
       return color
     }
+  },
+  components: {
+    UserAvatar
   }
 }
 </script>

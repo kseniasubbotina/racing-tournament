@@ -24,7 +24,6 @@
         >Moderation</v-chip>
         <v-btn
           @click="$router.push({name: 'Championship', params: {id: championshipName}})"
-          color="primary"
           flat
           small
         >Details</v-btn>

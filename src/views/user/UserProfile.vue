@@ -8,10 +8,7 @@
         <v-flex xs12 sm12 class="text-xs-center">
           <v-layout d-block pa-1>
             <v-flex>
-              <v-avatar size="100">
-                <img v-if="userData.avatarURL" :src="userData.avatarURL" alt>
-                <img v-else src="http://pol.audio/media/user-avatar.png" alt>
-              </v-avatar>
+              <UserAvatar :userData="userData" :width="120"/>
             </v-flex>
             <v-flex>
               <h2>{{userData.username}}</h2>
@@ -50,6 +47,7 @@
 
 <script>
 import fb from '@/firebase/config.js'
+import UserAvatar from '@/components/user/UserAvatar.vue'
 import userOverview from '@/components/user/UserOverview.vue'
 import userSettings from '@/components/user/UserSettings.vue'
 import userStatistic from '@/components/user/UserStatistic.vue'
@@ -152,6 +150,7 @@ export default {
     }
   },
   components: {
+    UserAvatar,
     userSettings,
     userOverview,
     userStatistic,
