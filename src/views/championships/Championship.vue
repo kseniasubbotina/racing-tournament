@@ -35,8 +35,12 @@
           </v-flex>
         </v-layout>
         <ChampionshipInfo :_championship="championship" :_drivers="drivers"/>
-        <v-layout justify-center class="my-3">
-          <v-btn v-if="!isParticipant" dark color="green" @click="selectTeam" depressed>
+        <v-layout
+          v-if="!isParticipant && championship.status === 'Active'"
+          justify-center
+          class="my-3"
+        >
+          <v-btn dark color="green" @click="selectTeam" depressed>
             <v-icon>assignment_turned_in</v-icon>Join championship
           </v-btn>
         </v-layout>

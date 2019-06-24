@@ -2,11 +2,7 @@
   <v-list>
     <v-subheader>Menu</v-subheader>
     <template v-for="(link, idx) in links">
-      <v-list-tile
-        v-if="link.role <= userRole"
-        :key="idx"
-        @click="onMenuItemClick(link)"
-      >
+      <v-list-tile v-if="link.role <= userRole" :key="idx" @click="onMenuItemClick(link)">
         <v-list-tile-action>
           <v-icon>{{link.icon}}</v-icon>
         </v-list-tile-action>
@@ -93,6 +89,18 @@ export default {
         label: 'Games',
         icon: 'gamepad',
         route: '/games',
+        role: 0
+      },
+      {
+        label: 'F.A.Q',
+        icon: 'question_answer',
+        route: '/',
+        role: 0
+      },
+      {
+        label: 'Leaderboard',
+        icon: 'trending_up',
+        route: '/',
         role: 0
       }
     ]

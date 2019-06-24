@@ -131,6 +131,7 @@ export default {
             id: id,
             author: {
               username: this.$store.getters.userData.username,
+              avatarURL: this.$store.getters.userData.avatarURL,
               id: this.$store.getters.user.id
             },
             approved: false,
@@ -153,6 +154,7 @@ export default {
             id: this.championship.id,
             author: {
               username: this.$store.getters.userData.username,
+              avatarURL: this.$store.getters.userData.avatarURL,
               id: this.$store.getters.user.id
             },
             approved: this.championship.approved,

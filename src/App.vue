@@ -23,10 +23,7 @@
           <v-btn to="/login" flat>Login</v-btn>
         </template>
         <v-btn v-if="isLoggedIn" :to="toCurrentUserProfile" icon large>
-          <v-avatar size="32px">
-            <img v-if="userData && userData.avatarURL" :src="userData.avatarURL">
-            <img v-else src="http://pol.audio/media/user-avatar.png">
-          </v-avatar>
+          <UserAvatar :userData="userData" :width="30"/>
         </v-btn>
       </v-toolbar>
       <v-content>
@@ -47,6 +44,8 @@
 </template>
 
 <script>
+import UserAvatar from '@/components/user/UserAvatar.vue'
+
 import NavigationMenu from '@/components/NavigationMenu.vue'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import fb from './firebase/config.js'
@@ -114,7 +113,8 @@ export default {
   },
   components: {
     NavigationMenu,
-    Breadcrumbs
+    Breadcrumbs,
+    UserAvatar
   }
 }
 </script>
