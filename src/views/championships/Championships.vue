@@ -1,35 +1,38 @@
 <template>
   <div>
+    <h3 class="my-3">Available Championships</h3>
     <div v-if="loading" class="text-xs-center">
       <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
+
     <v-layout v-else wrap>
-      <h3 class="my-3">Available Championships</h3>
-      <v-spacer></v-spacer>
-      <!-- <v-btn v-if="isLoggedIn" :to="'/create'" depressed color="success">
-        <v-icon>add</v-icon>Create Championship
-      </v-btn>-->
-    </v-layout>
-    <v-layout wrap>
-      <template v-for="(champ, index) in championships">
-        <v-flex
-          v-if="champ.approved || champ.currentUserId == champ.author.id || isAdmin"
-          xs12
-          sm4
-          md4
-          pa-1
-          :key="index"
-        >
-          <ChampionshipItem :_drivers="champ.drivers" :_championship="champ"/>
-        </v-flex>
-      </template>
-      <v-layout v-if="showAddButton">
-        <v-flex sx12>
-          <v-btn v-if="isLoggedIn" :to="'/create'" color="green" dark fixed bottom right fab>
-            <v-icon>add</v-icon>
-          </v-btn>
-        </v-flex>
+      <v-layout wrap>
+        <template v-if="championships.length">
+          <template v-for="(champ, index) in championships">
+            <v-flex
+              v-if="champ.approved || champ.currentUserId == champ.author.id || isAdmin"
+              xs12
+              sm4
+              md4
+              pa-1
+              :key="index"
+            >
+              <ChampionshipItem :_drivers="champ.drivers" :_championship="champ"/>
+            </v-flex>
+          </template>
+        </template>
+        <template v-else>
+          <NoChampionships/>
+        </template>
       </v-layout>
+    </v-layout>
+
+    <v-layout v-if="showAddButton">
+      <v-flex sx12>
+        <v-btn v-if="isLoggedIn" :to="'/create'" color="green" dark fixed bottom right fab>
+          <v-icon>add</v-icon>
+        </v-btn>
+      </v-flex>
     </v-layout>
   </div>
 </template>
@@ -39,6 +42,7 @@ import ChampionshipForm from '@/components/championship/form/ChampionshipForm'
 import fb from '@/firebase/config.js'
 import ChampionshipItem from '@/components/championship/ChampionshipItem'
 import isAdmin from '@/mixins/isAdmin.js'
+import NoChampionships from '@/components/championship/NoChampionships.vue'
 
 export default {
   name: 'Championships',
@@ -75,7 +79,7 @@ export default {
       this.$store.commit('set', { type: 'loading', val: true })
       var championships = []
       var drivers = {}
-      fb.champsCollection.get().then(querySnapshot => {
+      fb.champsCollection.where('championship.status', '==', 'Active').where('championship.approved', '==', true).get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           drivers = doc.data().drivers
           var data = doc.data().championship
@@ -94,7 +98,8 @@ export default {
   mixins: [isAdmin],
   components: {
     ChampionshipItem,
-    ChampionshipForm
+    ChampionshipForm,
+    NoChampionships
   }
 }
 </script>

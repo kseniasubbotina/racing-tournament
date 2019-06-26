@@ -5,13 +5,10 @@
     </div>
     <v-container v-else grid-list-sm class="pa-4">
       <v-layout row wrap>
-        <v-flex xs12 sm3 class="text-xs-center">
+        <v-flex xs12 sm12 class="text-xs-center">
           <v-layout d-block pa-1>
             <v-flex>
-              <v-avatar size="100">
-                <img v-if="userData.avatarURL" :src="userData.avatarURL" alt>
-                <img v-else src="http://pol.audio/media/user-avatar.png" alt>
-              </v-avatar>
+              <UserAvatar :userData="userData" :width="120"/>
             </v-flex>
             <v-flex>
               <h2>{{userData.username}}</h2>
@@ -22,14 +19,11 @@
             </v-layout>
           </v-layout>
         </v-flex>
-        <v-flex xs12 sm8 justify-space-between>
-          <v-tabs show-arrows>
+        <v-flex xs12 justify-center align-center>
+          <v-tabs centered show-arrows>
             <v-tabs-slider color="red"></v-tabs-slider>
             <template v-for="(item, index) in tabs">
-              <v-tab
-                v-if="item.public || !isGuest && !item.public"
-                :key="index"
-              >{{ item.name }}</v-tab>
+              <v-tab v-if="item.public || !isGuest && !item.public" :key="index">{{ item.name }}</v-tab>
             </template>
             <v-tabs-items>
               <v-tab-item v-for="item in tabs" :id="item.name" :key="item.name">
@@ -53,10 +47,12 @@
 
 <script>
 import fb from '@/firebase/config.js'
+import UserAvatar from '@/components/user/UserAvatar.vue'
 import userOverview from '@/components/user/UserOverview.vue'
 import userSettings from '@/components/user/UserSettings.vue'
 import userStatistic from '@/components/user/UserStatistic.vue'
 import CountryFlag from '@/components/CountryFlag.vue'
+import UserChampionships from '@/components/user/UserChampionships.vue'
 
 export default {
   name: 'UserProfile',
@@ -70,6 +66,11 @@ export default {
         {
           name: 'Overview',
           componentName: 'userOverview',
+          public: true
+        },
+        {
+          name: 'Championships',
+          componentName: 'UserChampionships',
           public: true
         },
         {
@@ -149,9 +150,11 @@ export default {
     }
   },
   components: {
+    UserAvatar,
     userSettings,
     userOverview,
     userStatistic,
+    UserChampionships,
     CountryFlag
   }
 }

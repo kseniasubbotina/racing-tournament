@@ -4,6 +4,19 @@ import convertDateTime from '@/mixins/convertDateTime.js'
 
 export default {
   methods: {
+    switchStatus(status) {
+      let championship = this._championship
+      if (championship.status)
+        championship.status = status
+      fb.champsCollection
+        .doc(this._championship.documentId)
+        .update({
+          championship: championship
+        })
+        .then(() => {
+          this.$router.push('/championships/' + this._championship.info.name)
+        })
+    },
     leaveChampionship(championship, drivers, userId) {
       delete drivers[userId]
       let driversIds = this._driversIds || []
@@ -118,6 +131,7 @@ export default {
             id: id,
             author: {
               username: this.$store.getters.userData.username,
+              avatarURL: this.$store.getters.userData.avatarURL,
               id: this.$store.getters.user.id
             },
             approved: false,
@@ -140,10 +154,12 @@ export default {
             id: this.championship.id,
             author: {
               username: this.$store.getters.userData.username,
+              avatarURL: this.$store.getters.userData.avatarURL,
               id: this.$store.getters.user.id
             },
             approved: this.championship.approved,
             status: this.championship.status,
+            rejectComment: this.championship.rejectComment || '',
             moderators: this.championship.moderators,
             info: this.championship.data.info,
             externalInfo: this.championship.externalInfo,

@@ -14,7 +14,7 @@
           <v-btn v-if="url || _url" flat color="error" @click="deleteImage">Delete</v-btn>
           <input style="display: none" ref="filenput" type="file" @change="onFileSelected">
         </v-flex>
-        <!-- <message/> -->
+        <message/>
       </v-layout>
     </v-flex>
   </v-layout>
@@ -46,6 +46,12 @@ export default {
     onFileSelected(event) {
       let type = event.target.files[0].type
       if (type == 'image/png' || type == 'image/jpg' || type == 'image/jpeg') {
+        // if(event.target.files[0].size > 200000) {
+        //   this.$store.commit('setMessage', {
+        //     type: 'error',
+        //     text: 'Maximum size of file is 100KB'
+        //   })
+        // }
         this.selectedFile = event.target.files[0]
         this.url = URL.createObjectURL(this.selectedFile)
         this.$emit('fileSelected', this.selectedFile)

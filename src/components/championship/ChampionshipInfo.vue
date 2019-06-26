@@ -13,22 +13,32 @@
     <v-layout justify-center align-center class="mt-3" subheading wrap>
       <v-flex xs12 sm4>
         <v-chip
+          v-if="_championship.approved"
           class="subheading"
-          color="success"
+          :color="statusColor"
           disabled
           text-color="white"
         >{{_championship.status}}</v-chip>
+        <v-chip
+          v-else
+          small
+          class="subheading"
+          color="orange"
+          disabled
+          text-color="white"
+        >Moderation</v-chip>
       </v-flex>
       <v-flex xs12 sm4>
         <div>Drivers: {{driversCount}}/{{_championship.info.playersCount}}</div>
       </v-flex>
       <v-flex xs12 sm4>
-        <div>
+        <v-layout justify-start>
           Author:
+          <UserAvatar :width="30" :userData="_championship.author"/>
           <router-link
             :to="'/user_' + _championship.author.username"
           >{{_championship.author.username}}</router-link>
-        </div>
+        </v-layout justify-start>
       </v-flex>
     </v-layout>
 
@@ -76,6 +86,8 @@
 </template>
 
 <script>
+import UserAvatar from '@/components/user/UserAvatar.vue'
+
 export default {
   name: 'ChampionshipInfo',
   props: {
@@ -83,6 +95,12 @@ export default {
     _drivers: Object
   },
   computed: {
+    isClosed () {
+      return this._championship.status === 'Closed' ? true : false
+    },
+    statusColor () {
+      return this.isClosed ? 'red' : 'green'
+    },
     driversCount() {
       let drivers = this._drivers
       if (drivers) {
@@ -109,6 +127,9 @@ export default {
       let color = val ? 'green' : 'red'
       return color
     }
+  },
+  components: {
+    UserAvatar
   }
 }
 </script>

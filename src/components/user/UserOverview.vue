@@ -1,10 +1,13 @@
 <template>
-  <div>
-    <ActiveChampionships :isGuest="isGuest" :userData="_userData"/>
-  </div>
+  <v-layout row wrap>
+    <v-flex>
+      <ActiveChampionships :isGuest="isGuest" :userData="_userData"/>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
+
 import ActiveChampionships from '@/widgets/active-championships/ActiveChampionships.vue'
 export default {
   name: 'user-overview',
