@@ -9,6 +9,7 @@
         :key="driver.userId"
         :_fastestLapPoint="_championship.info.fastestLapPoint"
         :_driver="driver"
+        :_drivers="_drivers"
         :_results="_results"
         :_stage="_stage"
         @driverResultUpdate="onDriverResultUpdate"

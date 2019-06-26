@@ -109,6 +109,7 @@ export default {
     }
   },
   props: {
+    _drivers: Object,
     _driver: Object,
     _isBestLap: Boolean,
     _results: Object,
@@ -135,6 +136,12 @@ export default {
     }
   },
   computed: {
+    teammate () {
+      let driversArray = Object.values(this._drivers)
+      let teammate = driversArray.filter(driver => driver.team.name === this._driver.team.name 
+      && driver.userId !== this._driver.userId)[0]
+      return teammate
+    },
     isBestLap () {
       let trackDocumentId = this._stage.trackDocumentId
       let results = this._results
@@ -199,6 +206,9 @@ export default {
       this.$set(result, 'isBestLap', isBestLap)
       this.$set(result, 'points', this.points)
       this.$emit('driverResultUpdate', result)
+    },
+    countScore () {
+      // 
     }
   },
   components: {
