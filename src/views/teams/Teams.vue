@@ -38,6 +38,7 @@
                       width="100px"
                       align="middle"
                       style="margin-right: 5px"
+                      alt="team-logo"
                     >
                     <span class="subheading">{{ props.item.name }}</span>
                   </v-layout>
