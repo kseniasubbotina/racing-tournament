@@ -1,6 +1,5 @@
 .champ-info-form_fastest-lap {
-  border: 3px solid;
-  border-color: #77777763;
+  border: 3px solid #77777763;
   border-radius: 5px;
 }
 .champ-info-form_fastest-lap.selected {

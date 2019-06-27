@@ -68,7 +68,7 @@ export default {
         this.isNew = true
       } else {
         this.isNew = false
-        var gameData = game
+        gameData = game
       }
       this.$root.$emit('openGameDialog', gameData)
     },

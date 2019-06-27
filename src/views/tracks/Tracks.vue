@@ -84,7 +84,7 @@ export default {
         this.isNew = true
       } else {
         this.isNew = false
-        var trackData = track
+        trackData = track
       }
       this.$root.$emit('openDialog', trackData)
     },
