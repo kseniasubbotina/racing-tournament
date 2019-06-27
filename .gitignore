@@ -23,4 +23,3 @@ run.command
 src/firebase/config.js
 src/firebase
 client/src/firebase
-src/config/config.js
