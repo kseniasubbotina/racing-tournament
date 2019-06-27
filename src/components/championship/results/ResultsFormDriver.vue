@@ -3,7 +3,8 @@
     <v-form>
       <v-container v-if="_driver.userId">
         <v-layout align-center justify-center wrap>
-          <v-flex class="subheading" xs12 sm3>{{_driver.username}}</v-flex>
+          <v-flex class="subheading" xs12 sm3>{{_driver.username}}______{{score}}</v-flex>
+
           <v-flex sm7>
             <v-layout>
               <v-checkbox
@@ -104,7 +105,9 @@ export default {
         dq: false,
         dnf: false,
         dns: false,
-        isBestLap: false
+        isBestLap: false,
+        score: null,
+        posDiff: null
       }
     }
   },
@@ -127,6 +130,9 @@ export default {
           result = newResult
           if(result.dq || result.dnf || result.dns) {
             result.finish = 0
+          }
+          if(result.finish && result.start) {
+            result.posDiff = result.start - result.finish
           }
           result.driver = this._driver
           this.updateResult(this.isBestLap, result)
@@ -194,6 +200,51 @@ export default {
       } else {
         return false
       }
+    },
+    score () {
+      var score = 0
+      var teammateId = this.teammate.userId
+      var stageId = this._stage.trackDocumentId
+      var teammateStart = this._results[teammateId][stageId].start
+      var driverStart = this._results[this._driver.userId][stageId].start
+      var teammateFinish = this._results[teammateId][stageId].finish
+      var driverFinish = this._results[this._driver.userId][stageId].finish
+      var posDiff = this._results[this._driver.userId][stageId].posDiff
+
+      if (driverStart < teammateStart) {
+        score = score + 2
+      }
+      if (teammateFinish < teammateFinish) {
+        score = score + 3
+      }
+      if (!this.result.dq && !this.result.dnf && !this.result.dns && this.finish) {
+        score = score + 1
+      }
+
+      if (posDiff <= 0) {
+        if (Number(driverStart) <= 10) {
+          if (posDiff < -5) {
+            score = score - 10
+          } else {
+            score = score + posDiff * 2
+          }
+        } else {
+          if (Number(driverStart) > 10) {
+            if (posDiff < -5) {
+              score = score - 5
+            } else {
+              score = score + posDiff
+            }
+          }
+        }
+      } else {
+        if (posDiff < 5) {
+          score = score + 10
+        } else {
+          score = score + posDiff * 2
+        }
+      }
+      return score
     }
   },
   methods: {

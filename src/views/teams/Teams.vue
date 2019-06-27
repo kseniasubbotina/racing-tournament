@@ -121,7 +121,7 @@ export default {
         this.isNew = true
       } else {
         this.isNew = false
-        var teamData = team
+        teamData = team
       }
       this.$root.$emit('openTeamFormDialog', teamData)
     },
