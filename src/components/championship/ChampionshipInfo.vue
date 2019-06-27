@@ -86,9 +86,9 @@
 </template>
 
 <script>
-import UserAvatar from '@/components/user/UserAvatar.vue'
+  import UserAvatar from '@/components/user/UserAvatar.vue'
 
-export default {
+  export default {
   name: 'ChampionshipInfo',
   props: {
     _championship: Object,
@@ -124,8 +124,7 @@ export default {
   },
   methods: {
     assistColor (val) {
-      let color = val ? 'green' : 'red'
-      return color
+      return val ? 'green' : 'red'
     }
   },
   components: {

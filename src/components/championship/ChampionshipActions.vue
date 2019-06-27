@@ -56,11 +56,12 @@
 </template>
 
 <script>
-import ChampionshipForm from '@/components/championship/form/ChampionshipForm'
-import RejectChampionship from '@/components/championship/RejectChampionship.vue'
-import Confirmation from '@/components/Confirmation.vue'
-import championship from '@/mixins/championship/championship.js'
-export default {
+  import ChampionshipForm from '@/components/championship/form/ChampionshipForm'
+  import RejectChampionship from '@/components/championship/RejectChampionship.vue'
+  import Confirmation from '@/components/Confirmation.vue'
+  import championship from '@/mixins/championship/championship.js'
+
+  export default {
   name: 'ChampionshipActions',
   data() {
     return {
@@ -85,8 +86,7 @@ export default {
   },
   computed: {
     isLoggedIn() {
-      var isLoggedIn = this.$store.getters.user ? true : false
-      return isLoggedIn
+      return this.$store.getters.user ? true : false
     },
     isClosed () {
       return this._championship.status === 'Closed' ? true : false

@@ -104,9 +104,10 @@
 </template>
 
 <script>
-import CountryFlag from '@/components/CountryFlag.vue'
-import sortStandings from '@/mixins/championship/sortStandings.js'
-export default {
+  import CountryFlag from '@/components/CountryFlag.vue'
+  import sortStandings from '@/mixins/championship/sortStandings.js'
+
+  export default {
   name: 'ChampionshipStandings',
   data() {
     return {
@@ -158,8 +159,7 @@ export default {
     findDriverTeam (user) {
       let resultsLength = Object.values(user).length
       let userId = Object.values(user)[0].driver.userId
-      let team = this._drivers[userId] ? this._drivers[userId].team : Object.values(user)[resultsLength-2].driver.team
-      return team
+      return this._drivers[userId] ? this._drivers[userId].team : Object.values(user)[resultsLength - 2].driver.team
     },
     isDriverRemoved(user) {
       if(user) {
