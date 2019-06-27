@@ -71,8 +71,10 @@ export default {
       })
     },
     openForm(track) {
+      let trackData = track
+      this.isNew = false
       if (!track.id) {
-        var trackData = {
+        trackData = {
           name: '',
           country: '',
           firstGP: '',
@@ -82,9 +84,6 @@ export default {
           description: ''
         }
         this.isNew = true
-      } else {
-        this.isNew = false
-        var trackData = track
       }
       this.$root.$emit('openDialog', trackData)
     },

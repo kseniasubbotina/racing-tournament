@@ -38,7 +38,7 @@
           <router-link
             :to="'/user_' + _championship.author.username"
           >{{_championship.author.username}}</router-link>
-        </v-layout justify-start>
+        </v-layout>
       </v-flex>
     </v-layout>
 

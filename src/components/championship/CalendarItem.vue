@@ -53,8 +53,7 @@ export default {
     _results: Object,
     _country: String,
     _stage: Object,
-    _drivers: Object,
-    _results: Object
+    _drivers: Object
   },
   computed: {
     userId() {

@@ -55,8 +55,10 @@ export default {
       this.$root.$emit('confirm', game)
     },
     openForm(game) {
+      let gameData = game
+      this.isNew = false
       if (!game.documentId) {
-        var gameData = {
+        gameData = {
           name: '',
           releaseDate: '',
           platforms: [],
@@ -66,9 +68,6 @@ export default {
           webSite: ''
         }
         this.isNew = true
-      } else {
-        this.isNew = false
-        var gameData = game
       }
       this.$root.$emit('openGameDialog', gameData)
     },
