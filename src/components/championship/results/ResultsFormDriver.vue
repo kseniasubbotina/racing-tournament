@@ -108,6 +108,9 @@ export default {
         isBestLap: false,
         score: null,
         posDiff: null
+      },
+      finishExp: {
+        // 
       }
     }
   },
