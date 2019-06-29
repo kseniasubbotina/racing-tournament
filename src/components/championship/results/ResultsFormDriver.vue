@@ -3,7 +3,7 @@
     <v-form>
       <v-container v-if="_driver.userId">
         <v-layout align-center justify-center wrap>
-          <v-flex class="subheading" xs12 sm3>{{_driver.username}}______{{score}}</v-flex>
+          <v-flex class="subheading" xs12 sm3>{{_driver.username}}[{{result.experience}}]</v-flex>
 
           <v-flex sm7>
             <v-layout>
@@ -92,6 +92,7 @@
 import PositionDiff from '@/components/championship/results/PositionDiff.vue'
 import BestLapIndicator from '@/components/championship/results/BestLapIndicator.vue'
 import pointsSystem from '@/config/points-systems.js'
+import raceExperience from '@/mixins/results/raceExperience.js'
 
 export default {
   name: 'ResultsFormDriver',
@@ -107,17 +108,15 @@ export default {
         dns: false,
         isBestLap: false,
         score: null,
-        posDiff: null
-      },
-      finishExp: {
-        // 
+        posDiff: null,
+        experience: null
       }
     }
   },
   props: {
     _drivers: Object,
     _driver: Object,
-    _isBestLap: Boolean,
+    // _isBestLap: Boolean,
     _results: Object,
     _stage: Object,
     _fastestLapPoint: Boolean
@@ -126,6 +125,9 @@ export default {
     this.fillForm()
   },
   watch: {
+    isBestLap (val) {
+      this.updateResult(val, this.result)
+    },
     result: {
       handler: function(newResult) {
         if (newResult) {
@@ -203,51 +205,6 @@ export default {
       } else {
         return false
       }
-    },
-    score () {
-      var score = 0
-      var teammateId = this.teammate.userId
-      var stageId = this._stage.trackDocumentId
-      var teammateStart = this._results[teammateId][stageId].start
-      var driverStart = this._results[this._driver.userId][stageId].start
-      var teammateFinish = this._results[teammateId][stageId].finish
-      var driverFinish = this._results[this._driver.userId][stageId].finish
-      var posDiff = this._results[this._driver.userId][stageId].posDiff
-
-      if (driverStart < teammateStart) {
-        score = score + 2
-      }
-      if (teammateFinish < teammateFinish) {
-        score = score + 3
-      }
-      if (!this.result.dq && !this.result.dnf && !this.result.dns && this.finish) {
-        score = score + 1
-      }
-
-      if (posDiff <= 0) {
-        if (Number(driverStart) <= 10) {
-          if (posDiff < -5) {
-            score = score - 10
-          } else {
-            score = score + posDiff * 2
-          }
-        } else {
-          if (Number(driverStart) > 10) {
-            if (posDiff < -5) {
-              score = score - 5
-            } else {
-              score = score + posDiff
-            }
-          }
-        }
-      } else {
-        if (posDiff < 5) {
-          score = score + 10
-        } else {
-          score = score + posDiff * 2
-        }
-      }
-      return score
     }
   },
   methods: {
@@ -259,12 +216,16 @@ export default {
     updateResult (isBestLap, result) {
       this.$set(result, 'isBestLap', isBestLap)
       this.$set(result, 'points', this.points)
+      this.$set(result, 'experience', this.calcExperience())
       this.$emit('driverResultUpdate', result)
     },
     countScore () {
       // 
     }
   },
+  mixins: [
+    raceExperience
+  ],
   components: {
     PositionDiff,
     BestLapIndicator

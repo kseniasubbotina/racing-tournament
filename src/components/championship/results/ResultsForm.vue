@@ -71,7 +71,6 @@ export default {
     submit () {
       let results = this.results
       results.championshipInfo = this._championship.info
-
       this.addResult(this._championship, results)
     },
     closeWindow () {
