@@ -30,13 +30,17 @@ export default {
   methods: {
     calcExperience() {
       var score = 0
-      var teammateId = this.teammate.userId
+      var teammateId = this.teammate ? this.teammate.userId : null
       var stageId = this._stage.trackDocumentId
-      var teammateStart = this._results[teammateId][stageId].start
-      var driverStart = this._results[this._driver.userId][stageId].start
-      var teammateFinish = this._results[teammateId][stageId].finish
-      var driverFinish = this._results[this._driver.userId][stageId].finish
-      var posDiff = this._results[this._driver.userId][stageId].posDiff
+      if (teammateId && this._results[teammateId]) {
+        var teammateStart = this._results[teammateId][stageId] ? this._results[teammateId][stageId].start : 0
+        var teammateFinish = this._results[teammateId][stageId] ? this._results[teammateId][stageId].finish : 0
+      }
+      const result = this._results[this._driver.userId] && this._results[this._driver.userId][stageId] ? this._results[this._driver.userId][stageId] : this.result
+
+      var driverStart = result.start || 0
+      var driverFinish = result.finish || 0
+      var posDiff = result.posDiff || 0
       if (driverStart <= 10 && driverFinish <= 10) {
         score = score + this.qualyExperience[driverStart] + this.finishExperience[driverFinish]
       }
@@ -44,10 +48,55 @@ export default {
         score = score + 5
       }
 
-      if (driverStart < teammateStart) {
+      if (teammateStart && driverStart < teammateStart) {
         score = score + 2
       }
-      if (teammateFinish < teammateFinish) {
+      if (teammateFinish && teammateFinish < teammateFinish) {
+        score = score + 3
+      }
+      if (!this.result.dq && !this.result.dnf && !this.result.dns && this.finish) {
+        score = score + 1
+      }
+
+      if (posDiff <= 0) {
+        if (Number(driverStart) <= 10) {
+          if (posDiff < -5) {
+            score = score - 10
+          } else {
+            score = score + posDiff * 2
+          }
+        } else {
+          if (Number(driverStart) > 10) {
+            if (posDiff < -5) {
+              score = score - 5
+            } else {
+              score = score + posDiff
+            }
+          }
+        }
+      } else {
+        if (posDiff > 5) {
+          score = score + 10
+        } else {
+          score = score + posDiff * 2
+        }
+      }
+      if (teammateId) {
+        var teammateStart = this._results[teammateId] && this._results[teammateId][stageId] ? this._results[teammateId][stageId].start : 0
+        var teammateFinish = this._results[teammateId][stageId] ? this._results[teammateId][stageId].finish : 0
+      }
+
+      if (driverStart <= 10 && driverFinish <= 10) {
+        score = score + this.qualyExperience[driverStart] + this.finishExperience[driverFinish]
+      }
+      if (this.isBestLap) {
+        score = score + 5
+      }
+
+      if (teammateStart && driverStart < teammateStart) {
+        score = score + 2
+      }
+      if (teammateFinish && teammateFinish < teammateFinish) {
         score = score + 3
       }
       if (!this.result.dq && !this.result.dnf && !this.result.dns && this.finish) {

@@ -108,8 +108,7 @@ export default {
         dns: false,
         isBestLap: false,
         score: null,
-        posDiff: null,
-        experience: null
+        posDiff: null
       }
     }
   },
@@ -135,6 +134,7 @@ export default {
           result = newResult
           if(result.dq || result.dnf || result.dns) {
             result.finish = 0
+            result.start = 0
           }
           if(result.finish && result.start) {
             result.posDiff = result.start - result.finish
@@ -171,7 +171,7 @@ export default {
           }
         }
         resultsArr.sort(compare)
-        if(resultsArr[0][trackDocumentId] && resultsArr[0][trackDocumentId].bestLapTime && resultsArr[0][trackDocumentId].bestLapTime === stageResult.bestLapTime) {
+        if(resultsArr[0] && resultsArr[0][trackDocumentId] && resultsArr[0][trackDocumentId].bestLapTime && resultsArr[0][trackDocumentId].bestLapTime === stageResult.bestLapTime) {
           return true
         } else {
           return false
