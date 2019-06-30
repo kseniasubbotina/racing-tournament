@@ -5,14 +5,14 @@
         <v-layout align-center wrap>
           <v-flex>
             <v-layout column align-center justify-center>
-              <v-flex shrink>
-                <CountryFlag class="pr-3" :_country="_stage.stageCountry" :_width="60"/>
-              </v-flex>
               <v-flex>
                 <div class="subheading">{{_stage.date + ', ' + _stage.time}}</div>
               </v-flex>
               <v-flex>
                 <div class="caption">Your local time</div>
+              </v-flex>
+              <v-flex>
+                <CountryFlag :_country="_stage.stageCountry" :_width="60"/>
               </v-flex>
 
               <v-flex class="text-xs-center" v-if="userResult">
