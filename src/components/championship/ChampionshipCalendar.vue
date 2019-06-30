@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-layout wrap>
-      <v-flex xs12 sm6 v-for="stage in _championship.calendar" :key="stage.id">
+      <v-flex xs12 sm4 v-for="stage in _championship.calendar" :key="stage.id">
         <CalendarItem
           :_results="_results"
           :_drivers="_drivers"

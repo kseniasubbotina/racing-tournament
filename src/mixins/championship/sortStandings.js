@@ -6,11 +6,16 @@ export default {
       resultsArr.forEach(function (user) {
         let stagesArr = Object.values(user)
         let totalPts = 0
+        let totalExp = 0
         stagesArr.forEach(function (stage) {
           if (stage.points) {
             totalPts += Number(stage.points)
           }
+          if (stage.experience) {
+            totalExp += Number(stage.experience)
+          }
         })
+        user.totalExp = totalExp
         user.totalPts = totalPts
       })
       resultsArr = resultsArr.filter(user => Object.values(user)[0].bestLapTime !== undefined)
