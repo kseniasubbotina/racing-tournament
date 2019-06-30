@@ -67,16 +67,16 @@
 </template>
 
 <script>
-import ChampionshipTabs from '@/components/championship/ChampionshipTabs'
-import Login from '@/views/user/Login.vue'
-import TeamSelectForm from '@/components/championship/TeamSelectForm.vue'
-import ChampionshipInfo from '@/components/championship/ChampionshipInfo.vue'
-import ChampionshipCalendar from '@/components/championship/ChampionshipCalendar.vue'
-import ChampionshipActions from '@/components/championship/ChampionshipActions.vue'
-import championship from '@/mixins/championship/championship.js'
-import isAdmin from '@/mixins/isAdmin.js'
+  import ChampionshipTabs from '@/components/championship/ChampionshipTabs'
+  import Login from '@/views/user/Login.vue'
+  import TeamSelectForm from '@/components/championship/TeamSelectForm.vue'
+  import ChampionshipInfo from '@/components/championship/ChampionshipInfo.vue'
+  import ChampionshipCalendar from '@/components/championship/ChampionshipCalendar.vue'
+  import ChampionshipActions from '@/components/championship/ChampionshipActions.vue'
+  import championship from '@/mixins/championship/championship.js'
+  import isAdmin from '@/mixins/isAdmin.js'
 
-export default {
+  export default {
   name: 'Championship',
   data() {
     return {
@@ -109,12 +109,10 @@ export default {
       }
     },
     joinDialogComponent() {
-      let joinDialogComponent = this.isLoggedIn ? 'TeamSelectForm' : 'Login'
-      return joinDialogComponent
+      return this.isLoggedIn ? 'TeamSelectForm' : 'Login'
     },
     isLoggedIn() {
-      var isLoggedIn = this.$store.getters.user ? true : false
-      return isLoggedIn
+      return this.$store.getters.user ? true : false
     },
     loading() {
       return this.$store.getters.loading

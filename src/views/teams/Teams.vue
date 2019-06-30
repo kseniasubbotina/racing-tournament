@@ -38,6 +38,7 @@
                       width="100px"
                       align="middle"
                       style="margin-right: 5px"
+                      alt="team-logo"
                     >
                     <span class="subheading">{{ props.item.name }}</span>
                   </v-layout>
@@ -111,17 +112,16 @@ export default {
       this.$root.$emit('confirm', team)
     },
     openTeamFormDialog(team) {
+      let teamData = team
+      this.isNew = false
       if (!team.id) {
-        var teamData = {
+        teamData = {
           name: '',
           seria: 'F1',
           teamLogo: '',
           places: '2'
         }
         this.isNew = true
-      } else {
-        this.isNew = false
-        teamData = team
       }
       this.$root.$emit('openTeamFormDialog', teamData)
     },

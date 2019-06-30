@@ -67,12 +67,13 @@
 
 
 <script>
-import ChampExternalInfo from '@/components/championship/form/ChampExternalInfo.vue'
-import ChampInfoForm from '@/components/championship/form/ChampInfoForm.vue'
-import SessionSettingsForm from '@/components/championship/form/SessionSettingsForm.vue'
-import ChampCalendarForm from '@/components/championship/form/ChampCalendarForm.vue'
-import championships from '@/mixins/championship/championship.js'
-export default {
+  import ChampExternalInfo from '@/components/championship/form/ChampExternalInfo.vue'
+  import ChampInfoForm from '@/components/championship/form/ChampInfoForm.vue'
+  import SessionSettingsForm from '@/components/championship/form/SessionSettingsForm.vue'
+  import ChampCalendarForm from '@/components/championship/form/ChampCalendarForm.vue'
+  import championships from '@/mixins/championship/championship.js'
+
+  export default {
   name: 'ChampionshipForm',
   data: () => ({
     step: 1,
@@ -105,8 +106,7 @@ export default {
       return this.championship ? this.championship.calendar : []
     },
     isLoggedIn() {
-      var isLoggedIn = this.$store.getters.user ? true : false
-      return isLoggedIn
+      return this.$store.getters.user ? true : false
     }
   },
   methods: {

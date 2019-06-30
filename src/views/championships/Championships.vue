@@ -38,13 +38,13 @@
 </template>
 
 <script>
-import ChampionshipForm from '@/components/championship/form/ChampionshipForm'
-import fb from '@/firebase/config.js'
-import ChampionshipItem from '@/components/championship/ChampionshipItem'
-import isAdmin from '@/mixins/isAdmin.js'
-import NoChampionships from '@/components/championship/NoChampionships.vue'
+  import ChampionshipForm from '@/components/championship/form/ChampionshipForm'
+  import fb from '@/firebase/config.js'
+  import ChampionshipItem from '@/components/championship/ChampionshipItem'
+  import isAdmin from '@/mixins/isAdmin.js'
+  import NoChampionships from '@/components/championship/NoChampionships.vue'
 
-export default {
+  export default {
   name: 'Championships',
   data() {
     return {
@@ -64,8 +64,7 @@ export default {
   },
   computed: {
     isLoggedIn() {
-      var isLoggedIn = this.$store.getters.user ? true : false
-      return isLoggedIn
+      return this.$store.getters.user ? true : false
     },
     loading() {
       return this.$store.getters.loading

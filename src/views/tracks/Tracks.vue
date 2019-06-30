@@ -23,15 +23,15 @@
 </template>
 
 <script>
-import fb from '@/firebase/config.js'
-import Confirmation from '@/components/Confirmation.vue'
-import message from '@/components/Message.vue'
-import CountryFlag from '@/components/CountryFlag.vue'
-import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
-import TrackItem from '@/components/tracks/TrackItem.vue'
-import isAdmin from '@/mixins/isAdmin.js'
+  import fb from '@/firebase/config.js'
+  import Confirmation from '@/components/Confirmation.vue'
+  import message from '@/components/Message.vue'
+  import CountryFlag from '@/components/CountryFlag.vue'
+  import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
+  import TrackItem from '@/components/tracks/TrackItem.vue'
+  import isAdmin from '@/mixins/isAdmin.js'
 
-export default {
+  export default {
   data() {
     return {
       createDialog: false,
@@ -46,8 +46,7 @@ export default {
       return this.$store.getters.loading
     },
     isLoggedIn() {
-      var isLoggedIn = this.$store.getters.user ? true : false
-      return isLoggedIn
+      return this.$store.getters.user ? true : false
     }
   },
   created() {
@@ -71,8 +70,10 @@ export default {
       })
     },
     openForm(track) {
+      let trackData = track
+      this.isNew = false
       if (!track.id) {
-        var trackData = {
+        trackData = {
           name: '',
           country: '',
           firstGP: '',
@@ -82,9 +83,6 @@ export default {
           description: ''
         }
         this.isNew = true
-      } else {
-        this.isNew = false
-        var trackData = track
       }
       this.$root.$emit('openDialog', trackData)
     },

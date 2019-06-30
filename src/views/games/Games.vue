@@ -23,14 +23,14 @@
 </template>
 
 <script>
-import fb from '@/firebase/config.js'
-import GameForm from '@/components/games/GameForm.vue'
-import GameItem from '@/components/games/GameItem.vue'
-import Confirmation from '@/components/Confirmation.vue'
-import games from '@/mixins/games/games.js'
-import isAdmin from '@/mixins/isAdmin.js'
+  import fb from '@/firebase/config.js'
+  import GameForm from '@/components/games/GameForm.vue'
+  import GameItem from '@/components/games/GameItem.vue'
+  import Confirmation from '@/components/Confirmation.vue'
+  import games from '@/mixins/games/games.js'
+  import isAdmin from '@/mixins/isAdmin.js'
 
-export default {
+  export default {
   name: 'games',
   data() {
     return {
@@ -43,8 +43,7 @@ export default {
       return this.$store.getters.loading
     },
     isLoggedIn() {
-      var isLoggedIn = this.$store.getters.user ? true : false
-      return isLoggedIn
+      return this.$store.getters.user ? true : false
     }
   },
   created() {
@@ -55,8 +54,10 @@ export default {
       this.$root.$emit('confirm', game)
     },
     openForm(game) {
+      let gameData = game
+      this.isNew = false
       if (!game.documentId) {
-        var gameData = {
+        gameData = {
           name: '',
           releaseDate: '',
           platforms: [],
@@ -66,9 +67,6 @@ export default {
           webSite: ''
         }
         this.isNew = true
-      } else {
-        this.isNew = false
-        var gameData = game
       }
       this.$root.$emit('openGameDialog', gameData)
     },

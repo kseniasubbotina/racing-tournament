@@ -13,18 +13,18 @@
 </template>
 
 <script>
-import championships from '@/views/championships/Championships'
-import ActiveChampionships from '@/widgets/active-championships/ActiveChampionships'
-import Intro from '@/components/Intro.vue'
-export default {
+  import championships from '@/views/championships/Championships'
+  import ActiveChampionships from '@/widgets/active-championships/ActiveChampionships'
+  import Intro from '@/components/Intro.vue'
+
+  export default {
   name: 'home',
   computed: {
     currentUser () {
       return this.$store.getters.userData
     },
     isLoggedIn () {
-      var isLoggedIn = this.$store.getters.user ? true : false
-      return isLoggedIn
+      return this.$store.getters.user ? true : false
     }
   },
   components: {

@@ -44,12 +44,13 @@
 </template>
 
 <script>
-import UserAvatar from '@/components/user/UserAvatar.vue'
+  import UserAvatar from '@/components/user/UserAvatar.vue'
 
-import NavigationMenu from '@/components/NavigationMenu.vue'
-import Breadcrumbs from '@/components/Breadcrumbs.vue'
-import fb from './firebase/config.js'
-export default {
+  import NavigationMenu from '@/components/NavigationMenu.vue'
+  import Breadcrumbs from '@/components/Breadcrumbs.vue'
+  import fb from './firebase/config.js'
+
+  export default {
   props: {
     source: String
   },
@@ -67,8 +68,7 @@ export default {
       return this.$store.getters.loading
     },
     isLoggedIn() {
-      var isLoggedIn = this.$store.getters.user ? true : false
-      return isLoggedIn
+      return this.$store.getters.user ? true : false
     },
     userData() {
       let userData = this.$store.getters.userData

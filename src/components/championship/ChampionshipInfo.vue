@@ -38,7 +38,7 @@
           <router-link
             :to="'/user_' + _championship.author.username"
           >{{_championship.author.username}}</router-link>
-        </v-layout justify-start>
+        </v-layout>
       </v-flex>
     </v-layout>
 
@@ -86,9 +86,9 @@
 </template>
 
 <script>
-import UserAvatar from '@/components/user/UserAvatar.vue'
+  import UserAvatar from '@/components/user/UserAvatar.vue'
 
-export default {
+  export default {
   name: 'ChampionshipInfo',
   props: {
     _championship: Object,
@@ -124,8 +124,7 @@ export default {
   },
   methods: {
     assistColor (val) {
-      let color = val ? 'green' : 'red'
-      return color
+      return val ? 'green' : 'red'
     }
   },
   components: {

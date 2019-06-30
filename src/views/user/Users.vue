@@ -27,8 +27,8 @@
               <tr @click="props.expanded = !props.expanded">
                 <td class="text-xs-left">
                   <v-avatar size="32px" style="margin-right: 4px">
-                    <img v-if="props.item.avatarURL" :src="props.item.avatarURL">
-                    <img v-else src="http://pol.audio/media/user-avatar.png">
+                    <img v-if="props.item.avatarURL" :src="props.item.avatarURL" alt="user-avatar">
+                    <img v-else src="http://pol.audio/media/user-avatar.png" alt="user-avatar">
                   </v-avatar>
                   <span class="font-weight-bold">{{ props.item.username }}</span>
                 </td>
