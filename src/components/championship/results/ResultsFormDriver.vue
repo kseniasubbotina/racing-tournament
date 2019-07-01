@@ -3,7 +3,11 @@
     <v-form>
       <v-container v-if="_driver.userId">
         <v-layout align-center justify-center wrap>
-          <v-flex class="subheading" xs12 sm3>{{_driver.username}}[{{result.experience}}]</v-flex>
+          <v-flex
+            class="subheading"
+            xs12
+            sm3
+          >{{_driver.username}}({{_driver.team.name}})[{{result.experience}}]</v-flex>
 
           <v-flex sm7>
             <v-layout>
@@ -132,9 +136,12 @@ export default {
         if (newResult) {
           let result = {}
           result = newResult
-          if(result.dq || result.dnf || result.dns) {
+          if(result.dq || result.dnf) {
             result.finish = 0
+          }
+          if(result.dns) {
             result.start = 0
+            result.finish = 0
           }
           if(result.finish && result.start) {
             result.posDiff = result.start - result.finish
@@ -218,9 +225,6 @@ export default {
       this.$set(result, 'points', this.points)
       this.$set(result, 'experience', this.calcExperience())
       this.$emit('driverResultUpdate', result)
-    },
-    countScore () {
-      // 
     }
   },
   mixins: [
