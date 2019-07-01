@@ -2,8 +2,6 @@
   <div style="margin: 0 5px">
     <v-avatar :size="width">
       <div :style="avatarStyles"></div>
-      <!-- <img v-if="userData.avatarURL" :src="userData.avatarURL" alt>
-      <img v-else src="http://pol.audio/media/user-avatar.png" alt>-->
     </v-avatar>
   </div>
 </template>
@@ -16,12 +14,10 @@ export default {
   },
   computed: {
     avatarStyles() {
+      let imageUrl = this.userData.avatarURL || 'http://pol.audio/media/user-avatar.png'
       return {
-        // width: this.width,
-        // height: this.width,
-        // margin: '5px 5px',
         'border-radius': '100px',
-        backgroundImage: 'url(' + this.userData.avatarURL + ')',
+        backgroundImage: 'url(' + imageUrl + ')',
         height: this.width + 'px',
         width: this.width + 'px',
         backgroundPosition: 'center center',
