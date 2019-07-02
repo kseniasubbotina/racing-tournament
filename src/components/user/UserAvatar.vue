@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     avatarStyles() {
-      let imageUrl = this.userData.avatarURL || 'http://pol.audio/media/user-avatar.png'
+      let imageUrl = this.userData ? this.userData.avatarURL : 'http://pol.audio/media/user-avatar.png'
       return {
         'border-radius': '100px',
         backgroundImage: 'url(' + imageUrl + ')',
