@@ -4,7 +4,7 @@
       <v-container v-if="_driver.userId">
         <v-layout align-center justify-center wrap>
           <v-flex class="subheading" xs12 sm3>
-            {{_driver.username}}[{{this._results[this._driver.userId][this._stage.trackDocumentId].experience}}]
+            {{_driver.username}}
             <div class="caption">{{_driver.team.name}}</div>
           </v-flex>
 
@@ -84,7 +84,10 @@
             ></v-text-field>
           </v-flex>
 
-          <v-flex sm1>PTS: {{points}}</v-flex>
+          <v-flex sm1>
+            <div>PTS: {{points}}</div>
+            <div class="caption grey--text">Exp: {{result.experience}}</div>
+          </v-flex>
         </v-layout>
       </v-container>
     </v-form>
@@ -130,6 +133,7 @@ export default {
     raceExperience (experience) { /* Watch to update other drivers experiences which depends on position of this driver */
       let result = this.result
       result.experience = experience
+      result.driver = this._driver
       this.updateResult(this.isBestLap, result)
     },
     result: {
