@@ -177,10 +177,18 @@ export default {
         let resultsArr = Object.values(results)
         function compare(a, b) {
           if (a[trackDocumentId] && b[trackDocumentId]) {
-            if (a[trackDocumentId].bestLapTime < b[trackDocumentId].bestLapTime)
+            if (a[trackDocumentId].bestLapTime && !b[trackDocumentId].bestLapTime) {
               return -1
-            if (a[trackDocumentId].bestLapTime > b[trackDocumentId].bestLapTime)
+            }
+            if (b[trackDocumentId].bestLapTime && !a[trackDocumentId].bestLapTime) {
               return 1
+            }
+            if (a[trackDocumentId].bestLapTime < b[trackDocumentId].bestLapTime) {
+              return -1
+            }
+            if (a[trackDocumentId].bestLapTime > b[trackDocumentId].bestLapTime) {
+              return 1
+            }
             return 0
           } else {
             return 0
