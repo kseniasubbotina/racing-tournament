@@ -1,5 +1,7 @@
 <template>
   <div class="championship-standings">
+    <div class="my-3 text-xs-left headline">Driver standings</div>
+
     <!-- Headers below -->
 
     <v-layout column>
