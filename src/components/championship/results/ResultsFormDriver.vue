@@ -3,7 +3,10 @@
     <v-form>
       <v-container v-if="_driver.userId">
         <v-layout align-center justify-center wrap>
-          <v-flex class="subheading" xs12 sm3>{{_driver.username}}[{{result.experience}}]</v-flex>
+          <v-flex class="subheading" xs12 sm3>
+            {{_driver.username}}
+            <div class="caption">{{_driver.team.name}}</div>
+          </v-flex>
 
           <v-flex sm7>
             <v-layout>
@@ -81,7 +84,10 @@
             ></v-text-field>
           </v-flex>
 
-          <v-flex sm1>PTS: {{points}}</v-flex>
+          <v-flex sm1>
+            <div>PTS: {{points}}</div>
+            <div class="caption grey--text">Exp: {{result.experience}}</div>
+          </v-flex>
         </v-layout>
       </v-container>
     </v-form>
@@ -107,7 +113,7 @@ export default {
         dnf: false,
         dns: false,
         isBestLap: false,
-        score: null,
+        experience: null,
         posDiff: null
       }
     }
@@ -127,14 +133,24 @@ export default {
     isBestLap (val) {
       this.updateResult(val, this.result)
     },
+    raceExperience (experience) { /* Watch to update other drivers experiences which depends on position of this driver */
+      let result = this.result
+      result.experience = experience
+      result.driver = this._driver
+      this.updateResult(this.isBestLap, result)
+    },
     result: {
       handler: function(newResult) {
         if (newResult) {
           let result = {}
           result = newResult
-          if(result.dq || result.dnf || result.dns) {
+          if(result.dq || result.dnf) {
             result.finish = 0
-            result.start = 0
+          }
+          if(result.dns) {
+            result.start = ''
+            result.finish = ''
+            result.bestLapTime = ''
           }
           if(result.finish && result.start) {
             result.posDiff = result.start - result.finish
@@ -161,10 +177,18 @@ export default {
         let resultsArr = Object.values(results)
         function compare(a, b) {
           if (a[trackDocumentId] && b[trackDocumentId]) {
-            if (a[trackDocumentId].bestLapTime < b[trackDocumentId].bestLapTime)
+            if (a[trackDocumentId].bestLapTime && !b[trackDocumentId].bestLapTime) {
               return -1
-            if (a[trackDocumentId].bestLapTime > b[trackDocumentId].bestLapTime)
+            }
+            if (b[trackDocumentId].bestLapTime && !a[trackDocumentId].bestLapTime) {
               return 1
+            }
+            if (a[trackDocumentId].bestLapTime < b[trackDocumentId].bestLapTime) {
+              return -1
+            }
+            if (a[trackDocumentId].bestLapTime > b[trackDocumentId].bestLapTime) {
+              return 1
+            }
             return 0
           } else {
             return 0
@@ -216,11 +240,8 @@ export default {
     updateResult (isBestLap, result) {
       this.$set(result, 'isBestLap', isBestLap)
       this.$set(result, 'points', this.points)
-      this.$set(result, 'experience', this.calcExperience())
       this.$emit('driverResultUpdate', result)
-    },
-    countScore () {
-      // 
+      this.$set(result, 'experience', this.raceExperience)
     }
   },
   mixins: [
