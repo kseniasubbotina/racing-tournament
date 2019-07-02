@@ -130,6 +130,9 @@ export default {
     this.fillForm()
   },
   watch: {
+    isBestLap (val) {
+      this.updateResult(val, this.result)
+    },
     raceExperience (experience) { /* Watch to update other drivers experiences which depends on position of this driver */
       let result = this.result
       result.experience = experience
@@ -145,8 +148,9 @@ export default {
             result.finish = 0
           }
           if(result.dns) {
-            result.start = 0
-            result.finish = 0
+            result.start = ''
+            result.finish = ''
+            result.bestLapTime = ''
           }
           if(result.finish && result.start) {
             result.posDiff = result.start - result.finish

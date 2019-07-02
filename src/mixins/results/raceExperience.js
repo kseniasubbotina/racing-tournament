@@ -64,10 +64,6 @@ export default {
       if (teammateFinish && driverFinish < teammateFinish) {
         experience = experience + 3
       }
-      // 1 point for finished a race 
-      if (!this.result.dq && !this.result.dnf && !this.result.dns && this.finish) {
-        experience = experience + 1
-      }
       // points for lost positions
       if (posDiff <= 0) {
         if (Number(driverStart) <= 10) {
@@ -93,7 +89,9 @@ export default {
           experience = experience + posDiff * 2
         }
       }
-      // this.$emit('experienceChanged', experience)
+      if (this.result.dq || this.result.dns) {
+        experience = 0
+      }
       return experience
     }
   }
