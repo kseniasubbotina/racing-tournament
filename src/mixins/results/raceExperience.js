@@ -27,8 +27,8 @@ export default {
       }
     }
   },
-  methods: {
-    calcExperience() {
+  computed: {
+    raceExperience() {
       var experience = 0
       var teammateId = this.teammate ? this.teammate.userId : null
       var stageId = this._stage.trackDocumentId
@@ -46,8 +46,11 @@ export default {
         experience = experience + this.qualyExperience[driverStart]
       }
       // points for race
-      if (driverStart && driverFinish && driverFinish <= 10) {
-        experience = experience + this.finishExperience[driverFinish] || 0
+      if (driverStart && driverFinish) {
+        experience = experience + 1
+        if (driverFinish <= 10) {
+          experience = experience + this.finishExperience[driverFinish]
+        }
       }
       // points for fastest lap
       if (this.isBestLap) {
@@ -60,8 +63,6 @@ export default {
       // ahead of a teammate in race
       if (teammateFinish && driverFinish < teammateFinish) {
         experience = experience + 3
-        console.log('+3 ' + result.driver.username);
-
       }
       // 1 point for finished a race 
       if (!this.result.dq && !this.result.dnf && !this.result.dns && this.finish) {

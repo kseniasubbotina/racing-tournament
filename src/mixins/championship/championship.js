@@ -60,7 +60,6 @@ export default {
         .then(doc => {
           console.log(doc.data())
           // querySnapshot.forEach(doc => {
-          //   debugger
           // })
         })
     },

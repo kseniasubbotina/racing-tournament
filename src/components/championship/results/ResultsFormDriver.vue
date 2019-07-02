@@ -3,11 +3,10 @@
     <v-form>
       <v-container v-if="_driver.userId">
         <v-layout align-center justify-center wrap>
-          <v-flex
-            class="subheading"
-            xs12
-            sm3
-          >{{_driver.username}}({{_driver.team.name}})[{{result.experience}}]</v-flex>
+          <v-flex class="subheading" xs12 sm3>
+            {{_driver.username}}[{{this._results[this._driver.userId][this._stage.trackDocumentId].experience}}]
+            <div class="caption">{{_driver.team.name}}</div>
+          </v-flex>
 
           <v-flex sm7>
             <v-layout>
@@ -111,7 +110,7 @@ export default {
         dnf: false,
         dns: false,
         isBestLap: false,
-        score: null,
+        experience: null,
         posDiff: null
       }
     }
@@ -128,8 +127,10 @@ export default {
     this.fillForm()
   },
   watch: {
-    isBestLap (val) {
-      this.updateResult(val, this.result)
+    raceExperience (experience) { /* Watch to update other drivers experiences which depends on position of this driver */
+      let result = this.result
+      result.experience = experience
+      this.updateResult(this.isBestLap, result)
     },
     result: {
       handler: function(newResult) {
@@ -223,8 +224,8 @@ export default {
     updateResult (isBestLap, result) {
       this.$set(result, 'isBestLap', isBestLap)
       this.$set(result, 'points', this.points)
-      this.$set(result, 'experience', this.calcExperience())
       this.$emit('driverResultUpdate', result)
+      this.$set(result, 'experience', this.raceExperience)
     }
   },
   mixins: [
