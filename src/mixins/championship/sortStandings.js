@@ -21,7 +21,6 @@ export default {
       resultsArr = resultsArr.filter(user => Object.values(user)[0].bestLapTime !== undefined)
       // sort by total pts
       resultsArr.sort(this.compare)
-
       return resultsArr
     },
     compare(a, b) {

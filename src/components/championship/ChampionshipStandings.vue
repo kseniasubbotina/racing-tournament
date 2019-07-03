@@ -5,7 +5,7 @@
     <!-- Headers below -->
 
     <v-layout column>
-      <v-layout class="hidden-xs" align-center>
+      <v-layout class="hidden-xs text-xs-left" align-center>
         <v-flex xs1>Pos.</v-flex>
         <v-flex xs5 md2>Username</v-flex>
         <v-flex xs5 md2>Team</v-flex>
@@ -30,7 +30,7 @@
         <template v-for="(user, index) in sortedResults">
           <v-layout
             align-center
-            class="championship-standings_row py-1"
+            class="championship-standings_row text-xs-left py-1"
             :class="{'removed':isDriverRemoved(user)}"
             v-if="_drivers"
             :key="index"
@@ -102,10 +102,12 @@
       </template>
       <!-- Drivers with no results above -->
     </v-layout>
+    <ConstructorStandings :results="_results"/>
   </div>
 </template>
 
 <script>
+  import ConstructorStandings from '@/components/championship/ConstructorStandings.vue'
   import CountryFlag from '@/components/CountryFlag.vue'
   import sortStandings from '@/mixins/championship/sortStandings.js'
 
@@ -182,7 +184,8 @@
     sortStandings
   ],
   components: {
-    CountryFlag
+    CountryFlag,
+    ConstructorStandings
   }
 }
 </script>
