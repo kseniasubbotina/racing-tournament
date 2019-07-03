@@ -165,7 +165,7 @@ export default {
   computed: {
     teammate () {
       let driversArray = Object.values(this._drivers)
-      let teammate = driversArray.filter(driver => driver.team.name === this._driver.team.name 
+      let teammate = driversArray.filter(driver => driver.team.name === this._driver.team.name
       && driver.userId !== this._driver.userId)[0]
       return teammate
     },
@@ -217,18 +217,10 @@ export default {
       }
     },
     isDnf () {
-      if (this.result) {
-        return this.result.dnf
-      } else {
-        return false
-      }
+      return this.result ? this.result.dnf : false;
     },
     isDns () {
-      if (this.result) {
-        return this.result.dns
-      } else {
-        return false
-      }
+      return this.result ? this.result.dns : false;
     }
   },
   methods: {
