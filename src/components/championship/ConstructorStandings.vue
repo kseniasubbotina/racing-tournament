@@ -6,7 +6,11 @@
       <v-flex>Team</v-flex>
       <v-flex class="text-xs-right">Points</v-flex>
     </v-layout>
-    <v-layout class="championship-standings_row text-xs-left" v-for="(team, i) in constructors">
+    <v-layout
+      class="championship-standings_row text-xs-left"
+      v-for="(team, i) in constructors"
+      :key="i"
+    >
       <v-flex xs1>{{i+1}}</v-flex>
       <v-flex>{{team.name}}</v-flex>
       <v-flex class="text-xs-right">{{team.points}}</v-flex>
