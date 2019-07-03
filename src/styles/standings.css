@@ -31,10 +31,23 @@
 }
 .championship-standings .position-3 {
   color: #fff;
-  background: #bb6c00;
+  background: #cd7f32;
 }
 .championship-standings .best-lap {
-  border: 2px solid #c002c0;
+  border-top: 2px solid #c002c0;
+  border-right: 2px solid #c002c0;
+  position: relative;
+}
+.championship-standings .best-lap::before {
+  height: 9px;
+  width: 9px;
+  background-color: #c002c0;
+  /* display: block; */
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  border-radius: 100%;
 }
 .championship-standings_row:hover {
   background-color: rgba(148, 148, 148, 0.26);

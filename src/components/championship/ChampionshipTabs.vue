@@ -1,6 +1,6 @@
 <template>
   <v-flex xs12>
-    <v-tabs touchless show-arrows>
+    <v-tabs centered touchless show-arrows>
       <v-tabs-slider color="red"></v-tabs-slider>
       <template v-for="item in tabs">
         <v-tab v-if="isTabVisible(item.public)" :key="item.name">{{ item.name }}</v-tab>

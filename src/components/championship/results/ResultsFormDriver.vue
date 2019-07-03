@@ -3,7 +3,11 @@
     <v-form>
       <v-container v-if="_driver.userId">
         <v-layout align-center justify-center wrap>
-          <v-flex class="subheading" xs12 sm3>{{_driver.username}}</v-flex>
+          <v-flex class="subheading" xs12 sm3>
+            {{_driver.username}}
+            <div class="caption">{{_driver.team.name}}</div>
+          </v-flex>
+
           <v-flex sm7>
             <v-layout>
               <v-checkbox
@@ -80,7 +84,10 @@
             ></v-text-field>
           </v-flex>
 
-          <v-flex sm1>PTS: {{points}}</v-flex>
+          <v-flex sm1>
+            <div>PTS: {{points}}</div>
+            <div class="caption grey--text">Exp: {{result.experience}}</div>
+          </v-flex>
         </v-layout>
       </v-container>
     </v-form>
@@ -91,6 +98,7 @@
 import PositionDiff from '@/components/championship/results/PositionDiff.vue'
 import BestLapIndicator from '@/components/championship/results/BestLapIndicator.vue'
 import pointsSystem from '@/config/points-systems.js'
+import raceExperience from '@/mixins/results/raceExperience.js'
 
 export default {
   name: 'ResultsFormDriver',
@@ -104,13 +112,16 @@ export default {
         dq: false,
         dnf: false,
         dns: false,
-        isBestLap: false
+        isBestLap: false,
+        experience: null,
+        posDiff: null
       }
     }
   },
   props: {
+    _drivers: Object,
     _driver: Object,
-    _isBestLap: Boolean,
+    // _isBestLap: Boolean,
     _results: Object,
     _stage: Object,
     _fastestLapPoint: Boolean
@@ -119,13 +130,30 @@ export default {
     this.fillForm()
   },
   watch: {
+    isBestLap (val) {
+      this.updateResult(val, this.result)
+    },
+    raceExperience (experience) { /* Watch to update other drivers experiences which depends on position of this driver */
+      let result = this.result
+      result.experience = experience
+      result.driver = this._driver
+      this.updateResult(this.isBestLap, result)
+    },
     result: {
       handler: function(newResult) {
         if (newResult) {
           let result = {}
           result = newResult
-          if(result.dq || result.dnf || result.dns) {
+          if(result.dq || result.dnf) {
             result.finish = 0
+          }
+          if(result.dns) {
+            result.start = ''
+            result.finish = ''
+            result.bestLapTime = ''
+          }
+          if(result.finish && result.start) {
+            result.posDiff = result.start - result.finish
           }
           result.driver = this._driver
           this.updateResult(this.isBestLap, result)
@@ -135,6 +163,12 @@ export default {
     }
   },
   computed: {
+    teammate () {
+      let driversArray = Object.values(this._drivers)
+      let teammate = driversArray.filter(driver => driver.team.name === this._driver.team.name 
+      && driver.userId !== this._driver.userId)[0]
+      return teammate
+    },
     isBestLap () {
       let trackDocumentId = this._stage.trackDocumentId
       let results = this._results
@@ -143,17 +177,25 @@ export default {
         let resultsArr = Object.values(results)
         function compare(a, b) {
           if (a[trackDocumentId] && b[trackDocumentId]) {
-            if (a[trackDocumentId].bestLapTime < b[trackDocumentId].bestLapTime)
+            if (a[trackDocumentId].bestLapTime && !b[trackDocumentId].bestLapTime) {
               return -1
-            if (a[trackDocumentId].bestLapTime > b[trackDocumentId].bestLapTime)
+            }
+            if (b[trackDocumentId].bestLapTime && !a[trackDocumentId].bestLapTime) {
               return 1
+            }
+            if (a[trackDocumentId].bestLapTime < b[trackDocumentId].bestLapTime) {
+              return -1
+            }
+            if (a[trackDocumentId].bestLapTime > b[trackDocumentId].bestLapTime) {
+              return 1
+            }
             return 0
           } else {
             return 0
           }
         }
         resultsArr.sort(compare)
-        if(resultsArr[0][trackDocumentId] && resultsArr[0][trackDocumentId].bestLapTime && resultsArr[0][trackDocumentId].bestLapTime === stageResult.bestLapTime) {
+        if(resultsArr[0] && resultsArr[0][trackDocumentId] && resultsArr[0][trackDocumentId].bestLapTime && resultsArr[0][trackDocumentId].bestLapTime === stageResult.bestLapTime) {
           return true
         } else {
           return false
@@ -199,8 +241,12 @@ export default {
       this.$set(result, 'isBestLap', isBestLap)
       this.$set(result, 'points', this.points)
       this.$emit('driverResultUpdate', result)
+      this.$set(result, 'experience', this.raceExperience)
     }
   },
+  mixins: [
+    raceExperience
+  ],
   components: {
     PositionDiff,
     BestLapIndicator
