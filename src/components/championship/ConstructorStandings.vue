@@ -1,15 +1,12 @@
 <template>
   <div class="championship-standings">
     <div class="my-3 text-xs-left headline">Constructor standings</div>
-    <v-layout class="text-xs-left" justify-start>
+    <v-layout class="text-xs-left championship-standings_header" justify-start>
       <v-flex xs1>Pos.</v-flex>
       <v-flex>Team</v-flex>
       <v-flex class="text-xs-right">Points</v-flex>
     </v-layout>
-    <v-layout
-      class="championship-standings_row text-xs-left py-1"
-      v-for="(team, i) in constructors"
-    >
+    <v-layout class="championship-standings_row text-xs-left" v-for="(team, i) in constructors">
       <v-flex xs1>{{i+1}}</v-flex>
       <v-flex>{{team.name}}</v-flex>
       <v-flex class="text-xs-right">{{team.points}}</v-flex>

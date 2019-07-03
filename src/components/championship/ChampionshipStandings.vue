@@ -5,7 +5,7 @@
     <!-- Headers below -->
 
     <v-layout column>
-      <v-layout class="hidden-xs text-xs-left" align-center>
+      <v-layout class="hidden-xs text-xs-left championship-standings_header" align-center>
         <v-flex xs1>Pos.</v-flex>
         <v-flex xs5 md2>Username</v-flex>
         <v-flex xs5 md2>Team</v-flex>
@@ -19,7 +19,7 @@
             <CountryFlag :_country="header.text" :_width="30"/>
             {{header.text}}
           </v-flex>
-          <v-flex xs1 v-else :key="index">{{header.text}}</v-flex>
+          <v-flex class="text-xs-right" xs1 v-else :key="index">{{header.text}}</v-flex>
         </template>
       </v-layout>
 
@@ -30,7 +30,7 @@
         <template v-for="(user, index) in sortedResults">
           <v-layout
             align-center
-            class="championship-standings_row text-xs-left py-1"
+            class="championship-standings_row text-xs-left"
             :class="{'removed':isDriverRemoved(user)}"
             v-if="_drivers"
             :key="index"
@@ -44,12 +44,18 @@
               </v-flex>
               <v-flex xs5 md2 class="championship-standings_team">
                 <div v-if="!isDriverRemoved(user)">
-                  <img :src="findDriverTeam(user).teamLogo" width="100" alt>
+                  <!-- <img :src="findDriverTeam(user).teamLogo" width="100" alt> -->
+                  {{findDriverTeam(user).name}}
                 </div>
                 <div v-else></div>
               </v-flex>
 
-              <v-flex xs1 v-for="stage in _championship.calendar" :key="stage.id">
+              <v-flex
+                class="championship-standings_cell"
+                xs1
+                v-for="stage in _championship.calendar"
+                :key="stage.id"
+              >
                 <div v-if="user[stage.trackDocumentId] !== undefined" class="hidden-xs" xs1>
                   <span v-if="user[stage.trackDocumentId].dnf">DNF</span>
                   <span v-else-if="user[stage.trackDocumentId].dns">DNS</span>
