@@ -7,8 +7,8 @@
     <v-layout column>
       <v-layout class="hidden-xs text-xs-left championship-standings_header" align-center>
         <v-flex xs1>Pos.</v-flex>
-        <v-flex xs5 md2>Username</v-flex>
-        <v-flex xs5 md2>Team</v-flex>
+        <v-flex xs5 sm2 md2>Username</v-flex>
+        <v-flex>Team</v-flex>
         <template v-for="(header, index) in headers">
           <v-flex
             xs1
@@ -37,12 +37,12 @@
           >
             <template v-if="Object.values(user)[0].driver">
               <v-flex xs1>{{index+1}}</v-flex>
-              <v-flex class="championship-standings_username" xs5 md2>
+              <v-flex class="championship-standings_username" xs5 sm2 md2>
                 <router-link
                   :to="'/user_' + Object.values(user)[0].driver.username"
                 >{{Object.values(user)[0].driver.username}}</router-link>
               </v-flex>
-              <v-flex xs5 md2 class="championship-standings_team">
+              <v-flex class="championship-standings_team">
                 <div v-if="!isDriverRemoved(user)">
                   <!-- <img :src="findDriverTeam(user).teamLogo" width="100" alt> -->
                   {{findDriverTeam(user).name}}
