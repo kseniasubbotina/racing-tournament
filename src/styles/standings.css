@@ -3,13 +3,21 @@
   font-size: 12px;
   text-align: center;
 }
+.championship-standings_header {
+  margin-bottom: 20px;
+}
 .championship-standings_country {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-align: center;
 }
 .championship-standings_total-value {
   flex-shrink: 0;
+  text-align: right;
+}
+.championship-standings_cell {
+  text-align: center;
 }
 
 @media screen and (max-width: 768px) {
@@ -48,6 +56,9 @@
   top: -4px;
   right: -4px;
   border-radius: 100%;
+}
+.championship-standings_row {
+  padding: 4px 10px;
 }
 .championship-standings_row:hover {
   background-color: rgba(148, 148, 148, 0.26);

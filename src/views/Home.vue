@@ -8,11 +8,13 @@
       :showMessage="false"
       :userData="currentUser"
     />
-    <championships :showAddButton="false"/>
+    <h3 class="my-3">Available Championships</h3>
+    <ChampionshipsList :showAddButton="false"/>
   </div>
 </template>
 
 <script>
+  import ChampionshipsList from '@/components/championship/ChampionshipsList.vue'
   import championships from '@/views/championships/Championships'
   import ActiveChampionships from '@/widgets/active-championships/ActiveChampionships'
   import Intro from '@/components/Intro.vue'
@@ -28,6 +30,7 @@
     }
   },
   components: {
+    ChampionshipsList,
     championships,
     ActiveChampionships,
     Intro
