@@ -90,20 +90,28 @@
       <!-- Drivers with no results below -->
       <template v-for="(driver, index) in _drivers">
         <v-layout
-          class="championship-standings_row py-1"
+          class="championship-standings_row text-xs-left py-1"
           align-center
           v-if="!_results[driver.userId]"
           :key="index"
         >
-          <v-flex xs1>-</v-flex>
-          <v-flex class="championship-standings_username" xs5 md2>
+          <v-flex class="text-xs-left" xs1>-</v-flex>
+          <v-flex class="championship-standings_username" xs5 sm2 md2>
             <router-link :to="'/user_' + driver.username">{{driver.username}}</router-link>
           </v-flex>
-          <v-flex xs5 md2>
-            <img :src="driver.team.teamLogo" width="100" alt>
+          <v-flex class="championship-standings_team">
+            <!-- <img :src="driver.team.teamLogo" width="100" alt> -->
+            {{driver.team.name}}
           </v-flex>
-          <v-flex xs1 v-for="(stage, index) in _championship.calendar" :key="index">-</v-flex>
-          <v-flex xs1>0</v-flex>
+          <v-flex
+            class="championship-standings_cell"
+            xs1
+            v-for="(stage, index) in _championship.calendar"
+            :key="index"
+          >
+            <span class="hidden-xs">-</span>
+          </v-flex>
+          <v-flex class="championship-standings_total-value" xs1>0</v-flex>
         </v-layout>
       </template>
       <!-- Drivers with no results above -->
