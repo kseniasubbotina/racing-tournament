@@ -23,7 +23,11 @@
           <v-tabs centered show-arrows>
             <v-tabs-slider color="red"></v-tabs-slider>
             <template v-for="(item, index) in tabs">
-              <v-tab v-if="item.public || !isGuest && !item.public" :key="index">{{ item.name }}</v-tab>
+              <v-tab
+                :disabled="item.disabled"
+                v-if="item.public || !isGuest && !item.public"
+                :key="index"
+              >{{ item.name }}</v-tab>
             </template>
             <v-tabs-items>
               <v-tab-item v-for="item in tabs" :id="item.name" :key="item.name">
@@ -76,7 +80,8 @@ export default {
         {
           name: 'Statistic',
           componentName: 'userStatistic',
-          public: true
+          public: true,
+          disabled: true
         },
         {
           name: 'Settings',
