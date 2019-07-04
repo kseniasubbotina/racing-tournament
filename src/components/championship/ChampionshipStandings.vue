@@ -37,18 +37,19 @@
           >
             <template v-if="Object.values(user)[0].driver">
               <v-flex xs1>{{index+1}}</v-flex>
-              <v-flex class="championship-standings_username" xs5 sm2 md2>
+              <v-flex class="championship-standings_username">
                 <router-link
+                  class="body-2"
                   :to="'/user_' + Object.values(user)[0].driver.username"
                 >{{Object.values(user)[0].driver.username}}</router-link>
+                <div class="caption" v-if="!isDriverRemoved(user)">{{findDriverTeam(user).name}}</div>
               </v-flex>
-              <v-flex class="championship-standings_team">
+              <!-- <v-flex class="championship-standings_team">
                 <div v-if="!isDriverRemoved(user)">
-                  <!-- <img :src="findDriverTeam(user).teamLogo" width="100" alt> -->
                   {{findDriverTeam(user).name}}
                 </div>
                 <div v-else></div>
-              </v-flex>
+              </v-flex>-->
 
               <v-flex
                 class="championship-standings_cell"
@@ -90,20 +91,28 @@
       <!-- Drivers with no results below -->
       <template v-for="(driver, index) in _drivers">
         <v-layout
-          class="championship-standings_row py-1"
+          class="championship-standings_row text-xs-left py-1"
           align-center
           v-if="!_results[driver.userId]"
           :key="index"
         >
-          <v-flex xs1>-</v-flex>
-          <v-flex class="championship-standings_username" xs5 md2>
+          <v-flex class="text-xs-left" xs1>-</v-flex>
+          <v-flex class="championship-standings_username">
             <router-link :to="'/user_' + driver.username">{{driver.username}}</router-link>
+            <div>{{driver.team.name}}</div>
           </v-flex>
-          <v-flex xs5 md2>
-            <img :src="driver.team.teamLogo" width="100" alt>
+          <!-- <v-flex class="championship-standings_team">
+            {{driver.team.name}}
+          </v-flex>-->
+          <v-flex
+            class="championship-standings_cell"
+            xs1
+            v-for="(stage, index) in _championship.calendar"
+            :key="index"
+          >
+            <span class="hidden-xs">-</span>
           </v-flex>
-          <v-flex xs1 v-for="(stage, index) in _championship.calendar" :key="index">-</v-flex>
-          <v-flex xs1>0</v-flex>
+          <v-flex class="championship-standings_total-value" xs1>0</v-flex>
         </v-layout>
       </template>
       <!-- Drivers with no results above -->

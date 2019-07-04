@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-container>
-      <v-layout justify-center align-center column>
+      <v-layout class="text-xs-center" justify-center align-center column>
         <h1>Welcome to F1-esport.com</h1>
         <v-flex
           class="text-xs-center subheading mb-3"

@@ -43,7 +43,19 @@
           }
           constructorsArray.push(constructor)
         }
+        constructorsArray.sort(this.compareConstructors)
         return constructorsArray
+      }
+    },
+    methods: {
+      compareConstructors(a, b) {
+        if (a.points && b.points) {
+          if (a.points > b.points)
+            return -1
+          if (a.points < b.points)
+            return 1
+          return 0
+        }
       }
     },
     mixins: [
