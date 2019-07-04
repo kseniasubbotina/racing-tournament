@@ -14,40 +14,56 @@
       </div>
       <v-card>
         <v-container>
+          <h1>{{gameData.name}}</h1>
           <v-layout>
-            <v-flex pa-1 xs12 lg8>
-              <h1>{{gameData.name}}</h1>
+            <v-flex pa-1>
               <div>
+                <span class="body">Release date:</span>
+                <div class="subheading">{{gameData.releaseDate}}</div>
+              </div>
+            </v-flex>
+            <v-flex xs6>
+              <div>
+                <span>Developer:</span>
+                <div class="subheading">{{gameData.developer}}</div>
+              </div>
+            </v-flex>
+          </v-layout>
+          <v-layout>
+            <v-flex xs6>
+              <div>
+                <span>Platforms:</span>
                 <div>
-                  <span class="body-2">Release date:</span>
-                  {{gameData.releaseDate}}
+                  <v-chip
+                    v-for="platform in gameData.platforms"
+                    :key="platform.id"
+                    class="subheading"
+                    color="blue"
+                    disabled
+                    text-color="white"
+                  >{{platform}}</v-chip>
                 </div>
-                <div>
-                  <span class="body-2">Platforms:</span>
-                  <span v-for="platform in gameData.platforms" :key="platform.id">{{platform}}</span>
-                </div>
-                <div>
-                  <span class="body-2">Developer:</span>
-                  {{gameData.developer}}
-                </div>
-                <div>
-                  <span class="body-2">Publisher:</span>
-                  {{gameData.publisher}}
-                </div>
-                <div>
-                  <span class="body-2">Website:</span>
+              </div>
+            </v-flex>
+            <v-flex xs6>
+              <div>
+                <span>Website:</span>
+                <div class="subheading">
                   <a :href="gameData.webSite">{{gameData.webSite}}</a>
                 </div>
               </div>
             </v-flex>
-            <v-flex pa-1 xs12 lg4>
-              <img :src="gameData.coverImageUrl" width="100%" alt>
+          </v-layout>
+          <v-layout>
+            <v-flex>
+              <span>Description:</span>
+              <div v-html="gameData.description"></div>
             </v-flex>
           </v-layout>
-          <v-divider></v-divider>
+          <!-- <v-divider></v-divider>
           <v-layout justify-center>
             <span class="subheading grey--text">Work in progress</span>
-          </v-layout>
+          </v-layout>-->
 
           <GameForm :_gameData="gameData" @imageDeleted="gameData.coverImageUrl=''"/>
         </v-container>

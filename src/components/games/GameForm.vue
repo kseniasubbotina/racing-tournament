@@ -84,6 +84,10 @@
                 v-model="gameData.webSite"
               ></v-text-field>
             </v-flex>
+            <v-flex xs12>
+              <div class="mt-2">Description</div>
+              <vue-editor v-model="gameData.description" :editorToolbar="customToolbar"></vue-editor>
+            </v-flex>
             <ImageInput
               v-if="gameDialog"
               :_url="gameData.coverImageUrl"
@@ -124,7 +128,11 @@ export default {
       gameData: {},
       selectedFile: null,
       imageLoading: false,
-      gameDialog: false
+      gameDialog: false,
+      customToolbar: [
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }]
+      ]
     }
   },
   props: {
