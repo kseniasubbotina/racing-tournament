@@ -17,7 +17,7 @@
             :key="index"
           >
             <CountryFlag :_country="header.text" :_width="30"/>
-            {{header.text}}
+            <span class="caption">{{header.text}}</span>
           </v-flex>
           <v-flex class="text-xs-right" xs1 v-else :key="index">{{header.text}}</v-flex>
         </template>
@@ -39,7 +39,7 @@
               <v-flex xs1>{{index+1}}</v-flex>
               <v-flex class="championship-standings_username">
                 <router-link
-                  class="body-2"
+                  class="body-1"
                   :to="'/user_' + Object.values(user)[0].driver.username"
                 >{{Object.values(user)[0].driver.username}}</router-link>
                 <div class="caption" v-if="!isDriverRemoved(user)">{{findDriverTeam(user).name}}</div>
@@ -80,7 +80,7 @@
               <v-flex>
                 <v-icon>block</v-icon>
               </v-flex>
-              <v-flex class="subheading" justify-center>No drivers in championship</v-flex>
+              <v-flex class="body-1" justify-center>No drivers in championship</v-flex>
             </v-layout>
           </v-card-text>
         </v-card>
@@ -98,7 +98,7 @@
         >
           <v-flex class="text-xs-left" xs1>-</v-flex>
           <v-flex class="championship-standings_username">
-            <router-link :to="'/user_' + driver.username">{{driver.username}}</router-link>
+            <router-link class="body-1" :to="'/user_' + driver.username">{{driver.username}}</router-link>
             <div>{{driver.team.name}}</div>
           </v-flex>
           <!-- <v-flex class="championship-standings_team">
