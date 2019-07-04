@@ -34,7 +34,8 @@
       <v-layout wrap>
         <v-flex xs6 lg4>
           <div class="caption">Team:</div>
-          <img :src="team.teamLogo" alt width="100">
+          <!-- <img :src="team.teamLogo" alt width="100"> -->
+          <h3>{{team.name}}</h3>
         </v-flex>
         <v-flex xs6 lg2>
           <span class="caption">Position:</span>

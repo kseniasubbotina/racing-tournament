@@ -1,12 +1,14 @@
 <template>
   <div class="championship-standings">
+    <div class="my-3 text-xs-left headline">Driver standings</div>
+
     <!-- Headers below -->
 
     <v-layout column>
-      <v-layout class="hidden-xs" align-center>
+      <v-layout class="hidden-xs text-xs-left championship-standings_header" align-center>
         <v-flex xs1>Pos.</v-flex>
-        <v-flex xs5 md2>Username</v-flex>
-        <v-flex xs5 md2>Team</v-flex>
+        <v-flex xs5 sm2 md2>Username</v-flex>
+        <v-flex>Team</v-flex>
         <template v-for="(header, index) in headers">
           <v-flex
             xs1
@@ -15,9 +17,9 @@
             :key="index"
           >
             <CountryFlag :_country="header.text" :_width="30"/>
-            {{header.text}}
+            <span class="caption">{{header.text}}</span>
           </v-flex>
-          <v-flex xs1 v-else :key="index">{{header.text}}</v-flex>
+          <v-flex class="text-xs-right" xs1 v-else :key="index">{{header.text}}</v-flex>
         </template>
       </v-layout>
 
@@ -28,26 +30,33 @@
         <template v-for="(user, index) in sortedResults">
           <v-layout
             align-center
-            class="championship-standings_row py-1"
+            class="championship-standings_row text-xs-left"
             :class="{'removed':isDriverRemoved(user)}"
             v-if="_drivers"
             :key="index"
           >
             <template v-if="Object.values(user)[0].driver">
               <v-flex xs1>{{index+1}}</v-flex>
-              <v-flex class="championship-standings_username" xs5 md2>
+              <v-flex class="championship-standings_username">
                 <router-link
+                  class="body-1"
                   :to="'/user_' + Object.values(user)[0].driver.username"
                 >{{Object.values(user)[0].driver.username}}</router-link>
+                <div class="caption" v-if="!isDriverRemoved(user)">{{findDriverTeam(user).name}}</div>
               </v-flex>
-              <v-flex xs5 md2 class="championship-standings_team">
+              <!-- <v-flex class="championship-standings_team">
                 <div v-if="!isDriverRemoved(user)">
-                  <img :src="findDriverTeam(user).teamLogo" width="100" alt>
+                  {{findDriverTeam(user).name}}
                 </div>
                 <div v-else></div>
-              </v-flex>
+              </v-flex>-->
 
-              <v-flex xs1 v-for="stage in _championship.calendar" :key="stage.id">
+              <v-flex
+                class="championship-standings_cell"
+                xs1
+                v-for="stage in _championship.calendar"
+                :key="stage.id"
+              >
                 <div v-if="user[stage.trackDocumentId] !== undefined" class="hidden-xs" xs1>
                   <span v-if="user[stage.trackDocumentId].dnf">DNF</span>
                   <span v-else-if="user[stage.trackDocumentId].dns">DNS</span>
@@ -71,7 +80,7 @@
               <v-flex>
                 <v-icon>block</v-icon>
               </v-flex>
-              <v-flex class="subheading" justify-center>No drivers in championship</v-flex>
+              <v-flex class="body-1" justify-center>No drivers in championship</v-flex>
             </v-layout>
           </v-card-text>
         </v-card>
@@ -82,28 +91,38 @@
       <!-- Drivers with no results below -->
       <template v-for="(driver, index) in _drivers">
         <v-layout
-          class="championship-standings_row py-1"
+          class="championship-standings_row text-xs-left py-1"
           align-center
           v-if="!_results[driver.userId]"
           :key="index"
         >
-          <v-flex xs1>-</v-flex>
-          <v-flex class="championship-standings_username" xs5 md2>
-            <router-link :to="'/user_' + driver.username">{{driver.username}}</router-link>
+          <v-flex class="text-xs-left" xs1>-</v-flex>
+          <v-flex class="championship-standings_username">
+            <router-link class="body-1" :to="'/user_' + driver.username">{{driver.username}}</router-link>
+            <div>{{driver.team.name}}</div>
           </v-flex>
-          <v-flex xs5 md2>
-            <img :src="driver.team.teamLogo" width="100" alt>
+          <!-- <v-flex class="championship-standings_team">
+            {{driver.team.name}}
+          </v-flex>-->
+          <v-flex
+            class="championship-standings_cell"
+            xs1
+            v-for="(stage, index) in _championship.calendar"
+            :key="index"
+          >
+            <span class="hidden-xs">-</span>
           </v-flex>
-          <v-flex xs1 v-for="(stage, index) in _championship.calendar" :key="index">-</v-flex>
-          <v-flex xs1>0</v-flex>
+          <v-flex class="championship-standings_total-value" xs1>0</v-flex>
         </v-layout>
       </template>
       <!-- Drivers with no results above -->
     </v-layout>
+    <ConstructorStandings :results="_results"/>
   </div>
 </template>
 
 <script>
+  import ConstructorStandings from '@/components/championship/ConstructorStandings.vue'
   import CountryFlag from '@/components/CountryFlag.vue'
   import sortStandings from '@/mixins/championship/sortStandings.js'
 
@@ -180,7 +199,8 @@
     sortStandings
   ],
   components: {
-    CountryFlag
+    CountryFlag,
+    ConstructorStandings
   }
 }
 </script>
