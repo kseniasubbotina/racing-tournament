@@ -117,6 +117,11 @@
       </template>
       <!-- Drivers with no results above -->
     </v-layout>
+    <v-layout class="my-2">
+      <v-flex class="championship-standings_cell">
+        <span class="result-cell best-lap">12</span> - best lap
+      </v-flex>
+    </v-layout>
     <ConstructorStandings :results="_results"/>
   </div>
 </template>
