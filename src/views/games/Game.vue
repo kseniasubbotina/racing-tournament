@@ -15,7 +15,7 @@
       <v-card>
         <v-container>
           <h1>{{gameData.name}}</h1>
-          <v-layout>
+          <v-layout class="my-3" wrap>
             <v-flex pa-1>
               <div>
                 <span class="body">Release date:</span>
@@ -28,9 +28,8 @@
                 <div class="subheading">{{gameData.developer}}</div>
               </div>
             </v-flex>
-          </v-layout>
-          <v-layout>
-            <v-flex xs6>
+
+            <v-flex xs12 sm6>
               <div>
                 <span>Platforms:</span>
                 <div>
@@ -45,7 +44,7 @@
                 </div>
               </div>
             </v-flex>
-            <v-flex xs6>
+            <v-flex xs12 sm6>
               <div>
                 <span>Website:</span>
                 <div class="subheading">
