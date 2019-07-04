@@ -52,7 +52,8 @@ export default {
           developer: this.gameData.developer,
           publisher: this.gameData.publisher,
           coverImageUrl: this.gameData.coverImageUrl,
-          webSite: this.gameData.webSite
+          webSite: this.gameData.webSite,
+          description: this.gameData.description
         })
         .then(this.closeWindow(), this.$emit('updateGames'))
     },
@@ -66,7 +67,8 @@ export default {
           developer: gameData.developer,
           publisher: gameData.publisher,
           coverImageUrl: gameData.coverImageUrl,
-          webSite: gameData.webSite
+          webSite: gameData.webSite,
+          description: this.gameData.description
         })
         .then(() => {
           if (this.$route.params.id) {

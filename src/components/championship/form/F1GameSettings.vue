@@ -100,12 +100,12 @@ export default {
     return {
       isValid: false,
       distances: ['3 laps', '5 laps', '25%', '50%', '100%'],
-      qFormats: ['1 lap', 'Short - 15min', 'Full', 'No Qualification'],
-      weatherItems: ['Dinamic', 'Custom'],
+      qFormats: ['1 lap', 'Short - 20 min', 'Full', 'No Qualification'],
+      weatherItems: ['Dynamic', 'Custom'],
       settings: {
         qFormat: '',
         aiDifficulty: 50,
-        weather: 'Dinamic',
+        weather: 'Dynamic',
         distance: '50%',
         assists: {
           tractionControl: false,

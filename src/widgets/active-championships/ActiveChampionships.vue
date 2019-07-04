@@ -8,7 +8,7 @@
         <h3>Active championships</h3>
       </v-flex>
       <v-layout wrap>
-        <v-flex v-for="championship in championships" :key="championship.id">
+        <v-flex xs12 sm6 v-for="championship in championships" :key="championship.id">
           <UserChampionshipItem class="ma-2" :data="championship" :userData="userData"/>
         </v-flex>
       </v-layout>

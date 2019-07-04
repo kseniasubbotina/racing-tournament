@@ -10,7 +10,7 @@
       <v-flex></v-flex>
     </v-layout>
 
-    <v-layout justify-center align-center class="mt-3" subheading wrap>
+    <v-layout justify-center align-center class="mt-3 subheading" wrap>
       <v-flex xs12 sm4>
         <v-chip
           v-if="_championship.approved"

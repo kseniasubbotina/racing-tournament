@@ -12,7 +12,7 @@
         </v-btn>
       </v-layout>
       <v-layout wrap>
-        <v-flex xs12 md6 pa-1 v-for="game in games" :key="game.id">
+        <v-flex xs12 sm6 md6 pa-1 v-for="game in games" :key="game.id">
           <GameItem :_game="game" @editGame="openForm" @deleteGame="openConfirmation"/>
         </v-flex>
       </v-layout>
