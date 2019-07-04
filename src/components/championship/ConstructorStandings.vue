@@ -1,5 +1,5 @@
 <template>
-  <div class="championship-standings">
+  <div v-if="constructors.length" class="championship-standings">
     <div class="my-3 text-xs-left headline">Constructor standings</div>
     <v-layout class="text-xs-left championship-standings_header" justify-start>
       <v-flex xs1>Pos.</v-flex>

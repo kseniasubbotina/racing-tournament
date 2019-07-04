@@ -7,8 +7,7 @@
     <v-layout column>
       <v-layout class="hidden-xs text-xs-left championship-standings_header" align-center>
         <v-flex xs1>Pos.</v-flex>
-        <v-flex xs5 sm2 md2>Username</v-flex>
-        <v-flex>Team</v-flex>
+        <v-flex>Username</v-flex>
         <template v-for="(header, index) in headers">
           <v-flex
             xs1
@@ -117,8 +116,8 @@
       </template>
       <!-- Drivers with no results above -->
     </v-layout>
-    <v-layout class="my-2">
-      <v-flex class="championship-standings_cell">
+    <v-layout justify-end class="my-2">
+      <v-flex xs2 class="championship-standings_cell">
         <span class="result-cell best-lap">12</span> - best lap
       </v-flex>
     </v-layout>

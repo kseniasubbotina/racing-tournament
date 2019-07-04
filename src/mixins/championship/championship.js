@@ -134,7 +134,7 @@ export default {
               id: this.$store.getters.user.id
             },
             approved: false,
-            status: 'In progress',
+            status: 'Active',
             moderators: [],
             info: this.championship.data.info,
             externalInfo: this.championship.externalInfo,
