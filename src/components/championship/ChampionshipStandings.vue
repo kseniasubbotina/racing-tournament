@@ -37,18 +37,19 @@
           >
             <template v-if="Object.values(user)[0].driver">
               <v-flex xs1>{{index+1}}</v-flex>
-              <v-flex class="championship-standings_username" xs5 sm2 md2>
+              <v-flex class="championship-standings_username">
                 <router-link
+                  class="body-2"
                   :to="'/user_' + Object.values(user)[0].driver.username"
                 >{{Object.values(user)[0].driver.username}}</router-link>
+                <div class="caption" v-if="!isDriverRemoved(user)">{{findDriverTeam(user).name}}</div>
               </v-flex>
-              <v-flex class="championship-standings_team">
+              <!-- <v-flex class="championship-standings_team">
                 <div v-if="!isDriverRemoved(user)">
-                  <!-- <img :src="findDriverTeam(user).teamLogo" width="100" alt> -->
                   {{findDriverTeam(user).name}}
                 </div>
                 <div v-else></div>
-              </v-flex>
+              </v-flex>-->
 
               <v-flex
                 class="championship-standings_cell"
@@ -96,13 +97,13 @@
           :key="index"
         >
           <v-flex class="text-xs-left" xs1>-</v-flex>
-          <v-flex class="championship-standings_username" xs5 sm2 md2>
+          <v-flex class="championship-standings_username">
             <router-link :to="'/user_' + driver.username">{{driver.username}}</router-link>
+            <div>{{driver.team.name}}</div>
           </v-flex>
-          <v-flex class="championship-standings_team">
-            <!-- <img :src="driver.team.teamLogo" width="100" alt> -->
+          <!-- <v-flex class="championship-standings_team">
             {{driver.team.name}}
-          </v-flex>
+          </v-flex>-->
           <v-flex
             class="championship-standings_cell"
             xs1
