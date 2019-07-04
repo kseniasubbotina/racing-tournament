@@ -12,7 +12,7 @@
       :key="i"
     >
       <v-flex xs1>{{i+1}}</v-flex>
-      <v-flex>{{team.name}}</v-flex>
+      <v-flex class="body-1">{{team.name}}</v-flex>
       <v-flex class="text-xs-right">{{team.points}}</v-flex>
     </v-layout>
   </div>
