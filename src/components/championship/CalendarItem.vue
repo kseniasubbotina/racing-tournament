@@ -24,7 +24,12 @@
           </v-flex>
         </v-layout>
         <v-layout justify-center align-center>
-          <v-btn v-if="isAuthor" flat color="green" @click="stageResultsWindow = true">Edit results</v-btn>
+          <v-btn
+            v-if="isAuthor && !isClosed"
+            flat
+            color="green"
+            @click="stageResultsWindow = true"
+          >Edit results</v-btn>
         </v-layout>
       </v-card-text>
     </v-card>
@@ -68,6 +73,9 @@ export default {
     isAuthor() {
     if (this.$store.getters.user && this._championship)
       return this.userId == this._championship.author.id
+    },
+    isClosed () {
+      return this._championship.status === 'Closed' ? true : false
     },
     userResult () {
       if (this._results && this._results[this.userId]) {
