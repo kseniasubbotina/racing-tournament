@@ -59,7 +59,7 @@ export default {
       let imageUrl = this._championship && this._championship.info ? this._championship.info.champImage : ''
       return {
         'background-image': 'url("' + imageUrl + '")',
-        height: '200px',
+        height: '150px',
         backgroundPosition: 'center center',
         backgroundSize: 'cover'
       }
