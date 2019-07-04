@@ -60,10 +60,6 @@
               <div v-html="gameData.description"></div>
             </v-flex>
           </v-layout>
-          <!-- <v-divider></v-divider>
-          <v-layout justify-center>
-            <span class="subheading grey--text">Work in progress</span>
-          </v-layout>-->
 
           <GameForm :_gameData="gameData" @imageDeleted="gameData.coverImageUrl=''"/>
         </v-container>
