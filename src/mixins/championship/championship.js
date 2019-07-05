@@ -11,7 +11,8 @@ export default {
       fb.champsCollection
         .doc(this._championship.documentId)
         .update({
-          championship: championship
+          championship: championship,
+          prizes: {}
         })
         .then(() => {
           this.$router.push('/championships/' + this._championship.info.name)
@@ -54,13 +55,16 @@ export default {
     queryTest() {
       // let userId = 'PwB8F0BqTvZ6qnVf7tCv1ES5uEX2'
       let champId = 'championship_yhRmKbmwnCFhsl'
+      let userId = 'F7qD8ba8KcRPUGM5Utfjg0uRcci2'
       fb.champsCollection
-        .doc(champId)
+        .where('results.' + userId + '.totalExp', '!=', 56)
         .get()
-        .then(doc => {
-          console.log(doc.data())
-          // querySnapshot.forEach(doc => {
-          // })
+        .then(querySnapshot => {
+          if (!querySnapshot.empty) {
+            querySnapshot.forEach(doc => {
+              console.log(doc.data())
+            })
+          }
         })
     },
     getChampionship(name) {

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <v-btn @click="queryTest()">Query</v-btn>
     <v-layout wrap>
       <v-spacer></v-spacer>
       <v-menu v-if="_isAdmin || _isParticipant">

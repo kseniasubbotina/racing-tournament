@@ -55,7 +55,6 @@
           </v-layout>
           <v-layout>
             <v-flex>
-              <span>Description:</span>
               <div v-html="gameData.description"></div>
             </v-flex>
           </v-layout>
