@@ -56,9 +56,10 @@ export default {
       return this._drivers ? Object.keys(this._drivers).length : 0
     },
     champImageStyles() {
+      let imageUrl = this._championship && this._championship.info ? this._championship.info.champImage : ''
       return {
-        backgroundImage: 'url(' + this._championship.info.champImage + ')',
-        height: '200px',
+        'background-image': 'url("' + imageUrl + '")',
+        height: '150px',
         backgroundPosition: 'center center',
         backgroundSize: 'cover'
       }

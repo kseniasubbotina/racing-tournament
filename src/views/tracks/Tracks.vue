@@ -12,7 +12,7 @@
         </v-btn>
       </v-layout>
       <v-layout wrap>
-        <v-flex xs12 md4 pa-1 v-for="track in tracks" :key="track.id">
+        <v-flex xs12 sm6 md4 pa-1 v-for="track in tracks" :key="track.id">
           <TrackItem :_track="track" @editTrack="openForm" @deleteTrack="openConfirmation"/>
         </v-flex>
         <EditTrackForm :_isNew="isNew" @updateTracks="getTracks"/>
@@ -26,7 +26,6 @@
   import fb from '@/firebase/config.js'
   import Confirmation from '@/components/Confirmation.vue'
   import message from '@/components/Message.vue'
-  import CountryFlag from '@/components/CountryFlag.vue'
   import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
   import TrackItem from '@/components/tracks/TrackItem.vue'
   import isAdmin from '@/mixins/isAdmin.js'
@@ -121,7 +120,6 @@
   components: {
     TrackItem,
     message,
-    CountryFlag,
     EditTrackForm,
     Confirmation
   }
