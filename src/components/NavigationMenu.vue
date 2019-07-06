@@ -2,7 +2,12 @@
   <v-list>
     <v-subheader>Menu</v-subheader>
     <template v-for="(link, idx) in links">
-      <v-list-tile v-if="link.role <= userRole" :key="idx" @click="onMenuItemClick(link)">
+      <v-list-tile
+        :disabled="link.disabled"
+        v-if="link.role <= userRole"
+        :key="idx"
+        @click="onMenuItemClick(link)"
+      >
         <v-list-tile-action>
           <v-icon>{{link.icon}}</v-icon>
         </v-list-tile-action>
@@ -92,16 +97,17 @@ export default {
         role: 0
       },
       {
-        label: 'F.A.Q',
+        label: 'FAQ',
         icon: 'question_answer',
-        route: '/',
+        route: '/faq',
         role: 0
       },
       {
         label: 'Leaderboard',
         icon: 'trending_up',
         route: '/',
-        role: 0
+        role: 0,
+        disabled: true
       }
     ]
   }),
