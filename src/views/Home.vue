@@ -8,8 +8,15 @@
       :showMessage="false"
       :userData="currentUser"
     />
-    <h3 class="my-3">Available Championships</h3>
-    <ChampionshipsList :showAddButton="false"/>
+    <v-layout align-center>
+      <v-flex shrink>
+        <h3 class="my-3">Available Championships</h3>
+      </v-flex>
+      <v-flex shrink>
+        <v-btn to="/championships" depressed small>see all</v-btn>
+      </v-flex>
+    </v-layout>
+    <ChampionshipsList :limit="6" :showAddButton="false"/>
   </div>
 </template>
 
