@@ -17,7 +17,7 @@
       @click="$router.push('/user_' + $store.getters.userData.username)"
     >
       <v-list-tile-action>
-        <v-icon>account_circle</v-icon>
+        <v-icon>mdi-racing-helmet</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
         <v-list-tile-title>Profile</v-list-tile-title>
@@ -63,13 +63,13 @@ export default {
       },
       {
         label: 'Championships',
-        icon: 'star',
+        icon: 'mdi-trophy-variant',
         route: '/championships',
         role: 0
       },
       {
         label: 'Tracks',
-        icon: 'swap_calls',
+        icon: 'mdi-go-kart-track',
         route: '/tracks',
         role: 0
       },
@@ -87,7 +87,7 @@ export default {
       },
       {
         label: 'Games',
-        icon: 'gamepad',
+        icon: 'mdi-gamepad-variant',
         route: '/games',
         role: 0
       },

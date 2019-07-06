@@ -57,7 +57,11 @@
       default: true,
       type: Boolean
     },
-    filters: Object
+    filters: Object,
+    limit: {
+      type: Number,
+      default: 20
+    }
   },
   watch: {
     filters: {
@@ -87,7 +91,7 @@
       var championships = []
       var drivers = {}
       var approvedFilter = this.filters ? this.filters.approved : true
-      fb.champsCollection.where('championship.status', '==', 'Active').where('championship.approved', '==', approvedFilter).get().then(querySnapshot => {
+      fb.champsCollection.where('championship.status', '==', 'Active').where('championship.approved', '==', approvedFilter).limit(this.limit).get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           drivers = doc.data().drivers
           var data = doc.data().championship
