@@ -35,15 +35,15 @@ export default {
           questions: [
             {
               question: 'How can i join a championship?',
-              answer: 'Go to "Championships" page, click on the championship you interested in. When you are on the championship page, click Join championship button, select a team and be ready to go. See the calendar of races on results tab. Race time will adjust to your local time, so do not worry to miss a race.'
+              answer: 'Go to "Championships" page, click on the championship you interested in. When you are on the championship page, click Join championship button, select a team and be ready to go. See the calendar of races on the results tab. Race time will adjust to your local time, so do not worry to miss a race.'
             },
             {
               question: 'How can i leave a championship?',
-              answer: 'Go to the championship page you want to leave, click the button on rigt-top corner, in a menu select Leave championship option.'
+              answer: 'Go to the championship page you want to leave, click the button on the rigt-top corner, in a menu select Leave championship option.'
             },
             {
               question: 'Can I create my own championship?',
-              answer: 'Yes! Go to Championships page, click the green "+" button on bottom of the page and fill the form.'
+              answer: 'Yes! Go to Championships page, click the green "+" button on the bottom of the page and fill the form.'
             }
           ]
         },
