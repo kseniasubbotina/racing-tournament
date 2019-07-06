@@ -2,7 +2,12 @@
   <v-list>
     <v-subheader>Menu</v-subheader>
     <template v-for="(link, idx) in links">
-      <v-list-tile v-if="link.role <= userRole" :key="idx" @click="onMenuItemClick(link)">
+      <v-list-tile
+        :disabled="link.disabled"
+        v-if="link.role <= userRole"
+        :key="idx"
+        @click="onMenuItemClick(link)"
+      >
         <v-list-tile-action>
           <v-icon>{{link.icon}}</v-icon>
         </v-list-tile-action>
@@ -17,7 +22,7 @@
       @click="$router.push('/user_' + $store.getters.userData.username)"
     >
       <v-list-tile-action>
-        <v-icon>account_circle</v-icon>
+        <v-icon>mdi-racing-helmet</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
         <v-list-tile-title>Profile</v-list-tile-title>
@@ -63,13 +68,13 @@ export default {
       },
       {
         label: 'Championships',
-        icon: 'star',
+        icon: 'mdi-trophy-variant',
         route: '/championships',
         role: 0
       },
       {
         label: 'Tracks',
-        icon: 'swap_calls',
+        icon: 'mdi-go-kart-track',
         route: '/tracks',
         role: 0
       },
@@ -87,21 +92,22 @@ export default {
       },
       {
         label: 'Games',
-        icon: 'gamepad',
+        icon: 'mdi-gamepad-variant',
         route: '/games',
         role: 0
       },
       {
-        label: 'F.A.Q',
+        label: 'FAQ',
         icon: 'question_answer',
-        route: '/',
+        route: '/faq',
         role: 0
       },
       {
         label: 'Leaderboard',
         icon: 'trending_up',
         route: '/',
-        role: 0
+        role: 0,
+        disabled: true
       }
     ]
   }),

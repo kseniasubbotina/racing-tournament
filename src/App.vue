@@ -19,7 +19,7 @@
         </v-btn>-->
         <v-btn to="/about" flat>About</v-btn>
         <template v-if="!isLoggedIn">
-          <v-btn to="/register" flat>Register</v-btn>
+          <v-btn to="/register" flat>Sign Up</v-btn>
           <v-btn to="/login" flat>Login</v-btn>
         </template>
         <v-btn v-if="isLoggedIn" :to="toCurrentUserProfile" icon large>

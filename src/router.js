@@ -170,6 +170,18 @@ const router = new Router({
       }
     },
     {
+      path: '/faq',
+      name: 'FAQ',
+      component: () => import('./views/common/FAQ.vue'),
+      meta: {
+        breadcrumbs: [
+          {
+            name: 'FAQ'
+          }
+        ]
+      }
+    },
+    {
       path: '/*',
       name: 'not-found',
       component: () => import('./views/common/NotFound.vue'),
