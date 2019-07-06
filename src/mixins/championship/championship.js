@@ -12,7 +12,6 @@ export default {
         .doc(this._championship.documentId)
         .update({
           championship: championship,
-          prizes: {}
         })
         .then(() => {
           this.$router.push('/championships/' + this._championship.info.name)
