@@ -55,9 +55,9 @@ export default {
     queryTest() {
       // let userId = 'PwB8F0BqTvZ6qnVf7tCv1ES5uEX2'
       let champId = 'championship_yhRmKbmwnCFhsl'
-      let userId = 'F7qD8ba8KcRPUGM5Utfjg0uRcci2'
+      let userId = 'jgfjSga'
       fb.champsCollection
-        .where('results.' + userId + '.totalExp', '!=', 56)
+        .where('prizes.' + userId)
         .get()
         .then(querySnapshot => {
           if (!querySnapshot.empty) {
