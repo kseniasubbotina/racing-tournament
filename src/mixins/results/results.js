@@ -7,7 +7,6 @@ export default {
       fb.champsCollection
         .doc(championship.documentId)
         .update({
-          prizes: {},
           results: results
         })
         .then(
