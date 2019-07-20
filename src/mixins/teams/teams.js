@@ -1,9 +1,12 @@
 import fb from '@/firebase/config.js'
+import idGenerator from '@/mixins/generateId'
+
 export default {
   methods: {
     addTeam() {
       this.$validator.validate().then(result => {
         if (result) {
+          var id = this.teamData.name + '_' + idGenerator.generateId()
           if (this.selectedFile) {
             const upload = async id => {
               let upload = await this.uploadTeamLogo(
@@ -13,9 +16,10 @@ export default {
             }
             upload().then(() => {
               fb.teamsCollection
-                .doc(this.teamData.name)
+                .doc(id)
                 .set({
                   name: this.teamData.name,
+                  id: id,
                   seria: this.teamData.seria,
                   places: this.teamData.places,
                   teamLogo: this.teamData.teamLogo
@@ -24,9 +28,10 @@ export default {
             })
           } else {
             fb.teamsCollection
-              .doc(this.teamData.name)
+              .doc(id)
               .set({
                 name: this.teamData.name,
+                id: id,
                 seria: this.teamData.seria,
                 places: this.teamData.places,
                 teamLogo: this.teamData.teamLogo
@@ -48,7 +53,7 @@ export default {
             }
             upload().then(() => {
               fb.teamsCollection
-                .doc(this.teamData.id)
+                .doc(this.teamData.documentId)
                 .update({
                   name: this.teamData.name,
                   seria: this.teamData.seria,
@@ -59,7 +64,7 @@ export default {
             })
           } else {
             fb.teamsCollection
-              .doc(teamData.id)
+              .doc(teamData.documentId)
               .update({
                 name: this.teamData.name,
                 seria: this.teamData.seria,

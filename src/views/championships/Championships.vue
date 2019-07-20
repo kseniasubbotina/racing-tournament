@@ -1,78 +1,39 @@
 <template>
-  <v-layout wrap>
-    <div v-if="loggedIn">You are logged in</div>
-    <v-flex xs12 sm6 md4 pa-1>
-      <v-card>
-        <v-card-title primary-title>
-          <div class="headline">Championship #1</div>
-        </v-card-title>
-        <v-card-text>
-          <div>F1 2017 championship - no assists</div>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn flat color="green">Join</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-    <v-flex xs12 sm6 md4 pa-1>
-      <v-card>
-        <v-card-title primary-title>
-          <div class="headline">Championship #2</div>
-        </v-card-title>
-        <v-card-text>
-          <div>F1 2017 championship - no assists</div>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn flat color="green">Join</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-    <v-flex xs12 sm6 md4 pa-1>
-      <v-card>
-        <v-card-title primary-title>
-          <div class="headline">Championship #3</div>
-        </v-card-title>
-        <v-card-text>
-          <div>F1 2017 championship - no assists</div>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn flat color="green">Join</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-    <v-layout>
-      <v-flex sx12>
-        <v-btn
-        @click.stop="showCreateForm = true"
-        color="red darken-2" dark
-        fixed
-        bottom
-        right
-        fab>
-        <v-icon>add</v-icon>
-        </v-btn>
-      </v-flex>
-    </v-layout>
-    <v-dialog v-model="showCreateForm" max-width="800px">
-          <ChampionshipCreateForm/>
-    </v-dialog>
-  </v-layout>
+  <div>
+    <h3 class="my-3">Available Championships</h3>
+    <!-- filters -->
+    <template v-if="isAdmin">
+      <v-checkbox
+        v-model="filters.approved"
+        label="Approved"
+        color="blue"
+        :value="false"
+        hide-details
+      ></v-checkbox>
+    </template>
+
+    <!-- filters -->
+    <ChampionshipsList :filters="filters"/>
+  </div>
 </template>
 
 <script>
-import ChampionshipCreateForm from '@/components/ChampionshipCreateForm'
-import firebase from 'firebase'
-
+import isAdmin from '@/mixins/isAdmin.js'
+import ChampionshipsList from '@/components/championship/ChampionshipsList.vue'
 export default {
   name: 'Championships',
   data () {
     return {
-      showCreateForm: false,
-      loggedIn: false
+      filters: {
+        approved: true
+      }
     }
   },
+  mixins: [
+    isAdmin
+  ],
   components: {
-    ChampionshipCreateForm
+    ChampionshipsList
   }
 }
 </script>

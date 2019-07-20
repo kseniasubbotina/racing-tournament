@@ -5,13 +5,14 @@
     </div>
     <div v-else>
       <v-layout wrap>
+        <div class="headline my-3">Tracks</div>
         <v-spacer></v-spacer>
-        <v-btn v-if="isAdmin" flat @click="openForm">
+        <v-btn depressed color="success" v-if="isAdmin" @click="openForm">
           <v-icon>add</v-icon>Add new
         </v-btn>
       </v-layout>
       <v-layout wrap>
-        <v-flex xs12 md6 pa-1 v-for="track in tracks" :key="track.id">
+        <v-flex xs12 sm6 md4 pa-1 v-for="track in tracks" :key="track.id">
           <TrackItem :_track="track" @editTrack="openForm" @deleteTrack="openConfirmation"/>
         </v-flex>
         <EditTrackForm :_isNew="isNew" @updateTracks="getTracks"/>
@@ -22,14 +23,14 @@
 </template>
 
 <script>
-import fb from '@/firebase/config.js'
-import Confirmation from '@/components/Confirmation.vue'
-import message from '@/components/Message.vue'
-import CountryFlag from '@/components/CountryFlag.vue'
-import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
-import TrackItem from '@/components/tracks/TrackItem.vue'
+  import fb from '@/firebase/config.js'
+  import Confirmation from '@/components/Confirmation.vue'
+  import message from '@/components/Message.vue'
+  import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
+  import TrackItem from '@/components/tracks/TrackItem.vue'
+  import isAdmin from '@/mixins/isAdmin.js'
 
-export default {
+  export default {
   data() {
     return {
       createDialog: false,
@@ -40,20 +41,11 @@ export default {
     }
   },
   computed: {
-    isAdmin() {
-      if (
-        this.$store.getters.user &&
-        this.$store.getters.userData.role == '1'
-      ) {
-        return true
-      } else return 0
-    },
     loading() {
       return this.$store.getters.loading
     },
     isLoggedIn() {
-      var isLoggedIn = this.$store.getters.user ? true : false
-      return isLoggedIn
+      return this.$store.getters.user ? true : false
     }
   },
   created() {
@@ -69,7 +61,7 @@ export default {
       fb.tracksCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           var data = doc.data()
-          data.id = doc.id
+          data.documentId = doc.id
           tracksArr.push(data)
         })
         this.$store.commit('set', { type: 'loading', val: false })
@@ -77,25 +69,25 @@ export default {
       })
     },
     openForm(track) {
+      let trackData = track
+      this.isNew = false
       if (!track.id) {
-        var trackData = {
+        trackData = {
           name: '',
           country: '',
           firstGP: '',
           length: '',
-          imageUrl: '',
+          trackPhoto: '',
+          trackScheme: '',
           description: ''
         }
         this.isNew = true
-      } else {
-        this.isNew = false
-        var trackData = track
       }
       this.$root.$emit('openDialog', trackData)
     },
     deleteTrack(track) {
       fb.tracksCollection
-        .doc(track.id)
+        .doc(track.documentId)
         .delete()
         .then(() => {
           console.log('Document successfully deleted!')
@@ -124,10 +116,10 @@ export default {
         })
     }
   },
+  mixins: [isAdmin],
   components: {
     TrackItem,
     message,
-    CountryFlag,
     EditTrackForm,
     Confirmation
   }

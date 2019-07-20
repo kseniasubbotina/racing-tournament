@@ -6,4 +6,5 @@ Single page application based on vue.js and firebase
 Go to the client folder:
 
 npm install
+
 npm run serve

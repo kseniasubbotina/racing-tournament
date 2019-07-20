@@ -27,10 +27,10 @@
               <tr @click="props.expanded = !props.expanded">
                 <td class="text-xs-left">
                   <v-avatar size="32px" style="margin-right: 4px">
-                    <img v-if="props.item.avatarURL" :src="props.item.avatarURL">
-                    <img v-else src="http://pol.audio/media/user-avatar.png">
+                    <img v-if="props.item.avatarURL" :src="props.item.avatarURL" alt="user-avatar">
+                    <img v-else src="http://pol.audio/media/user-avatar.png" alt="user-avatar">
                   </v-avatar>
-                  <strong>{{ props.item.username }}</strong>
+                  <span class="font-weight-bold">{{ props.item.username }}</span>
                 </td>
                 <td class="text-xs-right">{{ props.item.country }}</td>
                 <td class="text-xs-right">
@@ -98,7 +98,7 @@
           <v-spacer></v-spacer>
           <v-btn
             color="red darken-2"
-            @click="update(username, username, country, avatarURL, role)"
+            @click="update(userId, username, country, avatarURL, role)"
             dark
           >Save</v-btn>
         </v-card-actions>
@@ -119,6 +119,7 @@ export default {
   data() {
     return {
       users: [],
+      userId: '',
       username: '',
       country: '',
       avatarURL: '',

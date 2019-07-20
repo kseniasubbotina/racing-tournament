@@ -1,35 +1,63 @@
 <template>
-  <v-card>
-    <div>
-      <div v-if="loading" class="text-xs-center">
-        <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
-      </div>
-      <v-container v-else>
-        <div v-if="isAdmin">
-          <v-btn flat @click="openForm(trackData)">
-            <v-icon>edit</v-icon>Edit
-          </v-btn>
-          <v-btn color="error" flat @click="openConfirmation">
-            <v-icon>delete</v-icon>Delete
-          </v-btn>
-        </div>
-        <EditTrackForm :_trackData="trackData"/>
-        <div>{{trackData.name}}</div>
-        <div>{{trackData.country}}</div>
-        <div>length: {{trackData.length}}</div>
-        <div>First GP: {{trackData.firstGP}}</div>
-        <div>{{trackData.description}}</div>
-        <img :src="trackData.trackPhoto" width="50%" alt>
-        <img :src="trackData.trackScheme" width="50%" alt>
-      </v-container>
-      <Confirmation @confirmed="deleteTrack" _message="Delete this track?"/>
+  <div>
+    <div v-if="loading" class="text-xs-center">
+      <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
-  </v-card>
+    <template v-else>
+      <div v-if="isAdmin">
+        <v-btn flat @click="openForm(trackData)">
+          <v-icon>edit</v-icon>Edit
+        </v-btn>
+        <v-btn color="error" flat @click="openConfirmation">
+          <v-icon>delete</v-icon>Delete
+        </v-btn>
+      </div>
+      <v-card>
+        <v-container>
+          <EditTrackForm :_trackData="trackData"/>
+          <h1>{{trackData.name}}</h1>
+          <v-layout class="my-3" wrap>
+            <v-flex>
+              <span>Country:</span>
+
+              <v-layout justify-center class="subheading">
+                <v-flex shrink class="mr-1">
+                  <CountryFlag :_width="20" :_country="trackData.country"/>
+                </v-flex>
+                <v-flex>{{trackData.country}}</v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex>
+              <span>Length:</span>
+              <div class="subheading">{{trackData.length}} km</div>
+            </v-flex>
+            <v-flex>
+              <span>First GP:</span>
+              <div class="subheading">{{trackData.firstGP}}</div>
+            </v-flex>
+          </v-layout>
+          <v-layout>
+            <v-flex>
+              <div v-html="trackData.description"></div>
+            </v-flex>
+          </v-layout>
+          <v-layout justify-center class="ma-4">
+            <img :src="trackData.trackScheme" width="100%" alt>
+          </v-layout>
+        </v-container>
+      </v-card>
+    </template>
+
+    <Confirmation @confirmed="deleteTrack" _message="Delete this track?"/>
+  </div>
 </template>
  <script>
+import CountryFlag from '@/components/CountryFlag.vue'
 import fb from '@/firebase/config.js'
 import EditTrackForm from '@/components/tracks/EditTrackForm.vue'
 import Confirmation from '@/components/Confirmation.vue'
+import tracks from '@/mixins/tracks/tracks.js'
+import isAdmin from '@/mixins/isAdmin.js'
 
 export default {
   name: 'trackPage',
@@ -45,14 +73,6 @@ export default {
   computed: {
     loading() {
       return this.$store.getters.loading
-    },
-    isAdmin() {
-      if (
-        this.$store.getters.user &&
-        this.$store.getters.userData.role == '1'
-      ) {
-        return true
-      } else return 0
     }
   },
   methods: {
@@ -62,19 +82,9 @@ export default {
     openConfirmation(track) {
       this.$root.$emit('confirm', track)
     },
-    getTrack() {
-      this.$store.commit('set', { type: 'loading', val: true })
-      fb.tracksCollection.doc(this.$route.params.id).onSnapshot(doc => {
-        if (doc.exists) {
-          this.trackData = doc.data()
-          this.trackData.id = doc.id
-          this.$store.commit('set', { type: 'loading', val: false })
-        }
-      })
-    },
     deleteTrack() {
       fb.tracksCollection
-        .doc(this.trackData.id)
+        .doc(this.trackData.documentId)
         .delete()
         .then(() => {
           console.log('Document successfully deleted!')
@@ -100,7 +110,9 @@ export default {
         })
     }
   },
+  mixins: [tracks, isAdmin],
   components: {
+    CountryFlag,
     EditTrackForm,
     Confirmation
   }

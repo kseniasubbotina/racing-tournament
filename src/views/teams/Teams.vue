@@ -2,7 +2,8 @@
   <v-layout>
     <v-flex>
       <v-card>
-        <v-card-title justify-end class="py-2 title">All teams
+        <v-card-title justify-end class="py-2 title">
+          All teams
           <v-btn color="success" flat @click.stop="openTeamFormDialog">
             <i class="material-icons">add</i>Add new
           </v-btn>
@@ -27,6 +28,7 @@
           >
             <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
             <template slot="items" slot-scope="props">
+              <!-- <tr @click="props.expanded = !props.expanded"> -->
               <tr @click="props.expanded = !props.expanded">
                 <td class="text-xs-left">
                   <v-layout align-center justify-start>
@@ -36,31 +38,21 @@
                       width="100px"
                       align="middle"
                       style="margin-right: 5px"
+                      alt="team-logo"
                     >
-                    {{ props.item.name }}
+                    <span class="subheading">{{ props.item.name }}</span>
                   </v-layout>
                 </td>
-                <td class="text-xs-right">{{ props.item.seria }}</td>
+                <td class="text-xs-right">
+                  <v-btn small fab flat @click.stop="openTeamFormDialog(props.item)">
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                  <v-btn small fab color="red" flat @click.stop="openConfirmation(props.item)">
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                  {{ props.item.seria }}
+                </td>
               </tr>
-            </template>
-            <template slot="expand" slot-scope="props">
-              <v-card flat dark>
-                <v-layout>
-                  <v-flex>
-                    <v-card-text class="text-xs-left">Choose the action with {{ props.item.name }}</v-card-text>
-                  </v-flex>
-                  <v-flex>
-                    <v-card-text class="text-xs-right">
-                      <v-btn flat @click.stop="openTeamFormDialog(props.item)">
-                        <v-icon>edit</v-icon>Edit
-                      </v-btn>
-                      <v-btn color="red" flat @click.stop="deleteTeam(props.item)">
-                        <v-icon>delete</v-icon>Delete
-                      </v-btn>
-                    </v-card-text>
-                  </v-flex>
-                </v-layout>
-              </v-card>
             </template>
             <v-alert
               slot="no-results"
@@ -73,12 +65,16 @@
       </v-card>
     </v-flex>
     <TeamForm @updateTeams="getTeams" :_isNew="isNew"/>
+    <Confirmation @confirmed="deleteTeam" _message="Delete this team?"/>
   </v-layout>
 </template>
 
 <script>
+import Confirmation from '@/components/Confirmation.vue'
 import TeamForm from '@/components/teams/TeamForm.vue'
 import fb from '@/firebase/config.js'
+import isAdminGuard from '@/mixins/isAdminGuard.js'
+
 export default {
   name: 'Teams',
   data() {
@@ -112,18 +108,20 @@ export default {
     this.getTeams()
   },
   methods: {
+    openConfirmation(team) {
+      this.$root.$emit('confirm', team)
+    },
     openTeamFormDialog(team) {
+      let teamData = team
+      this.isNew = false
       if (!team.id) {
-        var teamData = {
+        teamData = {
           name: '',
-          seria: '',
+          seria: 'F1',
           teamLogo: '',
           places: '2'
         }
         this.isNew = true
-      } else {
-        this.isNew = false
-        var teamData = team
       }
       this.$root.$emit('openTeamFormDialog', teamData)
     },
@@ -133,7 +131,7 @@ export default {
       fb.teamsCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           var data = doc.data()
-          data.id = doc.id
+          data.documentId = doc.id
           teamsArr.push(data)
         })
         this.teams = teamsArr
@@ -142,7 +140,7 @@ export default {
     },
     deleteTeam(team) {
       fb.teamsCollection
-        .doc(team.id)
+        .doc(team.documentId)
         .delete()
         .then(() => {
           console.log('Document successfully deleted!')
@@ -171,8 +169,10 @@ export default {
         })
     }
   },
+  mixins: [isAdminGuard],
   components: {
-    TeamForm
+    TeamForm,
+    Confirmation
   }
 }
 </script>

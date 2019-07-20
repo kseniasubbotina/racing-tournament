@@ -1,19 +1,25 @@
+@import "standings.css";
+@import "championship-form.css";
+
 @font-face {
-  font-family: 'f1font';
+  font-family: 'f1font-reg';
   src: url('../assets/fonts/Formula1-Regular.otf') format('opentype');
   font-weight: 400;
 }
 @font-face {
-  font-family: 'f1font';
+  font-family: 'f1font-bold';
   src: url('../assets/fonts/Formula1-Bold.otf') format('opentype');
   font-weight: 700;
 }
 
-.application,
 .title,
-.headline,
-#app {
-  font-family: 'f1font' !important;
+h3, h4,
+.v-card__title,
+.headline, .subheading, .display-1, .display-3 {
+  font-family: 'f1font-reg', sans-serif !important;
+}
+h1, h2 {
+  font-family: 'f1font-bold', sans-serif !important;
 }
 #app {
   -webkit-font-smoothing: antialiased;
@@ -21,6 +27,9 @@
   text-align: left;
   color: #2c3e50;
 }
+/* a {
+  color: inherit !important;
+} */
 #nav {
   padding: 30px;
 }
@@ -31,7 +40,9 @@
 #nav a .router-link-exact-active {
   color: #42b983;
 }
-
+.pointer {
+  cursor: pointer;
+}
 /* BREADCRUMBS */
 .v-breadcrumbs.theme--dark a {
   color: #fff;
@@ -50,5 +61,17 @@
 .image-input {
   background: #d2d2d226;
   padding: 10px;
+  border: 1px dashed #b9b9b9;
   margin: 10px;
+}
+.best-lap-indicator {
+  padding: 2px 4px;
+  background: #c002c0;
+  color: #fff;
+  border-radius: 100px;
+  text-align: center;
+}
+/* Table */
+.theme--light.v-table tbody tr:not(:last-child) {
+  cursor: pointer;
 }

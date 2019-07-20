@@ -23,11 +23,11 @@
       class="game-item_title"
       pointer
       primary-title
-      @click="$router.push({name: 'Game', params: {id: _game.id}})"
+      @click="$router.push({name: 'Game', params: {id: _game.name}})"
     >
       <v-layout fill-height>
         <v-flex xs12 align-end flexbox>
-          <span class="headline">{{_game.name}}</span>
+          <span class="subheading">{{_game.name}}</span>
         </v-flex>
       </v-layout>
     </v-card-title>
@@ -41,26 +41,19 @@
       </div>
     </v-card-text>
     <v-card-actions>
-      <v-btn depressed @click="$router.push({name: 'Game', params: {id: _game.id}})">Details</v-btn>
+      <v-btn depressed @click="$router.push({name: 'Game', params: {id: _game.name}})">Details</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
+import isAdmin from '@/mixins/isAdmin.js'
+
 export default {
   name: 'GameItem',
   props: {
     _game: Object
   },
-  computed: {
-    isAdmin() {
-      if (
-        this.$store.getters.user &&
-        this.$store.getters.userData.role == '1'
-      ) {
-        return true
-      } else return 0
-    }
-  }
+  mixins: [isAdmin]
 }
 </script>

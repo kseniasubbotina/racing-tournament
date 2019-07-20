@@ -20,11 +20,7 @@ export default new Vuex.Store({
     },
     setMessage(state, { type, text }) {
       state.message[type] = text
-      if (type === 'success') {
-        state.message.error = ''
-      } else {
-        state.message.success = ''
-      }
+      type === 'success' ? state.message.error = '' : state.message.success = ''
     }
   },
   actions: {
@@ -35,12 +31,13 @@ export default new Vuex.Store({
         .then(
           response => {
             if (response) {
-              fb.usersCollection.doc(credentials.username).set({
+              fb.usersCollection.doc(response.user.uid).set({
                 id: response.user.uid,
                 username: credentials.username,
                 country: credentials.country,
                 avatarURL: '',
-                role: '0'
+                role: '0',
+                registerDate: new Date()
               })
               // .then(console.log('User note created!'))
               const newUser = {
@@ -53,7 +50,7 @@ export default new Vuex.Store({
               this.dispatch('fetchUserData')
             }
           },
-          function(error) {
+          function (error) {
             commit('set', { type: 'loading', val: false })
             commit('setMessage', { type: 'error', text: error.message })
           }
@@ -73,7 +70,7 @@ export default new Vuex.Store({
             commit('set', { type: 'loading', val: false })
             this.dispatch('fetchUserData')
           },
-          function(error) {
+          function (error) {
             commit('setMessage', { type: 'error', text: error.message })
             commit('set', { type: 'loading', val: false })
           }
@@ -92,25 +89,28 @@ export default new Vuex.Store({
     signOut({ commit }) {
       fb.auth
         .signOut()
-        .then(function() {
+        .then(function () {
           commit('set', { type: 'user', val: null })
           commit('set', { type: 'userData', val: null })
         })
-        .catch(function(error) {
+        .catch(function (error) {
           commit('setMessage', { type: 'error', text: error })
         })
     },
     fetchUserData({ commit }) {
+      commit('set', { type: 'loading', val: true })
       fb.usersCollection
         .where('id', '==', this.state.user.id)
         .get()
-        .then(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
+        .then(function (querySnapshot) {
+          querySnapshot.forEach(function (doc) {
             commit('set', { type: 'userData', val: doc.data() })
+            commit('set', { type: 'loading', val: false })
           })
         })
         .catch(err => {
           commit('setMessage', { type: 'error', text: err.message })
+          commit('set', { type: 'loading', val: false })
         })
     },
     updateProfile({ commit }, newDetails) {
@@ -123,14 +123,14 @@ export default new Vuex.Store({
           avatarURL: newDetails.avatarURL,
           role: newDetails.role
         })
-        .then(function() {
+        .then(function () {
           commit('setMessage', {
             type: 'success',
             text: 'Information successfully updated!'
           })
           commit('set', { type: 'loading', val: false })
         })
-        .catch(function(error) {
+        .catch(function (error) {
           commit('setMessage', { type: 'error', text: error })
           commit('set', { type: 'loading', val: false })
         })

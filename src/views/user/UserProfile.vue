@@ -1,39 +1,44 @@
 <template>
   <v-card width="100%">
-    <v-container grid-list-sm class="pa-4">
+    <div v-if="loading" class="text-xs-center">
+      <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
+    </div>
+    <v-container v-else grid-list-sm class="pa-4">
       <v-layout row wrap>
-        <v-flex xs12 sm3 class="text-xs-center">
+        <v-flex xs12 sm12 class="text-xs-center">
           <v-layout d-block pa-1>
             <v-flex>
-              <v-avatar size="100">
-                <img v-if="userData.avatarURL" :src="userData.avatarURL" alt>
-                <img v-else src="http://pol.audio/media/user-avatar.png" alt>
-              </v-avatar>
+              <UserAvatar :userData="userData" :width="120"/>
             </v-flex>
             <v-flex>
               <h2>{{userData.username}}</h2>
             </v-flex>
-            <v-layout align-center justify-center column>
-              <CountryFlag :_country="userData.country" :_width="30"/>
-              {{userData.country}}
+            <v-layout align-center justify-center>
+              <CountryFlag class="mx-2" :_country="userData.country" :_width="30"/>
+              <span class="subheading">{{userData.country}}</span>
             </v-layout>
-            <v-flex v-if="!isGuest">
-              <v-btn @click="logOut">Log out</v-btn>
-            </v-flex>
           </v-layout>
         </v-flex>
-        <v-flex xs12 sm8 justify-space-between>
-          <v-tabs show-arrows>
+        <v-flex xs12 justify-center align-center>
+          <v-tabs centered show-arrows>
             <v-tabs-slider color="red"></v-tabs-slider>
-            <v-tab
-              v-if="item.public || !isGuest && !item.public"
-              v-for="item in tabs"
-              :key="item.name"
-            >{{ item.name }}</v-tab>
+            <template v-for="(item, index) in tabs">
+              <v-tab
+                :disabled="item.disabled"
+                v-if="item.public || !isGuest && !item.public"
+                :key="index"
+              >{{ item.name }}</v-tab>
+            </template>
             <v-tabs-items>
               <v-tab-item v-for="item in tabs" :id="item.name" :key="item.name">
                 <v-card flat class="pa-1">
-                  <component :is="item.componentName" :_userData="userData"></component>
+                  <component
+                    v-if="userData.id"
+                    :is="item.componentName"
+                    :isGuest="isGuest"
+                    :_userData="userData"
+                    @logOut="logOut"
+                  ></component>
                 </v-card>
               </v-tab-item>
             </v-tabs-items>
@@ -46,10 +51,12 @@
 
 <script>
 import fb from '@/firebase/config.js'
+import UserAvatar from '@/components/user/UserAvatar.vue'
 import userOverview from '@/components/user/UserOverview.vue'
 import userSettings from '@/components/user/UserSettings.vue'
 import userStatistic from '@/components/user/UserStatistic.vue'
 import CountryFlag from '@/components/CountryFlag.vue'
+import UserChampionships from '@/components/user/UserChampionships.vue'
 
 export default {
   name: 'UserProfile',
@@ -66,9 +73,15 @@ export default {
           public: true
         },
         {
+          name: 'Championships',
+          componentName: 'UserChampionships',
+          public: true
+        },
+        {
           name: 'Statistic',
           componentName: 'userStatistic',
-          public: true
+          public: true,
+          disabled: true
         },
         {
           name: 'Settings',
@@ -89,9 +102,9 @@ export default {
         return this.$store.getters.user.id
       }
     },
-    visitedUserId() {
-      return this.$route.params.id
-    },
+    // visitedUserId() {
+    //   return this.$route.params.id
+    // },
     isGuest() {
       return this.authenticatedUserId !== this.userData.id
     },
@@ -99,7 +112,7 @@ export default {
       return this.$store.getters.message
     },
     loading() {
-      this.$store.getters.loading
+      return this.$store.getters.loading
     }
   },
   created() {
@@ -121,20 +134,32 @@ export default {
       this.$store.dispatch('clearData')
     },
     getUserData() {
-      fb.usersCollection.doc(this.visitedUserId).onSnapshot(doc => {
-        if (doc.exists) {
-          this.userData = doc.data()
-        } else {
-          this.$router.push('/')
-          console.log('No user found')
-        }
-      })
+      this.$store.commit('set', { type: 'loading', val: true })
+      fb.usersCollection
+        .where('username', '==', this.$route.params.id)
+        .get()
+        .then(querySnapshot => {
+          if (!querySnapshot.empty) {
+            querySnapshot.forEach(doc => {
+              if (doc.exists) {
+                this.userData = doc.data()
+              } else {
+                this.$router.push('/')
+              }
+            })
+          } else {
+            this.$router.push('/404')
+          }
+          this.$store.commit('set', { type: 'loading', val: false })
+        })
     }
   },
   components: {
+    UserAvatar,
     userSettings,
     userOverview,
     userStatistic,
+    UserChampionships,
     CountryFlag
   }
 }

@@ -1,6 +1,12 @@
 import fb from '@/firebase/config.js'
+import idGenerator from '@/mixins/generateId'
 
 export default {
+  watch: {
+    $route() {
+      this.getGame()
+    }
+  },
   methods: {
     addGame() {
       this.$validator.validate().then(result => {
@@ -10,32 +16,10 @@ export default {
               let upload = await this.uploadImage(this.gameData.name)
             }
             upload().then(() => {
-              fb.gamesCollection
-                .doc(this.gameData.name)
-                .set({
-                  name: this.gameData.name,
-                  releaseDate: this.gameData.releaseDate,
-                  platforms: this.gameData.platforms,
-                  developer: this.gameData.developer,
-                  publisher: this.gameData.publisher,
-                  coverImageUrl: this.gameData.coverImageUrl,
-                  webSite: this.gameData.webSite
-                })
-                .then(this.closeWindow(), this.$emit('updateGames'))
+              this.setQuery()
             })
           } else {
-            fb.gamesCollection
-              .doc(this.gameData.name)
-              .set({
-                name: this.gameData.name,
-                releaseDate: this.gameData.releaseDate,
-                platforms: this.gameData.platforms,
-                developer: this.gameData.developer,
-                publisher: this.gameData.publisher,
-                coverImageUrl: this.gameData.coverImageUrl,
-                webSite: this.gameData.webSite
-              })
-              .then(this.closeWindow(), this.$emit('updateGames'))
+            this.setQuery()
           }
         }
       })
@@ -45,38 +29,53 @@ export default {
         if (result) {
           if (this.selectedFile) {
             const upload = async () => {
-              let upload = await this.uploadImage(this.gameData.id)
+              let upload = await this.uploadImage(gameData.id)
             }
             upload().then(() => {
-              fb.gamesCollection
-                .doc(this.gameData.id)
-                .update({
-                  name: this.gameData.name,
-                  releaseDate: this.gameData.releaseDate,
-                  platforms: this.gameData.platforms,
-                  developer: this.gameData.developer,
-                  publisher: this.gameData.publisher,
-                  coverImageUrl: this.gameData.coverImageUrl,
-                  webSite: this.gameData.webSite
-                })
-                .then(this.closeWindow(), this.$emit('updateGames'))
+              this.updateQuery(gameData)
             })
           } else {
-            fb.gamesCollection
-              .doc(gameData.id)
-              .update({
-                name: gameData.name,
-                releaseDate: gameData.releaseDate,
-                platforms: gameData.platforms,
-                developer: gameData.developer,
-                publisher: gameData.publisher,
-                coverImageUrl: gameData.coverImageUrl,
-                webSite: gameData.webSite
-              })
-              .then(this.closeWindow())
+            this.updateQuery(gameData)
           }
         }
       })
+    },
+    setQuery() {
+      var id = this.gameData.name + '_' + idGenerator.generateId()
+      fb.gamesCollection
+        .doc(id)
+        .set({
+          name: this.gameData.name,
+          id: id,
+          releaseDate: this.gameData.releaseDate,
+          platforms: this.gameData.platforms,
+          developer: this.gameData.developer,
+          publisher: this.gameData.publisher,
+          coverImageUrl: this.gameData.coverImageUrl,
+          webSite: this.gameData.webSite,
+          description: this.gameData.description
+        })
+        .then(this.closeWindow(), this.$emit('updateGames'))
+    },
+    updateQuery(gameData) {
+      fb.gamesCollection
+        .doc(gameData.documentId)
+        .update({
+          name: gameData.name,
+          releaseDate: gameData.releaseDate,
+          platforms: gameData.platforms,
+          developer: gameData.developer,
+          publisher: gameData.publisher,
+          coverImageUrl: gameData.coverImageUrl,
+          webSite: gameData.webSite,
+          description: this.gameData.description
+        })
+        .then(() => {
+          if (this.$route.params.id) {
+            this.$router.push('/games/' + gameData.name)
+          }
+          this.closeWindow(), this.$emit('updateGames')
+        })
     },
     uploadImage(id) {
       return new Promise(resolve => {

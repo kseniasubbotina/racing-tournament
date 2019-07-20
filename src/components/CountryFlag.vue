@@ -1,6 +1,12 @@
 <template>
   <div>
-      <img v-if="_country" :src="require(`@/assets/flag-icons/svg/${imageName}`)" :width="_width + 'px'" alt="">
+    <img
+      v-if="_country"
+      :src="require(`@/assets/flag-icons/svg/${imageName}`)"
+      :width="_width + 'px'"
+      alt
+    >
+    <div v-else class="country-flag-empty"></div>
   </div>
 </template>
 
@@ -15,10 +21,19 @@ export default {
     }
   },
   computed: {
-    imageName () {
+    imageName() {
       let countryDashed = this._country.replace(/ /g, '-')
       return `${countryDashed.toLowerCase()}.svg`
     }
   }
 }
 </script>
+<style>
+.country-flag-empty {
+  background-color: #bdbdbd;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+}
+</style>
+

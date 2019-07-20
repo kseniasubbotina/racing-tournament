@@ -1,20 +1,34 @@
 <template>
   <v-list>
     <v-subheader>Menu</v-subheader>
+    <template v-for="(link, idx) in links">
+      <v-list-tile
+        :disabled="link.disabled"
+        v-if="link.role <= userRole"
+        :key="idx"
+        @click="onMenuItemClick(link)"
+      >
+        <v-list-tile-action>
+          <v-icon>{{link.icon}}</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>{{link.label}}</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+    </template>
+    <v-divider dark></v-divider>
     <v-list-tile
-      v-if="link.role <= userRole"
-      v-for="(link, idx) in links"
-      :key="idx"
-      @click="onMenuItemClick(link)"
+      v-if="isLoggedIn"
+      @click="$router.push('/user_' + $store.getters.userData.username)"
     >
       <v-list-tile-action>
-        <v-icon>{{link.icon}}</v-icon>
+        <v-icon>mdi-racing-helmet</v-icon>
       </v-list-tile-action>
       <v-list-tile-content>
-        <v-list-tile-title>{{link.label}}</v-list-tile-title>
+        <v-list-tile-title>Profile</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
-    <v-divider dark class="my-3"></v-divider>
+    <v-divider dark class="mb-3"></v-divider>
     <template>
       <!-- v-if="isLoggedIn" -->
       <v-subheader>Settings</v-subheader>
@@ -54,13 +68,13 @@ export default {
       },
       {
         label: 'Championships',
-        icon: 'star',
+        icon: 'mdi-trophy-variant',
         route: '/championships',
         role: 0
       },
       {
         label: 'Tracks',
-        icon: 'swap_calls',
+        icon: 'mdi-go-kart-track',
         route: '/tracks',
         role: 0
       },
@@ -78,9 +92,22 @@ export default {
       },
       {
         label: 'Games',
-        icon: 'gamepad',
+        icon: 'mdi-gamepad-variant',
         route: '/games',
         role: 0
+      },
+      {
+        label: 'FAQ',
+        icon: 'question_answer',
+        route: '/faq',
+        role: 0
+      },
+      {
+        label: 'Leaderboard',
+        icon: 'trending_up',
+        route: '/',
+        role: 0,
+        disabled: true
       }
     ]
   }),
@@ -94,10 +121,12 @@ export default {
       return this.$store.getters.user ? true : false
     },
     storedTheme() {
-      var isDarkColorTheme = this.$store.getters.userData.isDarkColorTheme
-      if (isDarkColorTheme) {
-        this.isDarkColorTheme = isDarkColorTheme
-        return isDarkColorTheme
+      if (
+        this.$store.getters.userData &&
+        this.$store.getters.userData.isDarkColorTheme
+      ) {
+        this.isDarkColorTheme = this.$store.getters.userData.isDarkColorTheme
+        return this.$store.getters.userData.isDarkColorTheme
       } else {
         this.isDarkColorTheme = window.localStorage.isDarkColorTheme == 'true'
         return window.localStorage.isDarkColorTheme == 'true'

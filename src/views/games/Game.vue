@@ -1,44 +1,78 @@
 <template>
-  <v-card>
-    <div>
-      <div v-if="loading" class="text-xs-center">
-        <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
-      </div>
-      <v-container v-else>
-        <div v-if="isAdmin">
-          <v-btn flat @click="openForm(gameData)">
-            <v-icon>edit</v-icon>Edit
-          </v-btn>
-          <v-btn color="error" flat @click="openConfirmation">
-            <v-icon>delete</v-icon>Delete
-          </v-btn>
-        </div>
-        <v-layout>
-          <v-flex pa-1 xs12 lg4>
-            <img :src="gameData.coverImageUrl" width="100%" alt>
-          </v-flex>
-          <v-flex pa-1 xs12 lg8>
-            <div class="headline">{{gameData.name}}</div>
-            <div>Release date: {{gameData.releaseDate}}</div>
-            <div>Platforms: {{gameData.platforms.join(', ')}}</div>
-            <div>Developer: {{gameData.developer}}</div>
-            <div>Publisher: {{gameData.publisher}}</div>
-            <div>
-              <a :href="gameData.webSite">{{gameData.webSite}}</a>
-            </div>
-          </v-flex>
-        </v-layout>
-        <GameForm :_gameData="gameData" @imageDeleted="gameData.coverImageUrl=''"/>
-      </v-container>
-      <Confirmation @confirmed="deleteGame" _message="Delete this game?"/>
+  <div>
+    <div v-if="loading" class="text-xs-center">
+      <v-progress-circular :size="50" color="red" indeterminate></v-progress-circular>
     </div>
-  </v-card>
+    <template v-else>
+      <div v-if="isAdmin">
+        <v-btn flat @click="openForm(gameData)">
+          <v-icon>edit</v-icon>Edit
+        </v-btn>
+        <v-btn color="error" flat @click="openConfirmation">
+          <v-icon>delete</v-icon>Delete
+        </v-btn>
+      </div>
+      <v-card>
+        <v-container>
+          <h1>{{gameData.name}}</h1>
+          <v-layout class="my-3" wrap>
+            <v-flex pa-1>
+              <div>
+                <span class="body">Release date:</span>
+                <div class="subheading">{{gameData.releaseDate}}</div>
+              </div>
+            </v-flex>
+            <v-flex xs6>
+              <div>
+                <span>Developer:</span>
+                <div class="subheading">{{gameData.developer}}</div>
+              </div>
+            </v-flex>
+
+            <v-flex xs12 sm6>
+              <div>
+                <span>Platforms:</span>
+                <div>
+                  <v-chip
+                    v-for="platform in gameData.platforms"
+                    :key="platform.id"
+                    class="subheading"
+                    color="blue"
+                    disabled
+                    text-color="white"
+                  >{{platform}}</v-chip>
+                </div>
+              </div>
+            </v-flex>
+            <v-flex xs12 sm6>
+              <div>
+                <span>Website:</span>
+                <div class="subheading">
+                  <a :href="gameData.webSite">{{gameData.webSite}}</a>
+                </div>
+              </div>
+            </v-flex>
+          </v-layout>
+          <v-layout>
+            <v-flex>
+              <div v-html="gameData.description"></div>
+            </v-flex>
+          </v-layout>
+
+          <GameForm :_gameData="gameData" @imageDeleted="gameData.coverImageUrl=''"/>
+        </v-container>
+        <Confirmation @confirmed="deleteGame(gameData)" _message="Delete this game?"/>
+      </v-card>
+    </template>
+  </div>
 </template>
 
 <script>
 import fb from '@/firebase/config.js'
 import GameForm from '@/components/games/GameForm.vue'
 import Confirmation from '@/components/Confirmation.vue'
+import games from '@/mixins/games/games.js'
+import isAdmin from '@/mixins/isAdmin.js'
 
 export default {
   name: 'Game',
@@ -54,14 +88,6 @@ export default {
   computed: {
     loading() {
       return this.$store.getters.loading
-    },
-    isAdmin() {
-      if (
-        this.$store.getters.user &&
-        this.$store.getters.userData.role == '1'
-      ) {
-        return true
-      } else return 0
     }
   },
   methods: {
@@ -73,17 +99,24 @@ export default {
     },
     getGame() {
       this.$store.commit('set', { type: 'loading', val: true })
-      fb.gamesCollection.doc(this.$route.params.id).onSnapshot(doc => {
-        if (doc.exists) {
-          this.gameData = doc.data()
-          this.gameData.id = doc.id
+      fb.gamesCollection
+        .where('name', '==', this.$route.params.id)
+        .get()
+        .then(querySnapshot => {
+          if (!querySnapshot.empty) {
+            querySnapshot.forEach(doc => {
+              this.gameData = doc.data()
+              this.gameData.documentId = doc.id
+            })
+          } else {
+            this.$router.push('/404')
+          }
           this.$store.commit('set', { type: 'loading', val: false })
-        }
-      })
+        })
     },
     deleteGame() {
       fb.gamesCollection
-        .doc(this.gameData.id)
+        .doc(this.gameData.documentId)
         .delete()
         .then(() => {
           console.log('Document successfully deleted!')
@@ -112,6 +145,7 @@ export default {
         })
     }
   },
+  mixins: [games, isAdmin],
   components: {
     GameForm,
     Confirmation

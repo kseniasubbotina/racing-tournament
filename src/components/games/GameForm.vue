@@ -84,6 +84,10 @@
                 v-model="gameData.webSite"
               ></v-text-field>
             </v-flex>
+            <v-flex xs12>
+              <div class="mt-2">Description</div>
+              <vue-editor v-model="gameData.description" :editorToolbar="customToolbar"></vue-editor>
+            </v-flex>
             <ImageInput
               v-if="gameDialog"
               :_url="gameData.coverImageUrl"
@@ -110,7 +114,7 @@
   </v-dialog>
 </template>
 <script>
-import ImageInput from '@/components/ImageInput.vue'
+import ImageInput from '@/components/form-elements/ImageInput.vue'
 import message from '@/components/Message.vue'
 import fb from '@/firebase/config.js'
 import games from '@/mixins/games/games.js'
@@ -124,7 +128,11 @@ export default {
       gameData: {},
       selectedFile: null,
       imageLoading: false,
-      gameDialog: false
+      gameDialog: false,
+      customToolbar: [
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }]
+      ]
     }
   },
   props: {
@@ -137,6 +145,9 @@ export default {
     menu(val) {
       val && this.$nextTick(() => (this.$refs.picker.activePicker = 'YEAR'))
     }
+  },
+  created() {
+    this.getPlatforms()
   },
   mounted() {
     this.$root.$on('openGameDialog', this.openDialog)
@@ -157,6 +168,17 @@ export default {
       this.$store.commit('set', {
         type: 'message',
         val: { error: '', success: '' }
+      })
+    },
+    getPlatforms() {
+      var platformsArr = []
+      fb.platformsCollection.get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          var data = doc.data()
+          data.id = doc.id
+          platformsArr.push(data.name)
+        })
+        this.platformItems = platformsArr
       })
     }
   },

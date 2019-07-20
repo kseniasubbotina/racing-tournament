@@ -4,28 +4,26 @@
       <v-navigation-drawer fixed :clipped="$vuetify.breakpoint.lgAndUp" app v-model="drawer">
         <navigationMenu @colorThemeChanged="onColorThemeChanged"/>
       </v-navigation-drawer>
-      <v-toolbar color="red darken-2" dark app :clipped-left="$vuetify.breakpoint.lgAndUp" fixed>
+      <v-toolbar color="#e10600" dark app :clipped-left="$vuetify.breakpoint.lgAndUp" fixed>
+        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-toolbar-title style="width: auto" class="ml-0 mr-2 pl-3">
-          <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
           <img width="70" src="./assets/logo1.png" alt>
-          <span class="hidden-sm-and-down">Esport</span>
+          <span class="hidden-sm-and-down font-weight-bold">Esport (&#945;)</span>
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon>
+        <!-- <v-btn icon>
           <v-icon>apps</v-icon>
         </v-btn>
         <v-btn icon>
           <v-icon>notifications</v-icon>
-        </v-btn>
+        </v-btn>-->
+        <v-btn to="/about" flat>About</v-btn>
         <template v-if="!isLoggedIn">
-          <v-btn to="/register" flat>Register</v-btn>
+          <v-btn to="/register" flat>Sign Up</v-btn>
           <v-btn to="/login" flat>Login</v-btn>
         </template>
         <v-btn v-if="isLoggedIn" :to="toCurrentUserProfile" icon large>
-          <v-avatar size="32px">
-            <img v-if="userData && userData.avatarURL" :src="userData.avatarURL">
-            <img v-else src="http://pol.audio/media/user-avatar.png">
-          </v-avatar>
+          <UserAvatar :userData="userData" :width="30"/>
         </v-btn>
       </v-toolbar>
       <v-content>
@@ -37,8 +35,8 @@
         </v-container>
       </v-content>
       <v-footer color="grey darken-3" app>
-        <v-layout>
-          <v-flex align-center class="text-xs-center white--text">&copy; 2018</v-flex>
+        <v-layout align-center justify-center class="px-2">
+          <v-flex class="grey--text text-xs-center">f1-esport.com &copy; | 2019 | Work in progress</v-flex>
         </v-layout>
       </v-footer>
     </v-app>
@@ -46,10 +44,13 @@
 </template>
 
 <script>
-import NavigationMenu from '@/components/NavigationMenu.vue'
-import Breadcrumbs from '@/components/Breadcrumbs.vue'
-import fb from './firebase/config.js'
-export default {
+  import UserAvatar from '@/components/user/UserAvatar.vue'
+
+  import NavigationMenu from '@/components/NavigationMenu.vue'
+  import Breadcrumbs from '@/components/Breadcrumbs.vue'
+  import fb from './firebase/config.js'
+
+  export default {
   props: {
     source: String
   },
@@ -58,13 +59,6 @@ export default {
     drawer: null,
     isDarkColorTheme: null
   }),
-  watch: {
-    userData(val) {
-      if (val && val.isDarkColorTheme) {
-        this.onColorThemeChanged(val.isDarkColorTheme)
-      }
-    }
-  },
   created() {
     if (window.localStorage)
       this.isDarkColorTheme = window.localStorage.isDarkColorTheme == 'true'
@@ -74,11 +68,14 @@ export default {
       return this.$store.getters.loading
     },
     isLoggedIn() {
-      var isLoggedIn = this.$store.getters.user ? true : false
-      return isLoggedIn
+      return this.$store.getters.user ? true : false
     },
     userData() {
-      return this.$store.getters.userData
+      let userData = this.$store.getters.userData
+      if (userData && userData.isDarkColorTheme) {
+        this.onColorThemeChanged(userData.isDarkColorTheme)
+      }
+      return userData
     },
     toCurrentUserProfile() {
       if (this.$store.getters.userData) {
@@ -98,7 +95,7 @@ export default {
       this.isDarkColorTheme = val
       if (this.isLoggedIn) {
         fb.usersCollection
-          .doc(this.$store.getters.userData.username)
+          .doc(this.$store.getters.user.id)
           .update({
             isDarkColorTheme: val
           })
@@ -116,7 +113,8 @@ export default {
   },
   components: {
     NavigationMenu,
-    Breadcrumbs
+    Breadcrumbs,
+    UserAvatar
   }
 }
 </script>

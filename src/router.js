@@ -1,49 +1,61 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-import Championships from './views/championships/Championships.vue'
-import CreateChampionship from './views/championships/CreateChampionship.vue'
-import Register from './views/user/Register.vue'
-import Login from './views/user/Login.vue'
-import Teams from './views/team/Teams.vue'
-import UserProfile from './views/user/UserProfile.vue'
-import Users from './views/user/Users.vue'
-import NotFound from './views/common/NotFound.vue'
-import Tracks from './views/tracks/Tracks.vue'
-import Track from './views/tracks/Track.vue'
-import Games from './views/games/Games.vue'
-import Game from './views/games/Game.vue'
 
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: () => import('./views/Home.vue'),
       meta: {
         breadcrumbs: [{ name: 'Home' }]
       }
     },
     {
+      path: '/about',
+      name: 'about',
+      component: () => import('./views/About.vue'),
+      meta: {
+        breadcrumbs: [{ name: 'About' }]
+      }
+    },
+    {
       path: '/championships',
       name: 'championships',
-      component: Championships,
+      component: () => import('./views/championships/Championships.vue'),
       meta: {
         breadcrumbs: [{ name: 'Championships' }]
       }
     },
     {
-      path: 'create',
+      path: '/championships/:id',
+      name: 'Championship',
+      component: () => import('./views/championships/Championship.vue'),
+      meta: {
+        breadcrumbs: [
+          { name: 'Championships', path: '/championships' },
+          { name: 'Championship' }
+        ]
+      }
+    },
+    {
+      path: '/create',
       name: 'createChampionship',
-      component: CreateChampionship
+      component: () => import('./views/championships/CreateChampionship.vue'),
+      meta: {
+        breadcrumbs: [
+          { name: 'Championships', path: '/championships' },
+          { name: 'Create Championship' }
+        ]
+      }
     },
     {
       path: '/register',
       name: 'register',
-      component: Register,
+      component: () => import('./views/user/Register.vue'),
       meta: {
         breadcrumbs: [
           {
@@ -55,7 +67,7 @@ const router = new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login,
+      component: () => import('./views/user/Login.vue'),
       meta: {
         breadcrumbs: [
           {
@@ -67,7 +79,7 @@ const router = new Router({
     {
       path: '/teams',
       name: 'teams',
-      component: Teams,
+      component: () => import('./views/teams/Teams.vue'),
       meta: {
         breadcrumbs: [
           {
@@ -79,7 +91,7 @@ const router = new Router({
     {
       path: '/users',
       name: 'Users',
-      component: Users,
+      component: () => import('./views/user/Users.vue'),
       meta: {
         breadcrumbs: [
           {
@@ -91,7 +103,7 @@ const router = new Router({
     {
       path: '/user_:id',
       name: 'UserProfile',
-      component: UserProfile,
+      component: () => import('./views/user/UserProfile.vue'),
       meta: {
         breadcrumbs: [
           {
@@ -103,7 +115,7 @@ const router = new Router({
     {
       path: '/tracks',
       name: 'Tracks',
-      component: Tracks,
+      component: () => import('./views/tracks/Tracks.vue'),
       meta: {
         breadcrumbs: [
           {
@@ -115,7 +127,7 @@ const router = new Router({
     {
       path: '/tracks/circuit_:id',
       name: 'Track',
-      component: Track,
+      component: () => import('./views/tracks/Track.vue'),
       meta: {
         breadcrumbs: [
           {
@@ -131,7 +143,7 @@ const router = new Router({
     {
       path: '/games',
       name: 'Games',
-      component: Games,
+      component: () => import('./views/games/Games.vue'),
       meta: {
         breadcrumbs: [
           {
@@ -144,7 +156,7 @@ const router = new Router({
     {
       path: '/games/:id',
       name: 'Game',
-      component: Game,
+      component: () => import('./views/games/Game.vue'),
       meta: {
         breadcrumbs: [
           {
@@ -158,9 +170,24 @@ const router = new Router({
       }
     },
     {
+      path: '/faq',
+      name: 'FAQ',
+      component: () => import('./views/common/FAQ.vue'),
+      meta: {
+        breadcrumbs: [
+          {
+            name: 'FAQ'
+          }
+        ]
+      }
+    },
+    {
       path: '/*',
       name: 'not-found',
-      component: NotFound
+      component: () => import('./views/common/NotFound.vue'),
+      meta: {
+        breadcrumbs: [{ name: 'Not Found' }]
+      }
     }
   ]
 })

@@ -5,13 +5,14 @@
     </div>
     <div v-else>
       <v-layout wrap>
+        <div class="headline my-3">Games</div>
         <v-spacer></v-spacer>
-        <v-btn v-if="isAdmin" flat @click="openForm">
+        <v-btn depressed color="success" v-if="isAdmin" @click="openForm">
           <v-icon>add</v-icon>Add new
         </v-btn>
       </v-layout>
       <v-layout wrap>
-        <v-flex xs12 md6 pa-1 v-for="game in games" :key="game.id">
+        <v-flex xs12 sm6 md6 pa-1 v-for="game in games" :key="game.id">
           <GameItem :_game="game" @editGame="openForm" @deleteGame="openConfirmation"/>
         </v-flex>
       </v-layout>
@@ -22,12 +23,14 @@
 </template>
 
 <script>
-import fb from '@/firebase/config.js'
-import GameForm from '@/components/games/GameForm.vue'
-import GameItem from '@/components/games/GameItem.vue'
-import Confirmation from '@/components/Confirmation.vue'
+  import fb from '@/firebase/config.js'
+  import GameForm from '@/components/games/GameForm.vue'
+  import GameItem from '@/components/games/GameItem.vue'
+  import Confirmation from '@/components/Confirmation.vue'
+  import games from '@/mixins/games/games.js'
+  import isAdmin from '@/mixins/isAdmin.js'
 
-export default {
+  export default {
   name: 'games',
   data() {
     return {
@@ -36,20 +39,11 @@ export default {
     }
   },
   computed: {
-    isAdmin() {
-      if (
-        this.$store.getters.user &&
-        this.$store.getters.userData.role == '1'
-      ) {
-        return true
-      } else return 0
-    },
     loading() {
       return this.$store.getters.loading
     },
     isLoggedIn() {
-      var isLoggedIn = this.$store.getters.user ? true : false
-      return isLoggedIn
+      return this.$store.getters.user ? true : false
     }
   },
   created() {
@@ -60,8 +54,10 @@ export default {
       this.$root.$emit('confirm', game)
     },
     openForm(game) {
-      if (!game.id) {
-        var gameData = {
+      let gameData = game
+      this.isNew = false
+      if (!game.documentId) {
+        gameData = {
           name: '',
           releaseDate: '',
           platforms: [],
@@ -71,9 +67,6 @@ export default {
           webSite: ''
         }
         this.isNew = true
-      } else {
-        this.isNew = false
-        var gameData = game
       }
       this.$root.$emit('openGameDialog', gameData)
     },
@@ -83,7 +76,7 @@ export default {
       fb.gamesCollection.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           var data = doc.data()
-          data.id = doc.id
+          data.documentId = doc.id
           gamesArr.push(data)
         })
         this.$store.commit('set', { type: 'loading', val: false })
@@ -92,7 +85,7 @@ export default {
     },
     deleteGame(game) {
       fb.gamesCollection
-        .doc(game.id)
+        .doc(game.documentId)
         .delete()
         .then(() => {
           console.log('Document successfully deleted!')
@@ -121,6 +114,7 @@ export default {
         })
     }
   },
+  mixins: [games, isAdmin],
   components: {
     GameForm,
     GameItem,

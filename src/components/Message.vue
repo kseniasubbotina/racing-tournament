@@ -1,8 +1,7 @@
 <template>
   <v-layout>
     <v-flex>
-      <span class="green--text">{{message.success}}</span>
-      <span class="red--text">{{message.error}}</span>
+      <v-alert v-if="message" :value="true" :type="message.type">{{message.text}}</v-alert>
     </v-flex>
   </v-layout>
 </template>
@@ -10,9 +9,20 @@
 <script>
 export default {
   name: 'message',
+  data () {
+    return {
+      dialog: false
+    }
+  },
   computed: {
     message () {
-      return this.$store.getters.message
+      if(this.$store.getters.message.error) {
+        return {type: 'error', text: this.$store.getters.message.error}
+      } else if (this.$store.getters.message.success) {
+        return {type: 'success', text: this.$store.getters.message.success}
+      } else {
+        return null
+      }
     }
   },
   beforeDestroy () {
@@ -20,7 +30,8 @@ export default {
   },
   methods: {
     clearMessage () {
-      this.$store.commit('set', {type: 'message', val: {error: '', success: ''}})
+      this.$store.commit('setMessage', { type: 'error', text: '' })
+      this.$store.commit('setMessage', { type: 'success', text: '' })
     }
   }
 }

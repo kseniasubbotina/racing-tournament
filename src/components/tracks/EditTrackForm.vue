@@ -28,20 +28,20 @@
               <v-text-field
                 v-validate="'numeric|required'"
                 name="first grand prix"
+                mask="####"
                 type="text"
                 :error-messages="errors.collect('first grand prix')"
                 label="First grand prix"
                 v-model="trackData.firstGP"
               ></v-text-field>
             </v-flex>
-            <v-flex xs12>Circuit Length</v-flex>
             <v-flex xs12>
               <v-text-field
                 v-validate="{required: true, regex: '^([0-9.]+)$' }"
                 name="length"
                 type="text"
                 :error-messages="errors.collect('length')"
-                label="x.xx"
+                label="Circuit Length"
                 v-model="trackData.length"
                 suffix="km"
               ></v-text-field>
@@ -67,7 +67,8 @@
               />
             </v-flex>
             <v-flex>
-              <v-textarea v-model="trackData.description" label="Track Description"></v-textarea>
+              <span>Track Description</span>
+              <vue-editor v-model="trackData.description" :editorToolbar="customToolbar"></vue-editor>
             </v-flex>
           </v-layout>
         </form>
@@ -79,7 +80,7 @@
         <v-btn
           v-if="!_isNew"
           color="red darken-2"
-          @click="updateTrack(trackData.id)"
+          @click="updateTrack(trackData.documentId)"
           :loading="imageLoading"
           dark
         >Save</v-btn>
@@ -90,7 +91,7 @@
 </template>
 
 <script>
-import ImageInput from '@/components/ImageInput.vue'
+import ImageInput from '@/components/form-elements/ImageInput.vue'
 import message from '@/components/Message.vue'
 import CountrySelect from '@/components/CountrySelect.vue'
 import tracks from '@/mixins/tracks/tracks.js'
@@ -104,7 +105,11 @@ export default {
       selectedFile: null,
       selectedFiles: [],
       imageLoading: false,
-      trackDialog: false
+      trackDialog: false,
+      customToolbar: [
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }]
+      ]
     }
   },
   props: {

@@ -1,6 +1,6 @@
 <template>
   <v-card class="track-item_card">
-    <v-img class="white--text" height="200px" :src="_track.trackPhoto">
+    <v-img class="white--text" height="100px" :src="_track.trackPhoto">
       <v-layout justify-center>
         <v-spacer/>
         <v-menu v-if="isAdmin" bottom left>
@@ -23,14 +23,14 @@
       class="track-item_title"
       pointer
       primary-title
-      @click="$router.push({name: 'Track', params: {id: _track.id}})"
+      @click="$router.push({name: 'Track', params: {id: _track.name}})"
     >
-      <v-layout fill-height>
+      <v-layout fill-height align-center>
         <v-flex pr-2>
           <CountryFlag :_country="_track.country"/>
         </v-flex>
         <v-flex xs12 align-end flexbox>
-          <span class="headline">{{_track.name}}</span>
+          <span class="subheading">{{_track.name}}</span>
         </v-flex>
       </v-layout>
     </v-card-title>
@@ -42,29 +42,21 @@
       </v-layout>
     </v-card-text>
     <v-card-actions>
-      <v-btn @click="$router.push({name: 'Track', params: {id: _track.id}})" depressed>Details</v-btn>
+      <v-btn @click="$router.push({name: 'Track', params: {id: _track.name}})" depressed>Details</v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import CountryFlag from '@/components/CountryFlag.vue'
+import isAdmin from '@/mixins/isAdmin.js'
 
 export default {
   name: 'TrackItem',
   props: {
     _track: Object
   },
-  computed: {
-    isAdmin() {
-      if (
-        this.$store.getters.user &&
-        this.$store.getters.userData.role == '1'
-      ) {
-        return true
-      } else return 0
-    }
-  },
+  mixins: [isAdmin],
   components: {
     CountryFlag
   }

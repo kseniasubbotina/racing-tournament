@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12 sm6>
+  <v-flex xs12>
     <v-card>
       <v-card-title class="py-4 title">Login</v-card-title>
       <v-container grid-list-sm class="pa-4">
@@ -30,12 +30,25 @@
             </v-flex>
           </v-layout>
         </v-form>
+        <vue-recaptcha
+          ref="recaptcha"
+          class="mt-3"
+          :sitekey="sitekey"
+          @verify="onCaptchaSuccess"
+          @expired="onCaptchaExpired"
+        />
         <message/>
       </v-container>
       <v-card-actions>
-        <v-btn to="register" color="red darken-2" flat>Create account</v-btn>
+        <v-btn to="/register" color="red darken-2" flat>Create account</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="red darken-2" dark @click="submit">submit</v-btn>
+        <v-btn 
+          color="red darken-2" 
+          :dark="!isSubmitDisabled"
+          :disabled="isSubmitDisabled"
+          @click="submit">
+            submit
+        </v-btn>
       </v-card-actions>
       <v-flex v-if="loading">
         <v-progress-linear ma-0 :indeterminate="true"></v-progress-linear>
@@ -46,14 +59,17 @@
 
 <script>
 import message from '@/components/Message.vue'
+import VueRecaptcha from 'vue-recaptcha'
 
 export default {
   name: 'Login',
-  data: function() {
+  data () {
     return {
       email: '',
       password: '',
-      show: false
+      show: false,
+      sitekey: '6Lev1Z4UAAAAAGPygpI3kfg-qT8giGp0xw97gzXC',
+      isSubmitDisabled: true
     }
   },
   computed: {
@@ -68,6 +84,12 @@ export default {
     }
   },
   methods: {
+    onCaptchaExpired () {
+      this.$refs.recaptcha.reset()
+    },
+    onCaptchaSuccess () {
+      this.isSubmitDisabled = false
+    },
     submit: function() {
       let router = this.$router
       this.$validator.validate().then(result => {
@@ -89,7 +111,8 @@ export default {
     }
   },
   components: {
-    message
+    message,
+    VueRecaptcha
   }
 }
 </script>
